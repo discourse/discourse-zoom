@@ -1,0 +1,5 @@
+en:
+  site_settings:
+    zoom_enabled: "Zoom plugin enabled"
+    zoom_api_key: "Zoom API key"
+    zoom_api_secret: "Zoom API secret"
