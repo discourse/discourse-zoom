@@ -1,0 +1,4 @@
+plugins:
+  zoom_enabled:
+    default: false
+    client: true
