@@ -1,5 +1,10 @@
 en:
   site_settings:
     zoom_enabled: "Zoom plugin enabled"
-    zoom_api_key: "Zoom API key"
-    zoom_api_secret: "Zoom API secret"
+
+  js:
+    zoom:
+      webinar_builder:
+        webinar_id: "Webinar ID"
+        title: "Webinar Details"
+        create: "Add Webinar"

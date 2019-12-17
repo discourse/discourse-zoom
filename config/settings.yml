@@ -2,10 +2,6 @@ plugins:
   zoom_enabled:
     default: false
     client: true
-  zoom_api_key:
+  zoom_jwt_token:
     default: ""
     client: true
-  zoom_api_secret:
-    default: ""
-    client: true
-    secret: true

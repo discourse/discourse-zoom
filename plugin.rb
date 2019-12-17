@@ -7,9 +7,11 @@
 # url: https://github.com/discourse-org/discourse-zoom
 
 enabled_site_setting :zoom_enabled
+register_asset "stylesheets/desktop/webinar-builder.scss", :desktop
 
 after_initialize do
   [
+    "../app/zoom/controllers/webinars_controller",
     "../app/models/webinar",
   ].each { |path| require File.expand_path(path, __FILE__) }
 
@@ -22,16 +24,8 @@ after_initialize do
     end
   end
 
-  require_dependency "application_controller"
-
-  class Zoom::WebinarsController < ::ApplicationController
-    requires_plugin Zoom::PLUGIN_NAME
-
-    before_action :ensure_logged_in
-  end
-
   Zoom::Engine.routes.draw do
-    resources :webinars
+    resources :webinars, only: [:show]
   end
 
   Discourse::Application.routes.append do
