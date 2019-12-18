@@ -4,7 +4,8 @@ en:
 
   js:
     zoom:
+      toggle_webinar_button: "New Webinar"
       webinar_builder:
         webinar_id: "Webinar ID"
         title: "Webinar Details"
-        create: "Add Webinar"
+        create: "Insert Webinar"

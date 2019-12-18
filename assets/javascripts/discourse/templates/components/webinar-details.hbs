@@ -1,8 +1,22 @@
-<div class='webinar-title'>{{details.title}}</div>
-<div class='occurrance-start-time'>{{details.start_time}}</div>
+{{#if details}}
+  <div class='webinar-title bold'>{{details.title}}</div>
+  <div class='occurrance-start-time'>{{schedule}}</div>
 
+  <div class='host'>Hosted by</div>
+  <div class='host-container'>
+    <img class='avatar' src={{details.host.avatar_url}} width=80 height=80 />
+    <div class='host-description'>
+      <div class='host-name'>{{details.host.full_name}}</div>
+      <div class='group-name'>Developers Group</div>
+    </div>
+  </div>
 
-{{#if details.host_id}}
-  <label class='host'>Hosted by</label>
-  <div class='host-name'>{{details.host_id}}</div>
+  <div class='speakers'>
+    Speakers
+    <div class='speaker-avatars'>
+      {{#each details.speakers as |speaker|}}
+        <img class='avatar' src='https://d3bpeqsaub0i6y.cloudfront.net/user_avatar/meta.discourse.org/pmusaraj/45/119489_2.png' width=25 height=25 alt={{speaker.name}} />
+      {{/each}}
+    </div>
+  </div>
 {{/if}}
