@@ -48,6 +48,8 @@ module Zoom
       return unless webinar
 
       user = User.find_by_email(registrant[:email])
+      return unless user
+
       WebinarUser.where(webinar: webinar, user: user).destroy_all
     end
 

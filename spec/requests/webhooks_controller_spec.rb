@@ -132,10 +132,9 @@ describe Zoom::WebhooksController do
         webinar = Webinar.create(topic: topic, zoom_id: zoom_id)
 
         post "/zoom/webhooks/webinars.json", params: { webhook: webinar_registration_created(zoom_id: zoom_id, email: email) }, headers: { "Authorization": verification_token }
-
+        expect(response.status).to eq(200)
         expect(webinar.users.first.email).to eq(email)
         expect(User.find_by_email(email).staged).to be_truthy
-        expect(response.status).to eq(200)
       end
 
       it "registers existing users for the webinar" do
@@ -143,9 +142,22 @@ describe Zoom::WebhooksController do
         webinar = Webinar.create(topic: topic, zoom_id: zoom_id)
 
         post "/zoom/webhooks/webinars.json", params: { webhook: webinar_registration_created(zoom_id: zoom_id, email: existing_user.email) }, headers: { "Authorization": verification_token }
+        expect(response.status).to eq(200)
         expect(webinar.users.first).to eq(existing_user)
       end
+    end
 
+    describe "#webinar_registration_cancelled" do
+      fab!(:user) { Fabricate(:user) }
+
+      it "removes users" do
+        webinar = Webinar.create(topic: topic, zoom_id: zoom_id)
+        webinar.webinar_users.create(user: user, type: 'attendee')
+        expect(webinar.users.count).to eq(1)
+        post "/zoom/webhooks/webinars.json", params: { webhook: webinar_registration_cancelled(zoom_id: zoom_id, email: user.email) }, headers: { "Authorization": verification_token }
+        expect(response.status).to eq(200)
+        expect(webinar.users.count).to eq(0)
+      end
     end
   end
 
