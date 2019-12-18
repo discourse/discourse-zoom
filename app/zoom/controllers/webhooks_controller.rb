@@ -7,7 +7,7 @@ module Zoom
       "webinar.registration_approved",
       "webinar.registration_created",
       "webinar.registration_cancelled",
-      "webinar.registration_rejected"
+      "webinar.registration_denied"
     ]
 
     def webinars
@@ -51,7 +51,7 @@ module Zoom
       WebinarUser.where(webinar: webinar, user: user).destroy_all
     end
 
-    def webinar_registration_rejected
+    def webinar_registration_denied
       webinar_registration_cancelled
     end
 
