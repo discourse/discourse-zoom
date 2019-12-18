@@ -5,3 +5,6 @@ plugins:
   zoom_jwt_token:
     default: ""
     client: true
+  zoom_verification_token:
+    default: ""
+    client: true

@@ -12,7 +12,9 @@ register_asset "stylesheets/desktop/webinar-builder.scss", :desktop
 after_initialize do
   [
     "../app/zoom/controllers/webinars_controller",
+    "../app/zoom/controllers/webhooks_controller",
     "../app/models/webinar",
+    "../app/models/webinar_user"
   ].each { |path| require File.expand_path(path, __FILE__) }
 
   module ::Zoom
@@ -26,6 +28,7 @@ after_initialize do
 
   Zoom::Engine.routes.draw do
     resources :webinars, only: [:show]
+    post '/webhooks/webinars' => 'webhooks#webinars'
   end
 
   Discourse::Application.routes.append do
