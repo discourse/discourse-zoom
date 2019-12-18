@@ -14,6 +14,7 @@ after_initialize do
     "../app/zoom/controllers/webinars_controller",
     "../app/zoom/controllers/webhooks_controller",
     "../app/models/webinar",
+    "../app/models/webinar_user"
   ].each { |path| require File.expand_path(path, __FILE__) }
 
   module ::Zoom
