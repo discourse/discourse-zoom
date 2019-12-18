@@ -25,7 +25,7 @@ module Zoom
 
     def webinar_registration_created
       webinar = find_webinar
-      raise Discourse::InvalidParameters.new(:object) unless webinar
+      return unless webinar
 
       user = User.find_by_email(registrant[:email])
       unless user
@@ -45,7 +45,7 @@ module Zoom
 
     def webinar_registration_cancelled
       webinar = find_webinar
-      raise Discourse::InvalidParameters.new(:object) unless webinar
+      return unless webinar
 
       user = User.find_by_email(registrant[:email])
       WebinarUser.where(webinar: webinar, user: user).destroy_all
