@@ -1,0 +1,10 @@
+en:
+  site_settings:
+    zoom_enabled: "Zoom plugin enabled"
+
+  js:
+    zoom:
+      webinar_builder:
+        webinar_id: "Webinar ID"
+        title: "Webinar Details"
+        create: "Add Webinar"
