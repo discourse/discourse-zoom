@@ -4,6 +4,7 @@ import { ajax } from "discourse/lib/ajax";
 
 export default Controller.extend(ModalFunctionality, {
   webinarId: null,
+  model: null,
   details: null,
 
   onClose() {},
@@ -12,7 +13,9 @@ export default Controller.extend(ModalFunctionality, {
     save() {
       ajax(`zoom/webinars/${this.webinarId}`).then(results => {
         this.set("details", results);
-      });
+      }).then(() => {
+        this.model.set("zoomWebinarId", this.webinarId)
+      })
     }
   }
 });

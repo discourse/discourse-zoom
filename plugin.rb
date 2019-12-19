@@ -29,6 +29,21 @@ after_initialize do
     end
   end
 
+  add_permitted_post_create_param(:zoom_webinar_id)
+
+  NewPostManager.add_handler do |manager|
+    zoom_id = manager.args[:zoom_webinar_id]
+    next unless zoom_id
+
+    result = manager.perform_create_post
+    if result.success?
+      topic_id = result.post.topic_id
+      Webinar.create!(topic_id: topic_id, zoom_id: zoom_id)
+    end
+
+    result
+  end
+
   Zoom::Engine.routes.draw do
     resources :webinars, only: [:show] do
       put 'register/:username' => 'webinars#register'
