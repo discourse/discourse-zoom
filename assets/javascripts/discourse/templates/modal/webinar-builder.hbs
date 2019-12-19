@@ -4,16 +4,16 @@
       <div class="input-group">
         <label class="input-group-label">{{i18n 'zoom.webinar_builder.webinar_id'}}</label>
           {{input type='text'
-                  value=webinarId
+                  value=webinarIdInput
                   valueAttribute="value"
                   class="webinar-builder-id"}}
       </div>
     </div>
     <div class="d-editor-preview webinar-preview">
-      {{webinar-details details=details}}
+      {{webinar-details webinarId=webinarId model=model}}
     </div>
   </form>
   <div class="modal-footer">
-    {{d-button action=(action "save") class='btn-primary' label='zoom.webinar_builder.create' disabled=disabled}}
+    {{d-button action=(action "renderPreview") class='btn-primary' label='zoom.webinar_builder.create' disabled=disabled}}
   </div>
 {{/d-modal-body}}
