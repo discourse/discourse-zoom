@@ -5,11 +5,13 @@ export default Controller.extend(ModalFunctionality, {
   webinarId: null,
   webinarIdInput: null,
   details: null,
-
-  onClose() {},
+  model: null,
+  waitingWebinarPreview: true,
 
   actions: {
-    save() {},
+    insert() {
+      this.model.set("zoomWebinarId", this.webinarId);
+    },
 
     renderPreview() {
       this.set("webinarId", this.webinarIdInput);

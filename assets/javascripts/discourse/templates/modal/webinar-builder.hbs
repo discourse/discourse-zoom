@@ -3,17 +3,20 @@
     <div class="options">
       <div class="input-group">
         <label class="input-group-label">{{i18n 'zoom.webinar_builder.webinar_id'}}</label>
+        <div class='webinar-preview-input-group'>
           {{input type='text'
-                  value=webinarIdInput
-                  valueAttribute="value"
-                  class="webinar-builder-id"}}
+                value=webinarIdInput
+                valueAttribute="value"
+                class="webinar-builder-id"}}
+          {{d-button action=(action "renderPreview") icon="plus"}}
+        </div>
       </div>
     </div>
     <div class="d-editor-preview webinar-preview">
-      {{webinar preview=true webinarId=webinarId composer=model}}
+      {{webinar webinarId=webinarId waitingWebinarPreview=waitingWebinarPreview}}
     </div>
   </form>
   <div class="modal-footer">
-    {{d-button action=(action "renderPreview") class='btn-primary' label='zoom.webinar_builder.create' disabled=disabled}}
+    {{d-button action=(action "insert") class='btn-primary' label='zoom.webinar_builder.create' disabled=waitingWebinarPreview}}
   </div>
 {{/d-modal-body}}

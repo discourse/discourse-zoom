@@ -5,12 +5,17 @@ import { ajax } from "discourse/lib/ajax";
 export default Component.extend({
   details: null,
   webinarId: null,
-  composer: null,
-  preview: false,
+  loadingPreview: false,
+  waitingWebinarPreview: null,
 
   init() {
     this._super(...arguments);
-    this.fetchDetails()
+    this.fetchDetails();
+  },
+
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this.fetchDetails();
   },
 
   @discourseComputed("details.{starts_at,details.ends_at}")
@@ -22,19 +27,18 @@ export default Component.extend({
     )}`;
   },
 
-  didUpdateAttrs() {
-    this._super(...arguments);
-    if (this.preview || !this.webinarId) return;
-
-    this.fetchDetails()
-  },
-
   fetchDetails() {
-    ajax(`/zoom/webinars/${this.webinarId}`).then(results => {
-      this.set("details", results);
-    }).then(() => {
-      if (this.preview)
-        this.composer.set("zoomWebinarId", this.webinarId)
-    });
-  },
+    if (!this.webinarId) return;
+
+    this.set("loadingPreview", true);
+    ajax(`/zoom/webinars/${this.webinarId}`)
+      .then(results => {
+        this.setProperties({
+          waitingWebinarPreview: false,
+          loadingPreview: false,
+          details: results
+        });
+      })
+      .finally(() => this.set("loadingPreview", false));
+  }
 });
