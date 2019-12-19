@@ -7,9 +7,11 @@ export default Component.extend({
   webinarId: null,
   loadingPreview: false,
   waitingWebinarPreview: null,
+  updateDetails: null,
 
   init() {
     this._super(...arguments);
+    this.updateDetails = this.updateDetails || (()=>{})
     this.fetchDetails();
   },
 
@@ -39,6 +41,9 @@ export default Component.extend({
           details: results
         });
       })
-      .finally(() => this.set("loadingPreview", false));
+      .finally(() => {
+        this.updateDetails(this.details)
+        this.set("loadingPreview", false)
+      })
   }
 });

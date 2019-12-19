@@ -45,6 +45,8 @@ after_initialize do
   add_to_serializer(:topic_view, :webinar) { object.webinar }
 
   add_permitted_post_create_param(:zoom_webinar_id)
+  add_permitted_post_create_param(:zoom_webinar_host)
+  add_permitted_post_create_param(:zoom_webinar_speakers)
 
   NewPostManager.add_handler do |manager|
     zoom_id = manager.args[:zoom_webinar_id]
