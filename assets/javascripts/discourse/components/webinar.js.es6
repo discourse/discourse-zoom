@@ -5,7 +5,13 @@ import { ajax } from "discourse/lib/ajax";
 export default Component.extend({
   details: null,
   webinarId: null,
-  model: null,
+  composer: null,
+  preview: false,
+
+  init() {
+    this._super(...arguments);
+    this.fetchDetails()
+  },
 
   @discourseComputed("details.{starts_at,details.ends_at}")
   schedule(details) {
@@ -18,12 +24,17 @@ export default Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
-    if (!this.webinarId) return;
-    
-    ajax(`zoom/webinars/${this.webinarId}`).then(results => {
+    if (this.preview || !this.webinarId) return;
+
+    this.fetchDetails()
+  },
+
+  fetchDetails() {
+    ajax(`/zoom/webinars/${this.webinarId}`).then(results => {
       this.set("details", results);
     }).then(() => {
-      this.model.set("zoomWebinarId", this.webinarId)
+      if (this.preview)
+        this.composer.set("zoomWebinarId", this.webinarId)
     });
-  }
+  },
 });

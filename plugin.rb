@@ -29,6 +29,21 @@ after_initialize do
     end
   end
 
+  require_dependency 'topic'
+  class ::Topic
+    has_one :webinar
+  end
+
+  require_dependency 'topic_view'
+  class ::TopicView
+    def webinar
+      topic.webinar
+    end
+  end
+
+
+  add_to_serializer(:topic_view, :webinar) { object.webinar }
+
   add_permitted_post_create_param(:zoom_webinar_id)
 
   NewPostManager.add_handler do |manager|
