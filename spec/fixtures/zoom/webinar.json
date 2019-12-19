@@ -1,0 +1,56 @@
+{
+  "agenda": "",
+  "created_at": "2019-12-17T19:21:20Z",
+  "duration": 60,
+  "host_id": "11111111111",
+  "id": 11111111,
+  "join_url": "https://zoom.us/j/11111111?pwd=test",
+  "password": "11111111",
+  "settings": {
+    "allow_multiple_devices": true,
+    "alternative_hosts": "",
+    "approval_type": 2,
+    "audio": "both",
+    "auto_recording": "none",
+    "close_registration": true,
+    "contact_email": "roman@test.org",
+    "contact_name": "Roman Rizzi",
+    "enforce_login": false,
+    "enforce_login_domains": "",
+    "global_dial_in_countries": [
+      "US"
+    ],
+    "global_dial_in_numbers": [
+      {
+        "city": "New York",
+        "country": "US",
+        "country_name": "US",
+        "number": "+1 1111111111",
+        "type": "toll"
+      },
+      {
+        "city": "San Jose",
+        "country": "US",
+        "country_name": "US",
+        "number": "+1 11111111",
+        "type": "toll"
+      }
+    ],
+    "hd_video": false,
+    "host_video": false,
+    "on_demand": false,
+    "panelists_video": false,
+    "post_webinar_survey": false,
+    "practice_session": false,
+    "question_answer": true,
+    "registrants_confirmation_email": true,
+    "registrants_restrict_number": 0,
+    "show_share_button": true
+  },
+  "start_time": "2019-12-31T20:00:00Z",
+  "start_url": "https://zoom.us/s/11111111?zak=test",
+  "timezone": "America/Argentina/Buenos_Aires",
+  "topic": "Test webinar",
+  "type": 99,
+  "uuid": "test"
+}

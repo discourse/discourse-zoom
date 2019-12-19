@@ -8,9 +8,12 @@
 
 enabled_site_setting :zoom_enabled
 register_asset "stylesheets/desktop/webinar-builder.scss", :desktop
+register_asset "stylesheets/desktop/webinar-details.scss", :desktop
 
 after_initialize do
   [
+    "../lib/zoom/webinars",
+    "../lib/zoom/client",
     "../app/zoom/controllers/webinars_controller",
     "../app/zoom/controllers/webhooks_controller",
     "../app/models/webinar",

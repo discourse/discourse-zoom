@@ -1,15 +1,12 @@
+# frozen_string_literal: true
+
 module Zoom
   class WebinarsController < ApplicationController
     skip_before_action :verify_authenticity_token, only: [:register]
     before_action :ensure_logged_in
 
     def show
-      response = Excon.get("https://api.zoom.us/v2/webinars/#{params[:id]}",
-        headers: {
-          'Authorization': "Bearer #{SiteSetting.zoom_jwt_token}"
-        }
-      )
-      render json: response.body
+      render json: Zoom::Webinars.new(Zoom::Client.new).preview(params[:id])
     end
 
     def register

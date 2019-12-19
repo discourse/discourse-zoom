@@ -1,0 +1,39 @@
+.host {
+  margin: 15px 0 5px 0;
+}
+
+.host-container {
+  margin-bottom: 15px;
+  display: flex;
+}
+
+.host-description { 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 15px;
+}
+
+.webinar-title {
+  font-size: $base-font-size-largest;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.speakers {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.speaker-avatars {
+  margin-left: 10px;
+}
+
+.occurrance-start-time, .host-name, .host, .speakers {
+  font-size: $base-font-size-larger;
+}
+
+.group-name {
+  font-size: $base-font-size;
+}

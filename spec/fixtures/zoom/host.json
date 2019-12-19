@@ -1,0 +1,28 @@
+{
+  "account_id": "test",
+  "created_at": "2019-12-16T16:52:20Z",
+  "dept": "",
+  "email": "roman@test.org",
+  "first_name": "Roman",
+  "group_ids": [
+    "test"
+  ],
+  "host_key": "111111111111",
+  "id": "test",
+  "im_group_ids": [],
+  "jid": "",
+  "language": "",
+  "last_login_time": "2019-12-16T16:52:20Z",
+  "last_name": "Rizzi",
+  "personal_meeting_url": "https://zoom.us/j/11111111111111",
+  "phone_country": "",
+  "phone_number": "",
+  "pic_url": "https://test.com/11111111111",
+  "pmi": 1111111111,
+  "role_name": "Developer",
+  "status": "active",
+  "timezone": "America/Argentina/Buenos_Aires",
+  "type": 99,
+  "use_pmi": false,
+  "verified": 0
+}

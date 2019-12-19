@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Webinar < ActiveRecord::Base
 
   has_many :webinar_users
