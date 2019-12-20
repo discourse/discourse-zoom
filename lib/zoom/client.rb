@@ -32,7 +32,11 @@ module Zoom
 
       {
         speakers: data[:panelists].map do |s|
-          { name: s[:name], email: s[:email] }
+          {
+            name: s[:name],
+            email: s[:email],
+            avatar_url: User.default_template(s[:name]).gsub('{size}', '25')
+          }
         end,
         speakers_count: data[:total_records]
       }

@@ -32,29 +32,44 @@ module Zoom
     end
 
     def host(host_id)
-      return zoom_client.host(host_id) if @fallback_to_zoom_api
-      return zoom_client.host(host_id) unless host = @webinar.webinar_users.detect { |u| u.type.to_sym == :host }&.user
+      host = @webinar&.webinar_users&.detect { |u| u.type.to_sym == :host }&.user
+      return host_payload(host) if host
 
-      {
-        name: host.name || host.username,
-        email: host.email,
-        avatar_url: host.avatar_template_url.gsub('{size}', '120')
-      }
+      host_data = zoom_client.host(host_id)
+      user = User.find_by_email(host_data[:email])
+      return host_data.except(:email) if user.nil?
+
+      host_payload(user)
     end
 
     def speakers(webinar_id)
-      return zoom_client.speakers(webinar_id) if @fallback_to_zoom_api
-      webinar_users = @webinar.webinar_users.select { |wu| wu.type.to_sym == :speaker }
+      webinar_speakers = @webinar&.webinar_users&.select { |wu| wu.type.to_sym == :speaker }&.map(&:user)
+      return speakers_payload(webinar_speakers) if webinar_speakers.present?
 
+      speakers_data = zoom_client.speakers(webinar_id)
+      speaker_emails = speakers_data[:speakers].map { |s| s[:email] }.join(',')
+      speakers = User.with_email(speaker_emails)
+      return speakers_data.except(:email) if speakers.empty?
+
+      speakers_payload(speakers)
+    end
+
+    def speakers_payload(speakers)
       {
-        speakers: webinar_users.map do |s|
-          user = s.user
+        speakers: speakers.map do |s|
           {
-            name: user.name || host.username,
-            email: user.email
+            name: s.name || s.username,
+            avatar_url: s.avatar_template_url.gsub('{size}', '25')
           }
         end,
-        speakers_count: webinar_users.size
+        speakers_count: speakers.size
+      }
+    end
+
+    def host_payload(host)
+      {
+        name: host.name || host.username,
+        avatar_url: host.avatar_template_url.gsub('{size}', '120')
       }
     end
 

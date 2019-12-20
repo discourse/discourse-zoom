@@ -50,7 +50,6 @@ RSpec.describe Zoom::Webinars do
         webinar_data = webinars.preview(webinar_id).fetch(:host)
 
         expect(webinar_data[:name]).to eq host.name
-        expect(webinar_data[:email]).to eq host.email
         expect(webinar_data[:avatar_url]).to eq avatar_url
       end
 
@@ -61,12 +60,65 @@ RSpec.describe Zoom::Webinars do
         webinar_data = webinars.preview(webinar_id).fetch(:speakers).first
 
         expect(webinar_data[:name]).to eq speaker.name
-        expect(webinar_data[:email]).to eq speaker.email
+      end
+    end
+
+    describe 'Searching for Discourse users when building a preview for the first time' do
+      context 'host' do
+        before do
+          host_email = client.host(nil).fetch(:email)
+          @host = Fabricate(:user, email: host_email)
+          @avatar_url = @host.avatar_template_url.gsub('{size}', '120')
+        end
+
+        it 'uses the user data when the email matches' do
+          webinar_data = webinars.preview(webinar_id).fetch(:host)
+
+          expect(webinar_data[:name]).to eq @host.name
+          expect(webinar_data[:avatar_url]).to eq @avatar_url
+        end
+
+        it 'uses the user data when the email matches and the webinar does not list that user as a speaker' do
+          Fabricate(:webinar, zoom_id: webinar_id)
+
+          webinar_data = webinars.preview(webinar_id).fetch(:host)
+
+          expect(webinar_data[:name]).to eq @host.name
+          expect(webinar_data[:avatar_url]).to eq @avatar_url
+        end
+      end
+
+      context 'speakers' do
+        before do
+          speaker_email = client.speakers(nil)[:speakers].first[:email]
+          @speaker = Fabricate(:user, email: speaker_email)
+          @avatar_url = @speaker.avatar_template_url.gsub('{size}', '25')
+        end
+
+        it 'uses the user data when email matches' do
+          speaker = webinars.preview(webinar_id).fetch(:speakers).first
+
+          expect(speaker[:name]).to eq @speaker.name
+          expect(speaker[:avatar_url]).to eq @avatar_url
+        end
+
+        it 'uses the user data when the email matches and the webinar does not list that user as a speaker' do
+          Fabricate(:webinar, zoom_id: webinar_id)
+
+          speaker = webinars.preview(webinar_id).fetch(:speakers).first
+
+          expect(speaker[:name]).to eq @speaker.name
+          expect(speaker[:avatar_url]).to eq @avatar_url
+        end
       end
     end
   end
 
   def webinars
-    described_class.new(FakeZoom.new)
+    described_class.new(client)
+  end
+
+  def client
+    @client ||= FakeZoom.new
   end
 end
