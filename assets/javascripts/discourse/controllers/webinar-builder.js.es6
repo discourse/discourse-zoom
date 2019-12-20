@@ -20,6 +20,8 @@ export default Controller.extend(ModalFunctionality, {
         ends_at: this.get("details.ends_at"),
         zoom_host_id: this.get("details.zoom_host_id")
       });
+
+      this.send("closeModal");
     },
 
     renderPreview() {
@@ -27,7 +29,7 @@ export default Controller.extend(ModalFunctionality, {
     },
 
     updateDetails(details) {
-      this.set("details", details)
+      this.set("details", details);
     }
   }
 });

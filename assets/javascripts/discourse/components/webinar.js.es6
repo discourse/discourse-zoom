@@ -11,7 +11,7 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
-    this.updateDetails = this.updateDetails || (()=>{})
+    this.updateDetails = this.updateDetails || (() => {});
     this.fetchDetails();
   },
 
@@ -35,15 +35,15 @@ export default Component.extend({
     this.set("loadingPreview", true);
     ajax(`/zoom/webinars/${this.webinarId}`)
       .then(results => {
+        this.updateDetails(this.details);
         this.setProperties({
           waitingWebinarPreview: false,
           loadingPreview: false,
           details: results
         });
       })
-      .finally(() => {
-        this.updateDetails(this.details)
-        this.set("loadingPreview", false)
-      })
+      .catch(() => {
+        this.set("loadingPreview", false);
+      });
   }
 });
