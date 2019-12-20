@@ -7,11 +7,11 @@ describe Zoom::WebinarsController do
   fab!(:user) { Fabricate(:user) }
   let(:webinar) { Webinar.create(topic: topic, zoom_id: "123") }
 
-  before do
-    stub_request(:post, "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/registrants").to_return(status: 201)
-  end
-
   describe "#register" do
+    before do
+      stub_request(:post, "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/registrants").to_return(status: 201)
+    end
+
     it "requires the user to be logged in" do
       put("/zoom/webinars/#{webinar.id}/register/#{user.username}.json")
       expect(response.status).to eq(403)

@@ -6,7 +6,9 @@ module Zoom
     before_action :ensure_logged_in
 
     def show
-      render json: Zoom::Webinars.new(Zoom::Client.new).preview(params[:id])
+      webinar_id = params[:id].to_s.strip.gsub('-', '')
+
+      render json: Zoom::Webinars.new(Zoom::Client.new).preview(webinar_id)
     end
 
     def register
