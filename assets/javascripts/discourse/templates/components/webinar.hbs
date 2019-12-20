@@ -6,19 +6,22 @@
   <div class='host-container'>
     <img class='avatar' src={{details.host.avatar_url}} width=80 height=80 />
     <div class='host-description'>
-      <div class='host-name'>{{details.host.full_name}}</div>
+      <div class='host-name'>{{details.host.name}}</div>
       <div class='group-name'>Developers Group</div>
     </div>
   </div>
 
-  <div class='speakers'>
-    Speakers
-    <div class='speaker-avatars'>
-      {{#each details.speakers as |speaker|}}
-        <img class='avatar' src='https://d3bpeqsaub0i6y.cloudfront.net/user_avatar/meta.discourse.org/pmusaraj/45/119489_2.png' width=25 height=25 alt={{speaker.name}} />
-      {{/each}}
+  {{#if details.speakers}}
+    <div class='speakers'>
+      Speakers
+      <div class='speaker-avatars'>
+        {{#each details.speakers as |speaker|}}
+          <img class='avatar' src='https://d3bpeqsaub0i6y.cloudfront.net/user_avatar/meta.discourse.org/pmusaraj/45/119489_2.png' width=25 height=25 alt={{speaker.name}} />
+        {{/each}}
+      </div>
     </div>
-  </div>
+  {{/if}}
+  
 {{else}}
   {{conditional-loading-spinner condition=loadingPreview}}
 {{/if}}

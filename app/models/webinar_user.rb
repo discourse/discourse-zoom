@@ -2,7 +2,7 @@
 class WebinarUser < ActiveRecord::Base
   self.inheritance_column = :_type_disabled
 
-  enum type: [:attendee, :panelist, :host]
+  enum type: [:attendee, :speaker, :host]
 
   validates :type, presence: true, inclusion: { in: types.keys }
   validates :webinar_id, presence: true

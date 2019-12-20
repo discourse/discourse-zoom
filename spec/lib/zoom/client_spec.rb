@@ -18,7 +18,7 @@ RSpec.describe Zoom::Client do
     expect(webinar_data[:starts_at]).to eq start_time
     expect(webinar_data[:duration]).to eq duration
     expect(webinar_data[:ends_at]).to eq start_time + duration.minutes
-    expect(webinar_data[:host_id]).to eq expected_data[:host_id]
+    expect(webinar_data[:zoom_host_id]).to eq expected_data[:host_id]
   end
 
   it 'reads the host data from the Zoom API' do
@@ -29,7 +29,7 @@ RSpec.describe Zoom::Client do
 
     host_data = subject.host(host_id)
 
-    expect(host_data[:full_name]).to eq "#{expected_data[:first_name]} #{expected_data[:last_name]}"
+    expect(host_data[:name]).to eq "#{expected_data[:first_name]} #{expected_data[:last_name]}"
     expect(host_data[:avatar_url]).to eq expected_data[:pic_url]
     expect(host_data[:email]).to eq expected_data[:email]
   end

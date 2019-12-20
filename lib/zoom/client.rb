@@ -13,7 +13,7 @@ module Zoom
         starts_at: start_datetime,
         duration: data[:duration],
         ends_at: start_datetime + data[:duration].minutes,
-        host_id: data[:host_id]
+        zoom_host_id: data[:host_id]
       }
     end
 
@@ -21,7 +21,7 @@ module Zoom
       data = get("users/#{host_id}")
 
       {
-        full_name: "#{data[:first_name]} #{data[:last_name]}",
+        name: "#{data[:first_name]} #{data[:last_name]}",
         email: data[:email],
         avatar_url: data[:pic_url]
       }

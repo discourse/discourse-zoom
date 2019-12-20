@@ -15,13 +15,13 @@ class FakeZoom
       starts_at: start_datetime,
       ends_at: start_datetime + duration.minutes,
       duration: duration,
-      host_id: '111111111111'
+      zoom_host_id: '111111111111'
     }
   end
 
   def host(_host_id)
     {
-      full_name: 'Roman Rizzi',
+      name: 'Roman Rizzi',
       avatar_url: 'https://test-cdn.com/roman/120/23782_2.png',
       email: 'roman@test.org'
     }

@@ -41,7 +41,6 @@ after_initialize do
     end
   end
 
-
   add_to_serializer(:topic_view, :webinar) { object.webinar }
 
   add_permitted_post_create_param(:zoom_webinar_id)
@@ -65,6 +64,7 @@ after_initialize do
     resources :webinars, only: [:show] do
       put 'register/:username' => 'webinars#register'
     end
+
     post '/webhooks/webinars' => 'webhooks#webinars'
   end
 
