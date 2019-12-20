@@ -44,6 +44,7 @@ after_initialize do
   add_to_serializer(:topic_view, :webinar) { object.webinar }
 
   add_permitted_post_create_param(:zoom_webinar_id)
+  add_permitted_post_create_param(:zoom_webinar_attributes, :hash)
   add_permitted_post_create_param(:zoom_webinar_host, :hash)
   add_permitted_post_create_param(:zoom_webinar_speakers, :array)
 
@@ -54,7 +55,16 @@ after_initialize do
     result = manager.perform_create_post
     if result.success?
       topic_id = result.post.topic_id
-      Webinar.create!(topic_id: topic_id, zoom_id: zoom_id)
+      attributes = manager.args[:zoom_webinar_attributes]
+      Webinar.create!(
+        topic_id: topic_id,
+        zoom_id: zoom_id,
+        title: attributes[:title],
+        starts_at: attributes[:starts_at],
+        ends_at: attributes[:ends_at],
+        duration: attributes[:duration],
+        zoom_host_id: attributes[:zoom_host_id],
+      )
     end
 
     result

@@ -8,6 +8,7 @@ export default {
   initialize() {
     // Register custom fields to be saved for new post.
     Composer.serializeOnCreate("zoom_webinar_id", "zoomWebinarId");
+    Composer.serializeOnCreate("zoom_webinar_attributes", "zoomWebinarAttributes");
     Composer.serializeOnCreate("zoom_webinar_host", "zoomWebinarHost");
     Composer.serializeOnCreate("zoom_webinar_speakers", "zoomWebinarSpeakers");
   }

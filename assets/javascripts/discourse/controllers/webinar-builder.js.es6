@@ -13,6 +13,13 @@ export default Controller.extend(ModalFunctionality, {
       this.model.set("zoomWebinarId", this.webinarId);
       this.model.set("zoomWebinarHost", this.get("details.host"));
       this.model.set("zoomWebinarSpeakers", this.get("details.speakers"));
+      this.model.set("zoomWebinarAttributes", {
+        title: this.get("details.title"),
+        duration: this.get("details.duration"),
+        starts_at: this.get("details.starts_at"),
+        ends_at: this.get("details.ends_at"),
+        zoom_host_id: this.get("details.zoom_host_id")
+      });
     },
 
     renderPreview() {
