@@ -57,7 +57,7 @@ after_initialize do
     if result.success?
       topic_id = result.post.topic_id
       attributes = manager.args[:zoom_webinar_attributes]
-      Webinar.create!(
+      webinar = Webinar.create!(
         topic_id: topic_id,
         zoom_id: zoom_id,
         title: attributes[:title],
@@ -66,6 +66,17 @@ after_initialize do
         duration: attributes[:duration],
         zoom_host_id: attributes[:zoom_host_id],
       )
+      host_data = Zoom::Client.new.host(attributes[:zoom_host_id])
+      user = User.find_by_email(host_data[:email])
+      unless user
+        user = User.create!(
+          email: host_data[:email],
+          username: UserNameSuggester.suggest(host_data[:email]),
+          name: User.suggest_name(host_data[:email]),
+          staged: true
+        )
+      end
+      WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :host)
     end
 
     result

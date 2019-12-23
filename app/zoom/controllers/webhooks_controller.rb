@@ -37,7 +37,7 @@ module Zoom
           staged: true
         )
       end
-      WebinarUser.find_or_create_by(user: user, webinar: webinar, type: "attendee")
+      WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :attendee)
     end
 
     def webinar_registration_approved

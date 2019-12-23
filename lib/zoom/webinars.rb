@@ -37,7 +37,7 @@ module Zoom
 
       host_data = zoom_client.host(host_id)
       user = User.find_by_email(host_data[:email])
-      return host_data.except(:email) if user.nil?
+      return host_data if user.nil?
 
       host_payload(user)
     end

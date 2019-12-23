@@ -19,7 +19,6 @@ module Zoom
 
     def host(host_id)
       data = get("users/#{host_id}")
-
       {
         name: "#{data[:first_name]} #{data[:last_name]}",
         email: data[:email],
@@ -51,6 +50,16 @@ module Zoom
       )
 
       JSON.parse(result.body, symbolize_names: true)
+    end
+
+    def post(endpoint, body)
+      Excon.post("#{API_URL}#{endpoint}",
+        headers: {
+          "Authorization": "Bearer #{SiteSetting.zoom_jwt_token}",
+          "Content-Type": "application/json"
+        },
+        body: body.to_json
+      )
     end
   end
 end
