@@ -1,4 +1,6 @@
-<div class='webinar-banner'>
-  {{webinar webinarId=model.webinar.zoom_id}}
-</div>
+{{#if model.webinar}}
+  <div class='webinar-banner'>
+    {{webinar webinarId=model.webinar.zoom_id}}
+  </div>
+{{/if}}
 

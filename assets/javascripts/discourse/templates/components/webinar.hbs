@@ -1,5 +1,5 @@
 {{#if details}}
-  <div class='webinar-title bold'>{{details.title}}</div>
+  <div class='webinar-title bold'>{{details.webinar.title}}</div>
   <div class='occurrance-start-time'>{{schedule}}</div>
 
   <div class='host'>Hosted by</div>
@@ -21,7 +21,15 @@
       </div>
     </div>
   {{/if}}
-  
+
+  {{#if registered}}
+    <h3>You are registered</h3>
+  {{else}}
+    {{#if userCanRegister}}
+      {{d-button action=(action "register") class="webinar-register-button" label="zoom.register"}}
+    {{/if}}
+  {{/if}}
+
 {{else}}
-  {{conditional-loading-spinner condition=loadingPreview}}
+  {{conditional-loading-spinner condition=loading}}
 {{/if}}

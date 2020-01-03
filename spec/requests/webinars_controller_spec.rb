@@ -19,8 +19,12 @@ describe Zoom::WebinarsController do
 
     it "registers the user for the webinar" do
       sign_in(user)
-      put("/zoom/webinars/#{webinar.id}/register/#{user.username}.json")
+      expect(WebinarUser.where(user: user, webinar: webinar).count).to eq(0)
+
+      put("/zoom/webinars/#{webinar.zoom_id}/register/#{user.username}.json")
+
       expect(response.status).to eq(200)
+      expect(WebinarUser.where(user: user, webinar: webinar).count).to eq(1)
     end
   end
 

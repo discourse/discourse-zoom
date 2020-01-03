@@ -22,13 +22,7 @@ module Zoom
     def webinar(webinar_id)
       return zoom_client.webinar(webinar_id) if @fallback_to_zoom_api
 
-      {
-        title: @webinar.title,
-        starts_at: @webinar.starts_at,
-        ends_at: @webinar.ends_at,
-        duration: @webinar.duration,
-        zoom_host_id: @webinar.zoom_host_id
-      }
+      ::WebinarSerializer.new(@webinar).as_json
     end
 
     def host(host_id)

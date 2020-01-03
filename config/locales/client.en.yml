@@ -9,3 +9,4 @@ en:
         webinar_id: "Webinar ID"
         title: "Webinar Details"
         create: "Insert Webinar"
+      register: "Register"

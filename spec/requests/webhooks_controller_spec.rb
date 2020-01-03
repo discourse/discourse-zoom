@@ -156,7 +156,10 @@ describe Zoom::WebhooksController do
         expect(webinar.users.count).to eq(1)
         post "/zoom/webhooks/webinars.json", params: { webhook: webinar_registration_cancelled(zoom_id: zoom_id, email: user.email) }, headers: { "Authorization": verification_token }
         expect(response.status).to eq(200)
-        expect(webinar.users.count).to eq(0)
+
+        webinar_user = webinar.webinar_users.reload.first
+        expect(webinar_user.user).to eq(user)
+        expect(webinar_user.registration_status).to eq("rejected")
       end
     end
   end

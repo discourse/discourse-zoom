@@ -8,12 +8,23 @@ module Zoom
       data = get("webinars/#{webinar_id}")
       start_datetime = DateTime.parse(data[:start_time])
 
-      {
-        title: data[:topic],
-        starts_at: start_datetime,
-        duration: data[:duration],
-        ends_at: start_datetime + data[:duration].minutes,
-        zoom_host_id: data[:host_id]
+       {
+         webinar: {
+          title: data[:topic],
+          starts_at: start_datetime,
+          duration: data[:duration],
+          ends_at: start_datetime + data[:duration].minutes,
+          zoom_host_id: data[:host_id],
+          password: data[:password],
+          host_video: data[:settings][:host_video],
+          panelists_video: data[:settings][:panelists_video],
+          approval_type: data[:settings][:approval_type],
+          enforce_login: data[:settings][:enforce_login],
+          registrants_restrict_number: data[:settings][:registrants_restrict_number],
+          meeting_authentication: data[:settings][:meeting_authentication],
+          on_demand: data[:settings][:on_demand],
+          join_url: data[:settings][:join_url],
+        }
       }
     end
 
@@ -41,6 +52,16 @@ module Zoom
       }
     end
 
+    def post(endpoint, body)
+      Excon.post("#{API_URL}#{endpoint}",
+        headers: {
+          "Authorization": "Bearer #{SiteSetting.zoom_jwt_token}",
+          "Content-Type": "application/json"
+        },
+        body: body.to_json
+      )
+    end
+
     private
 
     def get(endpoint)
@@ -50,16 +71,6 @@ module Zoom
       )
 
       JSON.parse(result.body, symbolize_names: true)
-    end
-
-    def post(endpoint, body)
-      Excon.post("#{API_URL}#{endpoint}",
-        headers: {
-          "Authorization": "Bearer #{SiteSetting.zoom_jwt_token}",
-          "Content-Type": "application/json"
-        },
-        body: body.to_json
-      )
     end
   end
 end

@@ -13,10 +13,10 @@
       </div>
     </div>
     <div class="d-editor-preview webinar-preview">
-      {{webinar webinarId=webinarId waitingWebinarPreview=waitingWebinarPreview updateDetails=(action "updateDetails")}}
+      {{webinar webinarId=webinarId preview='true' waiting=waiting updateDetails=(action "updateDetails")}}
     </div>
   </form>
   <div class="modal-footer">
-    {{d-button action=(action "insert") class='btn-primary' label='zoom.webinar_builder.create' disabled=waitingWebinarPreview}}
+    {{d-button action=(action "insert") class='btn-primary' label='zoom.webinar_builder.create' disabled=waiting}}
   </div>
 {{/d-modal-body}}
