@@ -8,23 +8,21 @@ module Zoom
       data = get("webinars/#{webinar_id}")
       start_datetime = DateTime.parse(data[:start_time])
 
-       {
-         webinar: {
-          title: data[:topic],
-          starts_at: start_datetime,
-          duration: data[:duration],
-          ends_at: start_datetime + data[:duration].minutes,
-          zoom_host_id: data[:host_id],
-          password: data[:password],
-          host_video: data[:settings][:host_video],
-          panelists_video: data[:settings][:panelists_video],
-          approval_type: data[:settings][:approval_type],
-          enforce_login: data[:settings][:enforce_login],
-          registrants_restrict_number: data[:settings][:registrants_restrict_number],
-          meeting_authentication: data[:settings][:meeting_authentication],
-          on_demand: data[:settings][:on_demand],
-          join_url: data[:settings][:join_url],
-        }
+      {
+        title: data[:topic],
+        starts_at: start_datetime,
+        duration: data[:duration],
+        ends_at: start_datetime + data[:duration].minutes,
+        zoom_host_id: data[:host_id],
+        password: data[:password],
+        host_video: data[:settings][:host_video],
+        panelists_video: data[:settings][:panelists_video],
+        approval_type: data[:settings][:approval_type],
+        enforce_login: data[:settings][:enforce_login],
+        registrants_restrict_number: data[:settings][:registrants_restrict_number],
+        meeting_authentication: data[:settings][:meeting_authentication],
+        on_demand: data[:settings][:on_demand],
+        join_url: data[:settings][:join_url],
       }
     end
 

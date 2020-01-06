@@ -1,1 +1,3 @@
-{{d-button action=(action "toggleModal") class="toggle-webinar-modal" label="zoom.toggle_webinar_button" icon="plus"}}
+{{#if visible}}
+  {{d-button action=(action "toggleModal") class="toggle-webinar-modal" label="zoom.toggle_webinar_button" icon="plus"}}
+{{/if}}

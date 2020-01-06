@@ -4,7 +4,7 @@
 
   <div class='host'>Hosted by</div>
   <div class='host-container'>
-    {{avatar webinar.host imageSize="large"}}
+    <img class='avatar' src={{details.host.avatar_url}} width=80 height=80 title={{details.host.name}}/>
     <div class='host-description'>
       <div class='host-name'>{{webinar.host.name}}</div>
       <div class='group-name'>Developers Group</div>
@@ -20,17 +20,6 @@
         {{/each}}
       </div>
     </div>
-  {{/if}}
-
-  {{#if registered}}
-    <p>
-      Registered
-      {{d-icon 'check'}}
-    </p>
-  {{else}}
-    {{#if userCanRegister}}
-      {{d-button action=(action "register") class="webinar-register-button" label="zoom.register" disabled=loading}}
-    {{/if}}
   {{/if}}
 
 {{else}}

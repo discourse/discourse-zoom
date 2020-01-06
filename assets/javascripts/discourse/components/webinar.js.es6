@@ -1,15 +1,13 @@
 import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
+import { formattedSchedule } from "../lib/webinar-helpers";
 import { ajax } from "discourse/lib/ajax";
 
 export default Component.extend({
-  preview: false,
-  details: null,
+  webinar: null,
   webinarId: null,
   loading: false,
-  waiting: null,
   registering: false,
-  updateDetails: null,
   registered: false,
 
   AUTOMATIC_APPROVAL: "automatic",
@@ -22,28 +20,18 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
-    this.updateDetails = this.updateDetails || (() => {});
     this.fetchDetails();
   },
 
-  didUpdateAttrs() {
-    this._super(...arguments);
-    this.fetchDetails();
-  },
-
-  @discourseComputed("details.webinar.{starts_at,details.ends_at}")
-  schedule(details) {
-    const start = moment(details.starts_at);
-    const end = moment(details.ends_at);
-    return `${start.format("LT")} - ${end.format("LT")}, ${start.format(
-      "Do MMMM, Y"
-    )}`;
+  @discourseComputed("webinar.{starts_at,webinar.ends_at}")
+  schedule(webinar) {
+    return formattedSchedule(webinar.starts_at, webinar.ends_at)
   },
 
   @discourseComputed("currentUser.webinar_registrations")
   registered(userRegistrations) {
     for (let registration of userRegistrations) {
-      if (registration.webinar_id === this.details.webinar.id) {
+      if (registration.webinar_id === this.webinar.id) {
         return true;
       }
     }
@@ -52,7 +40,7 @@ export default Component.extend({
 
   @discourseComputed(
     "currentUser",
-    "details.webinar.{id,starts_at,ends_at,approval_type}",
+    "webinar.{id,starts_at,ends_at,approval_type}",
     "preview"
   )
   userCanRegister(user, webinar, preview) {
@@ -67,7 +55,7 @@ export default Component.extend({
     return true;
   },
 
-  @discourseComputed("details.webinar.{starts_at,details.ends_at}")
+  @discourseComputed("webinar.{starts_at,webinar.ends_at}")
   state(webinar) {
     let state;
     const now = new Date();
@@ -84,16 +72,16 @@ export default Component.extend({
     if (!this.webinarId) return;
 
     this.set("loading", true);
-    ajax(`/zoom/webinars/${this.webinarId}`)
+    this.store
+      .find("webinar", this.webinarId)
       .then(results => {
-        this.updateDetails(this.details);
         this.setProperties({
-          waiting: false,
           loading: false,
-          details: results
+          webinar: results
         });
+        this.updateDetails(this.webinar);
       })
-      .catch(() => {
+      .catch((e) => {
         this.set("loading", false);
       });
   },

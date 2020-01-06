@@ -7,8 +7,21 @@ module Zoom
 
     def show
       webinar_id = Webinar.sanitize_zoom_id(params[:id])
+      webinar = Webinar.find_by(zoom_id: webinar_id)
+      return render Discourse::NotFound unless webinar
 
-      render json: Zoom::Webinars.new(Zoom::Client.new).preview(webinar_id)
+      render_serialized(
+        webinar,
+        WebinarSerializer,
+        rest_serializer: true,
+        root: :webinar,
+        meta: { attendees: 'user', host: 'user', speakers: 'user' }
+      )
+    end
+
+    def preview
+      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
+      render json: Zoom::Webinars.new(Zoom::Client.new).fetch(webinar_id)
     end
 
     def register

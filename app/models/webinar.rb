@@ -11,4 +11,16 @@ class Webinar < ActiveRecord::Base
   def self.sanitize_zoom_id(dirty_id)
     dirty_id.to_s.strip.gsub('-', '')
   end
+
+  def attendees
+    users.joins(:webinar_users).where("webinar_users.type = #{WebinarUser.types[:attendee]}").uniq
+  end
+
+  def speakers
+    users.joins(:webinar_users).where("webinar_users.type = #{WebinarUser.types[:speaker]}").uniq
+  end
+
+  def host
+    users.joins(:webinar_users).where("webinar_users.type = #{WebinarUser.types[:host]}").first
+  end
 end

@@ -102,6 +102,7 @@ after_initialize do
   Zoom::Engine.routes.draw do
     resources :webinars, only: [:show] do
       put 'register/:username' => 'webinars#register'
+      get 'preview' => 'webinars#preview'
     end
 
     post '/webhooks/webinars' => 'webhooks#webinars'
