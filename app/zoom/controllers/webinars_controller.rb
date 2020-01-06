@@ -5,6 +5,10 @@ module Zoom
     skip_before_action :verify_authenticity_token, only: [:register]
     before_action :ensure_logged_in
 
+    def index
+      render json: Zoom::Webinars.new(Zoom::Client.new).all(current_user)
+    end
+
     def show
       webinar_id = Webinar.sanitize_zoom_id(params[:id])
       webinar = Webinar.find_by(zoom_id: webinar_id)
@@ -21,7 +25,7 @@ module Zoom
 
     def preview
       webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
-      render json: Zoom::Webinars.new(Zoom::Client.new).fetch(webinar_id)
+      render json: Zoom::Webinars.new(Zoom::Client.new).find(webinar_id)
     end
 
     def register

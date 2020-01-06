@@ -13,9 +13,9 @@ export default Component.extend({
 
   actions: {
     toggleModal() {
-      showModal("webinar-builder", {
+      showModal("webinar-picker", {
         model: this.model,
-        title: "zoom.webinar_builder.title"
+        title: "zoom.webinar_picker.title"
       });
     }
   }

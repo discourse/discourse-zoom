@@ -8,7 +8,14 @@ module Zoom
       @zoom_client = zoom_client
     end
 
-    def fetch(webinar_id)
+    def all(user)
+      response = zoom_client.get("users/#{user.email}/webinars")
+      return [] unless response
+
+      response[:webinars]
+    end
+
+    def find(webinar_id)
       webinar_data = zoom_client.webinar(webinar_id)
       webinar_data[:speakers] = speakers(webinar_id)
       webinar_data[:host] = host(webinar_data[:zoom_host_id])

@@ -16,6 +16,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this.updateDetails = this.updateDetails || (() => {});
+    this.fetchDetails();
   },
 
   didUpdateAttrs() {
@@ -30,6 +31,7 @@ export default Component.extend({
 
   fetchDetails() {
     if (!this.webinarId) return;
+    console.log(this.webinarId)
 
     this.set("loading", true);
     ajax(`/zoom/webinars/${this.webinarId}/preview`)

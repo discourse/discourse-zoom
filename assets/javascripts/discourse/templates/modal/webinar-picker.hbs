@@ -1,0 +1,24 @@
+{{#d-modal-body}}
+  {{#if webinarId}}
+    {{webinar-preview webinarId=webinarId waiting=waiting updateDetails=(action "updateDetails")}}
+  {{else}}
+    <form class="form-horizontal webinar-picker">
+
+      {{input type='text'
+              value=webinarIdInput
+              valueAttribute="value"
+              class="webinar-builder-id"}}
+        {{d-button action=(action "previewFromInput") icon="plus"}}
+      {{#each allWebinars as |webinar|}}
+        {{webinar-option-row model=webinar onSelect=(action "selectWebinar")}}
+      {{/each}}
+    </form>
+  {{/if}}
+  <div class="modal-footer">
+    {{d-button action=(action "insert") class='btn-primary' label='zoom.webinar_picker.create' disabled=waiting}}
+
+    {{#if webinarId}}
+      {{d-button action=(action "clear") class='btn-danger' label='zoom.webinar_picker.clear' disabled=waiting}}
+    {{/if}}
+  </div>
+{{/d-modal-body}}

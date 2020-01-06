@@ -1,0 +1,26 @@
+.webinar-picker, .webinar-preview-input-group {
+
+  .webinar-option {
+    padding: 10px 5px;
+    border-bottom: 1px solid $primary-low;
+
+    .webinar-topic {
+      font-size: $font-up-1;
+    }
+
+    .webinar-schedule {
+      color: $primary-medium;
+    }
+  }
+}
+
+
+.webinar-preview {
+  margin: 20px;
+  min-height: 250px;
+  min-width: 280px;
+}
+
+.toggle-webinar-modal {
+  margin-bottom: 7px;
+}

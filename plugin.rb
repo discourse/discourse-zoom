@@ -7,7 +7,7 @@
 # url: https://github.com/discourse-org/discourse-zoom
 
 enabled_site_setting :zoom_enabled
-register_asset "stylesheets/desktop/webinar-builder.scss", :desktop
+register_asset "stylesheets/desktop/webinar-picker.scss", :desktop
 register_asset "stylesheets/desktop/webinar-banner.scss", :desktop
 register_asset "stylesheets/desktop/webinar-details.scss", :desktop
 
@@ -100,7 +100,7 @@ after_initialize do
   end
 
   Zoom::Engine.routes.draw do
-    resources :webinars, only: [:show] do
+    resources :webinars, only: [:show, :index] do
       put 'register/:username' => 'webinars#register'
       get 'preview' => 'webinars#preview'
     end

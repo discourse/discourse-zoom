@@ -60,8 +60,6 @@ module Zoom
       )
     end
 
-    private
-
     def get(endpoint)
       result = Excon.get(
         "#{API_URL}#{endpoint}",
