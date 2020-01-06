@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class Webinar < ActiveRecord::Base
 
-  enum approval_type: [:automatic, :manual, :no_registration]
+  enum approval_type: { automatic: 0, manual: 1, no_registration: 2 }
 
   has_many :webinar_users
   has_many :users, through: :webinar_users

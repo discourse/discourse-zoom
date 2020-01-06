@@ -23,10 +23,13 @@
   {{/if}}
 
   {{#if registered}}
-    <h3>You are registered</h3>
+    <p>
+      Registered
+      {{d-icon 'check'}}
+    </p>
   {{else}}
     {{#if userCanRegister}}
-      {{d-button action=(action "register") class="webinar-register-button" label="zoom.register"}}
+      {{d-button action=(action "register") class="webinar-register-button" label="zoom.register" disabled=loading}}
     {{/if}}
   {{/if}}
 

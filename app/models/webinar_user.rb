@@ -2,8 +2,8 @@
 class WebinarUser < ActiveRecord::Base
   self.inheritance_column = :_type_disabled
 
-  enum type: [:attendee, :speaker, :host]
-  enum registration_status: [:pending, :approved, :rejected]
+  enum type: { attendee: 0, speaker: 1, host: 2 }
+  enum registration_status: { pending: 0, approved: 1, rejected: 2 }
 
   validates :type, presence: true, inclusion: { in: types.keys }
   validates :registration_status, presence: true, inclusion: { in: registration_statuses.keys }

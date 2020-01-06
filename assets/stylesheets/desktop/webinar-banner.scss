@@ -1,8 +1,6 @@
 .webinar-banner {
   width: calc(#{$topic-body-width} + (#{$topic-body-width-padding} * 2));
-  float: left;
-  position: relative;
   border: 3px solid $primary-low;
-  padding: 15px;
-  margin-bottom: 20px
+  padding: 10px 20px;
+  margin-bottom: 20px;
 }

@@ -76,7 +76,7 @@ after_initialize do
         password: attributes[:password],
         host_video: attributes[:host_video],
         panelists_video: attributes[:panelists_video],
-        approval_type: attributes[:approval_type],
+        approval_type: attributes[:approval_type].to_i,
         enforce_login: attributes[:enforce_login],
         registrants_restrict_number: attributes[:registrants_restrict_number],
         meeting_authentication: attributes[:meeting_authentication],

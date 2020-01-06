@@ -8,6 +8,7 @@ export default Component.extend({
   webinarId: null,
   loading: false,
   waiting: null,
+  registering: false,
   updateDetails: null,
   registered: false,
 
@@ -39,14 +40,14 @@ export default Component.extend({
     )}`;
   },
 
-  @discourseComputed("currentUser")
-  registered(user) {
-    for (let registration of user.webinar_registrations) {
+  @discourseComputed("currentUser.webinar_registrations")
+  registered(userRegistrations) {
+    for (let registration of userRegistrations) {
       if (registration.webinar_id === this.details.webinar.id) {
-        return true
+        return true;
       }
     }
-   return false;
+    return false;
   },
 
   @discourseComputed(
@@ -60,11 +61,11 @@ export default Component.extend({
       this.state === this.AFTER_VALUE ||
       webinar.approval_type === this.NO_REGISTRATION ||
       this.registered
-    ) return false
+    )
+      return false;
 
     return true;
   },
-
 
   @discourseComputed("details.webinar.{starts_at,details.ends_at}")
   state(webinar) {
@@ -99,11 +100,17 @@ export default Component.extend({
 
   actions: {
     register() {
-      ajax(`/zoom/webinars/${this.webinarId}/register/${this.currentUser.username}`, { type: "PUT" })
-        .then(results => {
-          // FIGURE OUT HOW TO TRIGGER UPDATE FOR currentUser
+      this.set("loading", true);
+      ajax(
+        `/zoom/webinars/${this.webinarId}/register/${this.currentUser.username}`,
+        { type: "PUT" }
+      )
+        .then(response => {
+          this.currentUser.set("webinar_registrations", response.webinars);
+          this.set("loading", false);
         })
         .catch(() => {
+          this.set("loading", false);
         });
     }
   }

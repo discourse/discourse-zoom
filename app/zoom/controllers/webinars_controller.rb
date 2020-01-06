@@ -42,11 +42,12 @@ module Zoom
                               when "no_registration"
                                 :rejected
                               end
-        render json: webinar.webinar_users.create(
+        webinar.webinar_users.create(
           user: user,
           type: :attendee,
           registration_status: registration_status
         )
+        render json: user.webinar_users
       else
         raise Discourse::NotFound.new
       end
