@@ -11,3 +11,4 @@ en:
         create: "Insert Webinar"
         clear: "Choose a different webinar"
       register: "Register"
+      registered: "Registered"

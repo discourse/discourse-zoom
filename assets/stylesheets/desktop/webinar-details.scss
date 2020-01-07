@@ -7,7 +7,7 @@
   display: flex;
 }
 
-.host-description { 
+.host-description {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,7 +30,10 @@
   margin-left: 10px;
 }
 
-.occurrance-start-time, .host-name, .host, .speakers {
+.occurrance-start-time,
+.host-name,
+.host,
+.speakers {
   font-size: $base-font-size-larger;
 }
 

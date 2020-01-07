@@ -10,6 +10,7 @@ enabled_site_setting :zoom_enabled
 register_asset "stylesheets/desktop/webinar-picker.scss", :desktop
 register_asset "stylesheets/desktop/webinar-banner.scss", :desktop
 register_asset "stylesheets/desktop/webinar-details.scss", :desktop
+register_svg_icon "far-check-circle"
 
 after_initialize do
   [

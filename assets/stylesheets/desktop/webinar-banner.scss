@@ -1,6 +1,7 @@
 .webinar-banner {
-  width: calc(#{$topic-body-width} + (#{$topic-body-width-padding} * 2));
-  border: 3px solid $primary-low;
+  max-width: calc(#{$topic-body-width} + (#{$topic-body-width-padding} * 2));
+  background: $primary-very-low;
+  border: 1px solid $primary-low;
   padding: 10px 20px;
   margin-bottom: 20px;
 }
