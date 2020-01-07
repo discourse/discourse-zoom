@@ -1,15 +1,16 @@
 {{#if webinar}}
   <div class='webinar-title bold'>{{webinar.title}}</div>
   <div class='occurrance-start-time'>{{schedule}}</div>
-
-  <div class='host'>Hosted by</div>
-  <div class='host-container'>
-    {{avatar webinar.host imageSize="large"}}
-    <div class='host-description'>
-      <div class='host-name'>{{webinar.host.name}}</div>
-      <div class='group-name'>Developers Group</div>
+  {{#if webinar.host}}
+    <div class='host'>Hosted by</div>
+    <div class='host-container'>
+      {{avatar webinar.host imageSize="large"}}
+      <div class='host-description'>
+        <div class='host-name'>{{hostDisplayName}}</div>
+        <div class='group-name'>{{webinar.host.title}}</div>
+      </div>
     </div>
-  </div>
+  {{/if}}
 
   {{#if webinar.speakers}}
     <div class='speakers'>

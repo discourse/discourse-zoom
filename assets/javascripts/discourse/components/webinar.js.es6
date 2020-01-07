@@ -17,6 +17,10 @@ export default Component.extend({
   BEFORE_VALUE: "before",
   DURING_VALUE: "during",
   AFTER_VALUE: "after",
+  hostDisplayName: Ember.computed.or(
+    "webinar.host.name",
+    "webinar.host.username"
+  ),
 
   init() {
     this._super(...arguments);
@@ -25,7 +29,7 @@ export default Component.extend({
 
   @discourseComputed("webinar.{starts_at,webinar.ends_at}")
   schedule(webinar) {
-    return formattedSchedule(webinar.starts_at, webinar.ends_at)
+    return formattedSchedule(webinar.starts_at, webinar.ends_at);
   },
 
   @discourseComputed("currentUser.webinar_registrations")
@@ -81,7 +85,7 @@ export default Component.extend({
         });
         this.updateDetails(this.webinar);
       })
-      .catch((e) => {
+      .catch(e => {
         this.set("loading", false);
       });
   },
