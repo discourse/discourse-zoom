@@ -1,5 +1,5 @@
-.webinar-picker, .webinar-preview-input-group {
-
+.webinar-picker,
+.webinar-preview-input-group {
   .webinar-option {
     padding: 10px 5px;
     border-bottom: 1px solid $primary-low;
@@ -14,7 +14,6 @@
   }
 }
 
-
 .webinar-preview {
   margin: 20px;
   min-height: 250px;
@@ -23,4 +22,11 @@
 
 .toggle-webinar-modal {
   margin-bottom: 7px;
+}
+
+.webinar-picker-webinars {
+  max-height: 300px;
+  overflow: auto;
+  margin: 10px;
+  padding: 5px;
 }

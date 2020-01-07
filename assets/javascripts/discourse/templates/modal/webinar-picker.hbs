@@ -9,9 +9,11 @@
               valueAttribute="value"
               class="webinar-builder-id"}}
         {{d-button action=(action "previewFromInput") icon="plus"}}
-      {{#each allWebinars as |webinar|}}
-        {{webinar-option-row model=webinar onSelect=(action "selectWebinar")}}
-      {{/each}}
+      <div class="webinar-picker-webinars">
+        {{#each allWebinars as |webinar|}}
+          {{webinar-option-row model=webinar onSelect=(action "selectWebinar")}}
+        {{/each}}
+      </div>
     </form>
   {{/if}}
   <div class="modal-footer">

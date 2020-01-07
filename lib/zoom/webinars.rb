@@ -12,7 +12,11 @@ module Zoom
       response = zoom_client.get("users/#{user.email}/webinars")
       return [] unless response
 
-      response[:webinars]
+      result = response[:webinars].select do |hash|
+        hash[:start_time].in_time_zone.utc > Time.now.utc
+      end
+
+      result
     end
 
     def find(webinar_id)
