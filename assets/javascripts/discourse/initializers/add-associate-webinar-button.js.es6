@@ -13,13 +13,19 @@ function initializeAssociateWebinarButton(api) {
     }
   });
 
-  api.addToolbarPopupMenuOptionsCallback(() => {
-    return {
-      id: "associate_webinar_button",
-      icon: "far-thumbs-up",
-      action: "showAssociateWebinarModal",
-      label: "zoom.webinar_picker.create"
-    };
+  api.addToolbarPopupMenuOptionsCallback(controller => {
+    const composer = controller.model;
+    if (
+      composer &&
+      (composer.creatingTopic || composer.get("post.post_number") === 1)
+    ) {
+      return {
+        id: "associate_webinar_button",
+        icon: "fas fa-video",
+        action: "showAssociateWebinarModal",
+        label: "zoom.webinar_picker.popup"
+      };
+    }
   });
 }
 
@@ -29,12 +35,7 @@ export default {
   initialize(container) {
     const siteSettings = container.lookup("site-settings:main");
     const currentUser = container.lookup("current-user:main");
-    // HERE I want to use the composer's state to add conditionals below.
-    const composerController = container.lookup("controller:composer");
-    if (
-      siteSettings.zoom_enabled &&
-      currentUser
-    ) {
+    if (siteSettings.zoom_enabled && currentUser) {
       withPluginApi("0.5", initializeAssociateWebinarButton);
     }
   }

@@ -4,11 +4,12 @@ en:
 
   js:
     zoom:
-      toggle_webinar_button: "New Webinar"
+      remove_webinar: "Remove"
       toggle_edit_webinar_button: "Edit Webinar"
       webinar_picker:
         webinar_id: "Webinar ID"
         title: "Webinar Details"
-        create: "Insert Webinar"
+        create: "Add"
+        popup: "Zoom Webinar"
         clear: "Choose a different webinar"
       register: "Register"

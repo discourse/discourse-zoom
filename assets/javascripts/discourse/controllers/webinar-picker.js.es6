@@ -16,8 +16,8 @@ export default Controller.extend(ModalFunctionality, {
   onShow() {
     if (!this.webinar) {
       if (this.model.get("webinar.zoom_id")) {
-        this.set("webinarId", this.model.get("webinar.zoom_id"))
-        this.set("webinarIdInput", this.model.get("webinar.zoom_id"))
+        this.set("webinarId", this.model.get("webinar.zoom_id"));
+        this.set("webinarIdInput", this.model.get("webinar.zoom_id"));
       }
 
       if (!this.webinarId) {
@@ -31,7 +31,7 @@ export default Controller.extend(ModalFunctionality, {
   },
 
   scrubWebinarId(webinarId) {
-    return webinarId.replace(/-|\s/g,"");
+    return webinarId.replace(/-|\s/g, "");
   },
 
   actions: {

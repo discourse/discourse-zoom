@@ -7,9 +7,12 @@
 # url: https://github.com/discourse-org/discourse-zoom
 
 enabled_site_setting :zoom_enabled
+register_asset "stylesheets/common/zoom.scss"
 register_asset "stylesheets/desktop/webinar-picker.scss", :desktop
 register_asset "stylesheets/desktop/webinar-banner.scss", :desktop
 register_asset "stylesheets/desktop/webinar-details.scss", :desktop
+
+register_svg_icon "video"
 
 after_initialize do
   [

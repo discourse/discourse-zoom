@@ -8,7 +8,7 @@ export default Component.extend({
 
   @discourseComputed("model.action")
   visible(action) {
-    return this.model.creatingTopic
+    return this.model.creatingTopic;
   },
 
   actions: {

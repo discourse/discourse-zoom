@@ -25,7 +25,9 @@ export default Component.extend({
   },
 
   webinarChanged() {
-    return !this.webinar || (this.webinar && this.webinar.id !== this.webinarId)
+    return (
+      !this.webinar || (this.webinar && this.webinar.id !== this.webinarId)
+    );
   },
 
   @discourseComputed("webinar.{starts_at,webinar.ends_at}")
@@ -34,7 +36,7 @@ export default Component.extend({
   },
 
   fetchDetails() {
-    if (!this.webinarId || this.webinarChanged()) return;
+    if (!this.webinarId || !this.webinarChanged()) return;
 
     this.set("loading", true);
     ajax(`/zoom/webinars/${this.webinarId}/preview`)
