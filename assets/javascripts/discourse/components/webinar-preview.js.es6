@@ -24,13 +24,17 @@ export default Component.extend({
     this.fetchDetails();
   },
 
+  webinarChanged() {
+    return !this.webinar || (this.webinar && this.webinar.id !== this.webinarId)
+  },
+
   @discourseComputed("webinar.{starts_at,webinar.ends_at}")
   schedule(webinar) {
     return formattedSchedule(webinar.starts_at, webinar.ends_at);
   },
 
   fetchDetails() {
-    if (!this.webinarId) return;
+    if (!this.webinarId || this.webinarChanged()) return;
 
     this.set("loading", true);
     ajax(`/zoom/webinars/${this.webinarId}/preview`)
@@ -43,7 +47,9 @@ export default Component.extend({
         this.updateDetails(this.webinar);
       })
       .catch(e => {
-        this.set("loading", false);
+        if (!this.isDestroyed) {
+          this.set("loading", false);
+        }
       });
   }
 });

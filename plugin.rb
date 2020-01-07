@@ -42,14 +42,7 @@ after_initialize do
     has_one :webinar
   end
 
-  require_dependency 'topic_view'
-  class ::TopicView
-    def webinar
-      topic.webinar
-    end
-  end
-
-  add_to_serializer(:topic_view, :webinar) { object.webinar }
+  add_to_serializer(:topic_view, :webinar) { object.topic.webinar }
   add_to_serializer(:current_user, :webinar_registrations) { object.webinar_users }
 
   add_permitted_post_create_param(:zoom_webinar_id)

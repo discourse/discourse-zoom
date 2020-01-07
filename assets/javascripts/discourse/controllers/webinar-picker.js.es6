@@ -14,16 +14,29 @@ export default Controller.extend(ModalFunctionality, {
   selectedWebinar: null,
 
   onShow() {
-    ajax("/zoom/webinars").then(results => {
-      if (results && results.webinars) {
-        this.set("allWebinars", results.webinars);
+    if (!this.webinar) {
+      if (this.model.get("webinar.zoom_id")) {
+        this.set("webinarId", this.model.get("webinar.zoom_id"))
+        this.set("webinarIdInput", this.model.get("webinar.zoom_id"))
       }
-    });
+
+      if (!this.webinarId) {
+        ajax("/zoom/webinars").then(results => {
+          if (results && results.webinars) {
+            this.set("allWebinars", results.webinars);
+          }
+        });
+      }
+    }
+  },
+
+  scrubWebinarId(webinarId) {
+    return webinarId.replace(/-|\s/g,"");
   },
 
   actions: {
     selectWebinar(webinarId) {
-      this.set("webinarId", webinarId);
+      this.set("webinarId", this.scrubWebinarId(webinarId));
     },
 
     clear() {
@@ -57,7 +70,7 @@ export default Controller.extend(ModalFunctionality, {
     },
 
     previewFromInput() {
-      this.set("webinarId", this.webinarIdInput);
+      this.set("webinarId", this.scrubWebinarId(this.webinarIdInput));
     },
 
     updateDetails(webinar) {

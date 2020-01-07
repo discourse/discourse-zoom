@@ -5,6 +5,7 @@ en:
   js:
     zoom:
       toggle_webinar_button: "New Webinar"
+      toggle_edit_webinar_button: "Edit Webinar"
       webinar_picker:
         webinar_id: "Webinar ID"
         title: "Webinar Details"
