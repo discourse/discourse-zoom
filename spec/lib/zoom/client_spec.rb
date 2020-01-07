@@ -52,8 +52,12 @@ RSpec.describe Zoom::Client do
   end
 
   def stub_get(endpoint, payload)
+    SiteSetting.zoom_api_key = "121212"
+    SiteSetting.zoom_api_secret = "very_secret"
+    token = described_class.new.jwt_token
+
     stub_request(:get, "#{described_class::API_URL}#{endpoint}")
-      .with(headers: { 'Authorization': "Bearer #{SiteSetting.zoom_jwt_token}" })
+      .with(headers: { 'Authorization': "Bearer #{token}" })
       .to_return(body: payload, status: 200, headers: {})
   end
 end

@@ -53,7 +53,7 @@ module Zoom
     def post(endpoint, body)
       Excon.post("#{API_URL}#{endpoint}",
         headers: {
-          "Authorization": "Bearer #{SiteSetting.zoom_jwt_token}",
+          "Authorization": "Bearer #{jwt_token}",
           "Content-Type": "application/json"
         },
         body: body.to_json
@@ -63,10 +63,19 @@ module Zoom
     def get(endpoint)
       result = Excon.get(
         "#{API_URL}#{endpoint}",
-        headers: { 'Authorization': "Bearer #{SiteSetting.zoom_jwt_token}" }
+        headers: { 'Authorization': "Bearer #{jwt_token}" }
       )
 
       JSON.parse(result.body, symbolize_names: true)
+    end
+
+    def jwt_token()
+      payload = {
+        iss: SiteSetting.zoom_api_key,
+        exp: 1.hour.from_now.to_i
+      }
+
+      JWT.encode(payload, SiteSetting.zoom_api_secret, "HS256", typ: "JWT")
     end
   end
 end

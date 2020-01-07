@@ -14,18 +14,20 @@ export default Controller.extend(ModalFunctionality, {
   selectedWebinar: null,
 
   onShow() {
-    ajax("zoom/webinars").then(results => {
-      this.set("allWebinars", results.webinars);
+    ajax("/zoom/webinars").then(results => {
+      if (results && results.webinars) {
+        this.set("allWebinars", results.webinars);
+      }
     });
   },
 
   actions: {
     selectWebinar(webinarId) {
-      this.set("webinarId", webinarId)
+      this.set("webinarId", webinarId);
     },
 
     clear() {
-      this.set("webinarId", null)
+      this.set("webinarId", null);
     },
 
     insert() {
@@ -50,7 +52,6 @@ export default Controller.extend(ModalFunctionality, {
         on_demand: this.get("webinar.on_demand"),
         join_url: this.get("webinar.join_url")
       });
-      console.log(this)
 
       this.send("closeModal");
     },
