@@ -13,6 +13,7 @@ module Zoom
     ]
 
     def webinars
+      filter_old_webhook_event
       event = webinar_params[:event]
       send(handler_for(event)) if HANDLED_EVENTS.include?(event)
 
@@ -88,6 +89,20 @@ module Zoom
 
         Webinar.find_by(zoom_id: zoom_id)
       end
+    end
+
+    def filter_old_webhook_event
+      payload_data = webinar_params[:payload].to_h
+      payload = MultiJson.dump(payload_data)
+
+      event = ::ZoomWebinarWebhookEvent.new(
+        event: webinar_params[:event],
+        payload: payload,
+        webinar_id: payload_data.dig(:object, :id)&.to_i,
+        zoom_timestamp: payload_data[:time_stamp]&.to_i
+      )
+      # WHY IS THIS NOT SAVING
+      event.save!
     end
 
     def webinar
