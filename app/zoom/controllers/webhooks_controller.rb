@@ -5,6 +5,7 @@ module Zoom
     before_action :ensure_webhook_authenticity
 
     HANDLED_EVENTS = [
+      "webinar.updated",
       "webinar.registration_approved",
       "webinar.registration_created",
       "webinar.registration_cancelled",
@@ -13,34 +14,43 @@ module Zoom
 
     def webinars
       event = webinar_params[:event]
-      send(event_to_method(event)) if HANDLED_EVENTS.include?(event)
+      send(handler_for(event)) if HANDLED_EVENTS.include?(event)
 
       render json: success_json
     end
 
     private
 
-    def event_to_method(event)
+    def handler_for(event)
       event.gsub(".", "_").to_sym
     end
+
+    def webinar_updated
+      return unless old_webinar
+
+      old_webinar.update_from_zoom(webinar_params.dig(:payload, :object))
+    end
+
+    # Registration hooks
 
     def webinar_registration_created
       return unless webinar
 
       registration_status = registrant[:status] == 'approved' ? :approved : :pending
-      WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :attendee, registration_status: registration_status)
+      webinar_user = WebinarUser.find_or_create_by(user: user, webinar: webinar)
+      webinar_user.update(type: :attendee, registration_status: registration_status)
     end
 
     def webinar_registration_approved
       return unless webinar
 
-      WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :attendee).update(registration_status: :approved)
+      WebinarUser.find_or_create_by(webinar: webinar, user: user).update(type: :attendee, registration_status: :approved)
     end
 
     def webinar_registration_cancelled
       return unless webinar
 
-      WebinarUser.find_or_create_by(webinar: webinar, user: user, type: :attendee).update(registration_status: :rejected)
+      WebinarUser.find_or_create_by(webinar: webinar, user: user).update(type: :attendee, registration_status: :rejected)
     end
 
     def webinar_registration_denied
@@ -69,6 +79,15 @@ module Zoom
         name: User.suggest_name(registrant[:email]),
         staged: true
       )
+    end
+
+    def old_webinar
+      @weninar ||= begin
+        zoom_id = webinar_params.fetch(:payload, {}).fetch(:old_object, {}).fetch(:id, {})
+        return nil unless zoom_id
+
+        Webinar.find_by(zoom_id: zoom_id)
+      end
     end
 
     def webinar
