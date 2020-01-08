@@ -36,8 +36,10 @@ module Zoom
       }
     end
 
-    def speakers(webinar_id)
+    def speakers(webinar_id, raw = false)
       data = get("webinars/#{webinar_id}/panelists")
+      return data if raw
+
       {
         speakers: data[:panelists].map do |s|
           {
