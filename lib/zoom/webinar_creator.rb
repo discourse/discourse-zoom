@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 module Zoom
   class WebinarCreator
     def initialize(topic_id, zoom_id, attrs)
       @topic_id = topic_id
       @zoom_id = zoom_id
       @attrs = attrs
+      @zoom_client = Zoom::Client.new
     end
 
     def run
@@ -36,7 +39,37 @@ module Zoom
         )
       end
       WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :host, registration_status: :approved)
+
+      register_users(webinar, :attendees)
+      register_users(webinar, :speakers)
       webinar
+    end
+
+    private
+
+    def register_users(webinar, type)
+      speaker_data = @zoom_client.send(type, webinar.zoom_id, true)
+
+      key = type == :attendees ? :registrants : :panelists
+      speaker_data[key].each do |speaker_attrs|
+        user = User.with_email(Email.downcase(speaker_attrs[:email])).first
+        next unless user
+
+        registration_status = WebinarUser.registration_status_translation(speaker_attrs[:status]) || :approved
+        registration_type = type.to_s.chomp("s").to_sym
+
+        existin_records = WebinarUser.where(webinar: webinar, user: user)
+        if existin_records.any?
+          existin_records.update_all(type: registration_type, registration_status: registration_status)
+        else
+          WebinarUser.create!(
+            webinar: webinar,
+            user: user,
+            type: registration_type,
+            registration_status: registration_status
+          )
+        end
+      end
     end
   end
 end

@@ -13,4 +13,10 @@ class WebinarUser < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :webinar
+
+  def self.registration_status_translation(zoom_status)
+    return :rejected if zoom_status == "denied"
+
+    zoom_status&.to_sym
+  end
 end
