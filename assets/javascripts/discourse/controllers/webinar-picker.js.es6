@@ -36,7 +36,7 @@ export default Controller.extend(ModalFunctionality, {
 
   actions: {
     selectWebinar(webinarId) {
-      this.set("webinarId", this.scrubWebinarId(webinarId));
+      this.set("webinarId", this.scrubWebinarId(webinarId.toString()));
     },
 
     clear() {

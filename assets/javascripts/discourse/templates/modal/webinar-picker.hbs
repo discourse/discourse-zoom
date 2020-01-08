@@ -16,7 +16,7 @@
         {{d-button action=(action "previewFromInput") icon="plus"}}
       <div class="webinar-picker-webinars">
         {{#each allWebinars as |webinar|}}
-          {{webinar-option-row model=webinar onSelect=(action "selectWebinar")}}
+          {{webinar-option-row model=webinar onSelect=(action "selectWebinar" webinar.id)}}
         {{/each}}
       </div>
     </form>

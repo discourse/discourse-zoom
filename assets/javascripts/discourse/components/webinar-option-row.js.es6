@@ -23,7 +23,7 @@ export default Component.extend({
 
   actions: {
     selectWebinar() {
-      this.onSelect(this.model.id);
+      this.onSelect();
     }
   }
 });
