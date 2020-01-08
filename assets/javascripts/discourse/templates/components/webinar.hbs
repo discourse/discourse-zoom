@@ -1,6 +1,20 @@
 {{#if webinar}}
-  <div class='webinar-title bold'>{{webinar.title}}</div>
-  <div class='occurrance-start-time'>{{schedule}}</div>
+  <div class="webinar-header">
+    <div class="webinar-title-section">
+      <div class='webinar-title bold'>{{webinar.title}}</div>
+      <div class='occurrance-start-time'>{{schedule}}</div>
+    </div>
+
+  {{#if showTimer}}
+    <div class="countdown">
+      <div class="pill">{{cSecs}} <span>Secs</span></div>
+      <div class="pill">{{cMins}} <span>Mins</span></div>
+      <div class="pill">{{cHours}} <span>Hours</span></div>
+      <div class="pill">{{cDays}} <span>Days</span></div>
+    </div>
+  {{/if}}
+  </div>
+
   {{#if webinar.host}}
     <div class='host'>Hosted by</div>
     <div class='host-container'>
@@ -32,7 +46,6 @@
       {{d-button action=(action "register") class="webinar-register-button btn-primary" label="zoom.register" disabled=loading}}
     {{/if}}
   {{/if}}
-
 {{else}}
   {{conditional-loading-spinner condition=loading}}
 {{/if}}

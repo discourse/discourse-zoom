@@ -38,7 +38,6 @@ module Zoom
 
     def speakers(webinar_id)
       data = get("webinars/#{webinar_id}/panelists")
-
       {
         speakers: data[:panelists].map do |s|
           {

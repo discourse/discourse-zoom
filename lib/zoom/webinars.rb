@@ -40,7 +40,11 @@ module Zoom
       speakers_data = zoom_client.speakers(webinar_id)
       speaker_emails = speakers_data[:speakers].map { |s| s[:email] }.join(',')
       speakers = User.with_email(speaker_emails)
-      return speakers_data.except(:email) if speakers.empty?
+
+      if speakers.empty?
+        speakers = speakers_data[:speakers].map { |s| { name: s[:name], avatar_url: s[:avatar_url] } }
+        return speakers
+      end
 
       speakers_payload(speakers)
     end
