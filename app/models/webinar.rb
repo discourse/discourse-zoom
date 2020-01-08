@@ -13,7 +13,8 @@ class Webinar < ActiveRecord::Base
   end
 
   def attendees
-    users.joins(:webinar_users).where("webinar_users.type = #{WebinarUser.types[:attendee]}").uniq
+    users.joins(:webinar_users)
+      .where("webinar_users.type = #{WebinarUser.types[:attendee]} AND webinar_users.registration_status = #{WebinarUser.registration_statuses[:approved]}").uniq
   end
 
   def speakers

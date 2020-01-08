@@ -52,6 +52,22 @@ module Zoom
       }
     end
 
+    def attendees(webinar_id, raw = false)
+      data = get("webinars/#{webinar_id}/registrants")
+      return data if raw
+
+      {
+        attendees: data[:registrants].map do |s|
+          {
+            name: s[:name],
+            email: s[:email],
+            avatar_url: User.default_template(s[:name]).gsub('{size}', '25')
+          }
+        end,
+        attendees_count: data[:total_records]
+      }
+    end
+
     def post(endpoint, body)
       Excon.post("#{API_URL}#{endpoint}",
         headers: {

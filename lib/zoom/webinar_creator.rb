@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Zoom
   class WebinarCreator
     def initialize(topic_id, zoom_id, attrs)
@@ -38,29 +40,36 @@ module Zoom
       end
       WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :host, registration_status: :approved)
 
-      register_attendees(webinar.zoom_id)
-      register_speakers(webinar.zoom_id)
+      register_users(webinar, :attendees)
+      register_users(webinar, :speakers)
       webinar
     end
 
     private
 
-    def register_attendees(webinar_id)
-    end
+    def register_users(webinar, type)
+      speaker_data = @zoom_client.send(type, webinar.zoom_id, true)
 
-    def register_speakers(webinar_id)
-      speaker_data = @zoom_client.speakers(webinar_id, true)
-      speaker_data[:panelists].each do |speaker_attrs|
+      key = type == :attendees ? :registrants : :panelists
+      speaker_data[key].each do |speaker_attrs|
         user = User.with_email(Email.downcase(speaker_attrs[:email])).first
-        if user
-          WebinarUser.where(webinar_id: webinar_id, user: user).destroy_all
-          WebinarUser.create(webinar_id: webinar_id,
-                             user: user,
-                             type: :speaker,
-                             registration_status: :approved)
+        next unless user
+
+        registration_status = WebinarUser.registration_status_translation(speaker_attrs[:status]) || :approved
+        registration_type = type.to_s.chomp("s").to_sym
+
+        existin_records = WebinarUser.where(webinar: webinar, user: user)
+        if existin_records.any?
+          existin_records.update_all(type: registration_type, registration_status: registration_status)
+        else
+          WebinarUser.create!(
+            webinar: webinar,
+            user: user,
+            type: registration_type,
+            registration_status: registration_status
+          )
         end
       end
-
     end
   end
 end
