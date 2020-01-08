@@ -12,7 +12,7 @@ module Zoom
     def show
       webinar_id = Webinar.sanitize_zoom_id(params[:id])
       webinar = Webinar.find_by(zoom_id: webinar_id)
-      return render Discourse::NotFound unless webinar
+      raise Discourse::NotFound.new unless webinar
 
       render_serialized(
         webinar,
@@ -21,6 +21,26 @@ module Zoom
         root: :webinar,
         meta: { attendees: 'user', host: 'user', speakers: 'user' }
       )
+    end
+
+    def destroy
+      webinar_id = Webinar.sanitize_zoom_id(params[:id])
+      webinar = Webinar.find_by(zoom_id: webinar_id)
+      return render Discourse::NotFound.new unless webinar
+
+      webinar.webinar_users.destroy_all
+      webinar.destroy
+      render json: success_json
+    end
+
+    def add_to_topic
+      topic = Topic.find(params[:topic_id])
+      raise Discourse::NotFound.new unless topic
+
+      webinar = WebinarCreator.new(topic.id, params[:webinar][:id], params[:webinar]).run
+      raise Discourse::InvalidParameters.new unless webinar
+
+      render json: { zoom_id: webinar.zoom_id }
     end
 
     def preview
@@ -33,7 +53,7 @@ module Zoom
       guardian.ensure_can_edit!(user)
 
       webinar = Webinar.find_by(zoom_id: params[:webinar_id])
-      raise Discourse::NotFound.new unless webinar
+      raise Discourse::NotFound.new.new unless webinar
 
       split_name = user.name.split(' ')
       if (split_name.count > 1)

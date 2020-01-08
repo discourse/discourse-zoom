@@ -1,0 +1,7 @@
+{{#if webinar}}
+  {{d-button action=(action "removeWebinar") class="remove-webinar btn-danger" label="zoom.remove_webinar" disabled=loading}}
+{{else}}
+  {{d-button action=(action "addWebinar") class="add-webinar btn-primary" label="zoom.add_webinar" disabled=loading}}
+{{/if}}
+
+

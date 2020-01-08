@@ -9,6 +9,7 @@ module Zoom
       start_datetime = DateTime.parse(data[:start_time])
 
       {
+        id: webinar_id,
         title: data[:topic],
         starts_at: start_datetime,
         duration: data[:duration],

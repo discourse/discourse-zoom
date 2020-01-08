@@ -1,0 +1,19 @@
+.composer-webinar {
+  width: calc(#{$topic-body-width} + (#{$topic-body-width-padding} * 3));
+  display: flex;
+  align-items: baseline;
+
+  .webinar-label {
+    color: $primary-medium;
+  }
+
+  .webinar-title {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-left: 10px;
+  }
+  .remove-webinar {
+    order: 2;
+    margin-left: auto;
+  }
+}

@@ -1,6 +1,6 @@
 {{#d-modal-body}}
   {{#if webinarId}}
-    {{webinar-preview webinarId=webinarId waiting=waiting updateDetails=(action "updateDetails")}}
+    {{webinar-preview webinarId=webinarId webinar=webinar waiting=waiting updateDetails=(action "updateDetails")}}
   {{else}}
     <form class="form-horizontal webinar-picker">
 
