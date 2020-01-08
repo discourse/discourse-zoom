@@ -40,7 +40,7 @@ function initializeAssociateWebinarButton(api) {
     if (composer && composer.creatingTopic) {
       return {
         id: "associate_webinar_button",
-        icon: "fas fa-video",
+        icon: "video",
         action: "showAssociateWebinarModal",
         label: "zoom.webinar_picker.popup"
       };
