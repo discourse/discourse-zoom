@@ -4,7 +4,11 @@ en:
 
   js:
     zoom:
-      remove_webinar: "Remove"
+      remove: "Remove"
+      remove_webinar: "Remove Webinar"
+      add_webinar: "Add Webinar"
+      confirm_remove: "Are you sure you want to remove this webinar?"
+
       toggle_edit_webinar_button: "Edit Webinar"
       webinar_picker:
         webinar_id: "Webinar ID"

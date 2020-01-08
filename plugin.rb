@@ -20,9 +20,10 @@ after_initialize do
     "../app/models/webinar_user",
     "../lib/zoom/webinars",
     "../lib/zoom/client",
+    "../lib/zoom/webinar_creator",
     "../app/zoom/controllers/webinars_controller",
     "../app/zoom/controllers/webhooks_controller",
-    "../app/serializers/webinar_serializer"
+    "../app/serializers/webinar_serializer",
   ].each { |path| require File.expand_path(path, __FILE__) }
 
   module ::Zoom
@@ -61,45 +62,18 @@ after_initialize do
     if result.success?
       topic_id = result.post.topic_id
       attributes = manager.args[:zoom_webinar_attributes]
-      webinar = Webinar.create!(
-        topic_id: topic_id,
-        zoom_id: Webinar.sanitize_zoom_id(zoom_id),
-        title: attributes[:title],
-        starts_at: attributes[:starts_at],
-        ends_at: attributes[:ends_at],
-        duration: attributes[:duration],
-        zoom_host_id: attributes[:zoom_host_id],
-        password: attributes[:password],
-        host_video: attributes[:host_video],
-        panelists_video: attributes[:panelists_video],
-        approval_type: attributes[:approval_type].to_i,
-        enforce_login: attributes[:enforce_login],
-        registrants_restrict_number: attributes[:registrants_restrict_number],
-        meeting_authentication: attributes[:meeting_authentication],
-        on_demand: attributes[:on_demand],
-        join_url: attributes[:join_url],
-      )
-      host_data = Zoom::Client.new.host(attributes[:zoom_host_id])
-      user = User.find_by_email(host_data[:email])
-      unless user
-        user = User.create!(
-          email: host_data[:email],
-          username: UserNameSuggester.suggest(host_data[:email]),
-          name: User.suggest_name(host_data[:email]),
-          staged: true
-        )
-      end
-      WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :host, registration_status: :approved)
+      Zoom::WebinarCreator.new(topic_id, zoom_id, attributes).run
     end
 
     result
   end
 
   Zoom::Engine.routes.draw do
-    resources :webinars, only: [:show, :index] do
+    resources :webinars, only: [:show, :index, :destroy] do
       put 'register/:username' => 'webinars#register'
       get 'preview' => 'webinars#preview'
     end
+    put 't/:topic_id/webinars/:webinar_id' => 'webinars#add_to_topic'
 
     post '/webhooks/webinars' => 'webhooks#webinars'
   end

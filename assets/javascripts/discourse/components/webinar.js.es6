@@ -79,7 +79,6 @@ export default Component.extend({
           loading: false,
           webinar: results
         });
-        this.updateDetails(this.webinar);
       })
       .catch(e => {
         this.set("loading", false);
