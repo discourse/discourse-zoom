@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Webinar < ActiveRecord::Base
 
   enum approval_type: { automatic: 0, manual: 1, no_registration: 2 }
@@ -35,21 +36,24 @@ class Webinar < ActiveRecord::Base
     update(convert_attributes_from_zoom(zoom_attributes))
   end
 
-  def convert_attributes_from_zoom(zoom_attributes)
-    zoom_attributes = (zoom_attributes[:settings] || {}).merge(zoom_attributes.except(:settings)).deep_symbolize_keys
+  private
 
+  def convert_attributes_from_zoom(zoom_attributes)
+    zoom_attributes = (zoom_attributes[:settings] || {}).merge(zoom_attributes.except(:settings)).to_h.deep_symbolize_keys
+
+    zoom_attributes[:approval_type] = zoom_attributes[:approval_type].to_i if zoom_attributes[:approval_type]
     if zoom_attributes[:start_time] || zoom_attributes[:duration]
-      puts "time changed"
       zoom_attributes[:start_time] = zoom_attributes[:start_time] || starts_at.to_s
       zoom_attributes[:duration] = zoom_attributes[:duration] || duration
       zoom_attributes[:ends_at] = (DateTime.parse(zoom_attributes[:start_time]) + zoom_attributes[:duration].to_i.minutes).to_s
     end
 
-    new_attributes = {}
-    zoom_attributes.each do |key, val|
+    converted_attributes = {}
+
+    zoom_attributes.each do |key, value|
       converted_key = ZOOM_ATTRIBUTE_MAP[key] || key
-      new_attributes[converted_key] = val if has_attribute? converted_key
+      converted_attributes[converted_key] = value if has_attribute? converted_key
     end
-    new_attributes
+    converted_attributes
   end
 end

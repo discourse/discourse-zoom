@@ -32,8 +32,6 @@ module Zoom
       old_webinar.update_from_zoom(webinar_params.dig(:payload, :object))
     end
 
-    # Registration hooks
-
     def webinar_registration_created
       raise Discourse::NotFound unless webinar
 

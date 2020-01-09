@@ -107,16 +107,22 @@ end
 
 def webinar_updated(args = {})
   old_object = { "id": args[:zoom_id] }
-  object = { "id": args[:zoom_id] }
+  object = { "id": args[:zoom_id], settings: {}}
 
-  if args[:start_time]
-    old_object.merge!({ "start_time": args[:start_time] })
+  unless args[:start_time].nil?
     object.merge!({ "start_time": args[:start_time] })
   end
 
-  if args[:duration]
-    old_object.merge!({ "duration": args[:duration] })
+  unless args[:duration].nil?
     object.merge!({ "duration": args[:duration] })
+  end
+
+  unless args[:approval_type].nil?
+    object[:settings].merge!({ "approval_type": args[:approval_type] })
+  end
+
+  unless args[:enforce_login].nil?
+    object[:settings].merge!({ "enforce_login": args[:enforce_login] })
   end
 
   {
@@ -208,12 +214,51 @@ describe Zoom::WebhooksController do
     describe "#webinar_updated" do
       fab!(:webinar) { Fabricate(:webinar, topic: topic, zoom_id: 123, duration: 60) }
 
-      it "updates starts_at properly" do
+      it "updates starts_at and ends_at when start_time changes" do
+        start_time = "2020-02-29T18:00:00Z"
         post "/zoom/webhooks/webinars.json",
-          params: { webhook: webinar_updated(zoom_id: 123, duration: 120) },
+          params: { webhook: webinar_updated(zoom_id: 123, start_time: start_time) },
           headers: { "Authorization": verification_token }
         expect(response.status).to eq(200)
-        expect(webinar.reload.duration).to eq(120)
+        webinar.reload
+        expect(webinar.starts_at).to eq(start_time)
+        expect(webinar.ends_at).to eq(DateTime.parse(start_time) + 60.minutes)
+      end
+
+      it "updates ends_at when duration changes" do
+        duration = 120
+        post "/zoom/webhooks/webinars.json",
+          params: { webhook: webinar_updated(zoom_id: 123, duration: duration) },
+          headers: { "Authorization": verification_token }
+        expect(response.status).to eq(200)
+        webinar.reload
+        expect(webinar.duration).to eq(duration)
+        expect(webinar.ends_at).to eq(webinar.starts_at + duration.minutes)
+      end
+
+      it "updates starts_at and ends_at when start_time and duration change" do
+        start_time = "2020-03-13T18:00:00Z"
+        duration = 180
+        post "/zoom/webhooks/webinars.json",
+          params: { webhook: webinar_updated(zoom_id: 123, start_time: start_time, duration: duration) },
+          headers: { "Authorization": verification_token }
+        expect(response.status).to eq(200)
+        webinar.reload
+        expect(webinar.starts_at).to eq(start_time)
+        expect(webinar.duration).to eq(duration)
+        expect(webinar.ends_at).to eq(webinar.starts_at + duration.minutes)
+      end
+
+      it "updates settings" do
+        approval_type = 0
+        enforce_login = true
+        post "/zoom/webhooks/webinars.json",
+          params: { webhook: webinar_updated(zoom_id: 123, approval_type: approval_type, enforce_login: enforce_login) },
+          headers: { "Authorization": verification_token }
+        expect(response.status).to eq(200)
+        webinar.reload
+        expect(webinar.approval_type).to eq(Webinar.approval_types.key(approval_type))
+        expect(webinar.enforce_login).to eq(enforce_login)
       end
 
     end
