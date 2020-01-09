@@ -12,8 +12,6 @@ class Webinar < ActiveRecord::Base
     id: :zoom_id,
     topic: :title,
     start_time: :starts_at,
-    duration: :duration,
-
   }.freeze
 
   def self.sanitize_zoom_id(dirty_id)
@@ -34,19 +32,24 @@ class Webinar < ActiveRecord::Base
   end
 
   def update_from_zoom(zoom_attributes)
-    new_attributes = (zoom_attributes[:settings] || {}).merge(zoom_attributes.except(:settings)).deep_symbolize_keys
+    update(convert_attributes_from_zoom(zoom_attributes))
+  end
 
-    if new_attributes[:start_time] || new_attributes[:duration]
+  def convert_attributes_from_zoom(zoom_attributes)
+    zoom_attributes = (zoom_attributes[:settings] || {}).merge(zoom_attributes.except(:settings)).deep_symbolize_keys
+
+    if zoom_attributes[:start_time] || zoom_attributes[:duration]
       puts "time changed"
-      new_attributes[:start_time] = new_attributes[:start_time] || starts_at.to_s
-      new_attributes[:duration] = new_attributes[:duration] || duration
-      new_attributes[:ends_at] = (DateTime.parse(new_attributes[:start_time]) + new_attributes[:duration].to_i.minutes).to_s
+      zoom_attributes[:start_time] = zoom_attributes[:start_time] || starts_at.to_s
+      zoom_attributes[:duration] = zoom_attributes[:duration] || duration
+      zoom_attributes[:ends_at] = (DateTime.parse(zoom_attributes[:start_time]) + zoom_attributes[:duration].to_i.minutes).to_s
     end
 
-    puts new_attributes.inspect
-
-    # update(
-
-    # )
+    new_attributes = {}
+    zoom_attributes.each do |key, val|
+      converted_key = ZOOM_ATTRIBUTE_MAP[key] || key
+      new_attributes[converted_key] = val if has_attribute? converted_key
+    end
+    new_attributes
   end
 end

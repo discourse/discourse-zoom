@@ -2,6 +2,14 @@
 
 require "rails_helper"
 
+Fabricator(:webinar) do
+  title "Test webinar"
+  starts_at 6.hours.from_now
+  ends_at 7.hours.from_now
+  duration 60
+  zoom_host_id 'a1a1k1k30291'
+end
+
 def webinar_registration_created(args = {})
   {
    "event": "webinar.registration_created",
@@ -97,6 +105,33 @@ def webinar_registration_cancelled(args = {})
   }
 end
 
+def webinar_updated(args = {})
+  old_object = { "id": args[:zoom_id] }
+  object = { "id": args[:zoom_id] }
+
+  if args[:start_time]
+    old_object.merge!({ "start_time": args[:start_time] })
+    object.merge!({ "start_time": args[:start_time] })
+  end
+
+  if args[:duration]
+    old_object.merge!({ "duration": args[:duration] })
+    object.merge!({ "duration": args[:duration] })
+  end
+
+  {
+    "event": "webinar.updated",
+    "payload": {
+      "account_id": "uS-ca7K2S4iRHBFqVydIfw",
+      "operator": "mark.vanlandingham@discourse.org",
+      "operator_id": "IoDo0vbMSeyrPME4fgbwxA",
+      "object": object,
+      "old_object": old_object
+      },
+      "time_stamp": args[:timestamp] || 1578575214322
+    }
+end
+
 describe Zoom::WebhooksController do
   let!(:zoom_id) { '1234' }
 
@@ -131,7 +166,9 @@ describe Zoom::WebhooksController do
 
         webinar = Webinar.create(topic: topic, zoom_id: zoom_id)
 
-        post "/zoom/webhooks/webinars.json", params: { webhook: webinar_registration_created(zoom_id: zoom_id, email: email) }, headers: { "Authorization": verification_token }
+        post "/zoom/webhooks/webinars.json",
+          params: { webhook: webinar_registration_created(zoom_id: zoom_id, email: email) },
+          headers: { "Authorization": verification_token }
         expect(response.status).to eq(200)
         expect(webinar.users.first.email).to eq(email)
         expect(User.find_by_email(email).staged).to be_truthy
@@ -141,7 +178,9 @@ describe Zoom::WebhooksController do
         existing_user
         webinar = Webinar.create(topic: topic, zoom_id: zoom_id)
 
-        post "/zoom/webhooks/webinars.json", params: { webhook: webinar_registration_created(zoom_id: zoom_id, email: existing_user.email) }, headers: { "Authorization": verification_token }
+        post "/zoom/webhooks/webinars.json",
+          params: { webhook: webinar_registration_created(zoom_id: zoom_id, email: existing_user.email) },
+          headers: { "Authorization": verification_token }
         expect(response.status).to eq(200)
         expect(webinar.users.first).to eq(existing_user)
       end
@@ -154,13 +193,29 @@ describe Zoom::WebhooksController do
         webinar = Webinar.create(topic: topic, zoom_id: zoom_id)
         webinar.webinar_users.create(user: user, type: 'attendee')
         expect(webinar.users.count).to eq(1)
-        post "/zoom/webhooks/webinars.json", params: { webhook: webinar_registration_cancelled(zoom_id: zoom_id, email: user.email) }, headers: { "Authorization": verification_token }
+        post "/zoom/webhooks/webinars.json",
+          params: { webhook: webinar_registration_cancelled(zoom_id: zoom_id, email: user.email) },
+          headers: { "Authorization": verification_token }
         expect(response.status).to eq(200)
 
         webinar_user = webinar.webinar_users.reload.first
         expect(webinar_user.user).to eq(user)
         expect(webinar_user.registration_status).to eq("rejected")
       end
+    end
+
+
+    describe "#webinar_updated" do
+      fab!(:webinar) { Fabricate(:webinar, topic: topic, zoom_id: 123, duration: 60) }
+
+      it "updates starts_at properly" do
+        post "/zoom/webhooks/webinars.json",
+          params: { webhook: webinar_updated(zoom_id: 123, duration: 120) },
+          headers: { "Authorization": verification_token }
+        expect(response.status).to eq(200)
+        expect(webinar.reload.duration).to eq(120)
+      end
+
     end
   end
 

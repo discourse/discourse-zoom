@@ -2,7 +2,9 @@
 module Zoom
   class WebhooksController < ApplicationController
     skip_before_action :verify_authenticity_token
-    before_action :ensure_webhook_authenticity
+    before_action :ensure_webhook_authenticity,
+                  :filter_unhandled,
+                  :filter_expired_event
 
     HANDLED_EVENTS = [
       "webinar.updated",
@@ -13,8 +15,7 @@ module Zoom
     ]
 
     def webinars
-      event = webinar_params[:event]
-      send(handler_for(event)) if HANDLED_EVENTS.include?(event)
+      send(handler_for(webinar_params[:event]))
 
       render json: success_json
     end
@@ -27,7 +28,6 @@ module Zoom
 
     def webinar_updated
       raise Discourse::NotFound unless old_webinar
-      filter_old_webhook_event
 
       old_webinar.update_from_zoom(webinar_params.dig(:payload, :object))
     end
@@ -82,6 +82,32 @@ module Zoom
       )
     end
 
+    def filter_unhandled
+      raise Discourse::NotFound unless HANDLED_EVENTS.include?(webinar_params[:event])
+    end
+
+    def filter_expired_event
+      payload_data = webinar_params[:payload].to_h
+      payload = MultiJson.dump(payload_data)
+
+      new_event = ::ZoomWebinarWebhookEvent.new(
+        event: webinar_params[:event],
+        payload: payload,
+        webinar_id: payload_data.dig(:object, :id)&.to_i,
+        zoom_timestamp: payload_data[:time_stamp]&.to_i
+      )
+
+      if new_event.zoom_timestamp
+        later_events = ::ZoomWebinarWebhookEvent
+          .where(%Q(event = '#{new_event.event}'
+                    AND webinar_id = #{new_event.webinar_id}
+                    AND zoom_timestamp >= #{new_event.zoom_timestamp})
+                )
+        raise Discourse::NotFound if later_events.any?
+      end
+      new_event.save!
+    end
+
     def old_webinar
       @weninar ||= begin
         zoom_id = webinar_params.fetch(:payload, {}).fetch(:old_object, {}).fetch(:id, {})
@@ -91,17 +117,6 @@ module Zoom
       end
     end
 
-    def filter_old_webhook_event
-      payload_data = webinar_params[:payload].to_h
-      payload = MultiJson.dump(payload_data)
-
-      ::ZoomWebinarWebhookEvent.create!(
-        event: webinar_params[:event],
-        payload: payload,
-        webinar_id: payload_data.dig(:object, :id)&.to_i,
-        zoom_timestamp: payload_data[:time_stamp]&.to_i
-      )
-    end
 
     def webinar
       @weninar ||= begin

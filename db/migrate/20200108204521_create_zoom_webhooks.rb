@@ -4,7 +4,7 @@ class CreateZoomWebhooks < ActiveRecord::Migration[6.0]
       t.string :event
       t.text :payload
       t.integer :webinar_id
-      t.integer :zoom_timestamp
+      t.bigint :zoom_timestamp
       t.timestamps
     end
   end
