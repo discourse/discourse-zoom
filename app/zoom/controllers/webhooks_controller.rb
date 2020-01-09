@@ -13,7 +13,6 @@ module Zoom
     ]
 
     def webinars
-      filter_old_webhook_event
       event = webinar_params[:event]
       send(handler_for(event)) if HANDLED_EVENTS.include?(event)
 
@@ -27,7 +26,8 @@ module Zoom
     end
 
     def webinar_updated
-      return unless old_webinar
+      raise Discourse::NotFound unless old_webinar
+      filter_old_webhook_event
 
       old_webinar.update_from_zoom(webinar_params.dig(:payload, :object))
     end
@@ -35,7 +35,7 @@ module Zoom
     # Registration hooks
 
     def webinar_registration_created
-      return unless webinar
+      raise Discourse::NotFound unless webinar
 
       registration_status = registrant[:status] == 'approved' ? :approved : :pending
       webinar_user = WebinarUser.find_or_create_by(user: user, webinar: webinar)
@@ -43,13 +43,13 @@ module Zoom
     end
 
     def webinar_registration_approved
-      return unless webinar
+      raise Discourse::NotFound unless webinar
 
       WebinarUser.find_or_create_by(webinar: webinar, user: user).update(type: :attendee, registration_status: :approved)
     end
 
     def webinar_registration_cancelled
-      return unless webinar
+      raise Discourse::NotFound unless webinar
 
       WebinarUser.find_or_create_by(webinar: webinar, user: user).update(type: :attendee, registration_status: :rejected)
     end
@@ -95,14 +95,12 @@ module Zoom
       payload_data = webinar_params[:payload].to_h
       payload = MultiJson.dump(payload_data)
 
-      event = ::ZoomWebinarWebhookEvent.new(
+      ::ZoomWebinarWebhookEvent.create!(
         event: webinar_params[:event],
         payload: payload,
         webinar_id: payload_data.dig(:object, :id)&.to_i,
         zoom_timestamp: payload_data[:time_stamp]&.to_i
       )
-      # WHY IS THIS NOT SAVING
-      event.save!
     end
 
     def webinar
