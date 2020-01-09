@@ -107,22 +107,19 @@ module Zoom
     end
 
     def old_webinar
-      @weninar ||= begin
-        zoom_id = webinar_params.fetch(:payload, {}).fetch(:old_object, {}).fetch(:id, {})
-        return nil unless zoom_id
-
-        Webinar.find_by(zoom_id: zoom_id)
-      end
+      @old_weninar ||= find_webinar_from(:old_object)
     end
 
 
     def webinar
-      @weninar ||= begin
-        zoom_id = webinar_params.fetch(:payload, {}).fetch(:object, {}).fetch(:id, {})
+      @weninar ||= find_webinar_from(:object)
+    end
+
+    def find_webinar_from(key)
+        zoom_id = webinar_params.fetch(:payload, {}).fetch(key, {}).fetch(:id, {})
         return nil unless zoom_id
 
         Webinar.find_by(zoom_id: zoom_id)
-      end
     end
 
     def registrant
