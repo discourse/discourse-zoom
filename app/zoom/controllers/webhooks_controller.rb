@@ -2,9 +2,12 @@
 module Zoom
   class WebhooksController < ApplicationController
     skip_before_action :verify_authenticity_token
-    before_action :ensure_webhook_authenticity
+    before_action :ensure_webhook_authenticity,
+                  :filter_unhandled,
+                  :filter_expired_event
 
     HANDLED_EVENTS = [
+      "webinar.updated",
       "webinar.registration_approved",
       "webinar.registration_created",
       "webinar.registration_cancelled",
@@ -12,35 +15,41 @@ module Zoom
     ]
 
     def webinars
-      event = webinar_params[:event]
-      send(event_to_method(event)) if HANDLED_EVENTS.include?(event)
+      send(handler_for(webinar_params[:event]))
 
       render json: success_json
     end
 
     private
 
-    def event_to_method(event)
+    def handler_for(event)
       event.gsub(".", "_").to_sym
     end
 
+    def webinar_updated
+      raise Discourse::NotFound unless old_webinar
+
+      old_webinar.update_from_zoom(webinar_params.dig(:payload, :object))
+    end
+
     def webinar_registration_created
-      return unless webinar
+      raise Discourse::NotFound unless webinar
 
       registration_status = registrant[:status] == 'approved' ? :approved : :pending
-      WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :attendee, registration_status: registration_status)
+      webinar_user = WebinarUser.find_or_create_by(user: user, webinar: webinar)
+      webinar_user.update(type: :attendee, registration_status: registration_status)
     end
 
     def webinar_registration_approved
-      return unless webinar
+      raise Discourse::NotFound unless webinar
 
-      WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :attendee).update(registration_status: :approved)
+      WebinarUser.find_or_create_by(webinar: webinar, user: user).update(type: :attendee, registration_status: :approved)
     end
 
     def webinar_registration_cancelled
-      return unless webinar
+      raise Discourse::NotFound unless webinar
 
-      WebinarUser.find_or_create_by(webinar: webinar, user: user, type: :attendee).update(registration_status: :rejected)
+      WebinarUser.find_or_create_by(webinar: webinar, user: user).update(type: :attendee, registration_status: :rejected)
     end
 
     def webinar_registration_denied
@@ -71,13 +80,46 @@ module Zoom
       )
     end
 
+    def filter_unhandled
+      raise Discourse::NotFound unless HANDLED_EVENTS.include?(webinar_params[:event])
+    end
+
+    def filter_expired_event
+      payload_data = webinar_params[:payload].to_h
+      payload = MultiJson.dump(payload_data)
+
+      new_event = ::ZoomWebinarWebhookEvent.new(
+        event: webinar_params[:event],
+        payload: payload,
+        webinar_id: payload_data.dig(:object, :id)&.to_i,
+        zoom_timestamp: payload_data[:time_stamp]&.to_i
+      )
+
+      if new_event.zoom_timestamp
+        later_events = ::ZoomWebinarWebhookEvent
+          .where(%Q(event = '#{new_event.event}'
+                    AND webinar_id = #{new_event.webinar_id}
+                    AND zoom_timestamp >= #{new_event.zoom_timestamp})
+                )
+        raise Discourse::NotFound if later_events.any?
+      end
+      new_event.save!
+    end
+
+    def old_webinar
+      @old_weninar ||= find_webinar_from(:old_object)
+    end
+
+
     def webinar
-      @weninar ||= begin
-        zoom_id = webinar_params.fetch(:payload, {}).fetch(:object, {}).fetch(:id, {})
+      @weninar ||= find_webinar_from(:object)
+    end
+
+    def find_webinar_from(key)
+        zoom_id = webinar_params.fetch(:payload, {}).fetch(key, {}).fetch(:id, {})
         return nil unless zoom_id
 
         Webinar.find_by(zoom_id: zoom_id)
-      end
     end
 
     def registrant

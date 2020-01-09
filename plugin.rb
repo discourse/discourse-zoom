@@ -19,6 +19,7 @@ after_initialize do
   [
     "../app/models/webinar",
     "../app/models/webinar_user",
+    "../app/models/zoom_webinar_webhook_event",
     "../lib/zoom/webinars",
     "../lib/zoom/client",
     "../lib/zoom/webinar_creator",
