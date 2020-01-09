@@ -20,20 +20,20 @@
   margin-bottom: 10px;
 }
 
-.speakers {
+.panelists {
   margin-top: 20px;
   display: flex;
   align-items: center;
 }
 
-.speaker-avatars {
+.panelist-avatars {
   margin-left: 10px;
 }
 
 .occurrance-start-time,
 .host-name,
 .host,
-.speakers {
+.panelists {
   font-size: $base-font-size-larger;
 }
 

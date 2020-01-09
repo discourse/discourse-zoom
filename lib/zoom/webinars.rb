@@ -21,7 +21,7 @@ module Zoom
 
     def find(webinar_id)
       webinar_data = zoom_client.webinar(webinar_id)
-      webinar_data[:speakers] = speakers(webinar_id)
+      webinar_data[:panelists] = panelists(webinar_id)
       webinar_data[:host] = host(webinar_data[:zoom_host_id])
       return webinar_data
     end
@@ -36,28 +36,28 @@ module Zoom
       host_payload(user)
     end
 
-    def speakers(webinar_id)
-      speakers_data = zoom_client.speakers(webinar_id)
-      speaker_emails = speakers_data[:speakers].map { |s| s[:email] }.join(',')
-      speakers = User.with_email(speaker_emails)
+    def panelists(webinar_id)
+      panelists_data = zoom_client.panelists(webinar_id)
+      panelist_emails = panelists_data[:panelists].map { |s| s[:email] }.join(',')
+      panelists = User.with_email(panelist_emails)
 
-      if speakers.empty?
-        speakers = speakers_data[:speakers].map { |s| { name: s[:name], avatar_url: s[:avatar_url] } }
-        return speakers
+      if panelists.empty?
+        panelists = panelists_data[:panelists].map { |s| { name: s[:name], avatar_url: s[:avatar_url] } }
+        return panelists
       end
 
-      speakers_payload(speakers)
+      panelists_payload(panelists)
     end
 
-    def speakers_payload(speakers)
+    def panelists_payload(panelists)
       {
-        speakers: speakers.map do |s|
+        panelists: panelists.map do |s|
           {
             name: s.name || s.username,
             avatar_url: s.avatar_template_url.gsub('{size}', '25')
           }
         end,
-        speakers_count: speakers.size
+        panelists_count: panelists.size
       }
     end
 

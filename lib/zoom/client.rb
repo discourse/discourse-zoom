@@ -36,19 +36,19 @@ module Zoom
       }
     end
 
-    def speakers(webinar_id, raw = false)
+    def panelists(webinar_id, raw = false)
       data = get("webinars/#{webinar_id}/panelists")
       return data if raw
 
       {
-        speakers: data[:panelists].map do |s|
+        panelists: data[:panelists].map do |s|
           {
             name: s[:name],
             email: s[:email],
             avatar_url: User.default_template(s[:name]).gsub('{size}', '25')
           }
         end,
-        speakers_count: data[:total_records]
+        panelists_count: data[:total_records]
       }
     end
 

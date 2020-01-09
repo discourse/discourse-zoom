@@ -19,7 +19,7 @@ module Zoom
         WebinarSerializer,
         rest_serializer: true,
         root: :webinar,
-        meta: { attendees: 'user', host: 'user', speakers: 'user' }
+        meta: { attendees: 'user', host: 'user', panelists: 'user' }
       )
     end
 

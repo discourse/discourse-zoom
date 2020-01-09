@@ -34,15 +34,15 @@ RSpec.describe Zoom::Client do
     expect(host_data[:email]).to eq expected_data[:email]
   end
 
-  it 'reads the speakers data from the Zoom API' do
-    payload = read_payload('speakers')
+  it 'reads the panelists data from the Zoom API' do
+    payload = read_payload('panelists')
     stub_get("webinars/#{webinar_id}/panelists", payload)
     expected_data = JSON.parse(payload, symbolize_names: true)[:panelists].first
 
-    speaker_data = subject.speakers(webinar_id)[:speakers].first
+    panelist_data = subject.panelists(webinar_id)[:panelists].first
 
-    expect(speaker_data[:email]).to eq expected_data[:email]
-    expect(speaker_data[:name]).to eq expected_data[:name]
+    expect(panelist_data[:email]).to eq expected_data[:email]
+    expect(panelist_data[:name]).to eq expected_data[:name]
   end
 
   def read_payload(payload_name)

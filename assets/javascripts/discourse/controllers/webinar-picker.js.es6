@@ -63,7 +63,7 @@ export default Controller.extend(ModalFunctionality, {
     this.model.setProperties({
       zoomWebinarId: this.webinar.id,
       zoomWebinarHost: this.webinar.host,
-      zoomWebinarSpeakers: this.webinar.speakers,
+      zoomWebinarPanelists: this.webinar.panelists,
       zoomWebinarAttributes: {
         title: this.webinar.title,
         duration: this.webinar.duration,

@@ -22,10 +22,10 @@ RSpec.describe Zoom::Webinars do
       expect(webinar_data[:host]).to be_present
     end
 
-    it 'includes the speakers data' do
+    it 'includes the panelists data' do
       webinar_data = webinars.preview(webinar_id)
 
-      expect(webinar_data[:speakers]).to be_present
+      expect(webinar_data[:panelists]).to be_present
     end
 
     describe 'using database stored webinars when building a preview' do
@@ -53,13 +53,13 @@ RSpec.describe Zoom::Webinars do
         expect(webinar_data[:avatar_url]).to eq avatar_url
       end
 
-      it 'uses the available speakers data' do
-        speaker = Fabricate(:user)
-        WebinarUser.create!(webinar: @webinar, user: speaker, type: :speaker)
+      it 'uses the available panelists data' do
+        panelist = Fabricate(:user)
+        WebinarUser.create!(webinar: @webinar, user: panelist, type: :panelist)
 
-        webinar_data = webinars.preview(webinar_id).fetch(:speakers).first
+        webinar_data = webinars.preview(webinar_id).fetch(:panelists).first
 
-        expect(webinar_data[:name]).to eq speaker.name
+        expect(webinar_data[:name]).to eq panelist.name
       end
     end
 
@@ -78,7 +78,7 @@ RSpec.describe Zoom::Webinars do
           expect(webinar_data[:avatar_url]).to eq @avatar_url
         end
 
-        it 'uses the user data when the email matches and the webinar does not list that user as a speaker' do
+        it 'uses the user data when the email matches and the webinar does not list that user as a panelist' do
           Fabricate(:webinar, zoom_id: webinar_id)
 
           webinar_data = webinars.preview(webinar_id).fetch(:host)
@@ -88,27 +88,27 @@ RSpec.describe Zoom::Webinars do
         end
       end
 
-      context 'speakers' do
+      context 'panelists' do
         before do
-          speaker_email = client.speakers(nil)[:speakers].first[:email]
-          @speaker = Fabricate(:user, email: speaker_email)
-          @avatar_url = @speaker.avatar_template_url.gsub('{size}', '25')
+          panelist_email = client.panelists(nil)[:panelists].first[:email]
+          @panelist = Fabricate(:user, email: panelist_email)
+          @avatar_url = @panelist.avatar_template_url.gsub('{size}', '25')
         end
 
         it 'uses the user data when email matches' do
-          speaker = webinars.preview(webinar_id).fetch(:speakers).first
+          panelist = webinars.preview(webinar_id).fetch(:panelists).first
 
-          expect(speaker[:name]).to eq @speaker.name
-          expect(speaker[:avatar_url]).to eq @avatar_url
+          expect(panelist[:name]).to eq @panelist.name
+          expect(panelist[:avatar_url]).to eq @avatar_url
         end
 
-        it 'uses the user data when the email matches and the webinar does not list that user as a speaker' do
+        it 'uses the user data when the email matches and the webinar does not list that user as a panelist' do
           Fabricate(:webinar, zoom_id: webinar_id)
 
-          speaker = webinars.preview(webinar_id).fetch(:speakers).first
+          panelist = webinars.preview(webinar_id).fetch(:panelists).first
 
-          expect(speaker[:name]).to eq @speaker.name
-          expect(speaker[:avatar_url]).to eq @avatar_url
+          expect(panelist[:name]).to eq @panelist.name
+          expect(panelist[:avatar_url]).to eq @avatar_url
         end
       end
     end

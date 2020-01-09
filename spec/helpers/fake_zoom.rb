@@ -27,13 +27,13 @@ class FakeZoom
     }
   end
 
-  def speakers(_webinar_id)
+  def panelists(_webinar_id)
     {
-      speakers: [{
+      panelists: [{
         email: "mark@test.org",
         name: "Mark"
       }],
-      speakers_count: 1
+      panelists_count: 1
     }
   end
 end

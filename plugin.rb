@@ -54,7 +54,7 @@ after_initialize do
   add_permitted_post_create_param(:zoom_webinar_id)
   add_permitted_post_create_param(:zoom_webinar_attributes, :hash)
   add_permitted_post_create_param(:zoom_webinar_host, :hash)
-  add_permitted_post_create_param(:zoom_webinar_speakers, :array)
+  add_permitted_post_create_param(:zoom_webinar_panelists, :array)
 
   NewPostManager.add_handler do |manager|
     zoom_id = manager.args[:zoom_webinar_id]

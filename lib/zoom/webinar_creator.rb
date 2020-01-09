@@ -41,21 +41,21 @@ module Zoom
       WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :host, registration_status: :approved)
 
       register_users(webinar, :attendees)
-      register_users(webinar, :speakers)
+      register_users(webinar, :panelists)
       webinar
     end
 
     private
 
     def register_users(webinar, type)
-      speaker_data = @zoom_client.send(type, webinar.zoom_id, true)
+      data = @zoom_client.send(type, webinar.zoom_id, true)
 
       key = type == :attendees ? :registrants : :panelists
-      speaker_data[key].each do |speaker_attrs|
-        user = User.with_email(Email.downcase(speaker_attrs[:email])).first
+      data[key].each do |panelist_attrs|
+        user = User.with_email(Email.downcase(panelist_attrs[:email])).first
         next unless user
 
-        registration_status = WebinarUser.registration_status_translation(speaker_attrs[:status]) || :approved
+        registration_status = WebinarUser.registration_status_translation(panelist_attrs[:status]) || :approved
         registration_type = type.to_s.chomp("s").to_sym
 
         existin_records = WebinarUser.where(webinar: webinar, user: user)

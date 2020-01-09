@@ -3,7 +3,7 @@
 class WebinarSerializer < ApplicationSerializer
   has_many :attendees, serializer: UserSerializer
   has_one :host, serializer: UserSerializer
-  has_many :speakers, serializer: UserSerializer
+  has_many :panelists, serializer: UserSerializer
 
   attributes :topic_id,
     :id,
@@ -24,7 +24,7 @@ class WebinarSerializer < ApplicationSerializer
     :join_url,
     :attendees,
     :host,
-    :speakers,
+    :panelists,
 
   def require_password
     !object.password.blank?

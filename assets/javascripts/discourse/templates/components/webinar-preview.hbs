@@ -11,12 +11,12 @@
     </div>
   </div>
 
-  {{#if webinar.speakers}}
-    <div class='speakers'>
-      Speakers
-      <div class='speaker-avatars'>
-        {{#each webinar.speakers as |speaker|}}
-          <img class='avatar' src={{speaker.avatar_url}} width=25 height=25 alt={{speaker.name}} title={{speaker.name}} />
+  {{#if webinar.panelists}}
+    <div class='panelists'>
+      {{i18n 'zoom.panelists'}}
+      <div class='panelist-avatars'>
+        {{#each webinar.panelists as |panelist|}}
+          <img class='avatar' src={{panelist.avatar_url}} width=25 height=25 alt={{panelist.name}} title={{panelist.name}} />
         {{/each}}
       </div>
     </div>
