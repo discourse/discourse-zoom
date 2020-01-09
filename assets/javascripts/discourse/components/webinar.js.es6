@@ -110,6 +110,10 @@ export default Component.extend({
     }, 1000);
   },
 
+  willDestroyElement() {
+    clearInterval(this.interval);
+  },
+
   actions: {
     register() {
       this.set("loading", true);
