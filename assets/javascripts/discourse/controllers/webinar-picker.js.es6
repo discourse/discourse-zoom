@@ -31,6 +31,10 @@ export default Controller.extend(ModalFunctionality, {
     }
   },
 
+  onClose() {
+    this.reset();
+  },
+
   scrubWebinarId(webinarId) {
     return webinarId.replace(/-|\s/g, "");
   },
@@ -102,7 +106,6 @@ export default Controller.extend(ModalFunctionality, {
       } else {
         this.addWebinarToComposer();
       }
-      this.reset();
       this.send("closeModal");
     },
 
