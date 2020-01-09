@@ -82,5 +82,23 @@ after_initialize do
 
   Discourse::Application.routes.append do
     mount ::Zoom::Engine, at: "/zoom"
+    get "topics/webinar-registrations/:username" => "list#zoom_webinars", as: "topics_zoom_webinars", constraints: { username: ::RouteFormat.username }
   end
+
+  require_dependency 'list_controller'
+  class ::ListController
+    generate_message_route(:zoom_webinars)
+  end
+
+  add_to_class(:topic_query, :list_zoom_webinars) do |user|
+    list = joined_topic_user.joins("LEFT JOIN webinars AS we ON (topics.id = we.topic_id)")
+      .joins("LEFT JOIN webinar_users AS wu ON (we.id = wu.webinar_id)")
+      .where("wu.registration_status = ?", WebinarUser.registration_statuses[:approved])
+      .where("wu.user_id = ?", user.id.to_s)
+      .where("we.ends_at >= ?", Time.now)
+      .order("we.starts_at ASC")
+
+    create_list(:webinars, {}, list)
+  end
+
 end

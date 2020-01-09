@@ -23,7 +23,7 @@ module Zoom
       webinar_data = zoom_client.webinar(webinar_id)
       webinar_data[:panelists] = panelists(webinar_id)
       webinar_data[:host] = host(webinar_data[:zoom_host_id])
-      return webinar_data
+      webinar_data
     end
 
     private

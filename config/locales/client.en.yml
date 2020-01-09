@@ -19,3 +19,5 @@ en:
       register: "Register"
       registered: "Registered"
       panelists: "Panelists"
+      no_user_webinars: "You are not registered to any webinars."
+      webinars_title: "Webinars"
