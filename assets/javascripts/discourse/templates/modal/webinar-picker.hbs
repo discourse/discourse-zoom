@@ -7,18 +7,18 @@
       {{d-button action=(action "clear") label='zoom.webinar_picker.clear' disabled=waiting}}
     </div>
   {{else}}
-    <form class="form-horizontal webinar-picker">
-
+    <form class="form-horizontal webinar-picker-input">
       {{input type='text'
               value=webinarIdInput
               valueAttribute="value"
               class="webinar-builder-id"}}
         {{d-button action=(action "previewFromInput") icon="plus"}}
-      <div class="webinar-picker-webinars">
-        {{#each allWebinars as |webinar|}}
-          {{webinar-option-row model=webinar onSelect=(action "selectWebinar" webinar.id)}}
-        {{/each}}
-      </div>
     </form>
+
+    <div class="webinar-picker-webinars">
+      {{#each allWebinars as |webinar|}}
+        {{webinar-option-row model=webinar onSelect=(action "selectWebinar" webinar.id)}}
+      {{/each}}
+    </div>
   {{/if}}
 {{/d-modal-body}}

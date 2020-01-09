@@ -17,31 +17,12 @@ export default Component.extend({
   actions: {
     addWebinar() {
       this.set("loading", true);
-      this.model.set("webinarInsertCallback", picker => {
-        ajax(`/zoom/t/${picker.model.id}/webinars/${picker.webinar.id}`, {
-          data: { webinar: picker.webinar },
-          type: "PUT"
-        })
-          .then(results => {
-            picker.store.find("webinar", results.zoom_id).then(webinar => {
-              picker.model.set("webinar", webinar);
-            });
-          })
-          .catch(popupAjaxError)
-          .finally(() => {
-            this.set("loading", false);
-            const topicController = Discourse.__container__.lookup(
-              "controller:topic"
-            );
-            topicController.set("editingTopic", false);
-          });
-      });
+      this.model.set("addToTopic", true);
       showModal("webinar-picker", {
         model: this.model,
         title: "zoom.webinar_picker.title"
       });
     },
-
 
     removeWebinar() {
       return bootbox.confirm(I18n.t("zoom.confirm_remove"), result => {

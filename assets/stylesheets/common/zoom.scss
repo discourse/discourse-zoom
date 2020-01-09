@@ -1,7 +1,8 @@
 .composer-webinar {
-  width: calc(#{$topic-body-width} + (#{$topic-body-width-padding} * 3));
+  width: 50%;
   display: flex;
   align-items: baseline;
+  justify-content: flex-start;
 
   .webinar-label {
     color: $primary-medium;
@@ -12,8 +13,8 @@
     font-weight: normal;
     margin-left: 10px;
   }
-  .remove-webinar {
+  .cancel {
     order: 2;
-    margin-left: auto;
+    margin-left: 10px;
   }
 }
