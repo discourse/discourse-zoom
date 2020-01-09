@@ -1,7 +1,12 @@
 {{#if webinar}}
   <div class="webinar-header">
     <div class="webinar-title-section">
-      <div class='webinar-title bold'>{{webinar.title}}</div>
+      <div class='webinar-title bold'>
+        {{webinar.title}}
+        {{#if canEdit}}
+          <a href {{action "editPanelists"}} class="edit-panelists" title="{{i18n "edit"}}">{{d-icon "pencil-alt"}}</a>
+        {{/if}}
+      </div>
       <div class='occurrance-start-time'>{{schedule}}</div>
     </div>
 

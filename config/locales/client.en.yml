@@ -6,6 +6,7 @@ en:
     zoom:
       remove: "Remove"
       remove_webinar: "Remove Webinar"
+      edit_webinar: "Edit Webinar"
       add_webinar: "Add Webinar"
       confirm_remove: "Are you sure you want to remove this webinar?"
 
@@ -21,3 +22,4 @@ en:
       panelists: "Panelists"
       no_user_webinars: "You are not registered to any webinars."
       webinars_title: "Webinars"
+      select_panelist: "Username of panelist"

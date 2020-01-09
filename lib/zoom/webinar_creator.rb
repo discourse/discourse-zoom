@@ -53,7 +53,20 @@ module Zoom
       key = type == :attendees ? :registrants : :panelists
       data[key].each do |panelist_attrs|
         user = User.with_email(Email.downcase(panelist_attrs[:email])).first
-        next unless user
+        if !user
+          # Do not stage attendees who don't have account
+          next if type == :attendee
+
+          # But DO stage panelists who don't have accounts
+          user = User.create!(
+            email: panelist_attrs[:email],
+            username: UserNameSuggester.suggest(panelist_attrs[:email]),
+            name: User.suggest_name(panelist_attrs[:email]),
+            staged: true
+          )
+        end
+
+
 
         registration_status = WebinarUser.registration_status_translation(panelist_attrs[:status]) || :approved
         registration_type = type.to_s.chomp("s").to_sym

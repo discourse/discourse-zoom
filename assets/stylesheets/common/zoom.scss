@@ -18,3 +18,22 @@
     margin-left: 10px;
   }
 }
+
+.webinar-banner {
+  .edit-panelists {
+    color: $primary;
+  }
+}
+
+#edit-webinar-modal {
+
+  .remove-panelist-btn {
+    float: right;
+  }
+
+  .new-panelist-input, .new-panelist-btn {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
