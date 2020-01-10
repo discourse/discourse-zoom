@@ -1,7 +1,12 @@
 {{#if webinar}}
   <div class="webinar-header">
     <div class="webinar-title-section">
-      <div class='webinar-title bold'>{{webinar.title}}</div>
+      <div class='webinar-title bold'>
+        {{webinar.title}}
+        {{#if canEdit}}
+          <a href {{action "editPanelists"}} class="edit-panelists" title="{{i18n "edit"}}">{{d-icon "pencil-alt"}}</a>
+        {{/if}}
+      </div>
       <div class='occurrance-start-time'>{{schedule}}</div>
     </div>
 
@@ -31,7 +36,7 @@
       {{i18n 'zoom.panelists'}}
       <div class='panelist-avatars'>
         {{#each webinar.panelists as |panelist|}}
-          <img class='avatar' src={{panelist.avatar_url}} width=25 height=25 alt={{panelist.name}} title={{panelist.name}} />
+          {{avatar panelist imageSize="small"}}
         {{/each}}
       </div>
     </div>

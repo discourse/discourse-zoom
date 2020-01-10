@@ -1,0 +1,23 @@
+{{#d-modal-body id="edit-webinar-modal"}}
+
+  <h3>{{i18n 'zoom.panelists'}}</h3>
+  {{#each model.panelists as |panelist|}}
+    <div class="webinar-panelist">
+      {{panelist.username}}
+      {{d-button action=(action 'removePanelist' panelist) class="remove-panelist-btn btn-danger" icon="times" disabled=loading}}
+    </div>
+  {{/each}}
+
+  <hr>
+  <h3>{{i18n 'zoom.add_panelist'}}</h3>
+  <span class="new-panelist-input">
+    {{user-selector single="true"
+                    usernames=newPanelist
+                    placeholderKey="zoom.select_panelist"
+                    autocomplete="discourse"
+                    allowEmails="true"
+                    excludeCurrentUser="true"
+                    excludedUsernames=excludedUsernames}}
+  </span>
+  {{d-button action=(action 'addPanelist') class="new-panelist-btn btn-primary" icon="plus" disabled=addingDisabled}}
+{{/d-modal-body}}

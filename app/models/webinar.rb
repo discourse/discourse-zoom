@@ -9,6 +9,8 @@ class Webinar < ActiveRecord::Base
   belongs_to :topic
   belongs_to :host, class_name: 'User'
 
+  validates :topic_id, presence: true, uniqueness: true
+
   ZOOM_ATTRIBUTE_MAP = {
     id: :zoom_id,
     topic: :title,

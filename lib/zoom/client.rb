@@ -68,6 +68,15 @@ module Zoom
       }
     end
 
+    def get(endpoint)
+      result = Excon.get(
+        "#{API_URL}#{endpoint}",
+        headers: { 'Authorization': "Bearer #{jwt_token}" }
+      )
+
+      JSON.parse(result.body, symbolize_names: true)
+    end
+
     def post(endpoint, body)
       Excon.post("#{API_URL}#{endpoint}",
         headers: {
@@ -78,13 +87,11 @@ module Zoom
       )
     end
 
-    def get(endpoint)
-      result = Excon.get(
+    def delete(endpoint)
+      result = Excon.delete(
         "#{API_URL}#{endpoint}",
         headers: { 'Authorization': "Bearer #{jwt_token}" }
       )
-
-      JSON.parse(result.body, symbolize_names: true)
     end
 
     def jwt_token()
