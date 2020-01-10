@@ -100,7 +100,7 @@ module Zoom
         email: user.email,
         first_name: first_name,
         last_name: last_name
-      )
+      })
 
       if response.status == 201
         registration_status = case webinar.approval_type

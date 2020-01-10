@@ -22,5 +22,5 @@ en:
       panelists: "Panelists"
       no_user_webinars: "You are not registered to any webinars."
       webinars_title: "Webinars"
-      select_panelist: "Username of panelist"
+      select_panelist: "Username or email"
       add_panelist: "Add panelist"

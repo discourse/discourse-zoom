@@ -25,7 +25,6 @@ export default Component.extend({
   DURING_VALUE: "during",
   AFTER_VALUE: "after",
   hostDisplayName: or("webinar.host.name", "webinar.host.username"),
->>>>>>> Add edit panelist modal
 
   init() {
     this._super(...arguments);
@@ -76,8 +75,6 @@ export default Component.extend({
 
   willDestroyElement() {
     clearInterval(this.interval);
-<<<<<<< HEAD
-=======
   },
 
   actions: {
@@ -102,6 +99,5 @@ export default Component.extend({
         title: "zoom.edit_webinar"
       });
     }
->>>>>>> Add edit panelist modal
   }
 });
