@@ -13,6 +13,7 @@ register_asset "stylesheets/desktop/webinar-banner.scss"
 register_asset "stylesheets/desktop/webinar-details.scss"
 
 register_svg_icon "far-check-circle"
+register_svg_icon "far-calendar-alt"
 register_svg_icon "video"
 
 after_initialize do

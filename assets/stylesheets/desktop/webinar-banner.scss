@@ -11,6 +11,7 @@
   justify-content: space-between;
   .countdown {
     display: flex;
+    max-height: 75px;
     .pill {
       background: white;
       border: 1px solid $primary-low;

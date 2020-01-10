@@ -1,9 +1,12 @@
 {{#if registered}}
   <div class="webinar-registered">
-    {{d-button class="webinar-registered-button" label="zoom.registered" icon="far-check-circle"}}
+    <span>
+      {{d-icon "far-check-circle"}}
+      {{i18n "zoom.registered"}}
+    </span>
   </div>
 {{else}}
   {{#if userCanRegister}}
-    {{d-button action=(action "register") class="webinar-register-button btn-primary" label="zoom.register" disabled=loading}}
+    {{d-button action=(action "register") class="webinar-register-button btn-primary" label="zoom.register" icon="far-calendar-alt" disabled=loading}}
   {{/if}}
 {{/if}}

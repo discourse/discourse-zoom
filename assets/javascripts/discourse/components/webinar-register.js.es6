@@ -8,10 +8,6 @@ export default Component.extend({
   NO_REGISTRATION: "no_registration",
 
   // TODO: Handle during event, after event
-  init() {
-    this._super(...arguments);
-    console.log(this.webinar);
-  },
 
   @discourseComputed(
     "currentUser",
