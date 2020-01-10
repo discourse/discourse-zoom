@@ -96,11 +96,11 @@ module Zoom
         last_name = "n/a"
       end
 
-      response = zoom_client.post("webinars/#{webinar.zoom_id}/registrants", {
+      response = zoom_client.post("webinars/#{webinar.zoom_id}/registrants",
         email: user.email,
         first_name: first_name,
         last_name: last_name
-      })
+      )
 
       if response.status == 201
         registration_status = case webinar.approval_type
@@ -110,7 +110,7 @@ module Zoom
                                 :pending
                               when "no_registration"
                                 :rejected
-                              end
+        end
         webinar.webinar_users.create(
           user: user,
           type: :attendee,
