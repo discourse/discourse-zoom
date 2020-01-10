@@ -37,15 +37,7 @@
     </div>
   {{/if}}
 
-  {{#if registered}}
-    <div class="webinar-registered">
-      {{d-button class="webinar-registered-button" label="zoom.registered" icon="far-check-circle"}}
-    </div>
-  {{else}}
-    {{#if userCanRegister}}
-      {{d-button action=(action "register") class="webinar-register-button btn-primary" label="zoom.register" disabled=loading}}
-    {{/if}}
-  {{/if}}
+  {{webinar-register webinar=webinar}}
 {{else}}
   {{conditional-loading-spinner condition=loading}}
 {{/if}}

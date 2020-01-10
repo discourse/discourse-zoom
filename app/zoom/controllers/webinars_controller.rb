@@ -53,7 +53,7 @@ module Zoom
       guardian.ensure_can_edit!(user)
 
       webinar = Webinar.find_by(zoom_id: params[:webinar_id])
-      raise Discourse::NotFound.new.new unless webinar
+      raise Discourse::NotFound.new unless webinar
 
       split_name = user.name.split(' ')
       if (split_name.count > 1)
@@ -64,11 +64,11 @@ module Zoom
         last_name = "n/a"
       end
 
-      response = Zoom::Client.new.post("webinars/#{webinar.zoom_id}/registrants", {
+      response = Zoom::Client.new.post("webinars/#{webinar.zoom_id}/registrants",
         email: user.email,
         first_name: first_name,
         last_name: last_name
-      })
+      )
 
       if response.status == 201
         registration_status = case webinar.approval_type
@@ -84,7 +84,7 @@ module Zoom
           type: :attendee,
           registration_status: registration_status
         )
-        render json: user.webinar_users
+        render json: success_json
       else
         raise Discourse::NotFound.new
       end

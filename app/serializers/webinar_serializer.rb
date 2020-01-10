@@ -30,4 +30,3 @@ class WebinarSerializer < ApplicationSerializer
     !object.password.blank?
   end
 end
-
