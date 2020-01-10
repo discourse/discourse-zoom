@@ -73,6 +73,8 @@ after_initialize do
   Zoom::Engine.routes.draw do
     resources :webinars, only: [:show, :index, :destroy] do
       put 'register/:username' => 'webinars#register'
+      put 'panelists/:username' => 'webinars#add_panelist'
+      delete 'panelists/:username' => 'webinars#remove_panelist'
       get 'preview' => 'webinars#preview'
     end
     put 't/:topic_id/webinars/:webinar_id' => 'webinars#add_to_topic'

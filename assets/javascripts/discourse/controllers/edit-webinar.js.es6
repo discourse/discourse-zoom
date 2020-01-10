@@ -13,20 +13,43 @@ export default Controller.extend(ModalFunctionality, {
 
   @discourseComputed("model.panelists")
   excludedUsernames(panelists) {
-    let usernames=panelists.map(p => p.username);
-    return usernames
+    let usernames = panelists.map(p => p.username);
+    return usernames;
   },
 
-  onShow() {
+  @discourseComputed("loading", "newPanelist")
+  addingDisabled(loading, panelist) {
+    return loading || !panelist
   },
 
   actions: {
     removePanelist(panelist) {
-      console.log(panelist)
+      this.set("loading", true)
+      ajax(`/zoom/webinars/${this.model.zoom_id}/panelists/${panelist.username}`, {
+        type: "DELETE"
+      })
+      .then(results => {
+        this.store.find("webinar", this.model.zoom_id).then(webinar => {
+          this.set("model", webinar);
+        });
+      }).finally(() => {
+        this.set("loading", false)
+      })
     },
 
     addPanelist() {
-
+      this.set("loading", true)
+      ajax(`/zoom/webinars/${this.model.zoom_id}/panelists/${this.newPanelist}`, {
+        type: "PUT"
+      })
+      .then(results => {
+        this.set("newPanelist", null);
+        this.store.find("webinar", this.model.zoom_id).then(webinar => {
+          this.set("model", webinar);
+        });
+      }).finally(() => {
+        this.set("loading", false)
+      })
     }
   }
 });

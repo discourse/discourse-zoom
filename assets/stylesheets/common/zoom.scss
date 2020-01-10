@@ -27,13 +27,16 @@
 
 #edit-webinar-modal {
 
-  .remove-panelist-btn {
-    float: right;
+  .webinar-panelist {
+    display: flex;
+    justify-content: space-between;
+    line-height: 30px;
+    padding: 3px 0;
   }
 
-  .new-panelist-input, .new-panelist-btn {
+  .new-panelist-input,
+  .new-panelist-btn {
     display: inline-block;
     vertical-align: middle;
   }
 }
-

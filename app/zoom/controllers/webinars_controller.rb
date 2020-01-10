@@ -26,11 +26,42 @@ module Zoom
     def destroy
       webinar_id = Webinar.sanitize_zoom_id(params[:id])
       webinar = Webinar.find_by(zoom_id: webinar_id)
-      return render Discourse::NotFound.new unless webinar
+      raise Discourse::NotFound.new unless webinar
 
+      guardian.ensure_can_edit!(webinar.topic)
       webinar.webinar_users.destroy_all
       webinar.destroy
       render json: success_json
+    end
+
+    def add_panelist
+      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
+      webinar = Webinar.find_by(zoom_id: webinar_id)
+      raise Discourse::NotFound.new unless webinar
+
+      user = fetch_user_from_params
+      raise Discourse::NotFound if user.in? webinar.panelists
+
+      if Zoom::Webinars.new(zoom_client).add_panelist(webinar: webinar, user: user)
+        render json: success_json
+      else
+        raise Discourse::NotFound.new
+      end
+    end
+
+    def remove_panelist
+      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
+      webinar = Webinar.find_by(zoom_id: webinar_id)
+      raise Discourse::NotFound.new unless webinar
+
+      user = fetch_user_from_params
+      raise Discourse::NotFound unless user.in? webinar.panelists
+
+      if Zoom::Webinars.new(zoom_client).remove_panelist(webinar: webinar, user: user)
+        render json: success_json
+      else
+        raise Discourse::NotFound.new
+      end
     end
 
     def add_to_topic
@@ -45,15 +76,16 @@ module Zoom
 
     def preview
       webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
-      render json: Zoom::Webinars.new(Zoom::Client.new).find(webinar_id)
+      render json: Zoom::Webinars.new(zoom_client).find(webinar_id)
     end
 
     def register
       user = fetch_user_from_params
       guardian.ensure_can_edit!(user)
 
-      webinar = Webinar.find_by(zoom_id: params[:webinar_id])
-      raise Discourse::NotFound.new unless webinar
+      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
+      webinar = Webinar.find_by(zoom_id: webinar_id)
+      raise Discourse::NotFound.new.new unless webinar
 
       split_name = user.name.split(' ')
       if (split_name.count > 1)
@@ -64,7 +96,7 @@ module Zoom
         last_name = "n/a"
       end
 
-      response = Zoom::Client.new.post("webinars/#{webinar.zoom_id}/registrants",
+      response = zoom_client.post("webinars/#{webinar.zoom_id}/registrants", {
         email: user.email,
         first_name: first_name,
         last_name: last_name
@@ -88,6 +120,12 @@ module Zoom
       else
         raise Discourse::NotFound.new
       end
+    end
+
+    private
+
+    def zoom_client
+      @zoom_client ||= Zoom::Client.new
     end
   end
 end

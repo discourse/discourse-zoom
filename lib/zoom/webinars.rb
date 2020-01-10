@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+j frozen_string_literal: true
 
 module Zoom
   class Webinars
@@ -24,6 +24,32 @@ module Zoom
       webinar_data[:panelists] = panelists(webinar_id)
       webinar_data[:host] = host(webinar_data[:zoom_host_id])
       webinar_data
+    end
+
+    def add_panelist(webinar:, user:)
+      response = zoom_client.post("webinars/#{webinar.zoom_id}/panelists", {
+        panelists: [{
+          email: user.email,
+          name: user.name.blank? ? user.username : user.name
+        }]
+      })
+      return false if response.status != 201
+
+      WebinarUser.where(user: user, webinar: webinar).destroy_all
+      WebinarUser.create!(user: user, webinar: webinar, type: :panelist, registration_status: :approved)
+    end
+
+    def remove_panelist(webinar:, user:)
+      panelists = zoom_client.panelists(webinar.zoom_id, true)[:panelists]
+      matching_panelist = panelists.detect do |panelist|
+        panelist[:email] == user.email
+      end
+      return false unless matching_panelist
+
+      response = zoom_client.delete("webinars/#{webinar.zoom_id}/panelists/#{matching_panelist[:id]}")
+      return false if response.status != 204
+
+      WebinarUser.where(user: user, webinar: webinar).destroy_all
     end
 
     private
