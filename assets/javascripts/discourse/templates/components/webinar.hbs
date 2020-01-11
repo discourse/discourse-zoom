@@ -1,48 +1,53 @@
 {{#if webinar}}
-  <div class="webinar-header">
-    <div class="webinar-title-section">
-      <div class='webinar-title bold'>
-        {{webinar.title}}
-        {{#if canEdit}}
-          <a href {{action "editPanelists"}} class="edit-panelists" title="{{i18n "edit"}}">{{d-icon "pencil-alt"}}</a>
-        {{/if}}
+  <div class="webinar-content">
+    <div class="webinar-header">
+      <div class="webinar-title-section">
+        <div class='webinar-title bold'>
+          {{webinar.title}}
+          {{#if canEdit}}
+            <a href {{action "editPanelists"}} class="edit-panelists" title="{{i18n "edit"}}">{{d-icon "pencil-alt"}}</a>
+          {{/if}}
+        </div>
+        <div class='occurrance-start-time'>{{schedule}}</div>
       </div>
-      <div class='occurrance-start-time'>{{schedule}}</div>
+
+    {{#if showTimer}}
+      <div class="countdown-wrapper">
+        <div class="countdown-label">{{i18n "zoom.countdown_label"}}</div>
+        <div class="countdown">
+          <div class="pill">{{cDays}} <div>{{i18n "zoom.days"}}</div></div>
+          <div class="pill">{{cHours}} <div>{{i18n "zoom.hours"}}</div></div>
+          <div class="pill">{{cMins}} <div>{{i18n "zoom.mins"}}</div></div>
+          <div class="pill">{{cSecs}} <div>{{i18n "zoom.secs"}}</div></div>
+        </div>
+      </div>
+    {{/if}}
     </div>
 
-  {{#if showTimer}}
-    <div class="countdown">
-      <div class="pill">{{cDays}} <div>Days</div></div>
-      <div class="pill">{{cHours}} <div>Hours</div></div>
-      <div class="pill">{{cMins}} <div>Mins</div></div>
-      <div class="pill">{{cSecs}} <div>Secs</div></div>
-    </div>
-  {{/if}}
+    {{#if webinar.host}}
+      <div class='host'>{{i18n "zoom.hosted_by"}}</div>
+      <div class='host-container'>
+        {{avatar webinar.host imageSize="large"}}
+        <div class='host-description'>
+          <div class='host-name'>{{hostDisplayName}}</div>
+          <div class='group-name'>{{webinar.host.title}}</div>
+        </div>
+      </div>
+    {{/if}}
+
+    {{#if webinar.panelists}}
+      <div class='panelists'>
+        {{i18n 'zoom.panelists'}}
+        <div class='panelist-avatars'>
+          {{#each webinar.panelists as |panelist|}}
+            {{avatar panelist imageSize="small"}}
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{webinar-register webinar=webinar}}
   </div>
-
-  {{#if webinar.host}}
-    <div class='host'>Hosted by</div>
-    <div class='host-container'>
-      {{avatar webinar.host imageSize="large"}}
-      <div class='host-description'>
-        <div class='host-name'>{{hostDisplayName}}</div>
-        <div class='group-name'>{{webinar.host.title}}</div>
-      </div>
-    </div>
-  {{/if}}
-
-  {{#if webinar.panelists}}
-    <div class='panelists'>
-      {{i18n 'zoom.panelists'}}
-      <div class='panelist-avatars'>
-        {{#each webinar.panelists as |panelist|}}
-          {{avatar panelist imageSize="small"}}
-        {{/each}}
-      </div>
-    </div>
-  {{/if}}
-
-  {{webinar-register webinar=webinar}}
 {{else}}
   {{conditional-loading-spinner condition=loading}}
 {{/if}}

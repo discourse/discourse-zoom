@@ -9,6 +9,10 @@
 .webinar-header {
   display: flex;
   justify-content: space-between;
+  .countdown-label {
+    text-align: center;
+    padding-bottom: 0.5em;
+  }
   .countdown {
     display: flex;
     max-height: 75px;
