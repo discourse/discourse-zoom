@@ -2,7 +2,7 @@
 
 class WebinarSerializer < ApplicationSerializer
   has_many :attendees, serializer: UserSerializer
-  has_one :host, serializer: UserSerializer
+  has_one :host, serializer: HostSerializer
   has_many :panelists, serializer: UserSerializer
 
   attributes :topic_id,

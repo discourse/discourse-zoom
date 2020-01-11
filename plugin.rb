@@ -26,6 +26,7 @@ after_initialize do
     "../lib/zoom/webinar_creator",
     "../app/zoom/controllers/webinars_controller",
     "../app/zoom/controllers/webhooks_controller",
+    "../app/serializers/host_serializer",
     "../app/serializers/webinar_serializer",
   ].each { |path| require File.expand_path(path, __FILE__) }
 

@@ -88,8 +88,15 @@ module Zoom
     end
 
     def host_payload(host)
+      if SiteSetting.zoom_host_title_override
+        field_id = UserField.where(name: SiteSetting.zoom_host_title_override).pluck(:id).first
+        title = host.user_fields[field_id.to_s] || ""
+      else
+        title = host.title
+      end
       {
         name: host.name || host.username,
+        title: title,
         avatar_url: host.avatar_template_url.gsub('{size}', '120')
       }
     end

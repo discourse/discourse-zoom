@@ -11,3 +11,6 @@ plugins:
   zoom_verification_token:
     default: ""
     client: true
+  zoom_host_title_override:
+    default: ""
+    client: false
