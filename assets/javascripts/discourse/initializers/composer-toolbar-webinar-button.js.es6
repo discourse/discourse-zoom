@@ -20,7 +20,7 @@ function initializeWebinarButton(api) {
         id: "associate_webinar_button",
         icon: "video",
         action: "showWebinarModal",
-        label: "zoom.webinar_picker.popup"
+        label: "zoom.webinar_picker.button"
       };
     }
   });

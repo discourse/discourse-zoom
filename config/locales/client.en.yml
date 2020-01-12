@@ -13,9 +13,9 @@ en:
       toggle_edit_webinar_button: "Edit Webinar"
       webinar_picker:
         webinar_id: "Webinar ID"
-        title: "Webinar Details"
+        title: "Add Webinar"
         create: "Add"
-        popup: "Zoom Webinar"
+        button: "Zoom Webinar"
         clear: "Choose a different webinar"
       register: "Register"
       registered: "Registered"
@@ -31,3 +31,4 @@ en:
       mins: "Mins"
       secs: "Secs"
       no_panelists: "This webinar has no associated panelists. Use the form below to add a panelist."
+      error: "There was an error, please try again. "

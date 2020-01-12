@@ -76,7 +76,10 @@ module Zoom
 
     def preview
       webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
-      render json: Zoom::Webinars.new(zoom_client).find(webinar_id)
+      webinar = Zoom::Webinars.new(zoom_client).find(webinar_id)
+      raise Discourse::NotFound.new unless webinar
+
+      render json: webinar
     end
 
     def register

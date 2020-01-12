@@ -6,6 +6,7 @@ module Zoom
 
     def webinar(webinar_id)
       data = get("webinars/#{webinar_id}")
+
       start_datetime = DateTime.parse(data[:start_time])
 
       {

@@ -1,4 +1,4 @@
-j frozen_string_literal: true
+# frozen_string_literal: true
 
 module Zoom
   class Webinars
@@ -21,6 +21,7 @@ module Zoom
 
     def find(webinar_id)
       webinar_data = zoom_client.webinar(webinar_id)
+      return false unless webinar_data[:id]
       webinar_data[:panelists] = panelists(webinar_id)
       webinar_data[:host] = host(webinar_data[:zoom_host_id])
       webinar_data

@@ -9,10 +9,10 @@ export default Controller.extend(ModalFunctionality, {
   webinarIdInput: null,
   webinar: null,
   model: null,
-  waiting: true,
-
+  loading: false,
+  selected: false,
   allWebinars: null,
-  selectedWebinar: null,
+  error: false,
 
   onShow() {
     if (!this.webinar) {
@@ -21,7 +21,7 @@ export default Controller.extend(ModalFunctionality, {
         this.set("webinarIdInput", this.model.get("webinar.zoom_id"));
       }
 
-      if (!this.webinarId) {
+      if (!this.selected) {
         ajax("/zoom/webinars").then(results => {
           if (results && results.webinars) {
             this.set("allWebinars", results.webinars);
@@ -32,7 +32,12 @@ export default Controller.extend(ModalFunctionality, {
   },
 
   onClose() {
-    this.reset();
+    this.setProperties({
+      allWebinars: null,
+      selected: false,
+      webinarIdInput: null,
+      webinar: null
+    });
   },
 
   scrubWebinarId(webinarId) {
@@ -83,21 +88,40 @@ export default Controller.extend(ModalFunctionality, {
     });
   },
 
-  reset() {
+  fetchWebinarDetails(id) {
+    id = this.scrubWebinarId(id.toString());
+    this.set("loading", true);
     this.setProperties({
-      webinarId: null,
-      webinarIdInput: null,
-      webinar: null
+      loading: true,
+      error: false
     });
+
+    ajax(`/zoom/webinars/${id}/preview`)
+      .then(json => {
+        this.setProperties({
+          webinar: json,
+          selected: true
+        });
+      })
+      .catch(e => {
+        this.setProperties({
+          webinar: null,
+          selected: false,
+          error: true
+        });
+      })
+      .finally(() => {
+        this.set("loading", false);
+      });
   },
 
   actions: {
-    selectWebinar(webinarId) {
-      this.set("webinarId", this.scrubWebinarId(webinarId.toString()));
+    selectWebinar(id) {
+      this.fetchWebinarDetails(id);
     },
 
     clear() {
-      this.set("webinarId", null);
+      this.set("selected", false);
     },
 
     insert() {
@@ -107,14 +131,6 @@ export default Controller.extend(ModalFunctionality, {
         this.addWebinarToComposer();
       }
       this.send("closeModal");
-    },
-
-    previewFromInput() {
-      this.set("webinarId", this.scrubWebinarId(this.webinarIdInput));
-    },
-
-    updateDetails(webinar) {
-      this.set("webinar", webinar);
     }
   }
 });
