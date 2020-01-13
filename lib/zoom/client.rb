@@ -78,6 +78,16 @@ module Zoom
       JSON.parse(result.body, symbolize_names: true)
     end
 
+    def put(endpoint, body)
+      Excon.put("#{API_URL}#{endpoint}",
+        headers: {
+          "Authorization": "Bearer #{jwt_token}",
+          "Content-Type": "application/json"
+        },
+        body: body.to_json
+      )
+    end
+
     def post(endpoint, body)
       Excon.post("#{API_URL}#{endpoint}",
         headers: {

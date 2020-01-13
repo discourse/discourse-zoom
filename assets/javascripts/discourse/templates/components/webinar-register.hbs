@@ -5,6 +5,9 @@
       {{i18n "zoom.registered"}}
     </span>
   </div>
+  {{#if canUnregister}}
+    <a {{action "unregister"}}>Unregister</a>
+  {{/if}}
 {{else}}
   {{#if userCanRegister}}
     {{d-button action=(action "register") class="webinar-register-button btn-primary" label="zoom.register" icon="far-calendar-alt" disabled=loading}}

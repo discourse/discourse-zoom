@@ -42,15 +42,80 @@ module Zoom
 
     def remove_panelist(webinar:, user:)
       panelists = zoom_client.panelists(webinar.zoom_id, true)[:panelists]
-      matching_panelist = panelists.detect do |panelist|
-        panelist[:email] == user.email
-      end
+      matching_panelist = panelists.detect { |panelist| panelist[:email] == user.email }
       return false unless matching_panelist
 
       response = zoom_client.delete("webinars/#{webinar.zoom_id}/panelists/#{matching_panelist[:id]}")
       return false if response.status != 204
 
       WebinarUser.where(user: user, webinar: webinar).destroy_all
+    end
+
+    def register(webinar:, user:)
+      attendees = zoom_client.attendees(webinar.zoom_id, true)[:registrants]
+      matching_attendee = attendees.detect{ |attendee| attendee[:email] == user.email }
+      return register_clean(webinar: webinar, user: user) if !matching_attendee
+
+      response = zoom_client.put("webinars/#{webinar.zoom_id}/registrants/status", {
+        action: "approve",
+        registrants: [{
+          email: matching_attendee[:email],
+
+        }]
+      })
+      return false if response.status != 204
+
+      WebinarUser.where(user: user, webinar: webinar).update_all(registration_status: :approved)
+    end
+
+    def register_clean(webinar:, user:)
+      split_name = user.name.split(' ')
+      if (split_name.count > 1)
+        first_name = split_name.first
+        last_name = split_name[1..-1].join(' ')
+      else
+        first_name = user.username
+        last_name = "n/a"
+      end
+
+      response = zoom_client.post("webinars/#{webinar.zoom_id}/registrants",
+        email: user.email,
+        first_name: first_name,
+        last_name: last_name
+      )
+
+      return false if response.status != 201
+      registration_status = case webinar.approval_type
+                            when "automatic"
+                              :approved
+                            when "manual"
+                              :pending
+                            when "no_registration"
+                              :rejected
+      end
+
+      webinar.webinar_users.create(
+        user: user,
+        type: :attendee,
+        registration_status: registration_status
+      )
+    end
+
+    def unregister(webinar:, user:)
+      attendees = zoom_client.attendees(webinar.zoom_id, true)[:registrants]
+      matching_attendee = attendees.detect{ |attendee| attendee[:email] == user.email }
+      return false unless matching_attendee
+
+      response = zoom_client.put("webinars/#{webinar.zoom_id}/registrants/status", {
+        action: "cancel",
+        registrants: [{
+          email: matching_attendee[:email],
+          id: matching_attendee[:id]
+        }]
+      })
+      return false if response.status != 204
+
+      WebinarUser.where(user: user, webinar: webinar).update_all(registration_status: :rejected)
     end
 
     private
