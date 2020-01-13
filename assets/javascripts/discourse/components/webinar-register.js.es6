@@ -17,9 +17,11 @@ export default Component.extend({
   registered(user, attendees, registrationSuccessful) {
     if (registrationSuccessful) return true;
 
-    for (let attendee of attendees) {
-      if (attendee.id === user.id) {
-        return true;
+    if (attendees) {
+      for (let attendee of attendees) {
+        if (attendee.id === user.id) {
+          return true;
+        }
       }
     }
     return false;
