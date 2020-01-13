@@ -11,6 +11,9 @@ export default {
       "zoomWebinarAttributes"
     );
     Composer.serializeOnCreate("zoom_webinar_host", "zoomWebinarHost");
-    Composer.serializeOnCreate("zoom_webinar_panelists", "zoomWebinarPanelists");
+    Composer.serializeOnCreate(
+      "zoom_webinar_panelists",
+      "zoomWebinarPanelists"
+    );
   }
 };

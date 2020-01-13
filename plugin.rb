@@ -13,6 +13,7 @@ register_asset "stylesheets/desktop/webinar-banner.scss"
 register_asset "stylesheets/desktop/webinar-details.scss"
 
 register_svg_icon "far-check-circle"
+register_svg_icon "far-calendar-alt"
 register_svg_icon "video"
 
 after_initialize do
@@ -25,6 +26,7 @@ after_initialize do
     "../lib/zoom/webinar_creator",
     "../app/zoom/controllers/webinars_controller",
     "../app/zoom/controllers/webhooks_controller",
+    "../app/serializers/host_serializer",
     "../app/serializers/webinar_serializer",
   ].each { |path| require File.expand_path(path, __FILE__) }
 
@@ -73,6 +75,8 @@ after_initialize do
   Zoom::Engine.routes.draw do
     resources :webinars, only: [:show, :index, :destroy] do
       put 'register/:username' => 'webinars#register'
+      put 'panelists/:username' => 'webinars#add_panelist'
+      delete 'panelists/:username' => 'webinars#remove_panelist'
       get 'preview' => 'webinars#preview'
     end
     put 't/:topic_id/webinars/:webinar_id' => 'webinars#add_to_topic'

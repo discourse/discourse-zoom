@@ -1,24 +1,54 @@
 {{#d-modal-body}}
-  {{#if webinarId}}
-    {{webinar-preview webinarId=webinarId webinar=webinar waiting=waiting updateDetails=(action "updateDetails")}}
+  {{conditional-loading-spinner condition=loading}}
+  {{#if selected}}
+    {{#if webinar}}
+      <div class='webinar-title bold'>{{webinar.title}}</div>
+      <div class='occurrance-start-time'>{{schedule}}</div>
 
+      <div class='host'>{{i18n "zoom.hosted_by"}}</div>
+      <div class='host-container'>
+        <img class='avatar' src={{webinar.host.avatar_url}} width=80 height=80 title={{details.host.name}}/>
+        <div class='host-description'>
+          <div class='host-name'>{{webinar.host.name}}</div>
+          <div class='group-name'>{{webinar.host.title}}</div>
+        </div>
+      </div>
+
+      {{#if webinar.panelists}}
+        <div class='panelists'>
+          {{i18n 'zoom.panelists'}}
+          <div class='panelist-avatars'>
+            {{#each webinar.panelists as |panelist|}}
+              <img class='avatar' src={{panelist.avatar_url}} width=25 height=25 alt={{panelist.name}} title={{panelist.name}} />
+            {{/each}}
+          </div>
+        </div>
+      {{/if}}
+    {{/if}}
     <div class="modal-footer">
-      {{d-button action=(action "insert") class='btn-primary' label='zoom.webinar_picker.create' disabled=waiting}}
-      {{d-button action=(action "clear") label='zoom.webinar_picker.clear' disabled=waiting}}
+      {{d-button action=(action "insert") class='btn-primary' label='zoom.webinar_picker.create'}}
+      {{d-button action=(action "clear") label='zoom.webinar_picker.clear' class='btn-flat'}}
     </div>
   {{else}}
-    <form class="form-horizontal webinar-picker-input">
-      {{input type='text'
-              value=webinarIdInput
-              valueAttribute="value"
-              class="webinar-builder-id"}}
-        {{d-button action=(action "previewFromInput") icon="plus"}}
-    </form>
+    {{#unless loading}}
+      {{#if error}}
+        <div class="alert alert-error">{{i18n "zoom.error"}}</div>
+      {{/if}}
 
-    <div class="webinar-picker-webinars">
-      {{#each allWebinars as |webinar|}}
-        {{webinar-option-row model=webinar onSelect=(action "selectWebinar" webinar.id)}}
-      {{/each}}
-    </div>
+      <div class="form-horizontal webinar-picker-input">
+        {{input type='text'
+                value=webinarIdInput
+                valueAttribute="value"
+                enter=(action "selectWebinar")
+                class="webinar-builder-id"}}
+          {{d-button action=(action "selectWebinar" webinarIdInput) icon="plus"}}
+      </div>
+
+      <div class="webinar-picker-webinars">
+        {{#each allWebinars as |webinar|}}
+          {{webinar-option-row model=webinar onSelect=(action "selectWebinar" webinar.id)}}
+        {{/each}}
+      </div>
+    {{/unless}}
   {{/if}}
 {{/d-modal-body}}

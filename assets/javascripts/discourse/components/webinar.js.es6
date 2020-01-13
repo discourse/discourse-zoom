@@ -1,18 +1,30 @@
 import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
 import { formattedSchedule } from "../lib/webinar-helpers";
+import showModal from "discourse/lib/show-modal";
+import { alias, or } from "@ember/object/computed";
 import { ajax } from "discourse/lib/ajax";
 
 export default Component.extend({
   loading: false,
+  topic: null,
   webinar: null,
   webinarId: null,
   showTimer: false,
+  canEdit: alias("topic.details.can_edit"),
 
   hostDisplayName: Ember.computed.or(
     "webinar.host.name",
     "webinar.host.username"
   ),
+  AUTOMATIC_APPROVAL: "automatic",
+  MANUAL_APPROVAL: "manual",
+  NO_REGISTRATION: "no_registration",
+
+  BEFORE_VALUE: "before",
+  DURING_VALUE: "during",
+  AFTER_VALUE: "after",
+  hostDisplayName: or("webinar.host.name", "webinar.host.username"),
 
   init() {
     this._super(...arguments);

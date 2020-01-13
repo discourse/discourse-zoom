@@ -18,3 +18,30 @@
     margin-left: 10px;
   }
 }
+
+.webinar-banner {
+  .edit-panelists {
+    color: $primary;
+  }
+}
+
+#edit-webinar-modal {
+  .webinar-panelist {
+    display: flex;
+    justify-content: space-between;
+    line-height: 30px;
+    padding: 3px 0;
+  }
+
+  .new-panelist-input,
+  .new-panelist-btn {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .webinar-add-panelist {
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px solid $primary-low;
+  }
+}
