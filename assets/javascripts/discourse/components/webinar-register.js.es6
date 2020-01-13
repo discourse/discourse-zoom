@@ -12,18 +12,20 @@ export default Component.extend({
   @discourseComputed(
     "currentUser",
     "webinar.attendees",
+    "webinar.panelists",
+    "webinar.host",
     "registrationSuccessful"
   )
-  registered(user, attendees, registrationSuccessful) {
+  registered(user, attendees, panelists, host, registrationSuccessful) {
     if (registrationSuccessful) return true;
 
-    if (attendees) {
-      for (let attendee of attendees) {
-        if (attendee.id === user.id) {
-          return true;
-        }
+    const allRegistered = [host].concat(panelists || []).concat(attendees || [])
+    for (let registeredUser of allRegistered) {
+      if (registeredUser.id === user.id) {
+        return true;
       }
     }
+
     return false;
   },
 
@@ -32,9 +34,7 @@ export default Component.extend({
     "webinar.{id,starts_at,ends_at,approval_type}"
   )
   userCanRegister(user, webinar) {
-    if (this.registered || webinar.approval_type === this.NO_REGISTRATION)
-      return false;
-    return true;
+    return (webinar.approval_type !== this.NO_REGISTRATION && !this.registered)
   },
 
   actions: {
