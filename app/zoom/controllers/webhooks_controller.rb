@@ -2,12 +2,14 @@
 module Zoom
   class WebhooksController < ApplicationController
     skip_before_action :verify_authenticity_token
-    before_action :ensure_webhook_authenticity,
-                  :filter_unhandled,
+    before_action :filter_unhandled,
+                  :ensure_webhook_authenticity,
                   :filter_expired_event
 
     HANDLED_EVENTS = [
       "webinar.updated",
+      "webinar.started",
+      "webinar.ended",
       "webinar.registration_approved",
       "webinar.registration_created",
       "webinar.registration_cancelled",
@@ -30,6 +32,18 @@ module Zoom
       raise Discourse::NotFound unless old_webinar
 
       old_webinar.update_from_zoom(webinar_params.dig(:payload, :object))
+    end
+
+    def webinar_started
+      raise Discourse::NotFound unless webinar
+
+      MessageBus.publish("/zoom/webinars/#{webinar.zoom_id}", status: "started")
+    end
+
+    def webinar_ended
+      raise Discourse::NotFound unless webinar
+
+      MessageBus.publish("/zoom/webinars/#{webinar.zoom_id}", status: "ended")
     end
 
     def webinar_registration_created

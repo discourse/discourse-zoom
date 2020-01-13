@@ -19,11 +19,6 @@ export default Component.extend({
     this.fetchDetails();
   },
 
-  @discourseComputed("webinar.{starts_at,webinar.ends_at}")
-  schedule(webinar) {
-    return formattedSchedule(webinar.starts_at, webinar.ends_at);
-  },
-
   fetchDetails() {
     if (!this.webinarId) return;
 
@@ -36,10 +31,19 @@ export default Component.extend({
           webinar: results
         });
         this.timerDisplay();
+        this.messageBus.subscribe(this.messageBusEndpoint, data => {
+          console.log(data);
+        });
       })
       .catch(e => {
         this.set("loading", false);
       });
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+    this.messageBus.unsubscribe(this.messageBusEndpoint);
+    clearInterval(this.interval);
   },
 
   timerDisplay() {
@@ -61,7 +65,37 @@ export default Component.extend({
     }, 1000);
   },
 
-  willDestroyElement() {
-    clearInterval(this.interval);
+  @discourseComputed("webinar")
+  messageBusEndpoint(webinar) {
+    return `/zoom/webinars/${webinar.zoom_id}`;
+  },
+
+  @discourseComputed("webinar.{starts_at,webinar.ends_at}")
+  schedule(webinar) {
+    return formattedSchedule(webinar.starts_at, webinar.ends_at);
+  },
+
+  actions: {
+    register() {
+      this.set("loading", true);
+      ajax(
+        `/zoom/webinars/${this.webinarId}/register/${this.currentUser.username}`,
+        { type: "PUT" }
+      )
+        .then(response => {
+          this.currentUser.set("webinar_registrations", response.webinars);
+          this.set("loading", false);
+        })
+        .catch(() => {
+          this.set("loading", false);
+        });
+    },
+
+    editPanelists() {
+      showModal("edit-webinar", {
+        model: this.webinar,
+        title: "zoom.edit_webinar"
+      });
+    }
   }
 });
