@@ -3,13 +3,13 @@
 class Webinar < ActiveRecord::Base
 
   enum approval_type: { automatic: 0, manual: 1, no_registration: 2 }
+  enum status: { not_started: 0, started: 1, ended: 2 }
 
   has_many :webinar_users
   has_many :users, through: :webinar_users
   belongs_to :topic
-  belongs_to :host, class_name: 'User'
 
-  validates :topic_id, presence: true, uniqueness: true
+  validates :zoom_id, presence: true, uniqueness: { message: :webinar_in_use }
 
   ZOOM_ATTRIBUTE_MAP = {
     id: :zoom_id,
@@ -46,7 +46,6 @@ class Webinar < ActiveRecord::Base
     zoom_attributes[:approval_type] = zoom_attributes[:approval_type].to_i if zoom_attributes[:approval_type]
     if zoom_attributes[:start_time] || zoom_attributes[:duration]
       zoom_attributes[:start_time] = zoom_attributes[:start_time] || starts_at.to_s
-      zoom_attributes[:duration] = zoom_attributes[:duration] || duration
       zoom_attributes[:ends_at] = (DateTime.parse(zoom_attributes[:start_time]) + zoom_attributes[:duration].to_i.minutes).to_s
     end
 

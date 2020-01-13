@@ -4,3 +4,10 @@ en:
     zoom_api_secret: "API Secret for your app."
     zoom_verification_token: "Verification token for your Zoom JWT app's Event Subscriptions (under the Feature tab). Used to update event metadata when changes are made in the Zoom UI."
     zoom_host_title_override: "Enter a custom user field name to displays its value instead of the user title below the host's username."
+  activerecord:
+    errors:
+      models:
+        webinar:
+          attributes:
+            zoom_id:
+              webinar_in_use: "Another topic is already associated with this webinar."

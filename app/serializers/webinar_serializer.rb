@@ -25,6 +25,7 @@ class WebinarSerializer < ApplicationSerializer
     :attendees,
     :host,
     :panelists,
+    :status
 
   def require_password
     !object.password.blank?
