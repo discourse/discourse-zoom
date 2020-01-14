@@ -92,21 +92,6 @@ export default Component.extend({
   },
 
   actions: {
-    register() {
-      this.set("loading", true);
-      ajax(
-        `/zoom/webinars/${this.webinarId}/register/${this.currentUser.username}`,
-        { type: "PUT" }
-      )
-        .then(response => {
-          this.currentUser.set("webinar_registrations", response.webinars);
-          this.set("loading", false);
-        })
-        .catch(() => {
-          this.set("loading", false);
-        });
-    },
-
     editPanelists() {
       showModal("edit-webinar", {
         model: this.webinar,
