@@ -114,7 +114,7 @@ module Zoom
     end
 
     def webinar
-      @webinar ||= Webinar.find(params[:webinar_id] || params[:id])
+      @webinar ||= Webinar.find_by(id: (params[:webinar_id] || params[:id]))
     end
 
     def zoom_client
