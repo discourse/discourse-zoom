@@ -38,26 +38,20 @@ module Zoom
           staged: true
         )
       end
-      WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :host, registration_status: :approved)
+      WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :host)
 
-      register_users(webinar, :attendees)
-      register_users(webinar, :panelists)
+      register_panelists(webinar)
       webinar
     end
 
     private
 
-    def register_users(webinar, type)
-      data = @zoom_client.send(type, webinar.zoom_id, true)
+    def register_panelists(webinar)
+      data = @zoom_client.panelists(webinar.zoom_id, true)
 
-      key = type == :attendees ? :registrants : :panelists
-      data[key].each do |panelist_attrs|
+      data[:panelists].each do |panelist_attrs|
         user = User.with_email(Email.downcase(panelist_attrs[:email])).first
         if !user
-          # Do not stage attendees who don't have account
-          next if type == :attendee
-
-          # But DO stage panelists who don't have accounts
           user = User.create!(
             email: panelist_attrs[:email],
             username: UserNameSuggester.suggest(panelist_attrs[:email]),
@@ -66,20 +60,14 @@ module Zoom
           )
         end
 
-
-
-        registration_status = WebinarUser.registration_status_translation(panelist_attrs[:status]) || :approved
-        registration_type = type.to_s.chomp("s").to_sym
-
         existin_records = WebinarUser.where(webinar: webinar, user: user)
         if existin_records.any?
-          existin_records.update_all(type: registration_type, registration_status: registration_status)
+          existin_records.update_all(type: :panelist)
         else
           WebinarUser.create!(
             webinar: webinar,
             user: user,
-            type: registration_type,
-            registration_status: registration_status
+            type: :panelist,
           )
         end
       end

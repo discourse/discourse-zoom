@@ -91,39 +91,26 @@ module Zoom
       webinar = Webinar.find_by(zoom_id: webinar_id)
       raise Discourse::NotFound.new unless webinar
 
-      split_name = user.name.split(' ')
-      if (split_name.count > 1)
-        first_name = split_name.first
-        last_name = split_name[1..-1].join(' ')
-      else
-        first_name = user.username
-        last_name = "n/a"
-      end
-
-      response = zoom_client.post("webinars/#{webinar.zoom_id}/registrants",
-        email: user.email,
-        first_name: first_name,
-        last_name: last_name
+      webinar.webinar_users.create(
+        user: user,
+        type: :attendee
       )
+      render json: success_json
+    end
 
-      if response.status == 201
-        registration_status = case webinar.approval_type
-                              when "automatic"
-                                :approved
-                              when "manual"
-                                :pending
-                              when "no_registration"
-                                :rejected
-        end
-        webinar.webinar_users.create(
-          user: user,
-          type: :attendee,
-          registration_status: registration_status
-        )
-        render json: success_json
-      else
-        raise Discourse::NotFound.new
-      end
+     def unregister
+      user = fetch_user_from_params
+      guardian.ensure_can_edit!(user)
+
+      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
+      webinar = Webinar.find_by(zoom_id: webinar_id)
+      raise Discourse::NotFound.new.new unless webinar
+
+      webinar.webinar_users.where(
+        user: user,
+        type: :attendee
+      ).destroy_all
+      render json: success_json
     end
 
     def signature

@@ -9,11 +9,7 @@ module Zoom
     HANDLED_EVENTS = [
       "webinar.updated",
       "webinar.started",
-      "webinar.ended",
-      "webinar.registration_approved",
-      "webinar.registration_created",
-      "webinar.registration_cancelled",
-      "webinar.registration_denied"
+      "webinar.ended"
     ]
 
     def webinars
@@ -46,30 +42,6 @@ module Zoom
 
       webinar.update(status: :ended)
       MessageBus.publish("/zoom/webinars/#{webinar.zoom_id}", status: "ended")
-    end
-
-    def webinar_registration_created
-      raise Discourse::NotFound unless webinar
-
-      registration_status = registrant[:status] == 'approved' ? :approved : :pending
-      webinar_user = WebinarUser.find_or_create_by(user: user, webinar: webinar)
-      webinar_user.update(type: :attendee, registration_status: registration_status)
-    end
-
-    def webinar_registration_approved
-      raise Discourse::NotFound unless webinar
-
-      WebinarUser.find_or_create_by(webinar: webinar, user: user).update(type: :attendee, registration_status: :approved)
-    end
-
-    def webinar_registration_cancelled
-      raise Discourse::NotFound unless webinar
-
-      WebinarUser.find_or_create_by(webinar: webinar, user: user).update(type: :attendee, registration_status: :rejected)
-    end
-
-    def webinar_registration_denied
-      webinar_registration_cancelled
     end
 
     def ensure_webhook_authenticity

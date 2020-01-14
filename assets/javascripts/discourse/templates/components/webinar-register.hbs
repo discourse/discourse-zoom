@@ -4,6 +4,9 @@
       {{d-icon "far-check-circle"}}
       {{i18n "zoom.registered"}}
     </span>
+    {{#if canUnregister}}
+      <a {{action "unregister"}}>Unregister</a>
+    {{/if}}
   </div>
 {{else}}
   {{#if userCanRegister}}
