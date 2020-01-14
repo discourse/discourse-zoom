@@ -1,6 +1,6 @@
 {{#if registered}}
   {{#if webinarStarted}}
-    <a href="/zoom/webinars/{{webinar.zoom_id}}/sdk" class="btn btn-default">{{i18n "zoom.join_sdk"}}</a>
+    {{d-button action=(action "joinSDK") class="webinar-join-sdk btn-primary" label="zoom.join_sdk" icon="video"}}
   {{else}}
     <div class="webinar-registered">
       {{#if isAttendee}}

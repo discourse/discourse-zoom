@@ -72,6 +72,11 @@ export default Component.extend({
 
     unregister() {
       this.toggleRegistration(false);
+    },
+
+    joinSDK() {
+      const url = `/zoom/webinars/${this.webinar.zoom_id}/sdk`;
+      window.location.href = url;
     }
   }
 });
