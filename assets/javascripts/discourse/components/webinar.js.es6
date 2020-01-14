@@ -79,7 +79,7 @@ export default Component.extend({
     return `/zoom/webinars/${webinar.zoom_id}`;
   },
 
-  @discourseComputed("webinar.{starts_at,webinar.ends_at}")
+  @discourseComputed("webinar.{starts_at,ends_at}")
   schedule(webinar) {
     return formattedSchedule(webinar.starts_at, webinar.ends_at);
   },
