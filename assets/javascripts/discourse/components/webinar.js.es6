@@ -9,7 +9,7 @@ export default Component.extend({
   loading: false,
   topic: null,
   webinar: null,
-  webinarId: null,
+  webinarId:null,
   showTimer: false,
   NOT_STARTED: "not_started",
   canEdit: alias("topic.details.can_edit"),
@@ -48,7 +48,9 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    this.messageBus.unsubscribe(this.messageBusEndpoint);
+    if (this.webinar) {
+      this.messageBus.unsubscribe(this.messageBusEndpoint);
+    }
     clearInterval(this.interval);
   },
 
@@ -76,7 +78,7 @@ export default Component.extend({
 
   @discourseComputed("webinar")
   messageBusEndpoint(webinar) {
-    return `/zoom/webinars/${webinar.zoom_id}`;
+    return `/zoom/webinars/${webinar.id}`;
   },
 
   @discourseComputed("webinar.{starts_at,ends_at}")

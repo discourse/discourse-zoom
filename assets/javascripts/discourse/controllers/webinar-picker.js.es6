@@ -52,7 +52,7 @@ export default Controller.extend(ModalFunctionality, {
       type: "PUT"
     })
       .then(results => {
-        this.store.find("webinar", results.zoom_id).then(webinar => {
+        this.store.find("webinar", results.id).then(webinar => {
           this.model.set("webinar", webinar);
         });
       })

@@ -26,13 +26,13 @@ export default Controller.extend(ModalFunctionality, {
     removePanelist(panelist) {
       this.set("loading", true);
       ajax(
-        `/zoom/webinars/${this.model.zoom_id}/panelists/${panelist.username}`,
+        `/zoom/webinars/${this.model.id}/panelists/${panelist.username}`,
         {
           type: "DELETE"
         }
       )
         .then(results => {
-          this.store.find("webinar", this.model.zoom_id).then(webinar => {
+          this.store.find("webinar", this.model.id).then(webinar => {
             this.set("model", webinar);
           });
         })
@@ -44,14 +44,14 @@ export default Controller.extend(ModalFunctionality, {
     addPanelist() {
       this.set("loading", true);
       ajax(
-        `/zoom/webinars/${this.model.zoom_id}/panelists/${this.newPanelist}`,
+        `/zoom/webinars/${this.model.id}/panelists/${this.newPanelist}`,
         {
           type: "PUT"
         }
       )
         .then(results => {
           this.set("newPanelist", null);
-          this.store.find("webinar", this.model.zoom_id).then(webinar => {
+          this.store.find("webinar", this.model.id).then(webinar => {
             this.set("model", webinar);
           });
         })

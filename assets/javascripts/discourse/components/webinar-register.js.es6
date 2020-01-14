@@ -53,11 +53,11 @@ export default Component.extend({
     const method = registering ? "PUT" : "DELETE";
     this.set("loading", true);
     ajax(
-      `/zoom/webinars/${this.webinar.zoom_id}/attendees/${this.currentUser.username}`,
+      `/zoom/webinars/${this.webinar.id}/attendees/${this.currentUser.username}`,
       { type: method }
     )
       .then(response => {
-        this.store.find("webinar", this.webinar.zoom_id).then(webinar => {
+        this.store.find("webinar", this.webinar.id).then(webinar => {
           this.set("webinar", webinar);
         });
         this.set("loading", false);
@@ -75,7 +75,7 @@ export default Component.extend({
     },
 
     joinSDK() {
-      const url = `/zoom/webinars/${this.webinar.zoom_id}/sdk`;
+      const url = `/zoom/webinars/${this.webinar.id}/sdk`;
       window.location.href = url;
     }
   }
