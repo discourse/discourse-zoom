@@ -32,3 +32,5 @@ en:
       secs: "Secs"
       no_panelists: "This webinar has no associated panelists. Use the form below to add a panelist."
       error: "There was an error, please try again. "
+      join_sdk: "Join via SDK"
+      cancel_registration: "Cancel Registration"

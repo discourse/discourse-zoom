@@ -11,6 +11,7 @@ export default Component.extend({
   webinar: null,
   webinarId: null,
   showTimer: false,
+  NOT_STARTED: "not_started",
   canEdit: alias("topic.details.can_edit"),
 
   hostDisplayName: Ember.computed.or(
@@ -60,6 +61,9 @@ export default Component.extend({
 
   timerDisplay() {
     const starts_at = moment(this.webinar.starts_at);
+    if (this.webinar.status !== this.NOT_STARTED) {
+      return false;
+    }
 
     this.interval = setInterval(() => {
       const duration = moment.duration(starts_at.diff(moment()));

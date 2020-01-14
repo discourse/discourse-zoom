@@ -1,13 +1,15 @@
 import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
 import { ajax } from "discourse/lib/ajax";
-import { or } from "@ember/object/computed";
+import { or, equal } from "@ember/object/computed";
+
+const STARTED = "started";
 
 export default Component.extend({
   loading: false,
   registrationSuccessful: false,
-  NO_REGISTRATION: "no_registration",
   registered: or("isHost", "isPanelist", "isAttendee"),
+  webinarStarted: equal("webinar.status", STARTED),
 
   // TODO: Handle during event, after event
 
@@ -37,22 +39,14 @@ export default Component.extend({
     return false;
   },
 
-  @discourseComputed(
-    "currentUser",
-    "webinar.host",
-    "webinar.panelists",
-    "webinar.attendees"
-  )
-  canUnregister(user, attendees) {
+  @discourseComputed("webinar.attendees")
+  canUnregister(attendees) {
     return this.isAttendee && this.registered;
   },
 
-  @discourseComputed(
-    "currentUser",
-    "webinar.{id,starts_at,ends_at,approval_type}"
-  )
-  userCanRegister(user, webinar) {
-    return webinar.approval_type !== this.NO_REGISTRATION && !this.registered;
+  @discourseComputed("webinar.{id,starts_at,ends_at}")
+  userCanRegister(webinar) {
+    return !this.isAttendee && !this.registered;
   },
 
   toggleRegistration(registering) {
