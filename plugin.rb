@@ -60,7 +60,7 @@ after_initialize do
 
   NewPostManager.add_handler do |manager|
     zoom_id = manager.args[:zoom_webinar_id]
-    next unless zoom_id
+    next if zoom_id.nil?
 
     result = manager.perform_create_post
     if result.success?
@@ -100,7 +100,6 @@ after_initialize do
     list = joined_topic_user.joins(webinar: :webinar_users)
       .where("webinars.ends_at >= ?", Time.now)
       .where("webinar_users.user_id = ?", user.id.to_s)
-      .where("webinar_users.registration_status = ?", WebinarUser.registration_statuses[:approved])
       .order("webinars.starts_at ASC")
 
     create_list(:webinars, {}, list)

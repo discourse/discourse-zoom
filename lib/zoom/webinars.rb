@@ -37,7 +37,7 @@ module Zoom
       return false if response.status != 201
 
       WebinarUser.where(user: user, webinar: webinar).destroy_all
-      WebinarUser.create!(user: user, webinar: webinar, type: :panelist, registration_status: :approved)
+      WebinarUser.create!(user: user, webinar: webinar, type: :panelist)
     end
 
     def remove_panelist(webinar:, user:)
