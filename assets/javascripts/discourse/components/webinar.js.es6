@@ -45,7 +45,7 @@ export default Component.extend({
         });
         this.timerDisplay();
         this.messageBus.subscribe(this.messageBusEndpoint, data => {
-          console.log(data);
+          this.webinar.set("status", data.status)
         });
       })
       .catch(e => {
