@@ -6,28 +6,32 @@
         <div class="alert alert-error">{{i18n "zoom.no_registration_required"}}</div>
       {{/if}}
 
-      <div class='webinar-title bold'>{{webinar.title}}</div>
-      <div class='occurrance-start-time'>{{schedule}}</div>
+      <div class='webinar-content'>
+        <div class='webinar-title bold'>{{webinar.title}}</div>
+        <div class='occurrance-start-time'>{{schedule}}</div>
 
-      <div class='host'>{{i18n "zoom.hosted_by"}}</div>
-      <div class='host-container'>
-        <img class='avatar' src={{webinar.host.avatar_url}} width=80 height=80 title={{details.host.name}}/>
-        <div class='host-description'>
-          <div class='host-name'>{{webinar.host.name}}</div>
-          <div class='group-name'>{{webinar.host.title}}</div>
-        </div>
-      </div>
-
-      {{#if webinar.panelists}}
-        <div class='panelists'>
-          {{i18n 'zoom.panelists'}}
-          <div class='panelist-avatars'>
-            {{#each webinar.panelists as |panelist|}}
-              <img class='avatar' src={{panelist.avatar_url}} width=25 height=25 alt={{panelist.name}} title={{panelist.name}} />
-            {{/each}}
+        <h3 class='host'>{{i18n "zoom.hosted_by"}}</h3>
+        <div class='host-container'>
+          <img class='avatar' src={{webinar.host.avatar_url}} width=80 height=80 title={{details.host.name}}/>
+          <div class='host-description'>
+            <div class='host-name'>{{webinar.host.name}}</div>
+            <div class='group-name'>{{webinar.host.title}}</div>
           </div>
         </div>
-      {{/if}}
+
+          <h3>{{i18n 'zoom.panelists'}}</h3>
+          <div class='panelists'>
+            {{#if webinar.panelists}}
+              <div class='panelist-avatars'>
+                {{#each webinar.panelists as |panelist|}}
+                  <img class='avatar' src={{panelist.avatar_url}} width=25 height=25 alt={{panelist.name}} title={{panelist.name}} />
+                {{/each}}
+              </div>
+            {{else}}
+              <div class="no-panelists">{{i18n "zoom.no_panelists_preview"}}</div>
+            {{/if}}
+          </div>
+      </div>
     {{/if}}
     <div class="modal-footer">
       {{#unless registrationRequired}}

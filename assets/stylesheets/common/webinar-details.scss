@@ -46,16 +46,17 @@
       }
     }
   }
+}
 
+.webinar-content {
   .webinar-title {
     font-size: $font-up-4;
     font-weight: bold;
   }
-}
 
-.webinar-content {
-  .host {
-    margin: 15px 0 5px 0;
+  h3 {
+    margin-top: 0.5em;
+    color: $primary;
   }
 
   .host-container {
