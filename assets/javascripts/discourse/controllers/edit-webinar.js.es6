@@ -19,37 +19,45 @@ export default Controller.extend(ModalFunctionality, {
 
   @discourseComputed("loading", "newPanelist")
   addingDisabled(loading, panelist) {
-    return loading || !panelist
+    return loading || !panelist;
   },
 
   actions: {
     removePanelist(panelist) {
-      this.set("loading", true)
-      ajax(`/zoom/webinars/${this.model.zoom_id}/panelists/${panelist.username}`, {
-        type: "DELETE"
-      })
-      .then(results => {
-        this.store.find("webinar", this.model.zoom_id).then(webinar => {
-          this.set("model", webinar);
+      this.set("loading", true);
+      ajax(
+        `/zoom/webinars/${this.model.zoom_id}/panelists/${panelist.username}`,
+        {
+          type: "DELETE"
+        }
+      )
+        .then(results => {
+          this.store.find("webinar", this.model.zoom_id).then(webinar => {
+            this.set("model", webinar);
+          });
+        })
+        .finally(() => {
+          this.set("loading", false);
         });
-      }).finally(() => {
-        this.set("loading", false)
-      })
     },
 
     addPanelist() {
-      this.set("loading", true)
-      ajax(`/zoom/webinars/${this.model.zoom_id}/panelists/${this.newPanelist}`, {
-        type: "PUT"
-      })
-      .then(results => {
-        this.set("newPanelist", null);
-        this.store.find("webinar", this.model.zoom_id).then(webinar => {
-          this.set("model", webinar);
+      this.set("loading", true);
+      ajax(
+        `/zoom/webinars/${this.model.zoom_id}/panelists/${this.newPanelist}`,
+        {
+          type: "PUT"
+        }
+      )
+        .then(results => {
+          this.set("newPanelist", null);
+          this.store.find("webinar", this.model.zoom_id).then(webinar => {
+            this.set("model", webinar);
+          });
+        })
+        .finally(() => {
+          this.set("loading", false);
         });
-      }).finally(() => {
-        this.set("loading", false)
-      })
     }
   }
 });

@@ -98,6 +98,21 @@ module Zoom
       render json: success_json
     end
 
+     def unregister
+      user = fetch_user_from_params
+      guardian.ensure_can_edit!(user)
+
+      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
+      webinar = Webinar.find_by(zoom_id: webinar_id)
+      raise Discourse::NotFound.new.new unless webinar
+
+      webinar.webinar_users.where(
+        user: user,
+        type: :attendee
+      ).destroy_all
+      render json: success_json
+    end
+
     def signature
       webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
       webinar = Webinar.find_by(zoom_id: webinar_id)

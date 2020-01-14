@@ -43,7 +43,7 @@ export default Component.extend({
     "webinar.panelists",
     "webinar.attendees"
   )
-  canUnregister(user, host, panelists, attendees) {
+  canUnregister(user, attendees) {
     return this.isAttendee && this.registered;
   },
 
