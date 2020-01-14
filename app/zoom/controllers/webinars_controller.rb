@@ -3,6 +3,7 @@
 module Zoom
   class WebinarsController < ApplicationController
     skip_before_action :verify_authenticity_token, only: [:register]
+    skip_before_action :check_xhr, only: [:sdk]
     before_action :ensure_logged_in
 
     def index
@@ -88,7 +89,7 @@ module Zoom
 
       webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
       webinar = Webinar.find_by(zoom_id: webinar_id)
-      raise Discourse::NotFound.new.new unless webinar
+      raise Discourse::NotFound.new unless webinar
 
       split_name = user.name.split(' ')
       if (split_name.count > 1)
@@ -123,6 +124,31 @@ module Zoom
       else
         raise Discourse::NotFound.new
       end
+    end
+
+    def signature
+      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
+      webinar = Webinar.find_by(zoom_id: webinar_id)
+      raise Discourse::NotFound.new unless webinar
+
+      sig = Zoom::Webinars.new(Zoom::Client.new).signature(webinar_id)
+
+      render json: {
+        signature: sig,
+        username: current_user.username,
+        api_key: SiteSetting.zoom_api_key,
+        topic_url: webinar.topic.url,
+        email: current_user.email
+      }
+    end
+
+    def sdk
+      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
+      webinar = Webinar.find_by(zoom_id: webinar_id)
+      raise Discourse::NotFound.new unless webinar
+
+      render layout: 'no_ember'
+      false
     end
 
     private

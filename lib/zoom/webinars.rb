@@ -53,6 +53,21 @@ module Zoom
       WebinarUser.where(user: user, webinar: webinar).destroy_all
     end
 
+    def signature(webinar_id)
+      return false unless SiteSetting.zoom_api_key && SiteSetting.zoom_api_secret
+      webinar = zoom_client.webinar(webinar_id)
+      return false unless webinar[:id]
+
+      role = 0 # regular member role
+      time = Time.now.to_i * 1000 # in milliseconds
+
+      key = Base64.encode64("#{SiteSetting.zoom_api_key}#{webinar_id}#{time}#{role}").strip
+      hsh = OpenSSL::HMAC.digest("sha256", SiteSetting.zoom_api_secret, key)
+      signature = "#{SiteSetting.zoom_api_key}.#{webinar_id}.#{time}.#{role}.#{Base64.encode64(hsh).strip}"
+
+      Base64.urlsafe_encode64(signature, padding: false)
+    end
+
     private
 
     def host(host_id)

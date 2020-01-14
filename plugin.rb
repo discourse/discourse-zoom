@@ -78,6 +78,8 @@ after_initialize do
       put 'panelists/:username' => 'webinars#add_panelist'
       delete 'panelists/:username' => 'webinars#remove_panelist'
       get 'preview' => 'webinars#preview'
+      get 'sdk' => 'webinars#sdk'
+      get 'signature' => 'webinars#signature'
     end
     put 't/:topic_id/webinars/:webinar_id' => 'webinars#add_to_topic'
 
@@ -104,4 +106,5 @@ after_initialize do
     create_list(:webinars, {}, list)
   end
 
+  ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
 end
