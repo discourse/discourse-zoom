@@ -18,13 +18,6 @@ export default Component.extend({
     "webinar.host.name",
     "webinar.host.username"
   ),
-  AUTOMATIC_APPROVAL: "automatic",
-  MANUAL_APPROVAL: "manual",
-  NO_REGISTRATION: "no_registration",
-
-  BEFORE_VALUE: "before",
-  DURING_VALUE: "during",
-  AFTER_VALUE: "after",
   hostDisplayName: or("webinar.host.name", "webinar.host.username"),
 
   init() {
