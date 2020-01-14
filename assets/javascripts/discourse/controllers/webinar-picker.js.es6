@@ -3,6 +3,7 @@ import ModalFunctionality from "discourse/mixins/modal-functionality";
 import { formattedSchedule } from "../lib/webinar-helpers";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
+import discourseComputed from "discourse-common/utils/decorators";
 
 export default Controller.extend(ModalFunctionality, {
   webinarId: null,
@@ -13,6 +14,7 @@ export default Controller.extend(ModalFunctionality, {
   selected: false,
   allWebinars: null,
   error: false,
+  NO_REGISTRATION_REQUIRED: 2,
 
   onShow() {
     if (!this.webinar) {
@@ -113,6 +115,14 @@ export default Controller.extend(ModalFunctionality, {
       .finally(() => {
         this.set("loading", false);
       });
+  },
+
+  @discourseComputed("webinar")
+  registrationRequired(webinar) {
+    if (webinar.approval_type !== this.NO_REGISTRATION_REQUIRED) {
+      return true;
+    }
+    return false;
   },
 
   actions: {

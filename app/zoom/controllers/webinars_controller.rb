@@ -7,7 +7,7 @@ module Zoom
     before_action :ensure_logged_in
 
     def index
-      render json: Zoom::Webinars.new(Zoom::Client.new).all(current_user)
+      render json: Zoom::Webinars.new(Zoom::Client.new).unmatched(current_user)
     end
 
     def show

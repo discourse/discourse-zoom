@@ -8,12 +8,12 @@ module Zoom
       @zoom_client = zoom_client
     end
 
-    def all(user)
+    def unmatched(user)
       response = zoom_client.get("users/#{user.email}/webinars")
       return [] unless response
 
       result = response[:webinars]&.select do |hash|
-        hash[:start_time].in_time_zone.utc > Time.now.utc
+        hash[:start_time].in_time_zone.utc > Time.now.utc && Webinar.where(zoom_id: hash[:id]).empty?
       end
 
       result

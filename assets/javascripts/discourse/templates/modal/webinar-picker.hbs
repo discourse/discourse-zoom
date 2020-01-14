@@ -2,6 +2,10 @@
   {{conditional-loading-spinner condition=loading}}
   {{#if selected}}
     {{#if webinar}}
+      {{#if registrationRequired}}
+        <div class="alert alert-error">{{i18n "zoom.no_registration_required"}}</div>
+      {{/if}}
+
       <div class='webinar-title bold'>{{webinar.title}}</div>
       <div class='occurrance-start-time'>{{schedule}}</div>
 
@@ -26,7 +30,9 @@
       {{/if}}
     {{/if}}
     <div class="modal-footer">
-      {{d-button action=(action "insert") class='btn-primary' label='zoom.webinar_picker.create'}}
+      {{#unless registrationRequired}}
+        {{d-button action=(action "insert") class='btn-primary' label='zoom.webinar_picker.create'}}
+      {{/unless}}
       {{d-button action=(action "clear") label='zoom.webinar_picker.clear' class='btn-flat'}}
     </div>
   {{else}}
