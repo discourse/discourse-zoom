@@ -11,6 +11,8 @@ class Webinar < ActiveRecord::Base
 
   validates :zoom_id, presence: true, uniqueness: { message: :webinar_in_use }
 
+  after_commit :notify_status_update, on: :update
+
   ZOOM_ATTRIBUTE_MAP = {
     id: :zoom_id,
     topic: :title,
@@ -38,6 +40,12 @@ class Webinar < ActiveRecord::Base
   end
 
   private
+
+  def notify_status_update
+    if previous_changes["status"]
+      MessageBus.publish("/zoom/webinars/#{zoom_id}", status: status)
+    end
+  end
 
   def convert_attributes_from_zoom(zoom_attributes)
     zoom_attributes = (zoom_attributes[:settings] || {}).merge(zoom_attributes.except(:settings)).to_h.deep_symbolize_keys

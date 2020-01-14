@@ -34,14 +34,12 @@ module Zoom
       raise Discourse::NotFound unless webinar
 
       webinar.update(status: :started)
-      MessageBus.publish("/zoom/webinars/#{webinar.zoom_id}", status: "started")
     end
 
     def webinar_ended
       raise Discourse::NotFound unless webinar
 
       webinar.update(status: :ended)
-      MessageBus.publish("/zoom/webinars/#{webinar.zoom_id}", status: "ended")
     end
 
     def ensure_webhook_authenticity
