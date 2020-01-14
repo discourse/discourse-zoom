@@ -5,10 +5,10 @@
   ZoomMtg.prepareJssdk();
 
   const path = window.location.pathname;
-  const meetingNumber = path.split("/zoom/webinars/")[1].split("/sdk")[0];
+  const meetingId = path.split("/zoom/webinars/")[1].split("/sdk")[0];
 
   $.ajax({
-    url: `/zoom/webinars/${meetingNumber}/signature.json`
+    url: `/zoom/webinars/${meetingId}/signature.json`
   }).done(function(res) {
     // console.log(res);
     ZoomMtg.init({
@@ -16,7 +16,7 @@
       isSupportAV: true,
       success: function() {
         ZoomMtg.join({
-          meetingNumber: meetingNumber,
+          meetingNumber: res.id,
           userName: res.username,
           signature: res.signature,
           apiKey: res.api_key,
