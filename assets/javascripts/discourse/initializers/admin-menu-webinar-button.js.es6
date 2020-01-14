@@ -56,7 +56,7 @@ function showWebinarModal(model) {
 function removeWebinar(topic) {
   bootbox.confirm(I18n.t("zoom.confirm_remove"), result => {
     if (result) {
-      ajax(`/zoom/webinars/${topic.webinar.zoom_id}`, { type: "DELETE" })
+      ajax(`/zoom/webinars/${topic.webinar.id}`, { type: "DELETE" })
         .then(response => {
           topic.set("webinar", null);
           const topicController = Discourse.__container__.lookup(

@@ -4,17 +4,16 @@ module Zoom
   class WebinarsController < ApplicationController
     skip_before_action :verify_authenticity_token, only: [:register]
     skip_before_action :check_xhr, only: [:sdk]
-    before_action :ensure_logged_in
+    before_action :ensure_logged_in, :ensure_webinar_exists
+    before_action :ensure_webinar_exists, only: [ :show, :destroy, :add_panelist,
+                                                  :remove_panelists, :register, :unregister,
+                                                  :signature, :sdk ]
 
     def index
       render json: Zoom::Webinars.new(Zoom::Client.new).all(current_user)
     end
 
     def show
-      webinar_id = Webinar.sanitize_zoom_id(params[:id])
-      webinar = Webinar.find_by(zoom_id: webinar_id)
-      raise Discourse::NotFound.new unless webinar
-
       render_serialized(
         webinar,
         WebinarSerializer,
@@ -25,10 +24,6 @@ module Zoom
     end
 
     def destroy
-      webinar_id = Webinar.sanitize_zoom_id(params[:id])
-      webinar = Webinar.find_by(zoom_id: webinar_id)
-      raise Discourse::NotFound.new unless webinar
-
       guardian.ensure_can_edit!(webinar.topic)
       webinar.webinar_users.destroy_all
       webinar.destroy
@@ -36,11 +31,8 @@ module Zoom
     end
 
     def add_panelist
-      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
-      webinar = Webinar.find_by(zoom_id: webinar_id)
-      raise Discourse::NotFound.new unless webinar
-
       user = fetch_user_from_params
+      guardian.ensure_can_edit!(user)
       raise Discourse::NotFound if user.in? webinar.panelists
 
       if Zoom::Webinars.new(zoom_client).add_panelist(webinar: webinar, user: user)
@@ -51,11 +43,8 @@ module Zoom
     end
 
     def remove_panelist
-      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
-      webinar = Webinar.find_by(zoom_id: webinar_id)
-      raise Discourse::NotFound.new unless webinar
-
       user = fetch_user_from_params
+      guardian.ensure_can_edit!(user)
       raise Discourse::NotFound unless user.in? webinar.panelists
 
       if Zoom::Webinars.new(zoom_client).remove_panelist(webinar: webinar, user: user)
@@ -69,27 +58,20 @@ module Zoom
       topic = Topic.find(params[:topic_id])
       raise Discourse::NotFound.new unless topic
 
-      webinar = WebinarCreator.new(topic.id, params[:webinar][:id], params[:webinar]).run
-      raise Discourse::InvalidParameters.new unless webinar
-
-      render json: { zoom_id: webinar.zoom_id }
+      new_webinar = WebinarCreator.new(topic.id, params[:webinar][:id], params[:webinar]).run
+      render json: { id: new_webinar.id }
     end
 
     def preview
       webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
-      webinar = Zoom::Webinars.new(zoom_client).find(webinar_id)
-      raise Discourse::NotFound.new unless webinar
+      preview = Zoom::Webinars.new(zoom_client).find(webinar_id)
 
-      render json: webinar
+      render json: preview
     end
 
     def register
       user = fetch_user_from_params
       guardian.ensure_can_edit!(user)
-
-      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
-      webinar = Webinar.find_by(zoom_id: webinar_id)
-      raise Discourse::NotFound.new unless webinar
 
       webinar.webinar_users.create(
         user: user,
@@ -98,28 +80,19 @@ module Zoom
       render json: success_json
     end
 
-     def unregister
+    def unregister
       user = fetch_user_from_params
-      guardian.ensure_can_edit!(user)
+     guardian.ensure_can_edit!(user)
 
-      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
-      webinar = Webinar.find_by(zoom_id: webinar_id)
-      raise Discourse::NotFound.new.new unless webinar
-
-      webinar.webinar_users.where(
-        user: user,
-        type: :attendee
-      ).destroy_all
-      render json: success_json
-    end
+     webinar.webinar_users.where(
+       user: user,
+       type: :attendee
+     ).destroy_all
+     render json: success_json
+   end
 
     def signature
-      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
-      webinar = Webinar.find_by(zoom_id: webinar_id)
-      raise Discourse::NotFound.new unless webinar
-
-      sig = Zoom::Webinars.new(Zoom::Client.new).signature(webinar_id)
-
+      sig = Zoom::Webinars.new(Zoom::Client.new).signature(webinar.zoom_id)
       render json: {
         signature: sig,
         username: current_user.username,
@@ -130,15 +103,19 @@ module Zoom
     end
 
     def sdk
-      webinar_id = Webinar.sanitize_zoom_id(params[:webinar_id])
-      webinar = Webinar.find_by(zoom_id: webinar_id)
-      raise Discourse::NotFound.new unless webinar
-
       render layout: 'no_ember'
       false
     end
 
     private
+
+    def ensure_webinar_exists
+      raise Discourse::NotFound.new unless webinar
+    end
+
+    def webinar
+      @webinar ||= Webinar.find(params[:webinar_id] || params[:id])
+    end
 
     def zoom_client
       @zoom_client ||= Zoom::Client.new

@@ -44,7 +44,7 @@ class Webinar < ActiveRecord::Base
   def notify_status_update
     return if previous_changes["status"].nil?
 
-    MessageBus.publish("/zoom/webinars/#{zoom_id}", status: status)
+    MessageBus.publish("/zoom/webinars/#{id}", status: status)
   end
 
   def convert_attributes_from_zoom(zoom_attributes)
