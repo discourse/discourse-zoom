@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Zoom
   class WebhooksController < ApplicationController
-    skip_before_action :verify_authenticity_token
+    skip_before_action :verify_authenticity_token, :redirect_to_login_if_required
     before_action :filter_unhandled,
                   :ensure_webhook_authenticity,
                   :filter_expired_event
@@ -96,16 +96,15 @@ module Zoom
       @old_weninar ||= find_webinar_from(:old_object)
     end
 
-
     def webinar
       @weninar ||= find_webinar_from(:object)
     end
 
     def find_webinar_from(key)
-        zoom_id = webinar_params.fetch(:payload, {}).fetch(key, {}).fetch(:id, {})
-        return nil unless zoom_id
+      zoom_id = webinar_params.fetch(:payload, {}).fetch(key, {}).fetch(:id, {})
+      return nil unless zoom_id
 
-        Webinar.find_by(zoom_id: zoom_id)
+      Webinar.find_by(zoom_id: zoom_id)
     end
 
     def registrant
