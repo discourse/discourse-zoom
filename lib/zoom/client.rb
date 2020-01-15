@@ -5,7 +5,8 @@ module Zoom
     API_URL = 'https://api.zoom.us/v2/'
 
     def webinar(webinar_id)
-      data = get("webinars/#{webinar_id}")
+      response = get("webinars/#{webinar_id}")
+      data = response.body
 
       start_datetime = DateTime.parse(data[:start_time])
 
@@ -29,7 +30,8 @@ module Zoom
     end
 
     def host(host_id)
-      data = get("users/#{host_id}")
+      response = get("users/#{host_id}")
+      data = response.body
       {
         name: "#{data[:first_name]} #{data[:last_name]}",
         email: data[:email],
@@ -38,9 +40,10 @@ module Zoom
     end
 
     def panelists(webinar_id, raw = false)
-      data = get("webinars/#{webinar_id}/panelists")
-      return data if raw
+      response = get("webinars/#{webinar_id}/panelists")
+      return response if raw
 
+      data = response.body
       {
         panelists: data[:panelists].map do |s|
           {
@@ -54,12 +57,13 @@ module Zoom
     end
 
     def get(endpoint)
-      result = Excon.get(
+      response = Excon.get(
         "#{API_URL}#{endpoint}",
         headers: { 'Authorization': "Bearer #{jwt_token}" }
       )
 
-      JSON.parse(result.body, symbolize_names: true)
+      response.body = JSON.parse(response.body, symbolize_names: true) unless response.body.blank?
+      response
     end
 
     def post(endpoint, body)

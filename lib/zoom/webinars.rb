@@ -45,7 +45,7 @@ module Zoom
     end
 
     def remove_panelist(webinar:, user:)
-      panelists = zoom_client.panelists(webinar.zoom_id, true)[:panelists]
+      panelists = zoom_client.panelists(webinar.zoom_id, true)[:body][:panelists]
       matching_panelist = panelists.detect do |panelist|
         panelist[:email] == user.email
       end

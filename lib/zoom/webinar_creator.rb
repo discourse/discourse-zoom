@@ -47,15 +47,13 @@ module Zoom
     private
 
     def register_panelists(webinar)
-      data = @zoom_client.panelists(webinar.zoom_id, true)
-
-      data[:panelists].each do |panelist_attrs|
-        user = User.with_email(Email.downcase(panelist_attrs[:email])).first
+      @zoom_client.panelists(webinar.zoom_id, true)[:body][:panelists].each do |attrs|
+        user = User.with_email(Email.downcase(attrs[:email])).first
         if !user
           user = User.create!(
-            email: panelist_attrs[:email],
-            username: UserNameSuggester.suggest(panelist_attrs[:email]),
-            name: User.suggest_name(panelist_attrs[:email]),
+            email: attrs[:email],
+            username: UserNameSuggester.suggest(attrs[:email]),
+            name: User.suggest_name(attrs[:email]),
             staged: true
           )
         end
