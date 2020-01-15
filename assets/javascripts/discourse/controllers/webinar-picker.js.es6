@@ -38,7 +38,8 @@ export default Controller.extend(ModalFunctionality, {
       allWebinars: null,
       selected: false,
       webinarIdInput: null,
-      webinar: null
+      webinar: null,
+      error: false
     });
   },
 
