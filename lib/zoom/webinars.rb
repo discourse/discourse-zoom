@@ -4,6 +4,8 @@ module Zoom
   class Webinars
     attr_reader :zoom_client
 
+    RECURRING_WEBINAR_TYPE = 9
+
     def initialize(zoom_client)
       @zoom_client = zoom_client
     end
@@ -13,7 +15,9 @@ module Zoom
       return [] unless response
 
       result = response[:webinars]&.select do |hash|
-        hash[:start_time].in_time_zone.utc > Time.now.utc && Webinar.where(zoom_id: hash[:id]).empty?
+        hash[:start_time].in_time_zone.utc > Time.now.utc \
+          && hash[:type] != RECURRING_WEBINAR_TYPE \
+          && Webinar.where(zoom_id: hash[:id]).empty?
       end
 
       result
