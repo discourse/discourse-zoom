@@ -54,7 +54,7 @@ export default Component.extend({
   toggleRegistration(registering) {
     const method = registering ? "PUT" : "DELETE";
     this.set("loading", true);
-    ajax(
+    return ajax(
       `/zoom/webinars/${this.webinar.id}/attendees/${this.currentUser.username}`,
       { type: method }
     )
@@ -78,7 +78,15 @@ export default Component.extend({
 
     joinSDK() {
       const url = `/zoom/webinars/${this.webinar.id}/sdk`;
-      window.location.href = url;
+
+      if (this.registered) {
+        window.location.href = url;
+      } else {
+        this.toggleRegistration(true).then(response => {
+          console.log(response);
+          window.location.href = url;
+        });
+      }
     }
   }
 });
