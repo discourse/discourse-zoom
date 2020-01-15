@@ -36,3 +36,4 @@ en:
       join_sdk: "Join via SDK"
       cancel_registration: "Cancel Registration"
       no_registration_required: 'This webinar is marked as "Registration required" in Zoom which is currently not supported. Please edit the webinar settings and try again.'
+      webinar_ended: "This webinar has ended."

@@ -2,17 +2,20 @@ import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
 import { formattedSchedule } from "../lib/webinar-helpers";
 import showModal from "discourse/lib/show-modal";
-import { alias, or } from "@ember/object/computed";
+import { alias, or, equal } from "@ember/object/computed";
 import { ajax } from "discourse/lib/ajax";
+
+const NOT_STARTED = "not_started",
+  ENDED = "ended";
 
 export default Component.extend({
   loading: false,
   topic: null,
   webinar: null,
-  webinarId:null,
+  webinarId: null,
   showTimer: false,
-  NOT_STARTED: "not_started",
   canEdit: alias("topic.details.can_edit"),
+  webinarEnded: equal("webinar.status", ENDED),
 
   hostDisplayName: Ember.computed.or(
     "webinar.host.name",
@@ -56,7 +59,7 @@ export default Component.extend({
 
   timerDisplay() {
     const starts_at = moment(this.webinar.starts_at);
-    if (this.webinar.status !== this.NOT_STARTED) {
+    if (this.webinar.status !== NOT_STARTED) {
       return false;
     }
 

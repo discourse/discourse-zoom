@@ -3,13 +3,15 @@ import discourseComputed from "discourse-common/utils/decorators";
 import { ajax } from "discourse/lib/ajax";
 import { or, equal } from "@ember/object/computed";
 
-const STARTED = "started";
+const STARTED = "started",
+  ENDED = "ended";
 
 export default Component.extend({
   loading: false,
   registrationSuccessful: false,
   registered: or("isHost", "isPanelist", "isAttendee"),
   webinarStarted: equal("webinar.status", STARTED),
+  webinarEnded: equal("webinar.status", ENDED),
 
   // TODO: Handle during event, after event
 

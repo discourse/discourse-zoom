@@ -47,6 +47,9 @@
     {{/if}}
 
     {{webinar-register webinar=webinar}}
+    {{#if webinarEnded}}
+      {{i18n "zoom.webinar_ended"}}
+    {{/if}}
   </div>
 {{else}}
   {{conditional-loading-spinner condition=loading}}

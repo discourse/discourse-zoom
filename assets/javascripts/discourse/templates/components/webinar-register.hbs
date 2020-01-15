@@ -1,6 +1,8 @@
 {{#if webinarStarted}}
   {{d-button action=(action "joinSDK") class="webinar-join-sdk btn-primary" label="zoom.join_sdk" icon="video"}}
-{{else}}
+{{/if}}
+
+{{#unless webinarEnded}}
   {{#if registered}}
     <div class="webinar-registered">
       {{#if isAttendee}}
@@ -17,4 +19,4 @@
       {{d-button action=(action "register") class="webinar-register-button btn-primary" label="zoom.register" icon="far-calendar-alt" disabled=loading}}
     {{/if}}
   {{/if}}
-{{/if}}
+{{/unless}}
