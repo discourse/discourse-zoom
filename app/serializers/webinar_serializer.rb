@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class WebinarSerializer < ApplicationSerializer
-  has_many :attendees, serializer: UserSerializer
-  has_one :host, serializer: HostSerializer
-  has_many :panelists, serializer: UserSerializer
+  has_one :host, serializer: HostSerializer, embed: :objects
+  has_many :attendees, serializer: BasicUserSerializer, embed: :objects
+  has_many :panelists, serializer: BasicUserSerializer, embed: :objects
 
   attributes :topic_id,
     :id,
@@ -22,9 +22,6 @@ class WebinarSerializer < ApplicationSerializer
     :meeting_authentication,
     :on_demand,
     :join_url,
-    :attendees,
-    :host,
-    :panelists,
     :status
 
   def require_password

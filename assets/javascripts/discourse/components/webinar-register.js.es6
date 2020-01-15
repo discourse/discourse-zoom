@@ -15,9 +15,11 @@ export default Component.extend({
 
   @discourseComputed("currentUser", "webinar.attendees")
   isAttendee(user, attendees) {
-    for (let attendee of attendees) {
-      if (attendee.id === user.id) {
-        return true;
+    if (attendees) {
+      for (let attendee of attendees) {
+        if (attendee.id === user.id) {
+          return true;
+        }
       }
     }
     return false;
