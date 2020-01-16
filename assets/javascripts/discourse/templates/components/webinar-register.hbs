@@ -1,22 +1,22 @@
-{{#if webinarStarted}}
-  {{d-button action=(action "joinSDK") class="webinar-join-sdk btn-primary" label="zoom.join_sdk" icon="video"}}
-{{/if}}
-
 {{#unless webinarEnded}}
-  {{#if registered}}
-    <div class="webinar-registered">
-      {{#if isAttendee}}
-        <span>
-          {{d-icon "far-check-circle"}} {{i18n "zoom.registered"}}
-        </span>
-        {{#if canUnregister}}
-          <a {{action "unregister"}} class="btn-flat" title="{{i18n "zoom.cancel_registration"}}">{{d-icon "times"}}</a>
-        {{/if}}
-      {{/if}}
-    </div>
+  {{#if webinarStarted}}
+    {{d-button action=(action "joinSDK") class="webinar-join-sdk btn-primary" label="zoom.join_sdk" icon="video"}}
   {{else}}
-    {{#if userCanRegister}}
-      {{d-button action=(action "register") class="webinar-register-button btn-primary" label="zoom.register" icon="far-calendar-alt" disabled=loading}}
+    {{#if registered}}
+      <div class="webinar-registered">
+        {{#if isAttendee}}
+          <span>
+            {{d-icon "far-check-circle"}} {{i18n "zoom.registered"}}
+          </span>
+          {{#if canUnregister}}
+            <a {{action "unregister"}} class="btn-flat" title="{{i18n "zoom.cancel_registration"}}">{{d-icon "times"}}</a>
+          {{/if}}
+        {{/if}}
+      </div>
+    {{else}}
+      {{#if userCanRegister}}
+        {{d-button action=(action "register") class="webinar-register-button btn-primary" label="zoom.register" icon="far-calendar-alt" disabled=loading}}
+      {{/if}}
     {{/if}}
   {{/if}}
 {{/unless}}

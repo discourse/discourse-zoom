@@ -8,12 +8,9 @@ const STARTED = "started",
 
 export default Component.extend({
   loading: false,
-  registrationSuccessful: false,
   registered: or("isHost", "isPanelist", "isAttendee"),
   webinarStarted: equal("webinar.status", STARTED),
   webinarEnded: equal("webinar.status", ENDED),
-
-  // TODO: Handle during event, after event
 
   @discourseComputed("currentUser", "webinar.attendees")
   isAttendee(user, attendees) {
@@ -85,7 +82,6 @@ export default Component.extend({
         window.location.href = url;
       } else {
         this.toggleRegistration(true).then(response => {
-          console.log(response);
           window.location.href = url;
         });
       }
