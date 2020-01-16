@@ -109,6 +109,7 @@ module Zoom
     private
 
     def ensure_webinar_exists
+      Rails.logger.error "webinar missing, params: #{params.inspect}" unless webinar
       raise Discourse::NotFound.new unless webinar
     end
 
