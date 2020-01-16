@@ -6,7 +6,7 @@ module Zoom
     skip_before_action :check_xhr, only: [:sdk]
     before_action :ensure_logged_in
     before_action :ensure_webinar_exists, only: [ :show, :destroy, :add_panelist,
-                                                  :remove_panelists, :register, :unregister,
+                                                  :remove_panelist, :register, :unregister,
                                                   :signature, :sdk ]
 
     def index
