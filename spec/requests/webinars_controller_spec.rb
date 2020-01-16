@@ -5,6 +5,7 @@ require "rails_helper"
 describe Zoom::WebinarsController do
   fab!(:user) { Fabricate(:user) }
   fab!(:other_user) { Fabricate(:user) }
+  fab!(:admin) { Fabricate(:user, username: "mark.vanlan", admin: true) }
   fab!(:topic) { Fabricate(:topic, user: user) }
   let(:webinar) { Webinar.create(topic: topic, zoom_id: "123") }
 
@@ -49,6 +50,14 @@ describe Zoom::WebinarsController do
       sign_in(user)
       expect(webinar.panelists.include? user).to eq(false)
       put("/zoom/webinars/#{webinar.id}/panelists/#{user.username}.json")
+      expect(response.status).to eq(200)
+      expect(webinar.panelists.include? user).to eq(true)
+    end
+
+    it "Adds a panelist to the webinar when the username has a '.'" do
+      sign_in(admin)
+      expect(webinar.panelists.include? user).to eq(false)
+      put("/zoom/webinars/#{webinar.id}/panelists/#{admin.username}.json")
       expect(response.status).to eq(200)
       expect(webinar.panelists.include? user).to eq(true)
     end
