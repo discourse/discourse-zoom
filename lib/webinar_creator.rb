@@ -28,7 +28,7 @@ module Zoom
         on_demand: @attrs[:on_demand],
         join_url: @attrs[:join_url],
       )
-      host_data = Zoom::Client.new.host(@attrs[:zoom_host_id])
+      host_data = @zoom_client.host(@attrs[:zoom_host_id])
       user = User.find_by_email(host_data[:email])
       unless user
         user = User.create!(
