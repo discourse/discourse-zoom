@@ -58,7 +58,7 @@ describe Zoom::WebinarsController do
     before do
       stub_request(:get, "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists").to_return(status: 201, body: {
         panelists: [{id: "123", email: user.email}]}.to_json
-                                                                                                  )
+      )
       stub_request(:delete, "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists/123").to_return(status: 204)
     end
 

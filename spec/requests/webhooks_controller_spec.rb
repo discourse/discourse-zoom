@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative '../fabricators/webinar_fabricator.rb'
 
-Fabricator(:webinar) do
-  title "Test webinar"
-  starts_at 6.hours.from_now
-  ends_at 7.hours.from_now
-  duration 60
-  zoom_host_id 'a1a1k1k30291'
-end
+# Fabricator(:webinar) do
+  # title "Test webinar"
+  # starts_at 6.hours.from_now
+  # ends_at 7.hours.from_now
+  # duration 60
+  # zoom_host_id 'a1a1k1k30291'
+# end
 
 def webinar_updated(args = {})
   old_object = { "id": args[:zoom_id] }
@@ -51,12 +52,7 @@ describe Zoom::WebhooksController do
       SiteSetting.zoom_verification_token = ""
     end
     it "errors for webinar_registration_created" do
-      post "/zoom/webhooks/webinars.json", params: { webhook: webinar_registration_created }, headers: { "Authorization": "123" }
-      expect(response.status).to eq(403)
-      expect(response.body).to include("invalid_access")
-    end
-    it "errors for webinar_registration_approved" do
-      post "/zoom/webhooks/webinars.json", params: { webhook: webinar_registration_cancelled }, headers: { "Authorization": "123" }
+      post "/zoom/webhooks/webinars.json", params: { webhook: webinar_updated }, headers: { "Authorization": "123" }
       expect(response.status).to eq(403)
       expect(response.body).to include("invalid_access")
     end
