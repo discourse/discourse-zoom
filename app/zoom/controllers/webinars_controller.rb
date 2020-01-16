@@ -4,7 +4,7 @@ module Zoom
   class WebinarsController < ApplicationController
     skip_before_action :verify_authenticity_token, only: [:register]
     skip_before_action :check_xhr, only: [:sdk]
-    before_action :ensure_logged_in, :ensure_webinar_exists
+    before_action :ensure_logged_in
     before_action :ensure_webinar_exists, only: [ :show, :destroy, :add_panelist,
                                                   :remove_panelists, :register, :unregister,
                                                   :signature, :sdk ]
