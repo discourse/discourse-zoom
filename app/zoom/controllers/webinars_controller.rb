@@ -32,7 +32,7 @@ module Zoom
 
     def add_panelist
       user = fetch_user_from_params
-      guardian.ensure_can_edit!(user)
+      guardian.ensure_can_edit!(webinar.topic)
       raise Discourse::NotFound if user.in? webinar.panelists
 
       if Zoom::Webinars.new(zoom_client).add_panelist(webinar: webinar, user: user)
@@ -44,7 +44,7 @@ module Zoom
 
     def remove_panelist
       user = fetch_user_from_params
-      guardian.ensure_can_edit!(user)
+      guardian.ensure_can_edit!(webinar.topic)
       raise Discourse::NotFound unless user.in? webinar.panelists
 
       if Zoom::Webinars.new(zoom_client).remove_panelist(webinar: webinar, user: user)
@@ -71,7 +71,6 @@ module Zoom
 
     def register
       user = fetch_user_from_params
-      guardian.ensure_can_edit!(user)
 
       webinar.webinar_users.create(
         user: user,
@@ -82,7 +81,6 @@ module Zoom
 
     def unregister
       user = fetch_user_from_params
-     guardian.ensure_can_edit!(user)
 
      webinar.webinar_users.where(
        user: user,
