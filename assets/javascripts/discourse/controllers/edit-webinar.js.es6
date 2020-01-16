@@ -26,7 +26,7 @@ export default Controller.extend(ModalFunctionality, {
     removePanelist(panelist) {
       this.set("loading", true);
       ajax(
-        `/zoom/webinars/${this.model.id}/panelists/${panelist.username}`,
+        `/zoom/webinars/${this.model.id}/panelists/${panelist.username}.json`,
         {
           type: "DELETE"
         }
@@ -44,7 +44,7 @@ export default Controller.extend(ModalFunctionality, {
     addPanelist() {
       this.set("loading", true);
       ajax(
-        `/zoom/webinars/${this.model.id}/panelists/${this.newPanelist}`,
+        `/zoom/webinars/${this.model.id}/panelists/${this.newPanelist}.json`,
         {
           type: "PUT"
         }

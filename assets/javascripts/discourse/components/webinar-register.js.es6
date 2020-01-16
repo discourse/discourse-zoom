@@ -54,7 +54,7 @@ export default Component.extend({
     const method = registering ? "PUT" : "DELETE";
     this.set("loading", true);
     return ajax(
-      `/zoom/webinars/${this.webinar.id}/attendees/${this.currentUser.username}`,
+      `/zoom/webinars/${this.webinar.id}/attendees/${this.currentUser.username}.json`,
       { type: method }
     )
       .then(response => {

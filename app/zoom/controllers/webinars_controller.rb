@@ -71,6 +71,7 @@ module Zoom
 
     def register
       user = fetch_user_from_params
+      guardian.ensure_can_edit!(user)
 
       webinar.webinar_users.create(
         user: user,
@@ -81,6 +82,7 @@ module Zoom
 
     def unregister
       user = fetch_user_from_params
+      guardian.ensure_can_edit!(user)
 
      webinar.webinar_users.where(
        user: user,
