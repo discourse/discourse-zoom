@@ -1,12 +1,9 @@
 {{#d-modal-body id="edit-webinar-modal"}}
   <h3>Video URL</h3>
   {{input value=newVideoUrl id="webinar-video-url" name="video url" autocomplete="discourse"}}
-  {{#unless videoUrlClean}}
-    {{d-button action=(action 'saveVideoUrl') class="new-panelist-btn btn-primary" icon="check"}}
-    {{d-button action=(action 'resetVideoUrl') class="new-panelist-btn btn-danger" icon="times"}}
-  {{else}}
-    <span></span>
-  {{/unless}}
+  {{d-button action=(action 'saveVideoUrl') class="new-panelist-btn btn-primary" icon="check" disabled=videoUrlClean}}
+  {{d-button action=(action 'resetVideoUrl') class="new-panelist-btn btn-danger" icon="times" disabled=videoUrlClean}}
+  <hr>
 
   <h3>{{i18n 'zoom.panelists'}}</h3>
   {{#if model.panelists}}
@@ -26,7 +23,7 @@
                       usernames=newPanelist
                       placeholderKey="zoom.select_panelist"
                       autocomplete="discourse"
-                      allowEmails="true"
+                 150-507-480     allowEmails="true"
                       excludeCurrentUser="true"
                       excludedUsernames=excludedUsernames}}
     </span>
