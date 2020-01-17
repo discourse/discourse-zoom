@@ -67,7 +67,6 @@ export default Controller.extend(ModalFunctionality, {
   },
 
   addWebinarToComposer() {
-    console.log(this.model);
     this.model.set("zoomId", this.webinar.id);
     this.model.set("zoomWebinarTitle", this.webinar.title);
   },
