@@ -11,7 +11,6 @@ export default Controller.extend(ModalFunctionality, {
   loading: false,
   noNewPanelist: not("newPanelist"),
   newVideoUrl: null,
-  // videoUrlClean: equal("model.video_url", "newVideoUrl"),
 
   @discourseComputed("model.video_url", "newVideoUrl", "loading")
   videoUrlClean(saved, newValue, loading) {
