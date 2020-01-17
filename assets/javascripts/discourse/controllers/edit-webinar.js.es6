@@ -29,7 +29,7 @@ export default Controller.extend(ModalFunctionality, {
 
   @discourseComputed("loading", "newPanelist")
   addingDisabled(loading, panelist) {
-    return loading || !panelist;h
+    return loading || !panelist;
   },
 
   onShow() {
