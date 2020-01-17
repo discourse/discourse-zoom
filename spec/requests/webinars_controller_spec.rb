@@ -186,23 +186,23 @@ describe Zoom::WebinarsController do
   describe "#set_video_url" do
     let(:video_url) { "hello.mp4" }
     it "requires the user to be logged in" do
-      put("/zoom/webinars/#{webinar.id}/video_url.json", params: { video_url: video_url }.to_json )
+      put("/zoom/webinars/#{webinar.id}/video_url.json", params: { video_url: video_url })
       expect(response.status).to eq(403)
     end
 
     it "requires the user to be able to manage the topic" do
       sign_in(other_user)
 
-      put("/zoom/webinars/#{webinar.id}/video_url.json", params: { video_url: video_url }.to_json )
+      put("/zoom/webinars/#{webinar.id}/video_url.json", params: { video_url: video_url })
       expect(response.status).to eq(403)
     end
 
     it "puts the webinar and webinar users" do
       sign_in(user)
 
-      put("/zoom/webinars/#{webinar.id}/video_url.json", params: { video_url: video_url }.to_json )
+      put("/zoom/webinars/#{webinar.id}/video_url.json", params: { video_url: video_url })
       expect(response.status).to eq(200)
-      expect(webinar.reload.video_url).to eq(nil)
+      expect(webinar.reload.video_url).to eq(video_url)
     end
   end
 end
