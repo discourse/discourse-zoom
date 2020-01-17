@@ -108,6 +108,13 @@ module Zoom
       false
     end
 
+    def set_video_url
+      guardian.ensure_can_edit!(webinar.topic)
+
+      webinar.update(video_url: params[:video_url])
+      render json: { video_url: webinar.video_url }
+    end
+
     private
 
     def ensure_webinar_exists

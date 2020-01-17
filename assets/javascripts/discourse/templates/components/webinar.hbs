@@ -49,6 +49,11 @@
     {{webinar-register webinar=webinar}}
     {{#if webinarEnded}}
       {{i18n "zoom.webinar_ended"}}
+      {{#if webinar.video_url}}
+        <div>
+          <video controls src={{webinar.video_url}}></video>
+        </div>
+      {{/if}}
     {{/if}}
   </div>
 {{else}}

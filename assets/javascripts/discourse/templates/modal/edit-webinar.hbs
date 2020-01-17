@@ -1,4 +1,13 @@
 {{#d-modal-body id="edit-webinar-modal"}}
+  <h3>Video URL</h3>
+  {{input value=newVideoUrl id="webinar-video-url" name="video url" autocomplete="discourse"}}
+  {{#unless videoUrlClean}}
+    {{d-button action=(action 'saveVideoUrl') class="new-panelist-btn btn-primary" icon="check"}}
+    {{d-button action=(action 'resetVideoUrl') class="new-panelist-btn btn-danger" icon="times"}}
+  {{else}}
+    <span></span>
+  {{/unless}}
+
   <h3>{{i18n 'zoom.panelists'}}</h3>
   {{#if model.panelists}}
     {{#each model.panelists as |panelist|}}

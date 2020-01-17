@@ -73,6 +73,7 @@ after_initialize do
       delete 'attendees/:username' => 'webinars#unregister', constraints: { username: RouteFormat.username, format: :json }
       put 'panelists/:username' => 'webinars#add_panelist', constraints: { username: RouteFormat.username, format: :json }
       delete 'panelists/:username' => 'webinars#remove_panelist', constraints: { username: RouteFormat.username, format: :json }
+      put 'video_url' => 'webinars#set_video_url'
       get 'preview' => 'webinars#preview'
       get 'sdk' => 'webinars#sdk'
       get 'signature' => 'webinars#signature'
