@@ -13,7 +13,7 @@ export default Controller.extend(ModalFunctionality, {
   newVideoUrl: null,
 
   @discourseComputed("model.video_url", "newVideoUrl", "loading")
-  videoUrlClean(saved, newValue, loading) {
+  canSaveVideoUrl(saved, newValue, loading) {
     if (saved === newValue || loading) return true;
 
     saved = saved === null ? "" : saved;
