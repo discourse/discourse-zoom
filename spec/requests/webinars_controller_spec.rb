@@ -67,7 +67,7 @@ describe Zoom::WebinarsController do
   describe "#remove_panelist" do
     before do
       stub_request(:get, "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists").to_return(status: 201, body: {
-        panelists: [{id: "123", email: user.email}]}.to_json
+        panelists: [{ id: "123", email: user.email }] }.to_json
       )
       stub_request(:delete, "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists/123").to_return(status: 204)
     end
@@ -159,14 +159,14 @@ describe Zoom::WebinarsController do
   end
 
   describe "#add_to_topic" do
-    let(:other_topic) { Fabricate(:topic, user: user)}
+    let(:other_topic) { Fabricate(:topic, user: user) }
     let(:zoom_id) { "123" }
     before do
       Webinar.where(zoom_id: zoom_id).destroy_all
       stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}").to_return(status: 201, body: ZoomApiStubs.get_webinar(zoom_id))
       stub_request(:get, "https://api.zoom.us/v2/users/123").to_return(status: 201, body: ZoomApiStubs.get_host('123'))
       stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}/panelists").to_return(status: 201, body: {
-        panelists: [{id: "123", email: user.email}]}.to_json
+        panelists: [{ id: "123", email: user.email }] }.to_json
       )
     end
     it "requires the user to be logged in" do
@@ -177,7 +177,7 @@ describe Zoom::WebinarsController do
     it "registers the user for the webinar" do
       sign_in(user)
       expect(other_topic.webinar).to eq(nil)
-      put("/zoom/t/#{other_topic.id}/webinars/#{zoom_id}.json", params: {"webinar"=>{"id"=>zoom_id, "title"=>"Mark's test #2", "starts_at"=>"2020-02-29T18:00:00.000+00:00", "duration"=>"120", "ends_at"=>"2020-02-29T20:00:00.000+00:00", "zoom_host_id"=>"123", "password"=>"828943", "host_video"=>"false", "panelists_video"=>"true", "approval_type"=>"2", "enforce_login"=>"true", "registrants_restrict_number"=>"0", "meeting_authentication"=>"true", "on_demand"=>"false", "join_url"=>"", "host"=>{"name"=>"Mark Vanlandingham", "title"=>"", "avatar_url"=>"//localhost:3000/user_avatar/localhost/mark.vanlandingham/120/12_2.png"}}.deep_symbolize_keys})
+      put("/zoom/t/#{other_topic.id}/webinars/#{zoom_id}.json", params: { "webinar" => { "id" => zoom_id, "title" => "Mark's test #2", "starts_at" => "2020-02-29T18:00:00.000+00:00", "duration" => "120", "ends_at" => "2020-02-29T20:00:00.000+00:00", "zoom_host_id" => "123", "password" => "828943", "host_video" => "false", "panelists_video" => "true", "approval_type" => "2", "enforce_login" => "true", "registrants_restrict_number" => "0", "meeting_authentication" => "true", "on_demand" => "false", "join_url" => "", "host" => { "name" => "Mark Vanlandingham", "title" => "", "avatar_url" => "//localhost:3000/user_avatar/localhost/mark.vanlandingham/120/12_2.png" } }.deep_symbolize_keys })
       expect(response.status).to eq(200)
       expect(other_topic.reload.webinar).to eq(Webinar.last)
     end
