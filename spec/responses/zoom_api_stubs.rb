@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 class ZoomApiStubs
-  def self.get_webinar(id, host_id=123)
+  def self.get_webinar(id, host_id = 123)
     {
       "agenda": "",
       "created_at": "2020-01-06T17:14:44Z",

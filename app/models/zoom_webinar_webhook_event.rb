@@ -2,4 +2,3 @@
 
 class ZoomWebinarWebhookEvent < ActiveRecord::Base
 end
-

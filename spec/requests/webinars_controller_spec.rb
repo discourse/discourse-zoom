@@ -67,7 +67,7 @@ describe Zoom::WebinarsController do
   describe "#remove_panelist" do
     before do
       stub_request(:get, "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists").to_return(status: 201, body: {
-        panelists: [{id: "123", email: user.email}]}.to_json
+        panelists: [{ id: "123", email: user.email }] }.to_json
       )
       stub_request(:delete, "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists/123").to_return(status: 204)
     end
@@ -159,14 +159,14 @@ describe Zoom::WebinarsController do
   end
 
   describe "#add_to_topic" do
-    let(:other_topic) { Fabricate(:topic, user: user)}
+    let(:other_topic) { Fabricate(:topic, user: user) }
     let(:zoom_id) { "123" }
     before do
       Webinar.where(zoom_id: zoom_id).destroy_all
       stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}").to_return(status: 201, body: ZoomApiStubs.get_webinar(zoom_id))
       stub_request(:get, "https://api.zoom.us/v2/users/123").to_return(status: 201, body: ZoomApiStubs.get_host('123'))
       stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}/panelists").to_return(status: 201, body: {
-        panelists: [{id: "123", email: user.email}]}.to_json
+        panelists: [{ id: "123", email: user.email }] }.to_json
       )
     end
     it "requires the user to be logged in" do

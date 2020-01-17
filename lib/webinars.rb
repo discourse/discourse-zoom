@@ -32,12 +32,12 @@ module Zoom
     end
 
     def add_panelist(webinar:, user:)
-      response = zoom_client.post("webinars/#{webinar.zoom_id}/panelists", {
+      response = zoom_client.post("webinars/#{webinar.zoom_id}/panelists",
         panelists: [{
           email: user.email,
           name: user.name.blank? ? user.username : user.name
         }]
-      })
+      )
       return false if response.status != 201
 
       WebinarUser.where(user: user, webinar: webinar).destroy_all

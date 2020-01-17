@@ -5,22 +5,22 @@ require_relative '../fabricators/webinar_fabricator.rb'
 
 def webinar_updated(args = {})
   old_object = { "id": args[:zoom_id] }
-  object = { "id": args[:zoom_id], settings: {}}
+  object = { "id": args[:zoom_id], settings: {} }
 
   unless args[:start_time].nil?
-    object.merge!({ "start_time": args[:start_time] })
+    object.merge!("start_time": args[:start_time])
   end
 
   unless args[:duration].nil?
-    object.merge!({ "duration": args[:duration] })
+    object.merge!("duration": args[:duration])
   end
 
   unless args[:approval_type].nil?
-    object[:settings].merge!({ "approval_type": args[:approval_type] })
+    object[:settings].merge!("approval_type": args[:approval_type])
   end
 
   unless args[:enforce_login].nil?
-    object[:settings].merge!({ "enforce_login": args[:enforce_login] })
+    object[:settings].merge!("enforce_login": args[:enforce_login])
   end
 
   {
@@ -32,7 +32,7 @@ def webinar_updated(args = {})
       "object": object,
       "old_object": old_object
       },
-      "time_stamp": args[:timestamp] || 1578575214322
+    "time_stamp": args[:timestamp] || 1578575214322
     }
 end
 
