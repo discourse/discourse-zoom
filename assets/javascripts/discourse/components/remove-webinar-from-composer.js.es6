@@ -5,7 +5,7 @@ export default Component.extend({
 
   actions: {
     removeWebinar() {
-      this.model.set("zoomWebinarId", null);
+      this.model.set("zoomId", null);
     }
   }
 });

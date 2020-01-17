@@ -52,20 +52,16 @@ after_initialize do
   add_to_serializer(:topic_view, :webinar) { object.topic.webinar }
   add_to_serializer(:current_user, :webinar_registrations) { object.webinar_users }
 
-  add_permitted_post_create_param(:zoom_webinar_id)
-  add_permitted_post_create_param(:zoom_webinar_attributes, :hash)
-  add_permitted_post_create_param(:zoom_webinar_host, :hash)
-  add_permitted_post_create_param(:zoom_webinar_panelists, :array)
+  add_permitted_post_create_param(:zoom_id)
 
   NewPostManager.add_handler do |manager|
-    zoom_id = manager.args[:zoom_webinar_id]
-    next if zoom_id.nil?
+    zoom_id = manager.args[:zoom_id]
 
     result = manager.perform_create_post
     if result.success?
+      next if zoom_id.nil?
       topic_id = result.post.topic_id
-      attributes = manager.args[:zoom_webinar_attributes]
-      Zoom::WebinarCreator.new(topic_id, zoom_id, attributes).run
+      Zoom::WebinarCreator.new(topic_id: topic_id, zoom_id: zoom_id).run
     end
 
     result
@@ -81,7 +77,7 @@ after_initialize do
       get 'sdk' => 'webinars#sdk'
       get 'signature' => 'webinars#signature'
     end
-    put 't/:topic_id/webinars/:webinar_id' => 'webinars#add_to_topic'
+    put 't/:topic_id/webinars/:zoom_id' => 'webinars#add_to_topic'
 
     post '/webhooks/webinars' => 'webhooks#webinars'
   end

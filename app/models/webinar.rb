@@ -10,6 +10,7 @@ class Webinar < ActiveRecord::Base
   belongs_to :topic
 
   validates :zoom_id, presence: true, uniqueness: { message: :webinar_in_use }
+  validates :topic_id, presence: true
 
   after_commit :notify_status_update, on: :update
 
@@ -39,14 +40,6 @@ class Webinar < ActiveRecord::Base
     update(convert_attributes_from_zoom(zoom_attributes))
   end
 
-  private
-
-  def notify_status_update
-    return if previous_changes["status"].nil?
-
-    MessageBus.publish("/zoom/webinars/#{id}", status: status)
-  end
-
   def convert_attributes_from_zoom(zoom_attributes)
     zoom_attributes = (zoom_attributes[:settings] || {}).merge(zoom_attributes.except(:settings)).to_h.deep_symbolize_keys
 
@@ -64,5 +57,13 @@ class Webinar < ActiveRecord::Base
       converted_attributes[converted_key] = value if has_attribute? converted_key
     end
     converted_attributes
+  end
+
+  private
+
+  def notify_status_update
+    return if previous_changes["status"].nil?
+
+    MessageBus.publish("/zoom/webinars/#{id}", status: status)
   end
 end
