@@ -4,10 +4,11 @@ module Zoom
   class Client
     API_URL = 'https://api.zoom.us/v2/'
 
-    def webinar(webinar_id)
+    def webinar(webinar_id, raw = false)
       response = get("webinars/#{webinar_id}")
-      data = response.body
+      return response if raw
 
+      data = response.body
       start_datetime = DateTime.parse(data[:start_time])
 
       {

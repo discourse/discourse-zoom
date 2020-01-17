@@ -49,7 +49,6 @@ export default Controller.extend(ModalFunctionality, {
 
   addWebinarToTopic() {
     ajax(`/zoom/t/${this.model.id}/webinars/${this.webinar.id}`, {
-      data: { webinar: this.webinar },
       type: "PUT"
     })
       .then(results => {
@@ -68,27 +67,8 @@ export default Controller.extend(ModalFunctionality, {
   },
 
   addWebinarToComposer() {
-    this.model.setProperties({
-      zoomWebinarId: this.webinar.id,
-      zoomWebinarHost: this.webinar.host,
-      zoomWebinarPanelists: this.webinar.panelists,
-      zoomWebinarAttributes: {
-        title: this.webinar.title,
-        duration: this.webinar.duration,
-        starts_at: this.webinar.starts_at,
-        ends_at: this.webinar.ends_at,
-        zoom_host_id: this.webinar.zoom_host_id,
-        password: this.webinar.password,
-        host_video: this.webinar.host_video,
-        panelists_video: this.webinar.panelists_video,
-        approval_type: this.webinar.approval_type,
-        enforce_login: this.webinar.enforce_login,
-        registrants_restrict_number: this.webinar.registrants_restrict_number,
-        meeting_authentication: this.webinar.meeting_authentication,
-        on_demand: this.webinar.on_demand,
-        join_url: this.webinar.join_url
-      }
-    });
+    this.model.set("zoomId", this.webinar.id);
+    this.model.set("zoomWebinarTitle", this.webinar.title);
   },
 
   fetchWebinarDetails(id) {
