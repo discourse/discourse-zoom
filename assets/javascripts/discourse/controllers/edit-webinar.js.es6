@@ -2,7 +2,7 @@ import Controller from "@ember/controller";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import { not, equal } from "@ember/object/computed";
+import { not } from "@ember/object/computed";
 import discourseComputed from "discourse-common/utils/decorators";
 
 export default Controller.extend(ModalFunctionality, {
@@ -29,7 +29,7 @@ export default Controller.extend(ModalFunctionality, {
 
   @discourseComputed("loading", "newPanelist")
   addingDisabled(loading, panelist) {
-    return loading || !panelist;
+    return loading || !panelist;h
   },
 
   onShow() {
