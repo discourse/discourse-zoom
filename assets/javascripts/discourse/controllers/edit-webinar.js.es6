@@ -10,6 +10,16 @@ export default Controller.extend(ModalFunctionality, {
   newPanelist: null,
   loading: false,
   noNewPanelist: not("newPanelist"),
+  newVideoUrl: null,
+
+  @discourseComputed("model.video_url", "newVideoUrl", "loading")
+  canSaveVideoUrl(saved, newValue, loading) {
+    if (saved === newValue || loading) return true;
+
+    saved = saved === null ? "" : saved;
+    newValue = newValue === null ? "" : newValue;
+    return saved === newValue;
+  },
 
   @discourseComputed("model.panelists")
   excludedUsernames(panelists) {
@@ -22,7 +32,29 @@ export default Controller.extend(ModalFunctionality, {
     return loading || !panelist;
   },
 
+  onShow() {
+    this.set("newVideoUrl", this.model.video_url);
+  },
+
   actions: {
+    saveVideoUrl() {
+      this.set("loading", true);
+      ajax(`/zoom/webinars/${this.model.id}/video_url.json`, {
+        data: { video_url: this.newVideoUrl },
+        type: "PUT"
+      })
+        .then(results => {
+          this.model.set("video_url", results.video_url);
+        })
+        .finally(() => {
+          this.set("loading", false);
+        });
+    },
+
+    resetVideoUrl() {
+      this.set("newVideoUrl", this.model.video_url);
+    },
+
     removePanelist(panelist) {
       this.set("loading", true);
       ajax(

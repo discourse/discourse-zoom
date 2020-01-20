@@ -22,7 +22,8 @@ class WebinarSerializer < ApplicationSerializer
     :meeting_authentication,
     :on_demand,
     :join_url,
-    :status
+    :status,
+    :video_url
 
   def require_password
     !object.password.blank?

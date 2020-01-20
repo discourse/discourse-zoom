@@ -39,7 +39,6 @@ export default Component.extend({
           loading: false,
           webinar: results
         });
-        this.timerDisplay();
         this.messageBus.subscribe(this.messageBusEndpoint, data => {
           this.webinar.set("status", data.status);
         });
@@ -57,26 +56,37 @@ export default Component.extend({
     clearInterval(this.interval);
   },
 
-  timerDisplay() {
-    const starts_at = moment(this.webinar.starts_at);
-    if (this.webinar.status !== NOT_STARTED) {
-      return false;
+  @discourseComputed(
+    "webinar",
+    "webinar.starts_at",
+    "webinar.duration",
+    "webinar.status"
+  )
+  setupTimer(webinar, starts_at, duration, status) {
+    if (status !== NOT_STARTED) return false;
+
+    const startsAtMoment = moment(starts_at);
+    this.interval = setInterval(
+      interval => this.updateTimer(startsAtMoment, interval),
+      1000
+    );
+    this.updateTimer(startsAtMoment);
+    return true;
+  },
+
+  updateTimer(starts_at, interval) {
+    const duration = moment.duration(starts_at.diff(moment()));
+    this.set("cSecs", duration.seconds());
+    this.set("cMins", duration.minutes());
+    this.set("cHours", duration.hours());
+    this.set("cDays", parseInt(duration.asDays()));
+
+    if (starts_at.isBefore(moment())) {
+      this.set("showTimer", false);
+      if (interval) clearInterval(interval);
+    } else {
+      this.set("showTimer", true);
     }
-
-    this.interval = setInterval(() => {
-      const duration = moment.duration(starts_at.diff(moment()));
-      this.set("cSecs", duration.seconds());
-      this.set("cMins", duration.minutes());
-      this.set("cHours", duration.hours());
-      this.set("cDays", parseInt(duration.asDays()));
-
-      if (starts_at.isBefore(moment())) {
-        this.set("showTimer", false);
-        clearInterval(this.interval);
-      } else {
-        this.set("showTimer", true);
-      }
-    }, 1000);
   },
 
   @discourseComputed("webinar")

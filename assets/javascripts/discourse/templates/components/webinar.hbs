@@ -11,16 +11,18 @@
         <div class='occurrance-start-time'>{{schedule}}</div>
       </div>
 
-    {{#if showTimer}}
-      <div class="countdown-wrapper">
-        <div class="countdown-label">{{i18n "zoom.countdown_label"}}</div>
-        <div class="countdown">
-          <div class="pill">{{cDays}} <div>{{i18n "zoom.days"}}</div></div>
-          <div class="pill">{{cHours}} <div>{{i18n "zoom.hours"}}</div></div>
-          <div class="pill">{{cMins}} <div>{{i18n "zoom.mins"}}</div></div>
-          <div class="pill">{{cSecs}} <div>{{i18n "zoom.secs"}}</div></div>
+    {{#if setupTimer}}
+      {{#if showTimer}}
+        <div class="countdown-wrapper">
+          <div class="countdown-label">{{i18n "zoom.countdown_label"}}</div>
+          <div class="countdown">
+            <div class="pill">{{cDays}} <div>{{i18n "zoom.days"}}</div></div>
+            <div class="pill">{{cHours}} <div>{{i18n "zoom.hours"}}</div></div>
+            <div class="pill">{{cMins}} <div>{{i18n "zoom.mins"}}</div></div>
+            <div class="pill">{{cSecs}} <div>{{i18n "zoom.secs"}}</div></div>
+          </div>
         </div>
-      </div>
+      {{/if}}
     {{/if}}
     </div>
 
@@ -49,6 +51,11 @@
     {{webinar-register webinar=webinar}}
     {{#if webinarEnded}}
       {{i18n "zoom.webinar_ended"}}
+      {{#if webinar.video_url}}
+        <div>
+          <video controls src={{webinar.video_url}}></video>
+        </div>
+      {{/if}}
     {{/if}}
   </div>
 {{else}}
