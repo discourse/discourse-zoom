@@ -91,6 +91,16 @@
   .group-name {
     font-size: $base-font-size;
   }
+
+  .event-ended {
+    padding: 2em 0em;
+    .video-recording {
+      padding-top: 2em;
+      video {
+        width: 100%;
+      }
+    }
+  }
 }
 
 .webinar-registered {

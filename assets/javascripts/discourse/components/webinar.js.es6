@@ -16,6 +16,7 @@ export default Component.extend({
   showTimer: false,
   canEdit: alias("topic.details.can_edit"),
   webinarEnded: equal("webinar.status", ENDED),
+  showingRecording: false,
 
   hostDisplayName: Ember.computed.or(
     "webinar.host.name",
@@ -105,6 +106,10 @@ export default Component.extend({
         model: this.webinar,
         title: "zoom.edit_webinar"
       });
+    },
+
+    showRecording() {
+      this.set("showingRecording", true);
     }
   }
 });

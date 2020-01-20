@@ -1,9 +1,4 @@
 {{#d-modal-body id="edit-webinar-modal"}}
-  <h3>Video URL</h3>
-  {{input value=newVideoUrl id="webinar-video-url" name="video url" autocomplete="discourse"}}
-    {{d-button action=(action 'saveVideoUrl') class="new-panelist-btn btn-primary" icon="check" disabled=canSaveVideoUrl}}
-    {{d-button action=(action 'resetVideoUrl') class="new-panelist-btn btn-danger" icon="times" disabled=canSaveVideoUrl}}
-
   <h3>{{i18n 'zoom.panelists'}}</h3>
   {{#if model.panelists}}
     {{#each model.panelists as |panelist|}}
@@ -28,4 +23,12 @@
     </span>
     {{d-button action=(action 'addPanelist') class="new-panelist-btn btn-primary" icon="plus" disabled=addingDisabled}}
   </div>
+  <div class="webinar-add-video">
+    <h3>{{i18n "zoom.webinar_recording"}}</h3>
+    <p>{{i18n "zoom.webinar_recording_description"}}</p>
+    {{input value=newVideoUrl id="webinar-video-url" name="video url" autocomplete="discourse"}}
+    {{d-button action=(action 'saveVideoUrl') class="new-panelist-btn btn-primary" icon="check" disabled=canSaveVideoUrl}}
+    {{d-button action=(action 'resetVideoUrl') class="new-panelist-btn btn-danger" icon="times" disabled=canSaveVideoUrl}}
+  </div>
+
 {{/d-modal-body}}

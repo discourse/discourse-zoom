@@ -50,12 +50,18 @@
 
     {{webinar-register webinar=webinar}}
     {{#if webinarEnded}}
-      {{i18n "zoom.webinar_ended"}}
-      {{#if webinar.video_url}}
-        <div>
-          <video controls src={{webinar.video_url}}></video>
+      <div class="event-ended">
+        {{i18n "zoom.webinar_ended"}}
+        <div class="video-recording">
+          {{#if showingRecording}}
+            <video controls src={{webinar.video_url}}></video>
+          {{else}}
+            {{#if webinar.video_url}}
+              {{d-button action=(action "showRecording") class="btn-primary" label="zoom.show_recording" icon="play"}}
+            {{/if}}
+          {{/if}}
         </div>
-      {{/if}}
+      </div>
     {{/if}}
   </div>
 {{else}}
