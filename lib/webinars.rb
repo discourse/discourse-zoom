@@ -14,7 +14,7 @@ module Zoom
       response = zoom_client.get("users/#{user.email}/webinars")
       return [] unless response
 
-      result = response[:webinars]&.select do |hash|
+      result = response&.body[:webinars]&.select do |hash|
         hash[:start_time].in_time_zone.utc > Time.now.utc \
           && hash[:type] != RECURRING_WEBINAR_TYPE \
           && Webinar.where(zoom_id: hash[:id]).empty?

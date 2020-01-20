@@ -97,7 +97,7 @@ after_initialize do
     list = joined_topic_user.joins(webinar: :webinar_users)
       .where("webinars.ends_at >= ?", Time.now)
       .where("webinar_users.user_id = ?", user.id.to_s)
-      .order("webinars.starts_at ASC")
+      .order("webinars.starts_at DESC")
 
     create_list(:webinars, {}, list)
   end
