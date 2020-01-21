@@ -54,7 +54,7 @@
         {{i18n "zoom.webinar_ended"}}
         <div class="video-recording">
           {{#if showingRecording}}
-            <video controls src={{webinar.video_url}}></video>
+            <video controlslist='nodownload' width='100%' height='100%' src={{webinar.video_url}} controls></video>
           {{else}}
             {{#if webinar.video_url}}
               {{d-button action=(action "showRecording") class="btn-primary" label="zoom.show_recording" icon="play"}}
