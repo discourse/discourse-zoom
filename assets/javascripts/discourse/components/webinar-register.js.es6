@@ -66,6 +66,11 @@ export default Component.extend({
       .finally(() => this.set("loading", false));
   },
 
+  @discourseComputed("webinar.{title}")
+  downloadName(webinar) {
+    return webinar.title + ".ics";
+  },
+
   @discourseComputed("webinar.{starts_at,ends_at}")
   addToGoogleCalendarUrl(webinar) {
     return `http://www.google.com/calendar/event?action=TEMPLATE&text=${encodeURIComponent(
@@ -75,35 +80,29 @@ export default Component.extend({
     )}/${this.formatDateForGoogleApi(webinar.ends_at)}`;
   },
 
+  @discourseComputed("webinar.{starts_at,ends_at}")
+  downloadIcsUrl(webinar) {
+    let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    let now = this.formatDateForIcs(new Date());
+    return `data:text/calendar;charset=utf-8,BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+UID:${now}-${webinar.title}
+DTSTAMP:${now}
+DTSTART;TZID="${timezone}":${this.formatDateForIcs(webinar.starts_at)}
+DTEND;TZID="${timezone}":${this.formatDateForIcs(webinar.ends_at)}
+SUMMARY:${webinar.title}
+END:VEVENT
+END:VCALENDAR`;
+  },
+
   formatDateForGoogleApi(date) {
     return new Date(date).toISOString().replace(/-|:|\.\d\d\d/g, "");
   },
 
   formatDateForIcs(date) {
-    date = new Date(date)
-  var pre =
-    date.getFullYear().toString() +
-    ((date.getMonth() + 1)<10? "0" + (date.getMonth() + 1).toString():(date.getMonth() + 1).toString()) +
-    ((date.getDate() + 1)<10? "0" + date.getDate().toString():date.getDate().toString());
-
-    var post = (date.getHours()%12).toString() + date.getMinutes().toString() + "00";
-    console.log(pre + "T" + post)
-    return pre + "T" + post + "Z"
-  },
-
-  @discourseComputed("webinar.{starts_at,ends_at}")
-  downloadIcsUrl(webinar) {
-    return `data:text/calendar;charset=utf-8,
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//hacksw/handcal//NONSGML v1.0//EN
-BEGIN:VEVENT
-DTSTAMP: ${this.formatDateForIcs((new Date).toString())}
-DTSTART:${this.formatDateForIcs(webinar.starts_at)}
-DTEND:${this.formatDateForIcs(webinar.ends_at)}
-SUMMARY:${webinar.title}
-END:VEVENT
-END:VCALENDAR`
+    return moment(date).format("YYYYMMDDTHHmmss") + "Z";
   },
 
   actions: {

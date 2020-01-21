@@ -40,3 +40,5 @@ en:
       webinar_recording: "Add Webinar Recording"
       webinar_recording_description: "Enter the URL of the video recording for this webinar. "
       show_recording: "Play again"
+      add_to_google_calendar: "Add to Google Calendar"
+      add_to_outlook: "Add to Outlook"
