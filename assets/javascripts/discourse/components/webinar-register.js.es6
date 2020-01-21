@@ -66,9 +66,9 @@ export default Component.extend({
       .finally(() => this.set("loading", false));
   },
 
-  @discourseComputed("webinar.{title}")
-  downloadName(webinar) {
-    return webinar.title + ".ics";
+  @discourseComputed("webinar.title")
+  downloadName(title) {
+    return title + ".ics";
   },
 
   @discourseComputed("webinar.{starts_at,ends_at}")
