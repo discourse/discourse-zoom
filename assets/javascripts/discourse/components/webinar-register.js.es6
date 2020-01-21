@@ -26,7 +26,10 @@ export default Component.extend({
 
   @discourseComputed("currentUser", "webinar.host")
   isHost(user, host) {
-    return user.id === host.id;
+    if (host) {
+      return user.id === host.id;
+    }
+    return false;
   },
 
   @discourseComputed("currentUser", "webinar.panelists")
