@@ -9,3 +9,69 @@
 <script src="/plugins/discourse-zoom/init-zoom.js"></script>
 
 <div id="join_meeting"></div>
+
+<style type="text/css">
+  /* Zoom styling overrides for mobile */
+
+  @media screen and (max-width: 680px) {
+    .footer {
+      margin-bottom: env(safe-area-inset-bottom);
+    }
+
+    button#moreButton {
+      display: none;
+    }
+
+    .more-button .btn-group {
+      margin-top: 5px;
+    }
+
+    ul.more-button__pop-menu.dropdown-menu {
+      display: block;
+      margin-left: 5px;
+      background-color: transparent;
+      box-shadow: none;
+      text-align: right;
+    }
+
+    ul.more-button__pop-menu.dropdown-menu li {
+      display: inline-block;
+    }
+
+    ul.more-button__pop-menu.dropdown-menu div.common-ui-component__dropdown-divider {
+      display: none;
+    }
+
+    ul.more-button__pop-menu.dropdown-menu > li > a {
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+
+    .diaout-layer {
+      max-width: 100%;
+    }
+
+    #dialog-join .tab {
+      min-width: 180px;
+    }
+
+    div[aria-label="Question and Answer"] > .common-window {
+      transform: scale(0.75) translate(0px, 0px) !important;
+    }
+
+    div[aria-label="Zoom Group Chat"] > .common-window {
+      transform: scale(0.85) translate(0px, 0px) !important;
+    }
+  }
+
+  .q-a-input-box__input-area {
+    padding: 0px;
+    font-size: 16px;
+  }
+
+  #chat-textarea {
+    font-size: 16px;
+    width: calc(100% - 20px);
+  }
+
+</style>
