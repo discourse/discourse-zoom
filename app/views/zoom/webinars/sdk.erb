@@ -11,9 +11,19 @@
 <div id="join_meeting"></div>
 
 <style type="text/css">
-  /* Zoom styling overrides for mobile */
+  .q-a-input-box__input-area {
+    padding: 0px;
+    font-size: 16px;
+  }
 
-  @media screen and (max-width: 680px) {
+  #chat-textarea {
+    font-size: 16px;
+    width: calc(100% - 20px);
+  }
+
+  /* Zoom styling overrides for mobile */
+  @media screen and (max-width: 680px),
+  (max-width: 812px) and (orientation: landscape) {
     .footer {
       margin-bottom: env(safe-area-inset-bottom);
     }
@@ -32,6 +42,7 @@
       background-color: transparent;
       box-shadow: none;
       text-align: right;
+      width: auto;
     }
 
     ul.more-button__pop-menu.dropdown-menu li {
@@ -52,7 +63,11 @@
     }
 
     #dialog-join .tab {
-      min-width: 180px;
+      min-width: 160px;
+      font-size: 16px;
+    }
+
+    #dialog-join .close {
     }
 
     div[aria-label="Question and Answer"] > .common-window {
@@ -62,16 +77,37 @@
     div[aria-label="Zoom Group Chat"] > .common-window {
       transform: scale(0.85) translate(0px, 0px) !important;
     }
+
+    .zm-modal {
+      transform: scale(0.75);
+    }
+
+    .full-screen-widget {
+      display: none !important;
+    }
   }
 
-  .q-a-input-box__input-area {
-    padding: 0px;
-    font-size: 16px;
-  }
+  /* Landscape mobile only overrides */
+  @media screen and (max-width: 812px) and (orientation: landscape) {
+    .diaout-layer {
+      transform: scale(0.75);
+    }
 
-  #chat-textarea {
-    font-size: 16px;
-    width: calc(100% - 20px);
-  }
+    div[aria-label="Question and Answer"] {
+      transform: translate(-50%, -50%) !important;
+    }
 
+    .q-a-welcome {
+      height: 240px;
+    }
+
+    .chat-scrollbar,
+    .chat-scrollbar .ReactVirtualized__List {
+      height: 185px !important;
+    }
+
+    #wc-container .attendee-content {
+      width: 100%;
+    }
+  }
 </style>
