@@ -95,13 +95,18 @@ export default Component.extend({
     const now = this.formatDateForIcs(new Date());
     const scheme = isAppleDevice() ? "calshow://" : "";
 
-    return `${scheme}data:text/calendar;charset=utf-8,BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${now}-${
-      webinar.title
-    }\nDTSTAMP:${now}\nDTSTART:${this.formatDateForIcs(
-      webinar.starts_at
-    )}\nDTEND:${this.formatDateForIcs(webinar.ends_at)}\nSUMMARY:${
-      webinar.title
-    }\nEND:VEVENT\nEND:VCALENDAR`;
+    return (
+      `${scheme}data:text/calendar;charset=utf-8,` +
+      encodeURIComponent(
+        `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${now}-${
+          webinar.title
+        }\nDTSTAMP:${now}\nDTSTART:${this.formatDateForIcs(
+          webinar.starts_at
+        )}\nDTEND:${this.formatDateForIcs(webinar.ends_at)}\nSUMMARY:${
+          webinar.title
+        }\nEND:VEVENT\nEND:VCALENDAR`
+      )
+    );
   },
 
   formatDateForGoogleApi(date) {
