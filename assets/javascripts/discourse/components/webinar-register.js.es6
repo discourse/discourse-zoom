@@ -2,6 +2,7 @@ import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
 import { ajax } from "discourse/lib/ajax";
 import { or, equal } from "@ember/object/computed";
+import { isAppleDevice } from "discourse/lib/utilities";
 
 const STARTED = "started",
   ENDED = "ended";
@@ -11,6 +12,12 @@ export default Component.extend({
   registered: or("isHost", "isPanelist", "isAttendee"),
   webinarStarted: equal("webinar.status", STARTED),
   webinarEnded: equal("webinar.status", ENDED),
+  isAppleDevice: null,
+
+  init() {
+    this._super(...arguments);
+    this.set("isAppleDevice", isAppleDevice());
+  },
 
   @discourseComputed("currentUser", "webinar.attendees")
   isAttendee(user, attendees) {
@@ -85,19 +92,14 @@ export default Component.extend({
 
   @discourseComputed("webinar.{starts_at,ends_at}")
   downloadIcsUrl(webinar) {
-    let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     let now = this.formatDateForIcs(new Date());
-    return `data:text/calendar;charset=utf-8,BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//hacksw/handcal//NONSGML v1.0//EN
-BEGIN:VEVENT
-UID:${now}-${webinar.title}
-DTSTAMP:${now}
-DTSTART;TZID="${timezone}":${this.formatDateForIcs(webinar.starts_at)}
-DTEND;TZID="${timezone}":${this.formatDateForIcs(webinar.ends_at)}
-SUMMARY:${webinar.title}
-END:VEVENT
-END:VCALENDAR`;
+    return `data:text/calendar;charset=utf-8,BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${now}-${
+      webinar.title
+    }\nDTSTAMP:${now}\nDTSTART:${this.formatDateForIcs(
+      webinar.starts_at
+    )}\nDTEND:${this.formatDateForIcs(webinar.ends_at)}\nSUMMARY:${
+      webinar.title
+    }\nEND:VEVENT\nEND:VCALENDAR`;
   },
 
   formatDateForGoogleApi(date) {
