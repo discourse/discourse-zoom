@@ -11,6 +11,7 @@
     url: `/zoom/webinars/${meetingId}/signature.json`
   }).done(function(res) {
     // console.log(res);
+
     ZoomMtg.init({
       leaveUrl: res.topic_url,
       isSupportAV: true,

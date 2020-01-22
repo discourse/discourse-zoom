@@ -12,14 +12,16 @@
             <a {{action "unregister"}} class="btn-flat" title="{{i18n "zoom.cancel_registration"}}">{{d-icon "times"}}</a>
           {{/if}}
         {{/if}}
-        <div class="zoom-add-to-calendar-container">
-          <a target="_blank" href={{addToGoogleCalendarUrl}}>
-            <button class="btn">{{i18n "zoom.add_to_google_calendar"}}</button>
-          </a>
-          <a target="_blank" href={{downloadIcsUrl}} download={{downloadName}}>
-            <button class="btn">{{i18n "zoom.add_to_outlook"}}</button>
-          </a>
-        </div>
+        {{#if showCalendarButtons}}
+          <div class="zoom-add-to-calendar-container">
+            <a target="_blank" href={{addToGoogleCalendarUrl}}>
+              <button class="btn">{{i18n "zoom.add_to_google_calendar"}}</button>
+            </a>
+            <a target="_blank" href={{downloadIcsUrl}} download={{downloadName}}>
+              <button class="btn">{{i18n "zoom.add_to_outlook"}}</button>
+            </a>
+          </div>
+        {{/if}}
       </div>
     {{else}}
       {{#if userCanRegister}}

@@ -48,7 +48,8 @@
       </div>
     {{/if}}
 
-    {{webinar-register webinar=webinar}}
+    {{webinar-register webinar=webinar showCalendarButtons=true}}
+
     {{#if webinarEnded}}
       <div class="event-ended">
         {{i18n "zoom.webinar_ended"}}
