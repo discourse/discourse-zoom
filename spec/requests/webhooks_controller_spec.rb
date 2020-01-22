@@ -3,39 +3,6 @@
 require "rails_helper"
 require_relative '../fabricators/webinar_fabricator.rb'
 
-def webinar_updated(args = {})
-  old_object = { "id": args[:zoom_id] }
-  object = { "id": args[:zoom_id], settings: {} }
-
-  unless args[:start_time].nil?
-    object.merge!("start_time": args[:start_time])
-  end
-
-  unless args[:duration].nil?
-    object.merge!("duration": args[:duration])
-  end
-
-  unless args[:approval_type].nil?
-    object[:settings].merge!("approval_type": args[:approval_type])
-  end
-
-  unless args[:enforce_login].nil?
-    object[:settings].merge!("enforce_login": args[:enforce_login])
-  end
-
-  {
-    "event": "webinar.updated",
-    "payload": {
-      "account_id": "uS-ca7K2S4iRHBFqVydIfw",
-      "operator": "mark.vanlandingham@discourse.org",
-      "operator_id": "IoDo0vbMSeyrPME4fgbwxA",
-      "object": object,
-      "old_object": old_object
-      },
-    "time_stamp": args[:timestamp] || 1578575214322
-    }
-end
-
 describe Zoom::WebhooksController do
   let!(:zoom_id) { '1234' }
 
@@ -52,6 +19,7 @@ describe Zoom::WebhooksController do
 
   describe "authorized webhooks" do
     fab!(:topic) { Fabricate(:topic) }
+    fab!(:webinar) { Fabricate(:webinar, topic: topic, zoom_id: 123, duration: 60) }
     let!(:verification_token) { "15123" }
 
     before do
@@ -59,8 +27,6 @@ describe Zoom::WebhooksController do
     end
 
     describe "#webinar_updated" do
-      fab!(:webinar) { Fabricate(:webinar, topic: topic, zoom_id: 123, duration: 60) }
-
       it "updates starts_at and ends_at when start_time changes" do
         start_time = "2020-02-29T18:00:00Z"
         post "/zoom/webhooks/webinars.json",
@@ -107,8 +73,90 @@ describe Zoom::WebhooksController do
         expect(webinar.approval_type).to eq(Webinar.approval_types.key(approval_type))
         expect(webinar.enforce_login).to eq(enforce_login)
       end
+    end
 
+    describe "#webinar_participant_joined" do
+      it "fires a DiscourseEvent" do
+        DiscourseEvent.expects(:trigger).with() { |value| value === :webinar_participant_joined }.once
+        post "/zoom/webhooks/webinars.json",
+          params: { webhook: webinar_participant_joined(webinar_id: 123) },
+          headers: { "Authorization": verification_token }
+      end
+    end
+
+    describe "#webinar_participant_left" do
+      it "fires a DiscourseEvent" do
+        DiscourseEvent.expects(:trigger).with() { |value| value === :webinar_participant_left }.once
+        post "/zoom/webhooks/webinars.json",
+          params: { webhook: webinar_participant_left(webinar_id: 123) },
+          headers: { "Authorization": verification_token }
+      end
     end
   end
+end
 
+def webinar_updated(args = {})
+  old_object = { "id": args[:zoom_id] }
+  object = { "id": args[:zoom_id], settings: {} }
+
+  unless args[:start_time].nil?
+    object.merge!("start_time": args[:start_time])
+  end
+
+  unless args[:duration].nil?
+    object.merge!("duration": args[:duration])
+  end
+
+  unless args[:approval_type].nil?
+    object[:settings].merge!("approval_type": args[:approval_type])
+  end
+
+  unless args[:enforce_login].nil?
+    object[:settings].merge!("enforce_login": args[:enforce_login])
+  end
+
+  {
+    "event": "webinar.updated",
+    "payload": {
+      "account_id": "uS-ca7K2S4iRHBFqVydIfw",
+      "operator": "mark.vanlandingham@discourse.org",
+      "operator_id": "IoDo0vbMSeyrPME4fgbwxA",
+      "object": object,
+      "old_object": old_object
+      },
+    "time_stamp": args[:timestamp] || 1578575214322
+    }
+end
+
+def webinar_participant_joined(args = {})
+  webinar_participant_event("joined", args)
+end
+def webinar_participant_left(args = {})
+  webinar_participant_event("left", args)
+end
+
+def webinar_participant_event(type, args = {})
+  {
+    "event": "webinar.participant_#{type}",
+    "payload": {
+      "account_id": "o8KK_AAACq6BBEyA70CA",
+      "operator": "someemail@email.com",
+      "object": {
+        "uuid": "czLF6FFFoQOKgAB99DlDb9g==",
+        "id": args[:webinar_id] || "111111111",
+        "host_id": "uLoRgfbbTayCX6r2Q_qQsQ",
+        "topic": "My Meeting",
+        "type": 2,
+        "start_time": "2019-07-09T17:00:00Z",
+        "duration": 60,
+        "timezone": "America/Los_Angeles",
+        "participant": {
+          "user_id": "16782040",
+          "user_name": "shree",
+          "id": "iFxeBPYun6SAiWUzBcEkX",
+          "leave_time": "2019-07-16T17:13:13Z"
+        }
+      }
+    }
+  }
 end

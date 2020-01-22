@@ -9,7 +9,9 @@ module Zoom
     HANDLED_EVENTS = [
       "webinar.updated",
       "webinar.started",
-      "webinar.ended"
+      "webinar.ended",
+      "webinar.participant_joined",
+      "webinar.participant_left"
     ]
 
     def webinars
@@ -40,6 +42,14 @@ module Zoom
       raise Discourse::NotFound unless webinar
 
       webinar.update(status: :ended)
+    end
+
+    def webinar_participant_joined
+      DiscourseEvent.trigger(:webinar_participant_joined, webinar, webinar_params)
+    end
+
+    def webinar_participant_left
+      DiscourseEvent.trigger(:webinar_participant_left, webinar, webinar_params)
     end
 
     def ensure_webhook_authenticity
