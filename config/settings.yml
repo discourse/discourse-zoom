@@ -14,3 +14,5 @@ plugins:
   zoom_host_title_override:
     default: ""
     client: false
+  zoom_send_user_id:
+    default: false

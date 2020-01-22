@@ -93,12 +93,18 @@ module Zoom
 
     def signature
       sig = Zoom::Webinars.new(Zoom::Client.new).signature(webinar.zoom_id)
+      if SiteSetting.zoom_send_user_id
+        username = "#{current_user.name} (#{current_user.id})"
+      else
+        username = current_user.name
+      end
+
       render json: {
         api_key: SiteSetting.zoom_api_key,
         email: current_user.email,
         id: webinar.zoom_id,
         signature: sig,
-        username: current_user.username,
+        username: username,
         topic_url: webinar.topic.url
       }
     end
