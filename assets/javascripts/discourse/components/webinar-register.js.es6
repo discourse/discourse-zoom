@@ -92,8 +92,10 @@ export default Component.extend({
 
   @discourseComputed("webinar.{starts_at,ends_at}")
   downloadIcsUrl(webinar) {
-    let now = this.formatDateForIcs(new Date());
-    return `data:text/calendar;charset=utf-8,BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${now}-${
+    const now = this.formatDateForIcs(new Date());
+    const scheme = isAppleDevice() ? "calshow://" : "";
+
+    return `${scheme}data:text/calendar;charset=utf-8,BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${now}-${
       webinar.title
     }\nDTSTAMP:${now}\nDTSTART:${this.formatDateForIcs(
       webinar.starts_at
@@ -108,6 +110,13 @@ export default Component.extend({
 
   formatDateForIcs(date) {
     return moment(date).format("YYYYMMDDTHHmmss") + "Z";
+  },
+
+  @discourseComputed
+  calendarButtonLabel() {
+    return isAppleDevice()
+      ? I18n.t("zoom.add_to_calendar")
+      : I18n.t("zoom.add_to_outlook");
   },
 
   actions: {
