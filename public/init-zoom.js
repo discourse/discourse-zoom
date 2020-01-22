@@ -15,6 +15,9 @@
     ZoomMtg.init({
       leaveUrl: res.topic_url,
       isSupportAV: true,
+      // audioPanelAlwaysOpen: false,
+      // disableJoinAudio: true,
+      // disableCallOut: true,
       success: function() {
         ZoomMtg.join({
           meetingNumber: res.id,
@@ -23,7 +26,10 @@
           apiKey: res.api_key,
           userEmail: res.email,
           success: function(res) {
-            console.log("join meeting success");
+            // console.log("join meeting success");
+            setTimeout(function() {
+              $("button.join-audio").click();
+            }, 200);
           },
           error: function(res) {
             console.log(res);
