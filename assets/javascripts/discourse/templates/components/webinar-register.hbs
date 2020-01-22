@@ -14,14 +14,12 @@
         {{/if}}
         {{#if showCalendarButtons}}
           <div class="zoom-add-to-calendar-container">
-            {{#unless isAppleDevice}}
-              <a target="_blank" href={{addToGoogleCalendarUrl}}>
-                <button class="btn">{{i18n "zoom.add_to_google_calendar"}}</button>
-              </a>
-            {{/unless}}
+            <a target="_blank" class="btn" href={{addToGoogleCalendarUrl}}>
+              {{i18n "zoom.add_to_google_calendar"}}
+            </a>
 
-            <a target="_blank" href={{downloadIcsUrl}} download={{downloadName}}>
-              <button class="btn">{{calendarButtonLabel}}</button>
+            <a target="_blank" class="btn" href={{downloadIcsUrl}} download={{downloadName}}>
+              {{calendarButtonLabel}}
             </a>
           </div>
         {{/if}}

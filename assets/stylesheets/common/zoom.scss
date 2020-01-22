@@ -40,6 +40,20 @@
     border-top: 1px solid $primary-low;
   }
 }
-.zoom-add-to-calendar-container {
-  float: right;
+
+@media screen and (min-width: 768px) {
+  .zoom-add-to-calendar-container {
+    float: right;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .zoom-add-to-calendar-container {
+    padding-top: 1em;
+    max-width: 60vw;
+
+    a {
+      margin-bottom: 1em;
+    }
+  }
 }

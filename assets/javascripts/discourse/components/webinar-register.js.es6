@@ -12,11 +12,9 @@ export default Component.extend({
   registered: or("isHost", "isPanelist", "isAttendee"),
   webinarStarted: equal("webinar.status", STARTED),
   webinarEnded: equal("webinar.status", ENDED),
-  isAppleDevice: null,
 
   init() {
     this._super(...arguments);
-    this.set("isAppleDevice", isAppleDevice());
   },
 
   @discourseComputed("currentUser", "webinar.attendees")
@@ -124,7 +122,7 @@ export default Component.extend({
   @discourseComputed
   calendarButtonLabel() {
     return isAppleDevice()
-      ? I18n.t("zoom.add_to_calendar")
+      ? I18n.t("zoom.add_to_apple_calendar")
       : I18n.t("zoom.add_to_outlook");
   },
 
