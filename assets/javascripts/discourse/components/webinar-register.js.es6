@@ -114,7 +114,11 @@ export default Component.extend({
   },
 
   formatDateForIcs(date) {
-    return moment(date).format("YYYYMMDDTHHmmss") + "Z";
+    return (
+      moment(date)
+        .utc()
+        .format("YYYYMMDDTHHmmss") + "Z"
+    );
   },
 
   @discourseComputed
