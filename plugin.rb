@@ -57,11 +57,10 @@ after_initialize do
   add_permitted_post_create_param(:zoom_id)
 
   NewPostManager.add_handler do |manager|
-    zoom_id = manager.args[:zoom_id]
+    next if !manager.args[:zoom_id]
 
     result = manager.perform_create_post
-    if result.success?
-      next if zoom_id.nil?
+    if result.success? && zoom_id = manager.args[:zoom_id]
       topic_id = result.post.topic_id
       Zoom::WebinarCreator.new(topic_id: topic_id, zoom_id: zoom_id).run
     end
