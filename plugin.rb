@@ -38,15 +38,17 @@ after_initialize do
     end
   end
 
-  require_dependency 'user'
-  class ::User
-    has_many :webinar_users
-    # has_many :webinars, through: :webinar_users
-  end
+  reloadable_patch do |plugin|
+    require_dependency 'user'
+    class ::User
+      has_many :webinar_users
+      # has_many :webinars, through: :webinar_users
+    end
 
-  require_dependency 'topic'
-  class ::Topic
-    has_one :webinar
+    require_dependency 'topic'
+    class ::Topic
+      has_one :webinar
+    end
   end
 
   add_to_serializer(:topic_view, :webinar) { object.topic.webinar }
