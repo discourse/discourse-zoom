@@ -17,9 +17,11 @@
             <a target="_blank" href={{addToGoogleCalendarUrl}}>
               <button class="btn">{{i18n "zoom.add_to_google_calendar"}}</button>
             </a>
-            <a target="_blank" href={{downloadIcsUrl}} download={{downloadName}}>
-              <button class="btn">{{i18n "zoom.add_to_outlook"}}</button>
-            </a>
+            {{#if isAppleDevice}}
+              <a target="_blank" href={{downloadIcsUrl}} download={{downloadName}}>
+                <button class="btn">{{i18n "zoom.add_to_outlook"}}</button>
+              </a>
+            {{/if}}
           </div>
         {{/if}}
       </div>
