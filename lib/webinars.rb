@@ -11,7 +11,7 @@ module Zoom
     end
 
     def unmatched(user)
-      response = zoom_client.get("users/#{user.email}/webinars")
+      response = zoom_client.get("users/#{user.email}/webinars?page_size=300")
       return [] unless response
 
       result = response&.body[:webinars]&.select do |hash|
