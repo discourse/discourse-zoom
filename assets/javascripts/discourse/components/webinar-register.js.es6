@@ -52,8 +52,11 @@ export default Component.extend({
     return false;
   },
 
-  @discourseComputed("webinar.attendees")
-  canUnregister(attendees) {
+  @discourseComputed("webinar.starts_at", "webinar.attendees")
+  canUnregister(starts_at, attendees) {
+    if (moment(starts_at).isBefore(moment())) {
+      return false;
+    }
     return this.isAttendee && this.registered;
   },
 
