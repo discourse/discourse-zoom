@@ -12,3 +12,15 @@ en:
           attributes:
             zoom_id:
               webinar_in_use: "Another topic is already associated with this webinar."
+
+  system_messages:
+    webinar_reminder:
+      title: "Upcoming Webinar"
+      subject_template: "A webinar that you are registered for is about to begin"
+      text_body_template: |
+        Hello,
+
+        This is an automated message from %{site_name} to let you know that a webinar that you are registered for is about to begin.
+
+        <%{url}>
+

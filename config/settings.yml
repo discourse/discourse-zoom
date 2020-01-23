@@ -16,3 +16,7 @@ plugins:
     client: false
   zoom_send_user_id:
     default: false
+  zoom_send_reminder_minutes_before_webinar:
+    default: 0
+    client: true
+

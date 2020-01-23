@@ -4,6 +4,7 @@ require "rails_helper"
 
 Fabricator(:webinar) do
   title "Test webinar"
+  zoom_id { sequence(:zoom_id) }
   starts_at 6.hours.from_now
   ends_at 7.hours.from_now
   duration 60

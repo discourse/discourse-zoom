@@ -27,6 +27,7 @@ after_initialize do
     "../app/controllers/webhooks_controller",
     "../app/serializers/host_serializer",
     "../app/serializers/webinar_serializer",
+    "../app/jobs/scheduled/send_webinar_reminders.rb"
   ].each { |path| require File.expand_path(path, __FILE__) }
 
   module ::Zoom
