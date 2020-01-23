@@ -2,7 +2,7 @@ import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
 import { ajax } from "discourse/lib/ajax";
 import { or, equal } from "@ember/object/computed";
-import { isAppleDevice } from "discourse/lib/utilities";
+import { isAppWebview, postRNWebviewMessage } from "discourse/lib/utilities";
 
 const STARTED = "started",
   ENDED = "ended";
@@ -17,6 +17,10 @@ export default Component.extend({
     this._super(...arguments);
   },
 
+  @discourseComputed
+  isAppWebview() {
+    return isAppWebview();
+  },
   @discourseComputed("currentUser", "webinar.attendees")
   isAttendee(user, attendees) {
     if (attendees) {
@@ -91,10 +95,9 @@ export default Component.extend({
   @discourseComputed("webinar.{starts_at,ends_at}")
   downloadIcsUrl(webinar) {
     const now = this.formatDateForIcs(new Date());
-    const scheme = isAppleDevice() ? "calshow://" : "";
 
     return (
-      `${scheme}data:text/calendar;charset=utf-8,` +
+      `data:text/calendar;charset=utf-8,` +
       encodeURIComponent(
         `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${now}-${
           webinar.title
@@ -119,13 +122,6 @@ export default Component.extend({
     );
   },
 
-  @discourseComputed
-  calendarButtonLabel() {
-    return isAppleDevice()
-      ? I18n.t("zoom.add_to_apple_calendar")
-      : I18n.t("zoom.add_to_outlook");
-  },
-
   actions: {
     register() {
       this.toggleRegistration(true);
@@ -133,6 +129,15 @@ export default Component.extend({
 
     unregister() {
       this.toggleRegistration(false);
+    },
+
+    addEventAppWebview() {
+      const event = {
+        title: this.webinar.title,
+        starts_at: this.webinar.starts_at,
+        ends_at: this.webinar.ends_at
+      };
+      postRNWebviewMessage("eventRegistration", JSON.stringify(event));
     },
 
     joinSDK() {

@@ -5,7 +5,7 @@
     {{#if registered}}
       <div class="webinar-registered">
         {{#if isAttendee}}
-          <span>
+          <span class="registered">
             {{d-icon "far-check-circle"}} {{i18n "zoom.registered"}}
           </span>
           {{#if canUnregister}}
@@ -18,9 +18,13 @@
               {{i18n "zoom.add_to_google_calendar"}}
             </a>
 
-            <a target="_blank" class="btn" href={{downloadIcsUrl}} download={{downloadName}}>
-              {{calendarButtonLabel}}
-            </a>
+            {{#if isAppWebview}}
+              {{d-button action=(action "addEventAppWebview") label="zoom.add_to_calendar"}}
+            {{else}}
+              <a target="_blank" class="btn" href={{downloadIcsUrl}} download={{downloadName}}>
+                {{i18n "zoom.add_to_outlook"}}
+              </a>
+            {{/if}}
           </div>
         {{/if}}
       </div>
