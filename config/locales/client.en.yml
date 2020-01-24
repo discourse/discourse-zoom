@@ -21,6 +21,7 @@ en:
       register: "Register"
       registered: "Registered"
       panelists: "Panelists"
+      attendees: "Attendees"
       no_user_webinars: "You are not registered to any webinars."
       webinars_title: "Webinars"
       select_panelist: "Username or email"
@@ -34,7 +35,7 @@ en:
       no_panelists: "This webinar has no associated panelists. Use the form below to add a panelist."
       no_panelists_preview: "This webinar has no associated panelists. You can add them later."
       error: "There was an error, please try again. "
-      join_sdk: "Join via SDK"
+      join_sdk: "Join Now!"
       cancel_registration: "Cancel Registration"
       no_registration_required: 'This webinar is marked as "Registration required" in Zoom which is currently not supported. Please edit the webinar settings and try again.'
       webinar_ended: "This event has now ended."
@@ -44,3 +45,4 @@ en:
       add_to_google_calendar: "Add to Google Calendar"
       add_to_outlook: "Add to Outlook"
       add_to_calendar: "Add to Calendar"
+      webinar_footnote: "Can't make the event? Register and we'll send you a post-event recap."

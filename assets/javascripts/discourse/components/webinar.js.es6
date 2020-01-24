@@ -2,8 +2,9 @@ import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
 import { formattedSchedule } from "../lib/webinar-helpers";
 import showModal from "discourse/lib/show-modal";
-import { alias, or, equal } from "@ember/object/computed";
+import { alias, or } from "@ember/object/computed";
 import { ajax } from "discourse/lib/ajax";
+import { next } from "@ember/runloop";
 
 const NOT_STARTED = "not_started",
   ENDED = "ended";
@@ -15,7 +16,6 @@ export default Component.extend({
   webinarId: null,
   showTimer: false,
   canEdit: alias("topic.details.can_edit"),
-  webinarEnded: equal("webinar.status", ENDED),
   showingRecording: false,
 
   hostDisplayName: Ember.computed.or(
@@ -27,6 +27,17 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this.fetchDetails();
+  },
+
+  @discourseComputed("webinar.{status,ends_at}")
+  webinarEnded(webinar) {
+    if (
+      webinar.status === ENDED ||
+      moment(webinar.ends_at).isBefore(moment())
+    ) {
+      return true;
+    }
+    return false;
   },
 
   fetchDetails() {
@@ -95,6 +106,11 @@ export default Component.extend({
     return `/zoom/webinars/${webinar.id}`;
   },
 
+  @discourseComputed
+  displayAttendees() {
+    return this.siteSettings.zoom_display_attendees;
+  },
+
   @discourseComputed("webinar.{starts_at,ends_at}")
   schedule(webinar) {
     return formattedSchedule(webinar.starts_at, webinar.ends_at);
@@ -110,6 +126,14 @@ export default Component.extend({
 
     showRecording() {
       this.set("showingRecording", true);
+      next(() => {
+        const $videoEl = $(".video-recording");
+
+        window.scrollTo({
+          top: $videoEl.offset().top - 60,
+          behavior: "smooth"
+        });
+      });
     }
   }
 });

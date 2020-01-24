@@ -63,6 +63,22 @@
           {{/if}}
         </div>
       </div>
+    {{else}}
+      {{#if displayAttendees}}
+        {{#if webinar.attendees}}
+          <div class='attendees'>
+            {{i18n 'zoom.attendees'}}
+            <div class='attendee-avatars'>
+              {{#each webinar.attendees as |attendee|}}
+                {{avatar attendee imageSize="small"}}
+              {{/each}}
+            </div>
+          </div>
+        {{/if}}
+      {{/if}}
+      <div class="webinar-footnote">
+        {{i18n "zoom.webinar_footnote"}}
+      </div>
     {{/if}}
   </div>
 {{else}}

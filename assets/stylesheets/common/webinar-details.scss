@@ -11,6 +11,7 @@
 }
 
 .webinar-header {
+  margin-bottom: 1em;
   @media screen and (min-width: 768px) {
     display: flex;
     justify-content: space-between;
@@ -59,8 +60,13 @@
     color: $primary;
   }
 
+  .host {
+    margin-top: 1em;
+  }
+
   .host-container {
-    margin-bottom: 15px;
+    margin-top: 0.5em;
+    margin-bottom: 1.5em;
     display: flex;
   }
 
@@ -71,13 +77,15 @@
     margin-left: 1.5em;
   }
 
-  .panelists {
+  .panelists,
+  .attendees {
     margin: 1em 0em;
     display: flex;
     align-items: center;
   }
 
-  .panelist-avatars {
+  .panelist-avatars,
+  .attendee-avatars {
     margin-left: 10px;
   }
 
@@ -112,4 +120,10 @@
     padding: 5px 15px;
     border-radius: 5px;
   }
+}
+
+.webinar-footnote {
+  text-align: center;
+  margin-top: 2em;
+  font-size: $font-down-1;
 }

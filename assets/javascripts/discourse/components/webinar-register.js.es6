@@ -1,7 +1,7 @@
 import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
 import { ajax } from "discourse/lib/ajax";
-import { or, equal } from "@ember/object/computed";
+import { or } from "@ember/object/computed";
 import { isAppWebview, postRNWebviewMessage } from "discourse/lib/utilities";
 
 const STARTED = "started",
@@ -10,8 +10,38 @@ const STARTED = "started",
 export default Component.extend({
   loading: false,
   registered: or("isHost", "isPanelist", "isAttendee"),
-  webinarStarted: equal("webinar.status", STARTED),
-  webinarEnded: equal("webinar.status", ENDED),
+
+  @discourseComputed("webinar.{status,ends_at}")
+  webinarStarted(webinar) {
+    const beforeStart = this.siteSettings.zoom_join_x_mins_before_start;
+
+    if (webinar.status === STARTED) {
+      if (!beforeStart) {
+        return true;
+      }
+
+      const newStartTime = moment(webinar.starts_at).subtract(
+        beforeStart,
+        "minutes"
+      );
+
+      if (newStartTime.isBefore(moment())) {
+        return true;
+      }
+    }
+    return false;
+  },
+
+  @discourseComputed("webinar.{status,ends_at}")
+  webinarEnded(webinar) {
+    if (
+      webinar.status === ENDED ||
+      moment(webinar.ends_at).isBefore(moment())
+    ) {
+      return true;
+    }
+    return false;
+  },
 
   init() {
     this._super(...arguments);

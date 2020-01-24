@@ -18,5 +18,9 @@ plugins:
     default: false
   zoom_send_reminder_minutes_before_webinar:
     default: 0
+  zoom_display_attendees:
+    default: false
     client: true
-
+  zoom_join_x_mins_before_start:
+    default: 0
+    client: true
