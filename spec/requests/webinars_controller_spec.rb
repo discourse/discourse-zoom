@@ -211,9 +211,9 @@ describe Zoom::WebinarsController do
       sign_in(user)
 
       DiscourseEvent.expects(:trigger).with() { |eventName, eventWebinar, eventUser |
-        eventName === :webinar_participant_watched &&
-        eventWebinar === webinar &&
-        eventUser === user
+        eventName == :webinar_participant_watched &&
+        eventWebinar == webinar &&
+        eventUser == user
       }.once
       put("/zoom/webinars/#{webinar.id}/attendees/#{user.username}/watch.json")
     end
