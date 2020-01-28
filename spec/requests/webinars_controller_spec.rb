@@ -205,4 +205,17 @@ describe Zoom::WebinarsController do
       expect(webinar.reload.video_url).to eq(video_url)
     end
   end
+
+  describe "#watch" do
+    it "fires a DiscourseEvent" do
+      sign_in(user)
+
+      DiscourseEvent.expects(:trigger).with() { |eventName, eventWebinar, eventUser |
+        eventName === :webinar_participant_watched &&
+        eventWebinar === webinar &&
+        eventUser === user
+      }.once
+      put("/zoom/webinars/#{webinar.id}/attendees/#{user.username}/watch.json")
+    end
+  end
 end
