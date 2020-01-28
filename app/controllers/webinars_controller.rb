@@ -121,6 +121,13 @@ module Zoom
       render json: { video_url: webinar.video_url }
     end
 
+    def watch
+      user = fetch_user_from_params
+      guardian.ensure_can_edit!(user)
+
+      DiscourseEvent.trigger(:webinar_participant_watched, webinar, user)
+    end
+
     private
 
     def ensure_webinar_exists

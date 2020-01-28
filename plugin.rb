@@ -72,6 +72,7 @@ after_initialize do
   Zoom::Engine.routes.draw do
     resources :webinars, only: [:show, :index, :destroy] do
       put 'attendees/:username' => 'webinars#register', constraints: { username: RouteFormat.username, format: :json }
+      put 'attendees/:username/watch' => 'webinars#watch', constraints: { username: RouteFormat.username, format: :json }
       delete 'attendees/:username' => 'webinars#unregister', constraints: { username: RouteFormat.username, format: :json }
       put 'panelists/:username' => 'webinars#add_panelist', constraints: { username: RouteFormat.username, format: :json }
       delete 'panelists/:username' => 'webinars#remove_panelist', constraints: { username: RouteFormat.username, format: :json }

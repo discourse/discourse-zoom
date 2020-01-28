@@ -133,6 +133,10 @@ export default Component.extend({
           top: $videoEl.offset().top - 60,
           behavior: "smooth"
         });
+        ajax(
+          `/zoom/webinars/${this.webinar.id}/attendees/${this.currentUser.username}/watch.json`,
+          { type: "PUT" }
+        );
       });
     }
   }
