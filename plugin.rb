@@ -98,7 +98,6 @@ after_initialize do
 
   add_to_class(:topic_query, :list_zoom_webinars) do |user|
     list = joined_topic_user.joins(webinar: :webinar_users)
-      .where("webinars.ends_at >= ?", Time.now)
       .where("webinar_users.user_id = ?", user.id.to_s)
       .order("webinars.starts_at DESC")
 
