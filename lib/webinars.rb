@@ -96,15 +96,12 @@ module Zoom
     end
 
     def panelists_payload(panelists)
-      {
-        panelists: panelists.map do |s|
-          {
-            name: s.name || s.username,
-            avatar_url: s.avatar_template_url.gsub('{size}', '25')
-          }
-        end,
-        panelists_count: panelists.size
-      }
+      panelists.map do |s|
+        {
+          name: s.name || s.username,
+          avatar_url: s.avatar_template_url.gsub('{size}', '25')
+        }
+      end
     end
 
     def host_payload(host)
