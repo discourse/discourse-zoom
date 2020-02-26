@@ -34,10 +34,12 @@
       </div>
     {{/if}}
     <div class="modal-footer">
-      {{#unless registrationRequired}}
+      {{#if registrationRequired}}
+        {{d-button action=(action "clear") label='zoom.webinar_picker.clear'}}
+      {{else}}
         {{d-button action=(action "insert") class='btn-primary' label='zoom.webinar_picker.create'}}
-      {{/unless}}
-      {{d-button action=(action "clear") label='zoom.webinar_picker.clear' class='btn-flat'}}
+        {{d-button action=(action "clear") label='zoom.webinar_picker.clear' class="btn-flat"}}
+      {{/if}}
     </div>
   {{else}}
     {{#unless loading}}

@@ -5,12 +5,15 @@ plugins:
   zoom_api_key:
     default: ""
     client: false
+    secret: true
   zoom_api_secret:
     default: ""
     client: false
+    secret: true
   zoom_verification_token:
     default: ""
     client: true
+    secret: true
   zoom_host_title_override:
     default: ""
     client: false
