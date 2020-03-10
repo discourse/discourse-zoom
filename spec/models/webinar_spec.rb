@@ -10,6 +10,21 @@ describe Webinar do
   fab!(:topic) { Fabricate(:topic, user: first_user) }
   let(:webinar) { Webinar.create(topic: topic, zoom_id: "123") }
 
+  describe "unique zoom_id" do
+    it 'does not create a duplicate' do
+      webinar.save
+      webinar_dupe = Webinar.create(topic: topic, zoom_id: "123")
+      expect(webinar_dupe.save).to eq(false)
+    end
+
+    it 'does not validate uniqueness on nonzoom events' do
+      webinarA = Webinar.create(topic: topic, zoom_id: "nonzoom")
+      webinarA.save
+      webinarB = Webinar.create(topic: topic, zoom_id: "nonzoom")
+      expect(webinarB.save).to eq(true)
+    end
+  end
+
   describe ".sanitize_zoom_id" do
     it 'removes spaces and dashes' do
       id = ' 342-265-6531'
