@@ -112,8 +112,6 @@ export default Controller.extend(ModalFunctionality, {
 
   @discourseComputed("pastWebinarTitle", "pastStartDate")
   pastWebinarDisabled(title, startDate) {
-    console.log(title.length);
-    console.log(startDate.length);
     return !title.length || !startDate.length;
   },
 
