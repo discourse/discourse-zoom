@@ -113,6 +113,9 @@ export default Component.extend({
 
   @discourseComputed("webinar.{starts_at,ends_at}")
   schedule(webinar) {
+    if (webinar.ends_at === null) {
+      return moment(webinar.starts_at).format("Do MMMM, Y");
+    }
     return formattedSchedule(webinar.starts_at, webinar.ends_at);
   },
 

@@ -12,6 +12,9 @@ export default Controller.extend(ModalFunctionality, {
   model: null,
   loading: false,
   selected: false,
+  addingPastWebinar: false,
+  pastStartDate: "",
+  pastWebinarTitle: "",
   allWebinars: null,
   error: false,
   NO_REGISTRATION_REQUIRED: 2,
@@ -39,7 +42,8 @@ export default Controller.extend(ModalFunctionality, {
       selected: false,
       webinarIdInput: null,
       webinar: null,
-      error: false
+      error: false,
+      addingPastWebinar: false
     });
   },
 
@@ -106,6 +110,13 @@ export default Controller.extend(ModalFunctionality, {
     return false;
   },
 
+  @discourseComputed("pastWebinarTitle", "pastStartDate")
+  pastWebinarDisabled(title, startDate) {
+    console.log(title.length);
+    console.log(startDate.length);
+    return !title.length || !startDate.length;
+  },
+
   actions: {
     selectWebinar(id) {
       this.fetchWebinarDetails(id);
@@ -122,6 +133,22 @@ export default Controller.extend(ModalFunctionality, {
         this.addWebinarToComposer();
       }
       this.send("closeModal");
+    },
+
+    onChangeDate(date) {
+      this.set("startDate", date);
+    },
+
+    addPastWebinar() {
+      this.model.set("zoomId", "nonzoom");
+      this.model.set("zoomWebinarTitle", this.pastWebinarTitle);
+      this.model.set("zoomWebinarStartDate", this.pastStartDate);
+      this.send("closeModal");
+    },
+
+    showPastWebinarForm() {
+      this.set("addingPastWebinar", true);
+      this.set("selected", false);
     }
   }
 });

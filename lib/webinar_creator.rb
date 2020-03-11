@@ -2,18 +2,35 @@
 
 module Zoom
   class WebinarCreator
-    def initialize(topic_id:, zoom_id:)
+    def initialize(topic_id:, zoom_id:, zoom_start_date:nil, zoom_title:nil)
       @topic_id = topic_id
       @zoom_id = Webinar.sanitize_zoom_id(zoom_id)
+      @zoom_start_date = zoom_start_date
+      @zoom_title = zoom_title
       @zoom_client = Zoom::Client.new
     end
 
     def run
-      attributes = @zoom_client.webinar(@zoom_id, true)[:body]
+      is_past_webinar = @zoom_start_date.present?
+
       webinar = Webinar.new
-      webinar.attributes = webinar.convert_attributes_from_zoom(attributes)
+      if is_past_webinar
+        webinar.attributes = {
+          starts_at: @zoom_start_date,
+          title: @zoom_title,
+          zoom_id: @zoom_id,
+          status: 2 # marks past event as ended
+        }
+      else
+        attributes = @zoom_client.webinar(@zoom_id, true)[:body]
+        webinar.attributes = webinar.convert_attributes_from_zoom(attributes)
+      end
+
       webinar.topic_id = @topic_id
       webinar.save!
+
+      return webinar if is_past_webinar
+
       host_data = @zoom_client.host(attributes[:host_id])
       user = User.find_by_email(host_data[:email])
       unless user

@@ -64,6 +64,7 @@ class Webinar < ActiveRecord::Base
   def non_zoom_event?
     zoom_id == "nonzoom"
   end
+
   private
 
   def notify_status_update
