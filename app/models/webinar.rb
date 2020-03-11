@@ -9,7 +9,9 @@ class Webinar < ActiveRecord::Base
   has_many :users, through: :webinar_users
   belongs_to :topic
 
-  validates :zoom_id, presence: true, uniqueness: { message: :webinar_in_use }
+  validates :zoom_id, presence: true
+  validates :zoom_id, uniqueness: { message: :webinar_in_use }, unless: :non_zoom_event?
+
   validates :topic_id, presence: true
 
   after_commit :notify_status_update, on: :update
@@ -57,6 +59,10 @@ class Webinar < ActiveRecord::Base
       converted_attributes[converted_key] = value if has_attribute? converted_key
     end
     converted_attributes
+  end
+
+  def non_zoom_event?
+    zoom_id == "nonzoom"
   end
 
   private

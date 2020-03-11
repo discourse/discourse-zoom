@@ -46,3 +46,6 @@ en:
       add_to_outlook: "Add to Outlook"
       add_to_calendar: "Add to Calendar"
       webinar_footnote: "Can't make the event? Register and we'll send you a post-event recap."
+      add_past_webinar: "Add past webinar"
+      past_label: "Past webinar title"
+      past_date: "Past webinar date"

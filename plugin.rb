@@ -56,14 +56,19 @@ after_initialize do
   add_to_serializer(:current_user, :webinar_registrations) { object.webinar_users }
 
   add_permitted_post_create_param(:zoom_id)
+  add_permitted_post_create_param(:zoom_webinar_title)
+  add_permitted_post_create_param(:zoom_webinar_start_date)
 
   NewPostManager.add_handler do |manager|
     next if !manager.args[:zoom_id]
 
     result = manager.perform_create_post
     if result.success? && zoom_id = manager.args[:zoom_id]
+      zoom_start_date = manager.args[:zoom_webinar_start_date]
+      zoom_title = manager.args[:zoom_webinar_title]
       topic_id = result.post.topic_id
-      Zoom::WebinarCreator.new(topic_id: topic_id, zoom_id: zoom_id).run
+
+      Zoom::WebinarCreator.new(topic_id: topic_id, zoom_id: zoom_id, zoom_start_date: zoom_start_date, zoom_title: zoom_title).run
     end
 
     result

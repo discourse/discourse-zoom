@@ -5,5 +5,10 @@ export default {
 
   initialize() {
     Composer.serializeOnCreate("zoom_id", "zoomId");
+    Composer.serializeOnCreate("zoom_webinar_title", "zoomWebinarTitle");
+    Composer.serializeOnCreate(
+      "zoom_webinar_start_date",
+      "zoomWebinarStartDate"
+    );
   }
 };
