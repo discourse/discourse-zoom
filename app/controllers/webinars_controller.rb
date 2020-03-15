@@ -35,6 +35,13 @@ module Zoom
       guardian.ensure_can_edit!(webinar.topic)
       raise Discourse::NotFound if user.in? webinar.panelists
 
+      if webinar.non_zoom_event?
+        WebinarUser.where(user: user, webinar: webinar).destroy_all
+        WebinarUser.create!(user: user, webinar: webinar, type: :panelist)
+        render json: success_json
+        return
+      end
+
       if Zoom::Webinars.new(zoom_client).add_panelist(webinar: webinar, user: user)
         render json: success_json
       else

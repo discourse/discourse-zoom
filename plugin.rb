@@ -68,7 +68,7 @@ after_initialize do
       zoom_title = manager.args[:zoom_webinar_title]
       topic_id = result.post.topic_id
 
-      Zoom::WebinarCreator.new(topic_id: topic_id, zoom_id: zoom_id, zoom_start_date: zoom_start_date, zoom_title: zoom_title).run
+      Zoom::WebinarCreator.new(topic_id: topic_id, zoom_id: zoom_id, zoom_start_date: zoom_start_date, zoom_title: zoom_title, user: manager.user).run
     end
 
     result

@@ -2,37 +2,38 @@
 
 module Zoom
   class WebinarCreator
-    def initialize(topic_id:, zoom_id:, zoom_start_date:nil, zoom_title:nil)
+    def initialize(topic_id:, zoom_id:, zoom_start_date:nil, zoom_title:nil, user:nil)
       @topic_id = topic_id
       @zoom_id = Webinar.sanitize_zoom_id(zoom_id)
       @zoom_start_date = zoom_start_date
       @zoom_title = zoom_title
       @zoom_client = Zoom::Client.new
+      @current_user = user
     end
 
     def run
-      is_past_webinar = @zoom_start_date.present?
+      nonzoom_webinar = @zoom_start_date.present?
 
       webinar = Webinar.new
-      if is_past_webinar
+      if nonzoom_webinar
         webinar.attributes = {
           starts_at: @zoom_start_date,
           title: @zoom_title,
           zoom_id: @zoom_id,
           status: 2 # marks past event as ended
         }
+        user = @current_user
       else
         attributes = @zoom_client.webinar(@zoom_id, true)[:body]
         webinar.attributes = webinar.convert_attributes_from_zoom(attributes)
+
+        host_data = @zoom_client.host(attributes[:host_id])
+        user = User.find_by_email(host_data[:email])
       end
 
       webinar.topic_id = @topic_id
       webinar.save!
 
-      return webinar if is_past_webinar
-
-      host_data = @zoom_client.host(attributes[:host_id])
-      user = User.find_by_email(host_data[:email])
       unless user
         user = User.create!(
           email: host_data[:email],
@@ -42,7 +43,7 @@ module Zoom
         )
       end
       WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :host)
-      register_panelists(webinar)
+      register_panelists(webinar) unless nonzoom_webinar
       webinar
     end
 

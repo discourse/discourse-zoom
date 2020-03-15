@@ -50,6 +50,7 @@ describe NewPostManager do
 
       expect(result.action).to eq(:create_post)
       expect(topic.webinar.zoom_id).to eq(params[:zoom_id])
+      expect(topic.webinar.host.username).to eq(user.username)
       expect(topic.webinar.title).to eq(params[:zoom_webinar_title])
 
     end

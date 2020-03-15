@@ -68,6 +68,7 @@ export default Controller.extend(ModalFunctionality, {
             this.set("model", webinar);
           });
         })
+        .catch(popupAjaxError)
         .finally(() => {
           this.set("loading", false);
         });
@@ -87,6 +88,7 @@ export default Controller.extend(ModalFunctionality, {
             this.set("model", webinar);
           });
         })
+        .catch(popupAjaxError)
         .finally(() => {
           this.set("loading", false);
         });

@@ -62,6 +62,20 @@ describe Zoom::WebinarsController do
       expect(response.status).to eq(200)
       expect(webinar.panelists.include? admin).to eq(true)
     end
+
+  end
+
+  describe "#add_nonzoom_panelist" do
+    it "Adds panelist to a nonzoom webinar" do
+      webinar.zoom_id = "nonzoom"
+      webinar.save
+
+      sign_in(admin)
+      expect(webinar.panelists.include? admin).to eq(false)
+      put("/zoom/webinars/#{webinar.id}/panelists/#{admin.username}.json")
+      expect(response.status).to eq(200)
+      expect(webinar.panelists.include? admin).to eq(true)
+    end
   end
 
   describe "#remove_panelist" do
