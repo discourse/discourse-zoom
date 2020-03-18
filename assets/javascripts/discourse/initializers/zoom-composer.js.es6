@@ -29,7 +29,6 @@ export default {
         @observes("model.postStream.loaded")
         _addWebinarClass() {
           const webinar = this.get("model.webinar");
-          console.log(webinar);
           if (webinar) {
             document.querySelector("body").classList.add("has-webinar");
           } else {
