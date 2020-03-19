@@ -41,8 +41,17 @@
   }
 }
 
+.webinar-registered {
+  min-height: 35px;
+}
+
 @media screen and (min-width: 768px) {
   .zoom-add-to-calendar-container {
+    text-align: center;
+  }
+
+  .btn-flat + .zoom-add-to-calendar-container {
+    text-align: right;
     float: right;
   }
 }

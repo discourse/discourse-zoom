@@ -52,18 +52,19 @@
 
     {{#if webinarEnded}}
       <div class="event-ended">
-        {{#unless webinar.video_url}}
-          {{i18n "zoom.webinar_ended"}}
-        {{/unless}}
-        <div class="video-recording">
-          {{#if showingRecording}}
-            <video controlslist='nodownload' width='100%' height='100%' src={{webinar.video_url}} controls></video>
-          {{else}}
-            {{#if webinar.video_url}}
-              {{d-button action=(action "showRecording") class="btn-primary" label="zoom.show_recording" icon="play"}}
+        {{#if webinar.video_url}}
+          <div class="video-recording">
+            {{#if showingRecording}}
+              <video controlslist='nodownload' width='100%' height='100%' src={{webinar.video_url}} controls></video>
+            {{else}}
+              {{#if webinar.video_url}}
+                {{d-button action=(action "showRecording") class="btn-primary" label="zoom.show_recording" icon="play"}}
+              {{/if}}
             {{/if}}
-          {{/if}}
-        </div>
+          </div>
+        {{else}}
+          {{i18n "zoom.webinar_ended"}}
+        {{/if}}
       </div>
     {{else}}
       {{#if displayAttendees}}
@@ -78,9 +79,11 @@
           </div>
         {{/if}}
       {{/if}}
-      <div class="webinar-footnote">
-        {{i18n "zoom.webinar_footnote"}}
-      </div>
+      {{#unless webinarStarted}}
+        <div class="webinar-footnote">
+          {{i18n "zoom.webinar_footnote"}}
+        </div>
+      {{/unless}}
     {{/if}}
   </div>
 {{else}}

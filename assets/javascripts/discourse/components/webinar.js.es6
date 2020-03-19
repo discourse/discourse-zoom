@@ -7,7 +7,8 @@ import { ajax } from "discourse/lib/ajax";
 import { next } from "@ember/runloop";
 
 const NOT_STARTED = "not_started",
-  ENDED = "ended";
+  ENDED = "ended",
+  STARTED = "started";
 
 export default Component.extend({
   loading: false,
@@ -38,6 +39,11 @@ export default Component.extend({
       return true;
     }
     return false;
+  },
+
+  @discourseComputed("webinar.status")
+  webinarStarted(status) {
+    return status === STARTED;
   },
 
   fetchDetails() {

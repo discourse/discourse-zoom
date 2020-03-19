@@ -101,7 +101,6 @@
   }
 
   .event-ended {
-    padding: 2em 0em;
     .video-recording {
       padding-top: 2em;
       video {
@@ -124,6 +123,6 @@
 
 .webinar-footnote {
   text-align: center;
-  margin-top: 2em;
-  font-size: $font-down-1;
+  margin-top: 1.5em;
+  font-size: $font-down-2;
 }
