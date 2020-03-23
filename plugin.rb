@@ -109,5 +109,26 @@ after_initialize do
     create_list(:webinars, {}, list)
   end
 
+  # restrict CSP overrides to the SDK endpoint only
+  ZOOM_SDK_REGEX = /webinars\/(.*)\/sdk$/
+  ZOOM_SDK_CSP = [
+    :unsafe_eval,
+    :unsafe_inline,
+    "https://source.zoom.us",
+    "https://zoom.us"
+  ]
+
+  ContentSecurityPolicy::Extension.class_eval do
+    def path_specific_extension(path_info)
+
+      {}.tap do |obj|
+        for_qunit_route = !Rails.env.production? && ["/qunit", "/wizard/qunit"].include?(path_info)
+        obj[:script_src] = :unsafe_eval if for_qunit_route
+
+        obj[:script_src] = ZOOM_SDK_CSP if ZOOM_SDK_REGEX.match(path_info)
+      end
+    end
+  end
+
   ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
 end
