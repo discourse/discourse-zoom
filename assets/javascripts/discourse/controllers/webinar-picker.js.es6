@@ -13,7 +13,7 @@ export default Controller.extend(ModalFunctionality, {
   loading: false,
   selected: false,
   addingPastWebinar: false,
-  pastStartDate: "",
+  pastStartDate: moment(new Date(), "YYYY-MM-DD").toDate(),
   pastWebinarTitle: "",
   allWebinars: null,
   error: false,
@@ -112,7 +112,7 @@ export default Controller.extend(ModalFunctionality, {
 
   @discourseComputed("pastWebinarTitle", "pastStartDate")
   pastWebinarDisabled(title, startDate) {
-    return !title.length || !startDate.length;
+    return !this.pastWebinarTitle || !this.pastStartDate;
   },
 
   actions: {
@@ -131,10 +131,6 @@ export default Controller.extend(ModalFunctionality, {
         this.addWebinarToComposer();
       }
       this.send("closeModal");
-    },
-
-    onChangeDate(date) {
-      this.set("startDate", date);
     },
 
     addPastWebinar() {
