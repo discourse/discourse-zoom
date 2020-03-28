@@ -26,9 +26,8 @@
           apiKey: res.api_key,
           userEmail: res.email,
           success: function(res) {
-            // console.log("join meeting success");
             setTimeout(function() {
-              $("button.join-audio").click();
+              $("#dialog-join .title.tab:nth-child(2) button").click(); // default to Computer Audio
             }, 200);
           },
           error: function(res) {

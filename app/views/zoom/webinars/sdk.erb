@@ -1,12 +1,12 @@
-<script src="/plugins/discourse-zoom/react.min.js"></script>
-<script src="/plugins/discourse-zoom/react-dom.min.js"></script>
-<script src="/plugins/discourse-zoom/redux.min.js"></script>
-<script src="/plugins/discourse-zoom/redux-thunk.min.js"></script>
-<script src="/plugins/discourse-zoom/jquery.min.js"></script>
-<script src="/plugins/discourse-zoom/lodash.min.js"></script>
+<script src="<%= ::UrlHelper.local_cdn_url('/plugins/discourse-zoom/react.min.js') %>"></script>
+<script src="<%= ::UrlHelper.local_cdn_url('/plugins/discourse-zoom/react-dom.min.js') %>"></script>
+<script src="<%= ::UrlHelper.local_cdn_url('/plugins/discourse-zoom/redux.min.js') %>"></script>
+<script src="<%= ::UrlHelper.local_cdn_url('/plugins/discourse-zoom/redux-thunk.min.js') %>"></script>
+<script src="<%= ::UrlHelper.local_cdn_url('/plugins/discourse-zoom/jquery.min.js') %>"></script>
+<script src="<%= ::UrlHelper.local_cdn_url('/plugins/discourse-zoom/lodash.min.js') %>"></script>
 
-<script src="/plugins/discourse-zoom/zoom-meeting-1.7.2.min.js"></script>
-<script src="/plugins/discourse-zoom/init-zoom.js"></script>
+<script src="<%= ::UrlHelper.local_cdn_url('/plugins/discourse-zoom/zoom-meeting-1.7.2.min.js') %>"></script>
+<script src="<%= ::UrlHelper.local_cdn_url('/plugins/discourse-zoom/init-zoom.js?v=1.7.2') %>"></script>
 
 <div id="join_meeting"></div>
 
@@ -46,6 +46,7 @@
       display: block;
       margin-left: 5px;
       background-color: transparent;
+      border: none;
       box-shadow: none;
       text-align: right;
       width: auto;
@@ -69,11 +70,16 @@
     }
 
     #dialog-join .tab {
-      min-width: 160px;
-      font-size: 16px;
+      width: calc(50vw);
     }
 
-    #dialog-join .close {
+    #dialog-join .tab:first-child {
+      width: calc(50vw - 60px);
+      padding-left: 20px;
+    }
+
+    #dialog-join .tab .tab-title {
+      font-size: 15px;
     }
 
     div[aria-label="Question and Answer"] > .common-window {
@@ -114,6 +120,17 @@
 
     #wc-container .attendee-content {
       width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 340px) {
+    #wc-footer .join-audio, #wc-footer .mute {
+      min-width: 65px;
+    }
+
+    ul.more-button__pop-menu.dropdown-menu > li > a {
+      padding-left: 4px;
+      padding-right: 4px;
     }
   }
 </style>
