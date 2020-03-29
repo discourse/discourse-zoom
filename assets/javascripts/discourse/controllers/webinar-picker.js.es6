@@ -103,9 +103,14 @@ export default Controller.extend(ModalFunctionality, {
   },
 
   @discourseComputed("webinar")
-  registrationRequired(webinar) {
+  webinarError(webinar) {
     if (webinar.approval_type !== this.NO_REGISTRATION_REQUIRED) {
-      return true;
+      return I18n.t("zoom.no_registration_required");
+    }
+    if (webinar.existing_topic) {
+      return I18n.t("zoom.webinar_existing_topic", {
+        topic_id: webinar.existing_topic.topic_id
+      });
     }
     return false;
   },

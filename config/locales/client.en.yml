@@ -38,6 +38,7 @@ en:
       join_sdk: "Join Now!"
       cancel_registration: "Cancel Registration"
       no_registration_required: 'This webinar is marked as "Registration required" in Zoom which is currently not supported. Please edit the webinar settings and try again.'
+      webinar_existing_topic: "This webinar is already associated with a topic. Topic ID: %{topic_id}"
       webinar_ended: "This event has now ended."
       webinar_recording: "Add Webinar Recording"
       webinar_recording_description: "Enter the URL of the video recording for this webinar. "
