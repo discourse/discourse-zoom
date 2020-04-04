@@ -174,7 +174,9 @@ export default Component.extend({
     },
 
     joinSDK() {
-      const url = `/zoom/webinars/${this.webinar.id}/sdk`;
+      const url = this.siteSettings.zoom_enable_sdk_fallback
+        ? `/zoom/webinars/${this.webinar.id}/sdk?fallback_redirect=1`
+        : `/zoom/webinars/${this.webinar.id}/sdk`;
 
       if (this.registered) {
         window.location.href = url;

@@ -27,3 +27,6 @@ plugins:
   zoom_join_x_mins_before_start:
     default: 0
     client: true
+  zoom_enable_sdk_fallback:
+    default: true
+    client: true

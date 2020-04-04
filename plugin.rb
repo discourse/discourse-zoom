@@ -113,7 +113,6 @@ after_initialize do
   ZOOM_SDK_REGEX = /webinars\/(.*)\/sdk$/
   ZOOM_SDK_CSP = [
     :unsafe_eval,
-    :unsafe_inline,
     "https://source.zoom.us",
     "https://zoom.us"
   ]

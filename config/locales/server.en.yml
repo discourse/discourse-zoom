@@ -7,7 +7,8 @@ en:
     zoom_send_user_id: "Send the user's internal Discourse ID to Zoom when joining a webinar. (optional)"
     zoom_display_attendees: "Display list of event attendees."
     zoom_join_x_mins_before_start: "Switch to Join button in the UI x minutes before the start of the webinar. (0 means button will be switched as soon as event is started, regardless of start time)"
-  activerecord:
+    zoom_enable_sdk_fallback: "Display a link to Zoom if joining event fails (for example, if Zoom's Web SDK service is down."
+    activerecord:
     errors:
       models:
         webinar:
@@ -25,4 +26,3 @@ en:
         This is an automated message from %{site_name} to let you know that a webinar that you are registered for is about to begin.
 
         <%{url}>
-
