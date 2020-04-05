@@ -45,7 +45,7 @@
             console.log(res);
             if (join_result.errorCode === 1) {
               const params = getParams(window.location.href);
-              if (params.fallback_redirect) {
+              if (params.fallback) {
                 window.setTimeout(() => {
                   let btn = `<a href="https://zoom.us/j/${res.id}" id="zoom-fallback" class="zm-btn zm-btn-legacy zm-btn--primary zm-btn__outline--blue" >Launch in Zoom</a>`;
                   $(".zm-modal-body-content .content").html(
