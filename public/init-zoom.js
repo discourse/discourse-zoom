@@ -42,7 +42,6 @@
             }, 200);
           },
           error: function(join_result) {
-            console.log(res);
             if (join_result.errorCode === 1) {
               const params = getParams(window.location.href);
               if (params.fallback) {
@@ -58,7 +57,7 @@
         });
       },
       error: function(res) {
-        console.log(res);
+        console.log("error generating signature");
       }
     });
   });
