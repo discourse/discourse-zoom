@@ -109,10 +109,11 @@ after_initialize do
     create_list(:webinars, {}, list)
   end
 
-  # restrict CSP overrides to the SDK endpoint only
+  # CSP overrides to the SDK endpoint only
   ZOOM_SDK_REGEX = /webinars\/(.*)\/sdk$/
   ZOOM_SDK_CSP = [
     :unsafe_eval,
+    :unsafe_inline,
     "https://source.zoom.us",
     "https://zoom.us"
   ]
