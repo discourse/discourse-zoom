@@ -4,7 +4,7 @@ import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 
 function initialize(api) {
-  api.decorateWidget("topic-admin-menu:adminMenuButtons", helper => {
+  api.decorateWidget("topic-admin-menu:adminMenuButtons", (helper) => {
     const topic = helper.attrs.topic;
     const { canManageTopic } = helper.widget.currentUser || {};
 
@@ -13,7 +13,7 @@ function initialize(api) {
         buttonClass: "btn-default",
         action: topic.webinar ? "removeWebinar" : "addWebinar",
         icon: "shield-alt",
-        fullLabel: topic.webinar ? "zoom.remove_webinar" : "zoom.add_webinar"
+        fullLabel: topic.webinar ? "zoom.remove_webinar" : "zoom.add_webinar",
       };
     }
   });
@@ -24,7 +24,7 @@ function initialize(api) {
     },
     addWebinar() {
       showWebinarModal(this.topic);
-    }
+    },
   });
 
   api.modifyClass("component:topic-timeline", {
@@ -33,7 +33,7 @@ function initialize(api) {
     },
     addWebinar() {
       showWebinarModal(this.topic);
-    }
+    },
   });
 }
 
@@ -42,27 +42,28 @@ export default {
 
   initialize() {
     withPluginApi("0.8.31", initialize);
-  }
+  },
 };
 
 function showWebinarModal(model) {
   model.set("addToTopic", true);
   showModal("webinar-picker", {
     model: model,
-    title: "zoom.webinar_picker.title"
+    title: "zoom.webinar_picker.title",
   });
 }
 
 function removeWebinar(topic) {
-  bootbox.confirm(I18n.t("zoom.confirm_remove"), result => {
+  bootbox.confirm(I18n.t("zoom.confirm_remove"), (result) => {
     if (result) {
       ajax(`/zoom/webinars/${topic.webinar.id}`, { type: "DELETE" })
-        .then(response => {
+        .then((response) => {
           topic.set("webinar", null);
           const topicController = Discourse.__container__.lookup(
             "controller:topic"
           );
           topicController.set("editingTopic", false);
+          document.querySelector("body").classList.remove("has-webinar");
         })
         .catch(popupAjaxError);
     }

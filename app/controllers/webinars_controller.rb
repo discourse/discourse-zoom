@@ -65,7 +65,10 @@ module Zoom
       topic = Topic.find(params[:topic_id])
       raise Discourse::NotFound.new unless topic
 
-      new_webinar = WebinarCreator.new(topic_id: topic.id, zoom_id: params[:zoom_id]).run
+      new_webinar = params[:zoom_start_date] ?
+                      WebinarCreator.new(topic_id: topic.id, zoom_id: params[:zoom_id], zoom_start_date: params[:zoom_start_date], zoom_title: params[:zoom_title], user: current_user).run :
+                      WebinarCreator.new(topic_id: topic.id, zoom_id: params[:zoom_id]).run
+
       render json: { id: new_webinar.id }
     end
 

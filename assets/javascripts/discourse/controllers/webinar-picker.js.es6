@@ -27,7 +27,7 @@ export default Controller.extend(ModalFunctionality, {
       }
 
       if (!this.selected) {
-        ajax("/zoom/webinars").then(results => {
+        ajax("/zoom/webinars").then((results) => {
           if (results && results.webinars) {
             this.set("allWebinars", results.webinars);
           }
@@ -43,7 +43,7 @@ export default Controller.extend(ModalFunctionality, {
       webinarIdInput: null,
       webinar: null,
       error: false,
-      addingPastWebinar: false
+      addingPastWebinar: false,
     });
   },
 
@@ -52,11 +52,22 @@ export default Controller.extend(ModalFunctionality, {
   },
 
   addWebinarToTopic() {
-    ajax(`/zoom/t/${this.model.id}/webinars/${this.webinar.id}`, {
-      type: "PUT"
+    const webinarId = this.webinar ? this.webinar.id : "nonzoom";
+
+    let data = {};
+    if (this.pastWebinarTitle && this.pastStartDate) {
+      data = {
+        zoom_title: this.pastWebinarTitle,
+        zoom_start_date: this.pastStartDate,
+      };
+    }
+
+    ajax(`/zoom/t/${this.model.id}/webinars/${webinarId}`, {
+      type: "PUT",
+      data: data,
     })
-      .then(results => {
-        this.store.find("webinar", results.id).then(webinar => {
+      .then((results) => {
+        this.store.find("webinar", results.id).then((webinar) => {
           this.model.set("webinar", webinar);
         });
       })
@@ -67,6 +78,7 @@ export default Controller.extend(ModalFunctionality, {
           "controller:topic"
         );
         topicController.set("editingTopic", false);
+        document.querySelector("body").classList.add("has-webinar");
       });
   },
 
@@ -80,21 +92,21 @@ export default Controller.extend(ModalFunctionality, {
     this.set("loading", true);
     this.setProperties({
       loading: true,
-      error: false
+      error: false,
     });
 
     ajax(`/zoom/webinars/${id}/preview`)
-      .then(json => {
+      .then((json) => {
         this.setProperties({
           webinar: json,
-          selected: true
+          selected: true,
         });
       })
-      .catch(e => {
+      .catch((e) => {
         this.setProperties({
           webinar: null,
           selected: false,
-          error: true
+          error: true,
         });
       })
       .finally(() => {
@@ -109,7 +121,7 @@ export default Controller.extend(ModalFunctionality, {
     }
     if (webinar.existing_topic) {
       return I18n.t("zoom.webinar_existing_topic", {
-        topic_id: webinar.existing_topic.topic_id
+        topic_id: webinar.existing_topic.topic_id,
       });
     }
     return false;
@@ -142,12 +154,15 @@ export default Controller.extend(ModalFunctionality, {
       this.model.set("zoomId", "nonzoom");
       this.model.set("zoomWebinarTitle", this.pastWebinarTitle);
       this.model.set("zoomWebinarStartDate", this.pastStartDate);
+      if (this.model.addToTopic) {
+        this.addWebinarToTopic();
+      }
       this.send("closeModal");
     },
 
     showPastWebinarForm() {
       this.set("addingPastWebinar", true);
       this.set("selected", false);
-    }
-  }
+    },
+  },
 });
