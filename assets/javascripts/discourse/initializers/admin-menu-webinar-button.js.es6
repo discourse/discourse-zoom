@@ -64,6 +64,7 @@ function removeWebinar(topic) {
           );
           topicController.set("editingTopic", false);
           document.querySelector("body").classList.remove("has-webinar");
+          topic.postStream.posts[0].rebake();
         })
         .catch(popupAjaxError);
     }
