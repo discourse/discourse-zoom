@@ -174,27 +174,43 @@ describe Zoom::WebinarsController do
 
   describe "#add_to_topic" do
     let(:other_topic) { Fabricate(:topic, user: user) }
+    let(:yet_another_topic) { Fabricate(:topic, user: user) }
     let(:zoom_id) { "123" }
     before do
       Webinar.where(zoom_id: zoom_id).destroy_all
-      stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}").to_return(status: 201, body: ZoomApiStubs.get_webinar(zoom_id))
-      stub_request(:get, "https://api.zoom.us/v2/users/123").to_return(status: 201, body: ZoomApiStubs.get_host('123'))
-      stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}/panelists").to_return(status: 201, body: {
-        panelists: [{ id: "123", email: user.email }] }.to_json
-      )
-    end
-    it "requires the user to be logged in" do
-      put("/zoom/t/#{other_topic.id}/webinars/#{zoom_id}.json")
-      expect(response.status).to eq(403)
     end
 
-    it "registers the user for the webinar" do
-      sign_in(user)
-      expect(other_topic.webinar).to eq(nil)
-      put("/zoom/t/#{other_topic.id}/webinars/#{zoom_id}.json")
-      expect(response.status).to eq(200)
-      expect(other_topic.reload.webinar).to eq(Webinar.last)
+    describe "zoom events" do
+      before do
+        stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}").to_return(status: 201, body: ZoomApiStubs.get_webinar(zoom_id))
+        stub_request(:get, "https://api.zoom.us/v2/users/123").to_return(status: 201, body: ZoomApiStubs.get_host('123'))
+        stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}/panelists").to_return(status: 201, body: {
+          panelists: [{ id: "123", email: user.email }] }.to_json
+        )
+      end
+      it "requires the user to be logged in" do
+        put("/zoom/t/#{other_topic.id}/webinars/#{zoom_id}.json")
+        expect(response.status).to eq(403)
+      end
+
+      it "adds the webinar to the existing topic" do
+        sign_in(user)
+        expect(other_topic.webinar).to eq(nil)
+        put("/zoom/t/#{other_topic.id}/webinars/#{zoom_id}.json")
+        expect(response.status).to eq(200)
+        expect(other_topic.reload.webinar).to eq(Webinar.last)
+      end
     end
+
+    it "adds a nonzoom webinar to a topic" do
+      sign_in(user)
+      expect(yet_another_topic.webinar).to eq(nil)
+      put("/zoom/t/#{yet_another_topic.id}/webinars/nonzoom.json", params: { zoom_start_date: 1.day.ago, zoom_title: "Fake webinar" })
+
+      expect(response.status).to eq(200)
+      expect(yet_another_topic.reload.webinar).to eq(Webinar.last)
+    end
+
   end
 
   describe "#set_video_url" do

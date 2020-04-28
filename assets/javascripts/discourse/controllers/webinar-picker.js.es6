@@ -5,6 +5,8 @@ import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import discourseComputed from "discourse-common/utils/decorators";
 
+const NONZOOM = "nonzoom";
+
 export default Controller.extend(ModalFunctionality, {
   webinarId: null,
   webinarIdInput: null,
@@ -52,7 +54,7 @@ export default Controller.extend(ModalFunctionality, {
   },
 
   addWebinarToTopic() {
-    const webinarId = this.webinar ? this.webinar.id : "nonzoom";
+    const webinarId = this.webinar ? this.webinar.id : NONZOOM;
 
     let data = {};
     if (this.pastWebinarTitle && this.pastStartDate) {
@@ -152,7 +154,7 @@ export default Controller.extend(ModalFunctionality, {
     },
 
     addPastWebinar() {
-      this.model.set("zoomId", "nonzoom");
+      this.model.set("zoomId", NONZOOM);
       this.model.set("zoomWebinarTitle", this.pastWebinarTitle);
       this.model.set("zoomWebinarStartDate", this.pastStartDate);
       if (this.model.addToTopic) {
