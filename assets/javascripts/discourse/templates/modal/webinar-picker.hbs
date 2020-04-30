@@ -87,7 +87,7 @@
           <label>
             {{i18n "zoom.past_date"}}
           </label>
-          {{date-input date=pastStartDate}}
+          {{date-input date=pastStartDate onChange=(action "onChangeDate")}}
         </div>
         <div class="webinar-past-input webinar-past-title">
           <label>

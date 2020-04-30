@@ -57,10 +57,11 @@ export default Controller.extend(ModalFunctionality, {
     const webinarId = this.webinar ? this.webinar.id : NONZOOM;
 
     let data = {};
+
     if (this.pastWebinarTitle && this.pastStartDate) {
       data = {
         zoom_title: this.pastWebinarTitle,
-        zoom_start_date: this.pastStartDate,
+        zoom_start_date: moment(this.pastStartDate).format(),
       };
     }
 
@@ -156,7 +157,10 @@ export default Controller.extend(ModalFunctionality, {
     addPastWebinar() {
       this.model.set("zoomId", NONZOOM);
       this.model.set("zoomWebinarTitle", this.pastWebinarTitle);
-      this.model.set("zoomWebinarStartDate", this.pastStartDate);
+      this.model.set(
+        "zoomWebinarStartDate",
+        moment(this.pastStartDate).format()
+      );
       if (this.model.addToTopic) {
         this.addWebinarToTopic();
       }
@@ -166,6 +170,12 @@ export default Controller.extend(ModalFunctionality, {
     showPastWebinarForm() {
       this.set("addingPastWebinar", true);
       this.set("selected", false);
+    },
+
+    onChangeDate(date) {
+      if (!date) return;
+
+      this.set("pastStartDate", date);
     },
   },
 });

@@ -205,10 +205,14 @@ describe Zoom::WebinarsController do
     it "adds a nonzoom webinar to a topic" do
       sign_in(user)
       expect(yet_another_topic.webinar).to eq(nil)
-      put("/zoom/t/#{yet_another_topic.id}/webinars/nonzoom.json", params: { zoom_start_date: 1.day.ago, zoom_title: "Fake webinar" })
+      webinar_date = 3.days.ago
+      put("/zoom/t/#{yet_another_topic.id}/webinars/nonzoom.json", params: { zoom_start_date: webinar_date, zoom_title: "Fake webinar" })
 
       expect(response.status).to eq(200)
-      expect(yet_another_topic.reload.webinar).to eq(Webinar.last)
+
+      webinar = yet_another_topic.reload.webinar
+      expect(webinar).to eq(Webinar.last)
+      expect(webinar.starts_at).to be_within(1.minute).of webinar_date
     end
 
   end
