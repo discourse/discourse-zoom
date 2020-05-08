@@ -29,7 +29,9 @@
     {{#if webinar.host}}
       <div class='host'>{{i18n "zoom.hosted_by"}}</div>
       <div class='host-container'>
-        {{avatar webinar.host imageSize="large"}}
+        <a href="/u/{{webinar.host.username}}" data-user-card="{{webinar.host.username}}">
+            {{avatar webinar.host imageSize="large"}}
+        </a>
         <div class='host-description'>
           <div class='host-name'>{{hostDisplayName}}</div>
           <div class='group-name'>{{webinar.host.title}}</div>
@@ -42,7 +44,9 @@
         {{i18n 'zoom.panelists'}}
         <div class='panelist-avatars'>
           {{#each webinar.panelists as |panelist|}}
-            {{avatar panelist imageSize="small"}}
+            <a href="/u/{{panelist.username}}" data-user-card="{{panelist.username}}">
+              {{avatar panelist imageSize="small"}}
+            </a>
           {{/each}}
         </div>
       </div>
