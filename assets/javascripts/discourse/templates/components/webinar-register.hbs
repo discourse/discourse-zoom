@@ -1,6 +1,10 @@
 {{#unless webinarEnded}}
   {{#if webinarStarted}}
-    {{d-button action=(action "joinSDK") class="webinar-join-sdk btn-primary" label="zoom.join_sdk" icon="video"}}
+    {{#if joinViaZoom}}
+      <a href="{{joinViaZoom}}" class="webinar-join-sdk btn btn-primary">{{d-icon "video"}} {{i18n "zoom.join_sdk"}}</a>
+    {{else}}
+      {{d-button action=(action "joinSDK") class="webinar-join-sdk btn-primary" label="zoom.join_sdk" icon="video"}}
+    {{/if}}
   {{else}}
     {{#if registered}}
       <div class="webinar-registered">

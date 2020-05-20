@@ -102,8 +102,8 @@ export default Component.extend({
       `/zoom/webinars/${this.webinar.id}/attendees/${this.currentUser.username}.json`,
       { type: method }
     )
-      .then(response => {
-        this.store.find("webinar", this.webinar.id).then(webinar => {
+      .then((response) => {
+        this.store.find("webinar", this.webinar.id).then((webinar) => {
           this.set("webinar", webinar);
         });
         this.set("loading", false);
@@ -143,6 +143,15 @@ export default Component.extend({
     );
   },
 
+  @discourseComputed("webinar.join_url")
+  joinViaZoom(joinUrl) {
+    if (joinUrl && this.siteSettings.zoom_use_join_url) {
+      return joinUrl;
+    } else {
+      return false;
+    }
+  },
+
   formatDateForGoogleApi(date) {
     return new Date(date).toISOString().replace(/-|:|\.\d\d\d/g, "");
   },
@@ -168,7 +177,7 @@ export default Component.extend({
       const event = {
         title: this.webinar.title,
         starts_at: this.webinar.starts_at,
-        ends_at: this.webinar.ends_at
+        ends_at: this.webinar.ends_at,
       };
       postRNWebviewMessage("eventRegistration", JSON.stringify(event));
     },
@@ -181,10 +190,10 @@ export default Component.extend({
       if (this.registered) {
         window.location.href = url;
       } else {
-        this.toggleRegistration(true).then(response => {
+        this.toggleRegistration(true).then((response) => {
           window.location.href = url;
         });
       }
-    }
-  }
+    },
+  },
 });

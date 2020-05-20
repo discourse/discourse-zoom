@@ -30,3 +30,6 @@ plugins:
   zoom_enable_sdk_fallback:
     default: true
     client: true
+  zoom_use_join_url:
+    default: false
+    client: true
