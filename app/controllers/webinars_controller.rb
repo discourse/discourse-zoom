@@ -115,7 +115,8 @@ module Zoom
         id: webinar.zoom_id,
         signature: sig,
         username: username,
-        topic_url: webinar.topic.url
+        topic_url: webinar.topic.url,
+        password: webinar.password
       }
     end
 

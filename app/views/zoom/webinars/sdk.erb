@@ -1,11 +1,11 @@
-<script src="https://source.zoom.us/1.7.5/lib/vendor/react.min.js"></script>
-<script src="https://source.zoom.us/1.7.5/lib/vendor/react-dom.min.js"></script>
-<script src="https://source.zoom.us/1.7.5/lib/vendor/redux.min.js"></script>
-<script src="https://source.zoom.us/1.7.5/lib/vendor/redux-thunk.min.js"></script>
-<script src="https://source.zoom.us/1.7.5/lib/vendor/jquery.min.js"></script>
-<script src="https://source.zoom.us/1.7.5/lib/vendor/lodash.min.js"></script>
+<script src="https://source.zoom.us/1.7.7/lib/vendor/react.min.js"></script>
+<script src="https://source.zoom.us/1.7.7/lib/vendor/react-dom.min.js"></script>
+<script src="https://source.zoom.us/1.7.7/lib/vendor/redux.min.js"></script>
+<script src="https://source.zoom.us/1.7.7/lib/vendor/redux-thunk.min.js"></script>
+<script src="https://source.zoom.us/1.7.7/lib/vendor/jquery.min.js"></script>
+<script src="https://source.zoom.us/1.7.7/lib/vendor/lodash.min.js"></script>
 
-<script src="https://source.zoom.us/zoom-meeting-1.7.5.min.js"></script>
+<script src="https://source.zoom.us/zoom-meeting-1.7.7.min.js"></script>
 
 <script type="text/javascript">
 
@@ -47,18 +47,20 @@
           signature: res.signature,
           apiKey: res.api_key,
           userEmail: res.email,
+          passWord: res.password || null,
           success: function(res) {
             setTimeout(function() {
               $("#dialog-join .title.tab:nth-child(2) button").click(); // default to Computer Audio
             }, 200);
 
-            ZoomMtg.inMeetingServiceListener('onMeetingStatus', function (data) {
-              // {status: 1(connecting), 2(connected), 3(disconnected), 4(reconnecting)}
-              console.log(data);
-            });
+            // ZoomMtg.inMeetingServiceListener('onMeetingStatus', function (data) {
+            //   // status: 1(connecting), 2(connected), 3(disconnected), 4(reconnecting)
+            //   console.log(data);
+            // });
 
           },
           error: function(join_result) {
+            console.log(join_result);
             if (join_result.errorCode === 1) {
               const params = getParams(window.location.href);
               if (params.fallback) {

@@ -67,7 +67,7 @@ module Zoom
       return false unless webinar[:id]
 
       role = 0 # regular member role
-      time = Time.now.to_i * 1000 # in milliseconds
+      time = Time.now.to_i * 1000 - 30000 # in milliseconds
 
       key = Base64.encode64("#{SiteSetting.zoom_api_key}#{webinar_id}#{time}#{role}").strip
       hsh = OpenSSL::HMAC.digest("sha256", SiteSetting.zoom_api_secret, key)
