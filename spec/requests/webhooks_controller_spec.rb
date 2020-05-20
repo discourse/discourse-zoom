@@ -26,6 +26,18 @@ describe Zoom::WebhooksController do
       SiteSetting.zoom_verification_token = verification_token
     end
 
+    describe "#webinar_started" do
+      it "updates webinar status when it starts" do
+        post "/zoom/webhooks/webinars.json",
+          params: { webhook: webinar_started(zoom_id: 123) },
+          headers: { "Authorization": verification_token }
+        expect(response.status).to eq(200)
+        webinar.reload
+        puts webinar.status.inspect
+        expect(webinar.status).to eq("started")
+      end
+    end
+
     describe "#webinar_updated" do
       it "updates starts_at and ends_at when start_time changes" do
         start_time = "2020-02-29T18:00:00Z"
@@ -123,9 +135,21 @@ def webinar_updated(args = {})
       "operator_id": "IoDo0vbMSeyrPME4fgbwxA",
       "object": object,
       "old_object": old_object
-      },
+    },
     "time_stamp": args[:timestamp] || 1578575214322
+  }
+end
+
+def webinar_started(args = {})
+  object = { "id": args[:zoom_id] }
+
+  {
+    "event": "webinar.started",
+    "payload": {
+      "account_id": "uS-ca7K2S4iRHBFqVydIfw",
+      "object": object,
     }
+  }
 end
 
 def webinar_participant_joined(args = {})

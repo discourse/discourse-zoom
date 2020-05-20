@@ -98,8 +98,10 @@ module Zoom
                     AND zoom_timestamp >= #{new_event.zoom_timestamp})
                 )
         raise Discourse::NotFound if later_events.any?
+        new_event.save!
       end
-      new_event.save!
+
+      true
     end
 
     def old_webinar
