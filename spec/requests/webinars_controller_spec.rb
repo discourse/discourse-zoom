@@ -106,6 +106,72 @@ describe Zoom::WebinarsController do
       expect(webinar.panelists.include? user).to eq(false)
     end
   end
+
+  describe "#update_nonzoom_host" do
+    it "Updates host of a nonzoom webinar" do
+      webinar.zoom_id = "nonzoom"
+      webinar.save
+
+      sign_in(admin)
+      expect(webinar.host).to eq(nil)
+      put("/zoom/webinars/#{webinar.id}/nonzoom_host/#{admin.username}.json")
+      expect(response.status).to eq(200)
+      expect(webinar.host).to eq(admin)
+    end
+
+    it "does not update host of a regular webinar" do
+      sign_in(admin)
+      expect(webinar.host).to eq(nil)
+      put("/zoom/webinars/#{webinar.id}/nonzoom_host/#{admin.username}.json")
+      expect(response.status).to eq(404)
+      expect(webinar.host).to eq(nil)
+    end
+
+    it "requires the user to be able to edit the topic" do
+      sign_in(other_user)
+      put("/zoom/webinars/#{webinar.id}/nonzoom_host/#{admin.username}.json")
+      expect(response.status).to eq(403)
+    end
+  end
+
+  describe "#update_nonzoom_details" do
+    it "requires both title and past_start_date parameters" do
+      webinar.zoom_id = "nonzoom"
+      webinar.save
+
+      sign_in(admin)
+
+      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json")
+      expect(response.status).to eq(400)
+
+      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { title: "Some title"} )
+      expect(response.status).to eq(400)
+
+      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { past_start_date: Time.now} )
+      expect(response.status).to eq(400)
+    end
+
+    it "updates title and date" do
+      webinar.zoom_id = "nonzoom"
+      webinar.starts_at = 5.days.ago
+      webinar.save
+
+      sign_in(admin)
+      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { past_start_date: 2.days.ago, title: "New balls, please"} )
+
+      expect(response.status).to eq(200)
+      webinar.reload
+      expect(webinar.starts_at).to be_within(1.minute).of 2.days.ago
+      expect(webinar.title).to eq("New balls, please")
+    end
+
+    it "requires the user to be able to edit the topic" do
+      sign_in(other_user)
+      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { past_start_date: 2.days.ago, title: "Paper planes"} )
+      expect(response.status).to eq(403)
+    end
+  end
+
   describe "#register" do
     it "requires the user to be logged in" do
       put("/zoom/webinars/#{webinar.id}/attendees/#{user.username}.json")

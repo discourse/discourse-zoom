@@ -23,7 +23,7 @@ export default Controller.extend(ModalFunctionality, {
 
   @discourseComputed("model.panelists")
   excludedUsernames(panelists) {
-    let usernames = panelists.map(p => p.username);
+    let usernames = panelists.map((p) => p.username);
     return usernames;
   },
 
@@ -32,8 +32,24 @@ export default Controller.extend(ModalFunctionality, {
     return loading || !panelist;
   },
 
+  @discourseComputed("loading", "hostUsername")
+  addingHostDisabled(loading, hostUsername) {
+    return (
+      loading || !hostUsername || hostUsername === this.model.host.username
+    );
+  },
+
   onShow() {
-    this.set("newVideoUrl", this.model.video_url);
+    this.setProperties({
+      newVideoUrl: this.model.video_url,
+      hostUsername: this.model.host.username,
+      title: this.model.title,
+      pastStartDate: this.model.starts_at,
+    });
+
+    if (this.model.zoom_id === "nonzoom") {
+      this.set("nonZoomWebinar", true);
+    }
   },
 
   actions: {
@@ -41,9 +57,9 @@ export default Controller.extend(ModalFunctionality, {
       this.set("loading", true);
       ajax(`/zoom/webinars/${this.model.id}/video_url.json`, {
         data: { video_url: this.newVideoUrl },
-        type: "PUT"
+        type: "PUT",
       })
-        .then(results => {
+        .then((results) => {
           this.model.set("video_url", results.video_url);
         })
         .finally(() => {
@@ -60,11 +76,11 @@ export default Controller.extend(ModalFunctionality, {
       ajax(
         `/zoom/webinars/${this.model.id}/panelists/${panelist.username}.json`,
         {
-          type: "DELETE"
+          type: "DELETE",
         }
       )
-        .then(results => {
-          this.store.find("webinar", this.model.id).then(webinar => {
+        .then((results) => {
+          this.store.find("webinar", this.model.id).then((webinar) => {
             this.set("model", webinar);
           });
         })
@@ -79,12 +95,12 @@ export default Controller.extend(ModalFunctionality, {
       ajax(
         `/zoom/webinars/${this.model.id}/panelists/${this.newPanelist}.json`,
         {
-          type: "PUT"
+          type: "PUT",
         }
       )
-        .then(results => {
+        .then((results) => {
           this.set("newPanelist", null);
-          this.store.find("webinar", this.model.id).then(webinar => {
+          this.store.find("webinar", this.model.id).then((webinar) => {
             this.set("model", webinar);
           });
         })
@@ -92,6 +108,50 @@ export default Controller.extend(ModalFunctionality, {
         .finally(() => {
           this.set("loading", false);
         });
-    }
-  }
+    },
+
+    addHost() {
+      this.set("loading", true);
+      ajax(
+        `/zoom/webinars/${this.model.id}/nonzoom_host/${this.hostUsername}.json`,
+        {
+          type: "PUT",
+        }
+      )
+        .then((results) => {
+          this.store.find("webinar", this.model.id).then((webinar) => {
+            this.set("model", webinar);
+          });
+        })
+        .catch(popupAjaxError)
+        .finally(() => {
+          this.set("loading", false);
+        });
+    },
+
+    onChangeDate(date) {
+      if (!date) return;
+
+      this.set("pastStartDate", date);
+    },
+
+    updateDetails() {
+      ajax(`/zoom/webinars/${this.model.id}/nonzoom_details.json`, {
+        type: "PUT",
+        data: {
+          title: this.title,
+          past_start_date: moment(this.pastStartDate).format(),
+        },
+      })
+        .then((results) => {
+          this.store.find("webinar", this.model.id).then((webinar) => {
+            this.set("model", webinar);
+          });
+        })
+        .catch(popupAjaxError)
+        .finally(() => {
+          this.set("loading", false);
+        });
+    },
+  },
 });

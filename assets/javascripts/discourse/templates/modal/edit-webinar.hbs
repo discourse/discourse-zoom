@@ -1,4 +1,28 @@
 {{#d-modal-body id="edit-webinar-modal"}}
+  {{#if nonZoomWebinar}}
+    <div class="webinar-nonzoom-details">
+      <h3>{{i18n 'zoom.nonzoom_details'}}</h3>
+      <h4>{{i18n 'zoom.host'}}</h4>
+      <span class="update-host-input">
+        {{user-selector single="true"
+                          usernames=hostUsername
+                          placeholderKey="zoom.select_host"
+                          autocomplete="discourse"
+                          allowEmails="true"
+                          excludedUsernames=excludedUsernames}}
+      </span>
+      {{d-button action=(action 'addHost') class="update-host-btn btn-primary" icon="check" disabled=addingHostDisabled}}
+
+    <h4>{{i18n 'zoom.title_date'}}</h4>
+      <span class="update-host-details">
+        {{input value=title id="webinar-title"}}
+        {{date-input date=pastStartDate onChange=(action "onChangeDate")}}
+      </span>
+      {{d-button action=(action 'updateDetails') class="update-details-btn btn-primary" icon="check" disabled=loading}}
+    </div>
+
+  {{/if}}
+  <div class="webinar-panelists">
   <h3>{{i18n 'zoom.panelists'}}</h3>
   {{#if model.panelists}}
     {{#each model.panelists as |panelist|}}
@@ -10,6 +34,7 @@
   {{else}}
     {{i18n "zoom.no_panelists"}}
   {{/if}}
+  </div>
   <div class="webinar-add-panelist">
     <h3>{{i18n 'zoom.add_panelist'}}</h3>
     <span class="new-panelist-input">

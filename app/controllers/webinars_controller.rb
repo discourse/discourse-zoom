@@ -7,7 +7,7 @@ module Zoom
     before_action :ensure_logged_in
     before_action :ensure_webinar_exists, only: [ :show, :destroy, :add_panelist,
                                                   :remove_panelist, :register, :unregister,
-                                                  :signature, :sdk ]
+                                                  :signature, :sdk, :update_nonzoom_host, :update_nonzoom_details ]
 
     def index
       render json: Zoom::Webinars.new(Zoom::Client.new).unmatched(current_user)
@@ -70,6 +70,39 @@ module Zoom
                       WebinarCreator.new(topic_id: topic.id, zoom_id: params[:zoom_id]).run
 
       render json: { id: new_webinar.id }
+    end
+
+
+    def update_nonzoom_host
+      user = fetch_user_from_params
+      guardian.ensure_can_edit!(webinar.topic)
+      raise Discourse::NotFound if user == webinar.host
+
+      if webinar.non_zoom_event?
+        WebinarUser.where(user: user, webinar: webinar).destroy_all
+        WebinarUser.where(webinar: webinar, type: :host).destroy_all
+        WebinarUser.create!(user: user, webinar: webinar, type: :host)
+        render json: success_json
+        return
+      else
+        raise Discourse::NotFound.new
+      end
+    end
+
+    def update_nonzoom_details
+      params.require(:title)
+      params.require(:past_start_date)
+      guardian.ensure_can_edit!(webinar.topic)
+
+      if webinar.non_zoom_event?
+        webinar.title = params[:title]
+        webinar.starts_at = params[:past_start_date]
+        webinar.save!
+        render json: success_json
+        return
+      else
+        raise Discourse::NotFound.new
+      end
     end
 
     def preview
