@@ -4,6 +4,7 @@ import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import { not } from "@ember/object/computed";
 import discourseComputed from "discourse-common/utils/decorators";
+import { makeArray } from "discourse-common/lib/helpers";
 
 export default Controller.extend(ModalFunctionality, {
   model: null,
@@ -21,22 +22,14 @@ export default Controller.extend(ModalFunctionality, {
     return saved === newValue;
   },
 
-  @discourseComputed("model.panelists")
-  excludedUsernames(panelists) {
-    let usernames = panelists.map((p) => p.username);
-    return usernames;
+  @discourseComputed("model.panelists", "model.host")
+  excludedUsernames(panelists, host) {
+    return panelists.concat(makeArray(host)).map((p) => p.username);
   },
 
   @discourseComputed("loading", "newPanelist")
   addingDisabled(loading, panelist) {
     return loading || !panelist;
-  },
-
-  @discourseComputed("loading", "hostUsername")
-  addingHostDisabled(loading, hostUsername) {
-    return (
-      loading || !hostUsername || hostUsername === this.model.host.username
-    );
   },
 
   @discourseComputed("loading", "title", "pastStartDate")
@@ -50,7 +43,7 @@ export default Controller.extend(ModalFunctionality, {
   onShow() {
     this.setProperties({
       newVideoUrl: this.model.video_url,
-      hostUsername: this.model.host.username,
+      hostUsername: this.model.host ? this.model.host.username : null,
       title: this.model.title,
       pastStartDate: this.model.starts_at,
     });
@@ -118,12 +111,26 @@ export default Controller.extend(ModalFunctionality, {
         });
     },
 
-    addHost() {
+    onChangeDate(date) {
+      if (!date) return;
+
+      this.set("pastStartDate", date);
+    },
+
+    onChangeHost() {
       this.set("loading", true);
+      let hostUsername = this.hostUsername,
+        postType = "PUT";
+
+      if (this.hostUsername.length === 0) {
+        hostUsername = this.model.host.username;
+        postType = "DELETE";
+      }
+
       ajax(
-        `/zoom/webinars/${this.model.id}/nonzoom_host/${this.hostUsername}.json`,
+        `/zoom/webinars/${this.model.id}/nonzoom_host/${hostUsername}.json`,
         {
-          type: "PUT",
+          type: postType,
         }
       )
         .then((results) => {
@@ -135,12 +142,6 @@ export default Controller.extend(ModalFunctionality, {
         .finally(() => {
           this.set("loading", false);
         });
-    },
-
-    onChangeDate(date) {
-      if (!date) return;
-
-      this.set("pastStartDate", date);
     },
 
     updateDetails() {

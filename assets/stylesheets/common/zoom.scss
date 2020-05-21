@@ -28,9 +28,7 @@
   }
 
   .new-panelist-input,
-  .new-panelist-btn,
-  .update-host-input,
-  .update-host-btn {
+  .new-panelist-btn {
     display: inline-block;
     vertical-align: middle;
   }
@@ -43,10 +41,8 @@
     border-top: 1px solid $primary-low;
   }
 
-  .webinar-nonzoom-details {
-    button + h4 {
-      margin-top: 1em;
-    }
+  .webinar-nonzoom-details .update-host-input {
+    margin-bottom: 1em;
   }
 }
 

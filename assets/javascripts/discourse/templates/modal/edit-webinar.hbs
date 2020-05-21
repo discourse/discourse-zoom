@@ -3,17 +3,16 @@
     <div class="webinar-nonzoom-details">
       <h3>{{i18n 'zoom.nonzoom_details'}}</h3>
       <h4>{{i18n 'zoom.host'}}</h4>
-      <span class="update-host-input">
+      <div class="update-host-input">
         {{user-selector single="true"
-                          usernames=hostUsername
-                          placeholderKey="zoom.select_host"
-                          autocomplete="discourse"
-                          allowEmails="true"
-                          excludedUsernames=excludedUsernames}}
-      </span>
-      {{d-button action=(action 'addHost') class="update-host-btn btn-primary" icon="check" disabled=addingHostDisabled}}
-
-    <h4>{{i18n 'zoom.title_date'}}</h4>
+                        excludeCurrentUser=false
+                        usernames=hostUsername
+                        placeholderKey="zoom.select_host"
+                        autocomplete="discourse"
+                        onChangeCallback=(action "onChangeHost")
+                        allowEmails="true"}}
+      </div>
+      <h4>{{i18n 'zoom.title_date'}}</h4>
       <span class="update-host-details">
         {{input value=title id="webinar-title"}}
         {{date-input date=pastStartDate onChange=(action "onChangeDate")}}
@@ -39,11 +38,10 @@
     <h3>{{i18n 'zoom.add_panelist'}}</h3>
     <span class="new-panelist-input">
       {{user-selector single="true"
+                      excludeCurrentUser=false
                       usernames=newPanelist
                       placeholderKey="zoom.select_panelist"
                       autocomplete="discourse"
-                      allowEmails="true"
-                      excludeCurrentUser="true"
                       excludedUsernames=excludedUsernames}}
     </span>
     {{d-button action=(action 'addPanelist') class="new-panelist-btn btn-primary" icon="plus" disabled=addingDisabled}}

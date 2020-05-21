@@ -82,6 +82,7 @@ after_initialize do
       put 'panelists/:username' => 'webinars#add_panelist', constraints: { username: RouteFormat.username, format: :json }
       delete 'panelists/:username' => 'webinars#remove_panelist', constraints: { username: RouteFormat.username, format: :json }
       put 'nonzoom_host/:username' => 'webinars#update_nonzoom_host', constraints: { username: RouteFormat.username, format: :json }
+      delete 'nonzoom_host/:username' => 'webinars#delete_nonzoom_host', constraints: { username: RouteFormat.username, format: :json }
       put 'nonzoom_details' => 'webinars#update_nonzoom_details', constraints: { format: :json }
       put 'video_url' => 'webinars#set_video_url'
       get 'preview' => 'webinars#preview'

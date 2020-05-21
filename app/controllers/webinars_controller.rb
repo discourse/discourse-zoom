@@ -54,6 +54,12 @@ module Zoom
       guardian.ensure_can_edit!(webinar.topic)
       raise Discourse::NotFound unless user.in? webinar.panelists
 
+      if webinar.non_zoom_event?
+        WebinarUser.where(user: user, webinar: webinar).destroy_all
+        render json: success_json
+        return
+      end
+
       if Zoom::Webinars.new(zoom_client).remove_panelist(webinar: webinar, user: user)
         render json: success_json
       else
@@ -87,6 +93,16 @@ module Zoom
       else
         raise Discourse::NotFound.new
       end
+    end
+
+    def delete_nonzoom_host
+      user = fetch_user_from_params
+      guardian.ensure_can_edit!(webinar.topic)
+      raise Discourse::NotFound unless user == webinar.host
+      raise Discourse::NotFound unless webinar.non_zoom_event?
+
+      WebinarUser.where(user: user, webinar: webinar).destroy_all
+      render json: success_json
     end
 
     def update_nonzoom_details
