@@ -39,6 +39,14 @@ export default Controller.extend(ModalFunctionality, {
     );
   },
 
+  @discourseComputed("loading", "title", "pastStartDate")
+  updateDetailsDisabled(loading, title, pastStartDate) {
+    return (
+      loading ||
+      (this.model.title === title && this.model.starts_at === pastStartDate)
+    );
+  },
+
   onShow() {
     this.setProperties({
       newVideoUrl: this.model.video_url,
@@ -136,6 +144,8 @@ export default Controller.extend(ModalFunctionality, {
     },
 
     updateDetails() {
+      this.set("loading", true);
+
       ajax(`/zoom/webinars/${this.model.id}/nonzoom_details.json`, {
         type: "PUT",
         data: {
@@ -143,10 +153,9 @@ export default Controller.extend(ModalFunctionality, {
           past_start_date: moment(this.pastStartDate).format(),
         },
       })
-        .then((results) => {
-          this.store.find("webinar", this.model.id).then((webinar) => {
-            this.set("model", webinar);
-          });
+        .then(() => {
+          this.set("model.title", this.title);
+          this.set("model.starts_at", this.pastStartDate);
         })
         .catch(popupAjaxError)
         .finally(() => {

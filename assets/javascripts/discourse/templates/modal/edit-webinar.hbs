@@ -18,7 +18,7 @@
         {{input value=title id="webinar-title"}}
         {{date-input date=pastStartDate onChange=(action "onChangeDate")}}
       </span>
-      {{d-button action=(action 'updateDetails') class="update-details-btn btn-primary" icon="check" disabled=loading}}
+      {{d-button action=(action 'updateDetails') class="update-details-btn btn-primary" icon="check" disabled=updateDetailsDisabled}}
     </div>
 
   {{/if}}
