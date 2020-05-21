@@ -47,7 +47,7 @@
           signature: res.signature,
           apiKey: res.api_key,
           userEmail: res.email,
-          passWord: res.password || null,
+          passWord: res.password || '',
           success: function(res) {
             setTimeout(function() {
               $("#dialog-join .title.tab:nth-child(2) button").click(); // default to Computer Audio
