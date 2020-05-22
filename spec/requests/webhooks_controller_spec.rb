@@ -33,7 +33,6 @@ describe Zoom::WebhooksController do
           headers: { "Authorization": verification_token }
         expect(response.status).to eq(200)
         webinar.reload
-        puts webinar.status.inspect
         expect(webinar.status).to eq("started")
       end
     end
