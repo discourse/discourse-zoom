@@ -2,7 +2,7 @@
 .webinar-preview-input-group {
   .webinar-option {
     padding: 10px 5px;
-    border-bottom: 1px solid $primary-low;
+    border-bottom: 1px solid var(--primary-low, $primary-low);
 
     .webinar-topic {
       font-size: $font-up-1;
@@ -10,7 +10,7 @@
 
     .webinar-schedule,
     .webinar-id {
-      color: $primary-medium;
+      color: var(--primary-medium, $primary-medium);
     }
   }
 }
