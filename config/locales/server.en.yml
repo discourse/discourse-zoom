@@ -20,7 +20,7 @@ en:
   system_messages:
     webinar_reminder:
       title: "Upcoming Webinar"
-      subject_template: "A webinar that you are registered for is about to begin"
+      subject_template: "A webinar is about to begin"
       text_body_template: |
         Hello,
 
