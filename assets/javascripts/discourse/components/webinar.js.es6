@@ -60,6 +60,7 @@ export default Component.extend({
         this.messageBus.subscribe(this.messageBusEndpoint, data => {
           this.webinar.set("status", data.status);
         });
+        this.appEvents.trigger("discourse-zoom:webinar-loaded");
       })
       .catch(e => {
         this.set("loading", false);
