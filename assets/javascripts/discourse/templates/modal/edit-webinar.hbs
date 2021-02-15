@@ -4,13 +4,15 @@
       <h3>{{i18n 'zoom.nonzoom_details'}}</h3>
       <h4>{{i18n 'zoom.host'}}</h4>
       <div class="update-host-input">
-        {{user-selector single="true"
-                        excludeCurrentUser=false
-                        usernames=hostUsername
-                        placeholderKey="zoom.select_host"
-                        autocomplete="discourse"
-                        onChangeCallback=(action "onChangeHost")
-                        allowEmails="true"}}
+        {{email-group-user-chooser
+          value=hostUsername
+          onChange=(action "onChangeHost")
+          options=(hash
+            filterPlaceholder="zoom.select_host"
+            maximum=1
+            allowEmails=true
+          )
+        }}
       </div>
       <h4>{{i18n 'zoom.title_date'}}</h4>
       <span class="update-host-details">
@@ -37,12 +39,15 @@
   <div class="webinar-add-panelist">
     <h3>{{i18n 'zoom.add_panelist'}}</h3>
     <span class="new-panelist-input">
-      {{user-selector single="true"
-                      excludeCurrentUser=false
-                      usernames=newPanelist
-                      placeholderKey="zoom.select_panelist"
-                      autocomplete="discourse"
-                      excludedUsernames=excludedUsernames}}
+      {{email-group-user-chooser
+        value=newPanelist
+        onChange=(action "updateNewPanelist")
+        options=(hash
+          filterPlaceholder="zoom.select_panelist"
+          maximum=1
+          excludedUsernames=excludedUsernames
+        )
+      }}
     </span>
     {{d-button action=(action 'addPanelist') class="new-panelist-btn btn-primary" icon="plus" disabled=addingDisabled}}
   </div>
