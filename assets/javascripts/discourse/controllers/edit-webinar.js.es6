@@ -117,12 +117,13 @@ export default Controller.extend(ModalFunctionality, {
       this.set("pastStartDate", date);
     },
 
-    onChangeHost() {
+    onChangeHost(selected) {
+      this.set("hostUsername", selected.firstObject);
       this.set("loading", true);
       let hostUsername = this.hostUsername,
         postType = "PUT";
 
-      if (this.hostUsername.length === 0) {
+      if (!this.hostUsername) {
         hostUsername = this.model.host.username;
         postType = "DELETE";
       }
@@ -162,6 +163,10 @@ export default Controller.extend(ModalFunctionality, {
         .finally(() => {
           this.set("loading", false);
         });
+    },
+
+    updateNewPanelist(selected) {
+      this.set("newPanelist", selected.firstObject);
     },
   },
 });
