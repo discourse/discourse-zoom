@@ -1,12 +1,12 @@
 .webinar-banner {
   max-width: calc(#{$topic-body-width} + (#{$topic-body-width-padding} * 2));
-  background: var(--primary-very-low, $primary-very-low);
-  border: 1px solid var(--primary-low, $primary-low);
+  background: var(--primary-very-low);
+  border: 1px solid var(--primary-low);
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
   .edit-panelists {
-    color: var(--primary, $primary);
+    color: var(--primary);
   }
 }
 
@@ -36,7 +36,7 @@
     max-height: 75px;
     .pill {
       background: white;
-      border: 1px solid var(--primary-low, $primary-low);
+      border: 1px solid var(--primary-low);
       margin: 0px 5px;
       padding: 8px;
       border-radius: 5px;
@@ -57,7 +57,7 @@
 
   h3 {
     margin-top: 0.5em;
-    color: var(--primary, $primary);
+    color: var(--primary);
   }
 
   .host {
@@ -114,8 +114,8 @@
   margin-top: 1em;
   span.registered {
     display: inline-block;
-    background: var(--secondary, $secondary);
-    border: 1px solid var(--primary-low, $primary-low);
+    background: var(--secondary);
+    border: 1px solid var(--primary-low);
     padding: 5px 15px;
     border-radius: 5px;
   }

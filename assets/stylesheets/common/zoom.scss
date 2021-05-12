@@ -5,7 +5,7 @@
   justify-content: flex-start;
 
   .webinar-label {
-    color: var(--primary-medium, $primary-medium);
+    color: var(--primary-medium);
   }
 
   .webinar-title {
@@ -38,7 +38,7 @@
   .webinar-nonzoom-details + .webinar-panelists {
     margin-top: 1em;
     padding-top: 1em;
-    border-top: 1px solid var(--primary-low, $primary-low);
+    border-top: 1px solid var(--primary-low);
   }
 
   .webinar-nonzoom-details .update-host-input {
