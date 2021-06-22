@@ -6,7 +6,7 @@ import { alias, or } from "@ember/object/computed";
 import { ajax } from "discourse/lib/ajax";
 import { next } from "@ember/runloop";
 
-const NOT_STARTED = "not_started",
+const PENDING = "pending",
   ENDED = "ended",
   STARTED = "started";
 
@@ -52,17 +52,17 @@ export default Component.extend({
     this.set("loading", true);
     this.store
       .find("webinar", this.webinarId)
-      .then(results => {
+      .then((results) => {
         this.setProperties({
           loading: false,
-          webinar: results
+          webinar: results,
         });
-        this.messageBus.subscribe(this.messageBusEndpoint, data => {
+        this.messageBus.subscribe(this.messageBusEndpoint, (data) => {
           this.webinar.set("status", data.status);
         });
         this.appEvents.trigger("discourse-zoom:webinar-loaded");
       })
-      .catch(e => {
+      .catch((e) => {
         this.set("loading", false);
       });
   },
@@ -82,11 +82,11 @@ export default Component.extend({
     "webinar.status"
   )
   setupTimer(webinar, starts_at, duration, status) {
-    if (status !== NOT_STARTED) return false;
+    if (status !== PENDING) return false;
 
     const startsAtMoment = moment(starts_at);
     this.interval = setInterval(
-      interval => this.updateTimer(startsAtMoment, interval),
+      (interval) => this.updateTimer(startsAtMoment, interval),
       1000
     );
     this.updateTimer(startsAtMoment);
@@ -130,7 +130,7 @@ export default Component.extend({
     editPanelists() {
       showModal("edit-webinar", {
         model: this.webinar,
-        title: "zoom.edit_webinar"
+        title: "zoom.edit_webinar",
       });
     },
 
@@ -141,13 +141,13 @@ export default Component.extend({
 
         window.scrollTo({
           top: $videoEl.offset().top - 60,
-          behavior: "smooth"
+          behavior: "smooth",
         });
         ajax(
           `/zoom/webinars/${this.webinar.id}/attendees/${this.currentUser.username}/watch.json`,
           { type: "PUT" }
         );
       });
-    }
-  }
+    },
+  },
 });
