@@ -121,17 +121,16 @@ after_initialize do
     "https://zoom.us"
   ]
 
-  ContentSecurityPolicy::Extension.class_eval do
+  module ContentSecurityPolicyExtensionZoomPluginPatch
     def path_specific_extension(path_info)
-
-      {}.tap do |obj|
-        for_qunit_route = !Rails.env.production? && ["/qunit", "/wizard/qunit"].include?(path_info)
-        obj[:script_src] = :unsafe_eval if for_qunit_route
-
-        obj[:script_src] = ZOOM_SDK_CSP if ZOOM_SDK_REGEX.match(path_info)
+      obj = super
+      if ZOOM_SDK_REGEX.match?(path_info)
+        (obj[:script_src] ||= []).concat(ZOOM_SDK_CSP)
       end
+      obj
     end
   end
 
+  ContentSecurityPolicy::Extension.singleton_class.prepend(ContentSecurityPolicyExtensionZoomPluginPatch)
   ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
 end
