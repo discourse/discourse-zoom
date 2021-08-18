@@ -15,7 +15,7 @@ export default Controller.extend(ModalFunctionality, {
 
   @discourseComputed("model.video_url", "newVideoUrl", "loading")
   canSaveVideoUrl(saved, newValue, loading) {
-    if (saved === newValue || loading) return true;
+    if (saved === newValue || loading) { return true; }
 
     saved = saved === null ? "" : saved;
     newValue = newValue === null ? "" : newValue;
@@ -80,7 +80,7 @@ export default Controller.extend(ModalFunctionality, {
           type: "DELETE",
         }
       )
-        .then((results) => {
+        .then(() => {
           this.store.find("webinar", this.model.id).then((webinar) => {
             this.set("model", webinar);
           });
@@ -99,7 +99,7 @@ export default Controller.extend(ModalFunctionality, {
           type: "PUT",
         }
       )
-        .then((results) => {
+        .then(() => {
           this.set("newPanelist", null);
           this.store.find("webinar", this.model.id).then((webinar) => {
             this.set("model", webinar);
@@ -112,7 +112,7 @@ export default Controller.extend(ModalFunctionality, {
     },
 
     onChangeDate(date) {
-      if (!date) return;
+      if (!date) { return; }
 
       this.set("pastStartDate", date);
     },
@@ -134,7 +134,7 @@ export default Controller.extend(ModalFunctionality, {
           type: postType,
         }
       )
-        .then((results) => {
+        .then(() => {
           this.store.find("webinar", this.model.id).then((webinar) => {
             this.set("model", webinar);
           });

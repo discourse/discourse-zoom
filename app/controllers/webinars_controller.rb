@@ -78,7 +78,6 @@ module Zoom
       render json: { id: new_webinar.id }
     end
 
-
     def update_nonzoom_host
       user = fetch_user_from_params
       guardian.ensure_can_edit!(webinar.topic)
@@ -89,7 +88,7 @@ module Zoom
         WebinarUser.where(webinar: webinar, type: :host).destroy_all
         WebinarUser.create!(user: user, webinar: webinar, type: :host)
         render json: success_json
-        return
+        nil
       else
         raise Discourse::NotFound.new
       end
@@ -115,7 +114,7 @@ module Zoom
         webinar.starts_at = params[:past_start_date]
         webinar.save!
         render json: success_json
-        return
+        nil
       else
         raise Discourse::NotFound.new
       end

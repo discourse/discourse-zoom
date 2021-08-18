@@ -7,20 +7,20 @@ function initializeWebinarButton(api) {
       showWebinarModal() {
         showModal("webinar-picker", {
           model: this.model,
-          title: "zoom.webinar_picker.title"
+          title: "zoom.webinar_picker.title",
         });
-      }
-    }
+      },
+    },
   });
 
-  api.addToolbarPopupMenuOptionsCallback(controller => {
+  api.addToolbarPopupMenuOptionsCallback((controller) => {
     const composer = controller.model;
     if (composer && composer.creatingTopic) {
       return {
         id: "associate_webinar_button",
         icon: "video",
         action: "showWebinarModal",
-        label: "zoom.webinar_picker.button"
+        label: "zoom.webinar_picker.button",
       };
     }
   });
@@ -35,5 +35,5 @@ export default {
     if (siteSettings.zoom_enabled && currentUser) {
       withPluginApi("0.5", initializeWebinarButton);
     }
-  }
+  },
 };

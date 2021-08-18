@@ -82,16 +82,16 @@ export default Component.extend({
     return false;
   },
 
-  @discourseComputed("webinar.starts_at", "webinar.attendees")
-  canUnregister(starts_at, attendees) {
+  @discourseComputed("webinar.starts_at")
+  canUnregister(starts_at) {
     if (moment(starts_at).isBefore(moment())) {
       return false;
     }
     return this.isAttendee && this.registered;
   },
 
-  @discourseComputed("webinar.{id,starts_at,ends_at}")
-  userCanRegister(webinar) {
+  @discourseComputed
+  userCanRegister() {
     return !this.isAttendee && !this.registered;
   },
 
@@ -102,7 +102,7 @@ export default Component.extend({
       `/zoom/webinars/${this.webinar.id}/attendees/${this.currentUser.username}.json`,
       { type: method }
     )
-      .then((response) => {
+      .then(() => {
         this.store.find("webinar", this.webinar.id).then((webinar) => {
           this.set("webinar", webinar);
         });
@@ -157,11 +157,7 @@ export default Component.extend({
   },
 
   formatDateForIcs(date) {
-    return (
-      moment(date)
-        .utc()
-        .format("YYYYMMDDTHHmmss") + "Z"
-    );
+    return moment(date).utc().format("YYYYMMDDTHHmmss") + "Z";
   },
 
   actions: {
@@ -190,7 +186,7 @@ export default Component.extend({
       if (this.registered) {
         window.location.href = url;
       } else {
-        this.toggleRegistration(true).then((response) => {
+        this.toggleRegistration(true).then(() => {
           window.location.href = url;
         });
       }

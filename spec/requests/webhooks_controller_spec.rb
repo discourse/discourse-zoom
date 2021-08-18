@@ -45,8 +45,8 @@ describe Zoom::WebhooksController do
           headers: { "Authorization": verification_token }
         expect(response.status).to eq(200)
         webinar.reload
-        expect(webinar.starts_at).to eq(start_time)
-        expect(webinar.ends_at).to eq(DateTime.parse(start_time) + 60.minutes)
+        expect(webinar.starts_at).to eq_time(start_time)
+        expect(webinar.ends_at).to eq_time(DateTime.parse(start_time) + 60.minutes)
       end
 
       it "updates ends_at when duration changes" do
@@ -57,7 +57,7 @@ describe Zoom::WebhooksController do
         expect(response.status).to eq(200)
         webinar.reload
         expect(webinar.duration).to eq(duration)
-        expect(webinar.ends_at).to eq(webinar.starts_at + duration.minutes)
+        expect(webinar.ends_at).to eq_time(webinar.starts_at + duration.minutes)
       end
 
       it "updates starts_at and ends_at when start_time and duration change" do
@@ -68,9 +68,9 @@ describe Zoom::WebhooksController do
           headers: { "Authorization": verification_token }
         expect(response.status).to eq(200)
         webinar.reload
-        expect(webinar.starts_at).to eq(start_time)
+        expect(webinar.starts_at).to eq_time(start_time)
         expect(webinar.duration).to eq(duration)
-        expect(webinar.ends_at).to eq(webinar.starts_at + duration.minutes)
+        expect(webinar.ends_at).to eq_time(webinar.starts_at + duration.minutes)
       end
 
       it "updates settings" do

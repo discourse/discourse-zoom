@@ -15,15 +15,13 @@ export default Component.extend({
   schedule(model) {
     return formattedSchedule(
       model.start_time,
-      moment(model.start_time)
-        .add(model.duration, "m")
-        .toDate()
+      moment(model.start_time).add(model.duration, "m").toDate()
     );
   },
 
   actions: {
     selectWebinar() {
       this.onSelect();
-    }
-  }
+    },
+  },
 });

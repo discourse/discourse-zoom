@@ -144,10 +144,10 @@ describe Zoom::WebinarsController do
       put("/zoom/webinars/#{webinar.id}/nonzoom_details.json")
       expect(response.status).to eq(400)
 
-      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { title: "Some title"} )
+      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { title: "Some title" })
       expect(response.status).to eq(400)
 
-      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { past_start_date: Time.now} )
+      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { past_start_date: Time.now })
       expect(response.status).to eq(400)
     end
 
@@ -157,7 +157,7 @@ describe Zoom::WebinarsController do
       webinar.save
 
       sign_in(admin)
-      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { past_start_date: 2.days.ago, title: "New balls, please"} )
+      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { past_start_date: 2.days.ago, title: "New balls, please" })
 
       expect(response.status).to eq(200)
       webinar.reload
@@ -167,7 +167,7 @@ describe Zoom::WebinarsController do
 
     it "requires the user to be able to edit the topic" do
       sign_in(other_user)
-      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { past_start_date: 2.days.ago, title: "Paper planes"} )
+      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { past_start_date: 2.days.ago, title: "Paper planes" })
       expect(response.status).to eq(403)
     end
   end

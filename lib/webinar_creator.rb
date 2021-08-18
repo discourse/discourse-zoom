@@ -2,7 +2,7 @@
 
 module Zoom
   class WebinarCreator
-    def initialize(topic_id:, zoom_id:, zoom_start_date:nil, zoom_title:nil, user:nil)
+    def initialize(topic_id:, zoom_id:, zoom_start_date: nil, zoom_title: nil, user: nil)
       @topic_id = topic_id
       @zoom_id = Webinar.sanitize_zoom_id(zoom_id)
       @zoom_start_date = zoom_start_date
