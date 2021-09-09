@@ -26,6 +26,8 @@ export default {
       });
 
       api.modifyClass("controller:topic", {
+        pluginId: "discourse-zoom",
+
         @observes("model.postStream.loaded")
         _addWebinarClass() {
           const webinar = this.get("model.webinar");

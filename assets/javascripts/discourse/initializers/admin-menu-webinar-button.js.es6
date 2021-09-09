@@ -3,6 +3,8 @@ import showModal from "discourse/lib/show-modal";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 
+const PLUGIN_ID = "discourse-zoom";
+
 function initialize(api) {
   api.decorateWidget("topic-admin-menu:adminMenuButtons", (helper) => {
     const topic = helper.attrs.topic;
@@ -19,18 +21,24 @@ function initialize(api) {
   });
 
   api.modifyClass("component:topic-admin-menu-button", {
+    pluginId: PLUGIN_ID,
+
     removeWebinar() {
       removeWebinar(this.topic);
     },
+
     addWebinar() {
       showWebinarModal(this.topic);
     },
   });
 
   api.modifyClass("component:topic-timeline", {
+    pluginId: PLUGIN_ID,
+
     removeWebinar() {
       removeWebinar(this.topic);
     },
+
     addWebinar() {
       showWebinarModal(this.topic);
     },
