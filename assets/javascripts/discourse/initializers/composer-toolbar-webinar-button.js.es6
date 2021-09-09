@@ -3,6 +3,8 @@ import showModal from "discourse/lib/show-modal";
 
 function initializeWebinarButton(api) {
   api.modifyClass("controller:composer", {
+    pluginId: "discourse-zoom",
+
     actions: {
       showWebinarModal() {
         showModal("webinar-picker", {
