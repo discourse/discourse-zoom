@@ -10,6 +10,16 @@ describe Zoom::WebinarsController do
   fab!(:topic) { Fabricate(:topic, user: user) }
   let(:webinar) { Webinar.create(topic: topic, zoom_id: "123") }
 
+  describe "#show" do
+    it "works for anons" do
+      get "/zoom/webinars/#{webinar.id}.json"
+      json = JSON.parse(response.body)
+
+      expect(response.status).to eq(200)
+      expect(json["webinar"]["topic_id"]).to eq(topic.id)
+    end
+  end
+
   describe "#destroy" do
     it "requires the user to be logged in" do
       delete("/zoom/webinars/#{webinar.id}.json")

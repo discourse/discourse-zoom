@@ -13,13 +13,13 @@ export default {
       "zoomWebinarStartDate"
     );
 
-    withPluginApi("0.8.31", api => {
-      api.decorateWidget("post:before", dec => {
+    withPluginApi("0.8.31", (api) => {
+      api.decorateWidget("post:before", (dec) => {
         if (dec.canConnectComponent && dec.attrs.firstPost) {
           if (!dec.attrs.cloaked) {
             return dec.connect({
               component: "post-top-webinar",
-              context: "model"
+              context: "model",
             });
           }
         }
@@ -36,8 +36,8 @@ export default {
           } else {
             document.querySelector("body").classList.remove("has-webinar");
           }
-        }
+        },
       });
     });
-  }
+  },
 };
