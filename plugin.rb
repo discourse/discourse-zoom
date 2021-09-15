@@ -114,18 +114,23 @@ after_initialize do
 
   # CSP overrides to the SDK endpoint only
   ZOOM_SDK_REGEX = /webinars\/(.*)\/sdk$/
-  ZOOM_SDK_CSP = [
+  ZOOM_SDK_SCRIPT_SRC = [
     :unsafe_eval,
     :unsafe_inline,
     "https://source.zoom.us",
     "https://zoom.us"
   ]
+  ZOOM_SDK_WORKER_SRC = [
+    "blob:"
+  ]
+
 
   module ContentSecurityPolicyExtensionZoomPluginPatch
     def path_specific_extension(path_info)
       obj = super
       if ZOOM_SDK_REGEX.match?(path_info)
-        (obj[:script_src] ||= []).concat(ZOOM_SDK_CSP)
+        (obj[:script_src] ||= []).concat(ZOOM_SDK_SCRIPT_SRC)
+        (obj[:worker_src] ||= []).concat(ZOOM_SDK_WORKER_SRC)
       end
       obj
     end

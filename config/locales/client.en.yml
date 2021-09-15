@@ -51,6 +51,7 @@ en:
       add_to_outlook: "Add to Outlook"
       add_to_calendar: "Add to Calendar"
       webinar_footnote: "Can't make the event? Register and we'll send you a post-event recap."
+      webinar_logged_in_users_only: "Webinar registration is only accessible to logged-in users."
       add_past_webinar: "Add past webinar"
       past_label: "Past webinar title"
       past_date: "Past webinar date"
