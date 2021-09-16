@@ -1,16 +1,16 @@
-<script src="https://source.zoom.us/1.7.7/lib/vendor/react.min.js"></script>
-<script src="https://source.zoom.us/1.7.7/lib/vendor/react-dom.min.js"></script>
-<script src="https://source.zoom.us/1.7.7/lib/vendor/redux.min.js"></script>
-<script src="https://source.zoom.us/1.7.7/lib/vendor/redux-thunk.min.js"></script>
-<script src="https://source.zoom.us/1.7.7/lib/vendor/jquery.min.js"></script>
-<script src="https://source.zoom.us/1.7.7/lib/vendor/lodash.min.js"></script>
-
-<script src="https://source.zoom.us/zoom-meeting-1.7.7.min.js"></script>
+<script src="https://source.zoom.us/1.9.8/lib/vendor/react.min.js"></script>
+<script src="https://source.zoom.us/1.9.8/lib/vendor/react-dom.min.js"></script>
+<script src="https://source.zoom.us/1.9.8/lib/vendor/redux.min.js"></script>
+<script src="https://source.zoom.us/1.9.8/lib/vendor/redux-thunk.min.js"></script>
+<script src="https://source.zoom.us/1.9.8/lib/vendor/lodash.min.js"></script>
+<script src="https://source.zoom.us/zoom-meeting-1.9.8.min.js"></script>
+<link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.9.8/css/bootstrap.css" />
+<link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.9.8/css/react-select.css" />
 
 <script type="text/javascript">
 
 (function() {
-  $(".d-header").hide();
+  document.querySelector(".d-header").style.display = "none";
 
   ZoomMtg.preLoadWasm();
   ZoomMtg.prepareJssdk();
@@ -31,55 +31,56 @@
     return params;
   };
 
-  $.ajax({
-    url: `/zoom/webinars/${meetingId}/signature.json`
-  }).done(function(res) {
-    ZoomMtg.init({
-      leaveUrl: res.topic_url,
-      isSupportAV: true,
-      // audioPanelAlwaysOpen: false,
-      // disableJoinAudio: true,
-      // disableCallOut: true,
-      success: function() {
-        ZoomMtg.join({
-          meetingNumber: res.id,
-          userName: res.username,
-          signature: res.signature,
-          apiKey: res.api_key,
-          userEmail: res.email,
-          passWord: res.password || '',
-          success: function(res) {
-            setTimeout(function() {
-              $("#dialog-join .title.tab:nth-child(2) button").click(); // default to Computer Audio
-            }, 200);
+  var request = new XMLHttpRequest();
+  request.open('GET', `/zoom/webinars/${meetingId}/signature.json`, true);
 
-            // ZoomMtg.inMeetingServiceListener('onMeetingStatus', function (data) {
-            //   // status: 1(connecting), 2(connected), 3(disconnected), 4(reconnecting)
-            //   console.log(data);
-            // });
+  request.onload = function() {
+    if (this.status >= 200 && this.status < 400) {
+      var res = JSON.parse(this.response);
+      console.log(res);
 
-          },
-          error: function(join_result) {
-            console.log(join_result);
-            if (join_result.errorCode === 1) {
-              const params = getParams(window.location.href);
-              if (params.fallback) {
-                window.setTimeout(() => {
-                  let btn = `<a href="https://zoom.us/j/${res.id}" id="zoom-fallback" class="zm-btn zm-btn-legacy zm-btn--primary zm-btn__outline--blue" >Launch in Zoom</a>`;
-                  $(".zm-modal-body-content .content").html(
-                    `<p>There was a problem launching the Zoom SDK. Click the button below to try joining the event in Zoom.</p> ${btn}`
-                  );
-                }, 200);
+      ZoomMtg.init({
+        leaveUrl: res.topic_url,
+        isSupportAV: true,
+        // audioPanelAlwaysOpen: false,
+        // disableJoinAudio: true,
+        disableCallOut: true,
+        success: function() {
+          ZoomMtg.join({
+            meetingNumber: res.id,
+            userName: res.username,
+            signature: res.signature,
+            apiKey: res.api_key,
+            userEmail: res.email,
+            passWord: res.password || '',
+            success: function(res) {},
+            error: function(join_result) {
+              console.log(join_result);
+              if (join_result.errorCode === 1) {
+                const params = getParams(window.location.href);
+                if (params.fallback) {
+                  window.setTimeout(() => {
+                    let btn = `<a href="https://zoom.us/j/${res.id}" id="zoom-fallback" class="zm-btn zm-btn-legacy zm-btn--primary zm-btn__outline--blue" >Launch in Zoom</a>`;
+                    document.querySelector(".zm-modal-body-content .content").innerHTML =
+                      `<p>There was a problem launching the Zoom SDK. Click the button below to try joining the event in Zoom.</p> ${btn}`;
+                  }, 200);
+                }
               }
             }
-          }
-        });
-      },
-      error: function(res) {
-        console.log("error generating signature");
-      }
-    });
-  });
+          });
+        },
+        error: function(res) {
+          console.log("error generating signature");
+        }
+      });
+    } else {
+      console.error("error getting webinar signature from discourse-zoom plugin");
+    }
+  };
+
+  // request.onerror = function() {};
+  request.send();
+
 })();
 
 </script>
