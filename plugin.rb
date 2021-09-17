@@ -59,19 +59,19 @@ after_initialize do
   add_permitted_post_create_param(:zoom_webinar_title)
   add_permitted_post_create_param(:zoom_webinar_start_date)
 
-  NewPostManager.add_handler do |manager|
-    next if !manager.args[:zoom_id]
+  on(:post_created) do |post, opts, user|
+    if opts[:zoom_id] && post.is_first_post?
+      zoom_start_date = opts[:zoom_webinar_start_date]
+      zoom_title = opts[:zoom_webinar_title]
 
-    result = manager.perform_create_post
-    if result.success? && zoom_id = manager.args[:zoom_id]
-      zoom_start_date = manager.args[:zoom_webinar_start_date]
-      zoom_title = manager.args[:zoom_webinar_title]
-      topic_id = result.post.topic_id
-
-      Zoom::WebinarCreator.new(topic_id: topic_id, zoom_id: zoom_id, zoom_start_date: zoom_start_date, zoom_title: zoom_title, user: manager.user).run
+      Zoom::WebinarCreator.new(
+        topic_id: post.topic_id,
+        zoom_id: opts[:zoom_id],
+        zoom_start_date: zoom_start_date,
+        zoom_title: zoom_title,
+        user: user
+      ).run
     end
-
-    result
   end
 
   Zoom::Engine.routes.draw do
