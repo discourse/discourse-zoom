@@ -1,3 +1,5 @@
-# discourse-zoom
+# Discourse Zoom Plugin
 
-See https://meta.discourse.org/t/zoom-webinars-plugin/142711 for details. 
+This plugin integrates Zoom webinars into a Discourse instance. 
+
+For more information, please see: https://meta.discourse.org/t/zoom-webinars-plugin/142711
