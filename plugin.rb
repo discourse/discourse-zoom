@@ -124,7 +124,6 @@ after_initialize do
     "blob:"
   ]
 
-
   module ContentSecurityPolicyExtensionZoomPluginPatch
     def path_specific_extension(path_info)
       obj = super
