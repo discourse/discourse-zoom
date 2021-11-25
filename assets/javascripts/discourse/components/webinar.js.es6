@@ -47,7 +47,9 @@ export default Component.extend({
   },
 
   fetchDetails() {
-    if (!this.webinarId){ return; }
+    if (!this.webinarId) {
+      return;
+    }
 
     this.set("loading", true);
     this.store
@@ -82,7 +84,9 @@ export default Component.extend({
     "webinar.status"
   )
   setupTimer(webinar, starts_at, duration, status) {
-    if (status !== NOT_STARTED) { return false; }
+    if (status !== NOT_STARTED) {
+      return false;
+    }
 
     const startsAtMoment = moment(starts_at);
     this.interval = setInterval(
@@ -102,7 +106,9 @@ export default Component.extend({
 
     if (starts_at.isBefore(moment())) {
       this.set("showTimer", false);
-      if (interval) { clearInterval(interval); }
+      if (interval) {
+        clearInterval(interval);
+      }
     } else {
       this.set("showTimer", true);
     }

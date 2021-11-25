@@ -28,7 +28,6 @@ jobs:
         build_type: ["backend", "frontend"]
         ruby: ["2.7"]
         postgres: ["13"]
-        redis: ["4.x"]
 
     services:
       postgres:
@@ -44,6 +43,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     steps:
       - uses: actions/checkout@v2
         with:
@@ -60,10 +60,10 @@ jobs:
         run: |
           git config --global user.email "ci@ci.invalid"
           git config --global user.name "Discourse CI"
-      - name: Setup redis
-        uses: shogo82148/actions-setup-redis@v1
-        with:
-          redis-version: ${{ matrix.redis }}
+
+      - name: Start redis
+        run: |
+          redis-server /etc/redis/redis.conf &
 
       - name: Bundler cache
         uses: actions/cache@v2
@@ -72,6 +72,7 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.ruby }}-gem-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.ruby }}-gem-
+
       - name: Setup gems
         run: |
           bundle config --local path vendor/bundle
@@ -79,6 +80,7 @@ jobs:
           bundle config --local without development
           bundle install --jobs 4
           bundle clean
+
       - name: Lint English locale
         if: matrix.build_type == 'backend'
         run: bundle exec ruby script/i18n_lint.rb "plugins/${{ github.event.repository.name }}/locales/{client,server}.en.yml"
@@ -95,6 +97,7 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.os }}-yarn-
+
       - name: Yarn install
         run: yarn install
 
@@ -102,14 +105,15 @@ jobs:
         run: |
           bin/rake db:create
           bin/rake db:migrate
+
       - name: Check spec existence
         id: check_spec
         shell: bash
         run: |
-          shopt -s extglob
-          if ls plugins/${{ github.event.repository.name }}/spec/**/*.@(rb) &> /dev/null; then
+          if [ 0 -lt $(find plugins/${{ github.event.repository.name }}/spec -type f -name "*.rb" 2> /dev/null | wc -l) ]; then
             echo "::set-output name=files_exist::true"
           fi
+
       - name: Plugin RSpec
         if: matrix.build_type == 'backend' && steps.check_spec.outputs.files_exist == 'true'
         run: bin/rake plugin:spec[${{ github.event.repository.name }}]
@@ -118,10 +122,10 @@ jobs:
         id: check_qunit
         shell: bash
         run: |
-          shopt -s extglob
-          if ls plugins/${{ github.event.repository.name }}/test/javascripts/**/*.@(js|es6) &> /dev/null; then
+          if [ 0 -lt $(find plugins/${{ github.event.repository.name }}/test/javascripts -type f \( -name "*.js" -or -name "*.es6" \) 2> /dev/null | wc -l) ]; then
             echo "::set-output name=files_exist::true"
           fi
+
       - name: Plugin QUnit
         if: matrix.build_type == 'frontend' && steps.check_qunit.outputs.files_exist == 'true'
         run: bundle exec rake plugin:qunit['${{ github.event.repository.name }}','1200000']

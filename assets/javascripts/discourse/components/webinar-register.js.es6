@@ -43,14 +43,11 @@ export default Component.extend({
     return false;
   },
 
-  init() {
-    this._super(...arguments);
-  },
-
   @discourseComputed
   isAppWebview() {
     return isAppWebview();
   },
+
   @discourseComputed("currentUser", "webinar.attendees")
   isAttendee(user, attendees) {
     if (attendees) {
@@ -82,17 +79,18 @@ export default Component.extend({
     return false;
   },
 
-  @discourseComputed("webinar.starts_at")
-  canUnregister(starts_at) {
+  @discourseComputed("webinar.starts_at", "isAttendee", "registered")
+  canUnregister(starts_at, isAttendee, registered) {
     if (moment(starts_at).isBefore(moment())) {
       return false;
     }
-    return this.isAttendee && this.registered;
+
+    return isAttendee && registered;
   },
 
-  @discourseComputed
-  userCanRegister() {
-    return !this.isAttendee && !this.registered;
+  @discourseComputed("isAttendee", "registered")
+  userCanRegister(isAttendee, registered) {
+    return !isAttendee && !registered;
   },
 
   toggleRegistration(registering) {

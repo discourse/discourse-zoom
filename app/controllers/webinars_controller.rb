@@ -88,7 +88,6 @@ module Zoom
         WebinarUser.where(webinar: webinar, type: :host).destroy_all
         WebinarUser.create!(user: user, webinar: webinar, type: :host)
         render json: success_json
-        nil
       else
         raise Discourse::NotFound.new
       end
@@ -114,7 +113,6 @@ module Zoom
         webinar.starts_at = params[:past_start_date]
         webinar.save!
         render json: success_json
-        nil
       else
         raise Discourse::NotFound.new
       end
@@ -135,6 +133,7 @@ module Zoom
         user: user,
         type: :attendee
       )
+
       render json: success_json
     end
 
@@ -146,6 +145,7 @@ module Zoom
        user: user,
        type: :attendee
      ).destroy_all
+
      render json: success_json
    end
 
@@ -175,8 +175,8 @@ module Zoom
 
     def set_video_url
       guardian.ensure_can_edit!(webinar.topic)
-
       webinar.update(video_url: params[:video_url])
+
       render json: { video_url: webinar.video_url }
     end
 

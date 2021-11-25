@@ -49,7 +49,7 @@ export default {
 function showWebinarModal(model) {
   model.set("addToTopic", true);
   showModal("webinar-picker", {
-    model: model,
+    model,
     title: "zoom.webinar_picker.title",
   });
 }

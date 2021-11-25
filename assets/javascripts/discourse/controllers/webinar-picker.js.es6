@@ -67,7 +67,7 @@ export default Controller.extend(ModalFunctionality, {
 
     ajax(`/zoom/t/${this.model.id}/webinars/${webinarId}`, {
       type: "PUT",
-      data: data,
+      data,
     })
       .then((results) => {
         this.store.find("webinar", results.id).then((webinar) => {
@@ -131,9 +131,9 @@ export default Controller.extend(ModalFunctionality, {
     return false;
   },
 
-  @discourseComputed
-  pastWebinarDisabled() {
-    return !this.pastWebinarTitle || !this.pastStartDate;
+  @discourseComputed("pastWebinarTitle", "pastStartDate")
+  pastWebinarDisabled(pastWebinarTitle, pastStartDate) {
+    return !pastWebinarTitle || !pastStartDate;
   },
 
   actions: {
@@ -173,7 +173,9 @@ export default Controller.extend(ModalFunctionality, {
     },
 
     onChangeDate(date) {
-      if (!date) { return; }
+      if (!date) {
+        return;
+      }
 
       this.set("pastStartDate", date);
     },

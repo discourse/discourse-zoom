@@ -15,7 +15,9 @@ export default Controller.extend(ModalFunctionality, {
 
   @discourseComputed("model.video_url", "newVideoUrl", "loading")
   canSaveVideoUrl(saved, newValue, loading) {
-    if (saved === newValue || loading) { return true; }
+    if (saved === newValue || loading) {
+      return true;
+    }
 
     saved = saved === null ? "" : saved;
     newValue = newValue === null ? "" : newValue;
@@ -112,7 +114,9 @@ export default Controller.extend(ModalFunctionality, {
     },
 
     onChangeDate(date) {
-      if (!date) { return; }
+      if (!date) {
+        return;
+      }
 
       this.set("pastStartDate", date);
     },
