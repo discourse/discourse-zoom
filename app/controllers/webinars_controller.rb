@@ -4,7 +4,7 @@ module Zoom
   class WebinarsController < ApplicationController
     skip_before_action :verify_authenticity_token, only: [:register]
     skip_before_action :check_xhr, only: [:sdk]
-    before_action :ensure_logged_in
+    before_action :ensure_logged_in, except: [:show]
     before_action :ensure_webinar_exists, only: [ :show, :destroy, :add_panelist,
                                                   :remove_panelist, :register, :unregister,
                                                   :signature, :sdk, :update_nonzoom_host, :update_nonzoom_details ]
@@ -152,9 +152,9 @@ module Zoom
     def signature
       sig = Zoom::Webinars.new(Zoom::Client.new).signature(webinar.zoom_id)
       if SiteSetting.zoom_send_user_id
-        username = "#{current_user.name} (#{current_user.id})"
+        username = "#{current_user.name || current_user.username} (#{current_user.id})"
       else
-        username = current_user.name
+        username = current_user.name || current_user.username
       end
 
       render json: {

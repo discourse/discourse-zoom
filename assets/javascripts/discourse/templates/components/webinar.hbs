@@ -52,7 +52,9 @@
       </div>
     {{/if}}
 
-    {{webinar-register webinar=webinar showCalendarButtons=true}}
+    {{#if currentUser}}
+      {{webinar-register webinar=webinar showCalendarButtons=true}}
+    {{/if}}
 
     {{#if webinarEnded}}
       <div class="event-ended">
@@ -85,7 +87,11 @@
       {{/if}}
       {{#unless webinarStarted}}
         <div class="webinar-footnote">
-          {{i18n "zoom.webinar_footnote"}}
+          {{#if currentUser}}
+            {{i18n "zoom.webinar_footnote"}}
+          {{else}}
+            {{i18n "zoom.webinar_logged_in_users_only"}}
+          {{/if}}
         </div>
       {{/unless}}
     {{/if}}
