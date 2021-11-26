@@ -6,7 +6,7 @@ import { alias, or } from "@ember/object/computed";
 import { ajax } from "discourse/lib/ajax";
 import { next } from "@ember/runloop";
 
-const NOT_STARTED = "not_started",
+const PENDING = "pending",
   ENDED = "ended",
   STARTED = "started";
 
@@ -84,7 +84,7 @@ export default Component.extend({
     "webinar.status"
   )
   setupTimer(webinar, starts_at, duration, status) {
-    if (status !== NOT_STARTED) {
+    if (status !== PENDING) {
       return false;
     }
 
