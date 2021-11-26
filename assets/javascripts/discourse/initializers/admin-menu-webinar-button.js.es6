@@ -2,6 +2,7 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import showModal from "discourse/lib/show-modal";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
+import I18n from "I18n";
 
 const PLUGIN_ID = "discourse-zoom";
 
@@ -56,7 +57,7 @@ export default {
 function showWebinarModal(model) {
   model.set("addToTopic", true);
   showModal("webinar-picker", {
-    model: model,
+    model,
     title: "zoom.webinar_picker.title",
   });
 }
@@ -65,7 +66,7 @@ function removeWebinar(topic) {
   bootbox.confirm(I18n.t("zoom.confirm_remove"), (result) => {
     if (result) {
       ajax(`/zoom/webinars/${topic.webinar.id}`, { type: "DELETE" })
-        .then((response) => {
+        .then(() => {
           topic.set("webinar", null);
           const topicController = Discourse.__container__.lookup(
             "controller:topic"

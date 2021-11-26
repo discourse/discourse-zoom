@@ -1,9 +1,9 @@
 import Controller from "@ember/controller";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
-import { formattedSchedule } from "../lib/webinar-helpers";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import discourseComputed from "discourse-common/utils/decorators";
+import I18n from "I18n";
 
 const NONZOOM = "nonzoom";
 
@@ -67,7 +67,7 @@ export default Controller.extend(ModalFunctionality, {
 
     ajax(`/zoom/t/${this.model.id}/webinars/${webinarId}`, {
       type: "PUT",
-      data: data,
+      data,
     })
       .then((results) => {
         this.store.find("webinar", results.id).then((webinar) => {
@@ -106,7 +106,7 @@ export default Controller.extend(ModalFunctionality, {
           selected: true,
         });
       })
-      .catch((e) => {
+      .catch(() => {
         this.setProperties({
           webinar: null,
           selected: false,
@@ -132,8 +132,8 @@ export default Controller.extend(ModalFunctionality, {
   },
 
   @discourseComputed("pastWebinarTitle", "pastStartDate")
-  pastWebinarDisabled(title, startDate) {
-    return !this.pastWebinarTitle || !this.pastStartDate;
+  pastWebinarDisabled(pastWebinarTitle, pastStartDate) {
+    return !pastWebinarTitle || !pastStartDate;
   },
 
   actions: {
@@ -173,7 +173,9 @@ export default Controller.extend(ModalFunctionality, {
     },
 
     onChangeDate(date) {
-      if (!date) return;
+      if (!date) {
+        return;
+      }
 
       this.set("pastStartDate", date);
     },
