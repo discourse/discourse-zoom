@@ -4,7 +4,7 @@ module Zoom
   class WebinarsController < ApplicationController
     skip_before_action :verify_authenticity_token, only: [:register]
     skip_before_action :check_xhr, only: [:sdk]
-    before_action :ensure_logged_in
+    before_action :ensure_logged_in, except: [:show]
     before_action :ensure_webinar_exists, only: [ :show, :destroy, :add_panelist,
                                                   :remove_panelist, :register, :unregister,
                                                   :signature, :sdk, :update_nonzoom_host, :update_nonzoom_details ]
@@ -78,7 +78,6 @@ module Zoom
       render json: { id: new_webinar.id }
     end
 
-
     def update_nonzoom_host
       user = fetch_user_from_params
       guardian.ensure_can_edit!(webinar.topic)
@@ -89,7 +88,6 @@ module Zoom
         WebinarUser.where(webinar: webinar, type: :host).destroy_all
         WebinarUser.create!(user: user, webinar: webinar, type: :host)
         render json: success_json
-        return
       else
         raise Discourse::NotFound.new
       end
@@ -115,7 +113,6 @@ module Zoom
         webinar.starts_at = params[:past_start_date]
         webinar.save!
         render json: success_json
-        return
       else
         raise Discourse::NotFound.new
       end
@@ -136,6 +133,7 @@ module Zoom
         user: user,
         type: :attendee
       )
+
       render json: success_json
     end
 
@@ -147,15 +145,16 @@ module Zoom
        user: user,
        type: :attendee
      ).destroy_all
+
      render json: success_json
    end
 
     def signature
       sig = Zoom::Webinars.new(Zoom::Client.new).signature(webinar.zoom_id)
       if SiteSetting.zoom_send_user_id
-        username = "#{current_user.name} (#{current_user.id})"
+        username = "#{current_user.name || current_user.username} (#{current_user.id})"
       else
-        username = current_user.name
+        username = current_user.name || current_user.username
       end
 
       render json: {
@@ -176,8 +175,8 @@ module Zoom
 
     def set_video_url
       guardian.ensure_can_edit!(webinar.topic)
-
       webinar.update(video_url: params[:video_url])
+
       render json: { video_url: webinar.video_url }
     end
 

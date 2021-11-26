@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../fabricators/webinar_fabricator.rb'
 
 RSpec.describe Zoom::SendWebinarReminders do

@@ -1,0 +1,10 @@
+{
+  "name": "discourse-zoom",
+  "version": "0.0.1",
+  "repository": "https://github.com/discourse/discourse-zoom",
+  "author": "Discourse",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint-config-discourse": "^1.1.9"
+  }
+}

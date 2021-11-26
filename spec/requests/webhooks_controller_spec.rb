@@ -39,14 +39,14 @@ describe Zoom::WebhooksController do
 
     describe "#webinar_updated" do
       it "updates starts_at and ends_at when start_time changes" do
-        start_time = "2020-02-29T18:00:00Z"
+        start_time = 1.week.ago
         post "/zoom/webhooks/webinars.json",
           params: { webhook: webinar_updated(zoom_id: 123, start_time: start_time) },
           headers: { "Authorization": verification_token }
         expect(response.status).to eq(200)
         webinar.reload
-        expect(webinar.starts_at).to eq(start_time)
-        expect(webinar.ends_at).to eq(DateTime.parse(start_time) + 60.minutes)
+        expect(webinar.starts_at).to be_within_one_second_of(start_time)
+        expect(webinar.ends_at).to be_within_one_second_of(start_time + 60.minutes)
       end
 
       it "updates ends_at when duration changes" do
@@ -57,20 +57,21 @@ describe Zoom::WebhooksController do
         expect(response.status).to eq(200)
         webinar.reload
         expect(webinar.duration).to eq(duration)
-        expect(webinar.ends_at).to eq(webinar.starts_at + duration.minutes)
+        expect(webinar.ends_at).to eq_time(webinar.starts_at + duration.minutes)
       end
 
       it "updates starts_at and ends_at when start_time and duration change" do
-        start_time = "2020-03-13T18:00:00Z"
+        start_time = 1.week.ago
         duration = 180
         post "/zoom/webhooks/webinars.json",
           params: { webhook: webinar_updated(zoom_id: 123, start_time: start_time, duration: duration) },
           headers: { "Authorization": verification_token }
         expect(response.status).to eq(200)
         webinar.reload
-        expect(webinar.starts_at).to eq(start_time)
+
+        expect(webinar.starts_at).to be_within_one_second_of(start_time)
         expect(webinar.duration).to eq(duration)
-        expect(webinar.ends_at).to eq(webinar.starts_at + duration.minutes)
+        expect(webinar.ends_at).to be_within_one_second_of(webinar.starts_at + duration.minutes)
       end
 
       it "updates settings" do

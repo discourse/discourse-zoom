@@ -24,7 +24,7 @@
             width="80"
             height="80"
             title={{details.host.name}}
-          />
+          >
           <div class="host-description">
             <div class="host-name">
               {{webinar.host.name}}
@@ -48,7 +48,7 @@
                   height="25"
                   alt={{panelist.name}}
                   title={{panelist.name}}
-                />
+                >
               {{/each}}
             </div>
           {{else}}
@@ -103,10 +103,11 @@
         {{d-button
           action=(action "addPastWebinar")
           icon="plus"
+          label="zoom.webinar_picker.create"
           disabled=pastWebinarDisabled
         }}
       {{else}}
-        <div class="form-horizontal webinar-picker-input">
+        <div class="inline-form webinar-picker-input">
           {{input
             type="text"
             value=webinarIdInput

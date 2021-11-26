@@ -8,7 +8,7 @@ export default UserTopicListRoute.extend({
     return this.store.findFiltered("topicList", {
       filter: `topics/webinar-registrations/${this.modelFor("user").get(
         "username_lower"
-      )}`
+      )}`,
     });
-  }
+  },
 });

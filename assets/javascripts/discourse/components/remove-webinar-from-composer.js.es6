@@ -6,6 +6,6 @@ export default Component.extend({
   actions: {
     removeWebinar() {
       this.model.set("zoomId", null);
-    }
-  }
+    },
+  },
 });

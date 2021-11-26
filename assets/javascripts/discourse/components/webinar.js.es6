@@ -47,7 +47,9 @@ export default Component.extend({
   },
 
   fetchDetails() {
-    if (!this.webinarId) return;
+    if (!this.webinarId) {
+      return;
+    }
 
     this.set("loading", true);
     this.store
@@ -62,7 +64,7 @@ export default Component.extend({
         });
         this.appEvents.trigger("discourse-zoom:webinar-loaded");
       })
-      .catch((e) => {
+      .catch(() => {
         this.set("loading", false);
       });
   },
@@ -82,7 +84,9 @@ export default Component.extend({
     "webinar.status"
   )
   setupTimer(webinar, starts_at, duration, status) {
-    if (status !== PENDING) return false;
+    if (status !== PENDING) {
+      return false;
+    }
 
     const startsAtMoment = moment(starts_at);
     this.interval = setInterval(
@@ -98,11 +102,13 @@ export default Component.extend({
     this.set("cSecs", duration.seconds());
     this.set("cMins", duration.minutes());
     this.set("cHours", duration.hours());
-    this.set("cDays", parseInt(duration.asDays()));
+    this.set("cDays", parseInt(duration.asDays(), 10));
 
     if (starts_at.isBefore(moment())) {
       this.set("showTimer", false);
-      if (interval) clearInterval(interval);
+      if (interval) {
+        clearInterval(interval);
+      }
     } else {
       this.set("showTimer", true);
     }
