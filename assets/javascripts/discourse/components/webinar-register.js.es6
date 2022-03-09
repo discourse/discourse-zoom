@@ -2,7 +2,7 @@ import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
 import { ajax } from "discourse/lib/ajax";
 import { or } from "@ember/object/computed";
-import { isAppWebview, postRNWebviewMessage } from "discourse/lib/utilities";
+import { postRNWebviewMessage } from "discourse/lib/utilities";
 
 const STARTED = "started",
   ENDED = "ended";
@@ -45,7 +45,7 @@ export default Component.extend({
 
   @discourseComputed
   isAppWebview() {
-    return isAppWebview();
+    return this.capabilities.isAppWebview;
   },
 
   @discourseComputed("currentUser", "webinar.attendees")
