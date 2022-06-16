@@ -19,7 +19,7 @@ export default Component.extend({
   canEdit: alias("topic.details.can_edit"),
   showingRecording: false,
 
-  hostDisplayName: Ember.computed.or(
+  hostDisplayName: or(
     "webinar.host.name",
     "webinar.host.username"
   ),
