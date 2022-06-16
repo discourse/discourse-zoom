@@ -19,10 +19,7 @@ export default Component.extend({
   canEdit: alias("topic.details.can_edit"),
   showingRecording: false,
 
-  hostDisplayName: or(
-    "webinar.host.name",
-    "webinar.host.username"
-  ),
+  hostDisplayName: or("webinar.host.name", "webinar.host.username"),
   hostDisplayName: or("webinar.host.name", "webinar.host.username"),
 
   init() {
