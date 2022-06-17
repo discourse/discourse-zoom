@@ -5,6 +5,7 @@
 # version: 0.0.1
 # authors: Penar Musaraj, Roman Rizzi, Mark VanLandingham
 # url: https://github.com/discourse/discourse-zoom
+# transpile_js: true
 
 enabled_site_setting :zoom_enabled
 register_asset "stylesheets/common/zoom.scss"

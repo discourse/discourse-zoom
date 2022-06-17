@@ -2,7 +2,9 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import showModal from "discourse/lib/show-modal";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
+import { getOwner } from "discourse-common/lib/get-owner";
 import I18n from "I18n";
+import bootbox from "bootbox";
 
 const PLUGIN_ID = "discourse-zoom";
 
@@ -68,9 +70,7 @@ function removeWebinar(topic) {
       ajax(`/zoom/webinars/${topic.webinar.id}`, { type: "DELETE" })
         .then(() => {
           topic.set("webinar", null);
-          const topicController = Discourse.__container__.lookup(
-            "controller:topic"
-          );
+          const topicController = getOwner(this).lookup("controller:topic");
           topicController.set("editingTopic", false);
           document.querySelector("body").classList.remove("has-webinar");
           topic.postStream.posts[0].rebake();

@@ -1,31 +1,63 @@
 {{#unless webinarEnded}}
   {{#if webinarStarted}}
     {{#if joinViaZoom}}
-      <a href={{joinViaZoom}} class="webinar-join-sdk btn btn-primary">{{d-icon "video"}} {{i18n "zoom.join_sdk"}}</a>
+      <a href={{joinViaZoom}} class="webinar-join-sdk btn btn-primary">
+        {{d-icon "video"}}
+        {{i18n "zoom.join_sdk"}}
+      </a>
     {{else}}
-      {{d-button action=(action "joinSDK") class="webinar-join-sdk btn-primary" label="zoom.join_sdk" icon="video"}}
+      {{d-button
+        action=(action "joinSDK")
+        class="webinar-join-sdk btn-primary"
+        label="zoom.join_sdk"
+        icon="video"
+      }}
     {{/if}}
   {{else}}
     {{#if registered}}
       <div class="webinar-registered">
         {{#if isAttendee}}
           <span class="registered">
-            {{d-icon "far-check-circle"}} {{i18n "zoom.registered"}}
+            {{d-icon "far-check-circle"}}
+            {{i18n "zoom.registered"}}
           </span>
+
           {{#if canUnregister}}
-            <a href {{action "unregister"}} class="btn-flat" title={{i18n "zoom.cancel_registration"}}>{{d-icon "times"}}</a>
+            <a
+              href
+              {{action "unregister"}}
+              class="btn-flat"
+              title={{i18n "zoom.cancel_registration"}}
+            >
+              {{d-icon "times"}}
+            </a>
           {{/if}}
         {{/if}}
+
         {{#if showCalendarButtons}}
           <div class="zoom-add-to-calendar-container">
-            <a target="_blank" rel="noopener noreferrer" class="btn" href={{addToGoogleCalendarUrl}}>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn"
+              href={{addToGoogleCalendarUrl}}
+            >
               {{i18n "zoom.add_to_google_calendar"}}
             </a>
 
             {{#if isAppWebview}}
-              {{d-button action=(action "addEventAppWebview") label="zoom.add_to_calendar"}}
+              {{d-button
+                action=(action "addEventAppWebview")
+                label="zoom.add_to_calendar"
+              }}
             {{else}}
-              <a target="_blank" rel="noopener noreferrer" class="btn" href={{downloadIcsUrl}} download={{downloadName}}>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn"
+                href={{downloadIcsUrl}}
+                download={{downloadName}}
+              >
                 {{i18n "zoom.add_to_outlook"}}
               </a>
             {{/if}}
@@ -34,7 +66,13 @@
       </div>
     {{else}}
       {{#if userCanRegister}}
-        {{d-button action=(action "register") class="webinar-register-button btn-primary" label="zoom.register" icon="far-calendar-alt" disabled=loading}}
+        {{d-button
+          action=(action "register")
+          class="webinar-register-button btn-primary"
+          label="zoom.register"
+          icon="far-calendar-alt"
+          disabled=loading
+        }}
       {{/if}}
     {{/if}}
   {{/if}}
