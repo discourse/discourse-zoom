@@ -1,5 +1,6 @@
 {{#d-modal-body}}
   {{conditional-loading-spinner condition=loading}}
+
   {{#if selected}}
     {{#if webinar}}
       {{#if webinarError}}
@@ -7,16 +8,20 @@
           {{webinarError}}
         </div>
       {{/if}}
+
       <div class="webinar-content">
         <div class="webinar-title bold">
           {{webinar.title}}
         </div>
+
         <div class="occurrance-start-time">
           {{schedule}}
         </div>
+
         <h3 class="host">
           {{i18n "zoom.hosted_by"}}
         </h3>
+
         <div class="host-container">
           <img
             class="avatar"
@@ -25,6 +30,7 @@
             height="80"
             title={{details.host.name}}
           >
+
           <div class="host-description">
             <div class="host-name">
               {{webinar.host.name}}
@@ -34,9 +40,11 @@
             </div>
           </div>
         </div>
+
         <h3>
           {{i18n "zoom.panelists"}}
         </h3>
+
         <div class="panelists">
           {{#if webinar.panelists}}
             <div class="panelist-avatars">
@@ -59,6 +67,7 @@
         </div>
       </div>
     {{/if}}
+
     <div class="modal-footer">
       {{#if webinarError}}
         {{d-button action=(action "clear") label="zoom.webinar_picker.clear"}}
@@ -82,6 +91,7 @@
           {{i18n "zoom.error"}}
         </div>
       {{/if}}
+
       {{#if addingPastWebinar}}
         <div class="webinar-past-input webinar-past-start-date">
           <label>
@@ -89,6 +99,7 @@
           </label>
           {{date-input date=pastStartDate onChange=(action "onChangeDate")}}
         </div>
+
         <div class="webinar-past-input webinar-past-title">
           <label>
             {{i18n "zoom.past_label"}}
@@ -100,6 +111,7 @@
             class="webinar-past-title"
           }}
         </div>
+
         {{d-button
           action=(action "addPastWebinar")
           icon="plus"
@@ -115,9 +127,12 @@
             enter=(action "selectWebinar")
             class="webinar-builder-id"
           }}
-          {{d-button action=(action "selectWebinar" webinarIdInput) icon="plus"
+          {{d-button
+            action=(action "selectWebinar" webinarIdInput)
+            icon="plus"
           }}
         </div>
+
         <div class="webinar-picker-add-past">
           {{d-button
             action=(action "showPastWebinarForm")
@@ -125,6 +140,7 @@
             class="btn-flat past-webinar"
           }}
         </div>
+
         <div class="webinar-picker-webinars">
           {{#each allWebinars as |webinar|}}
             {{webinar-option-row

@@ -5,7 +5,14 @@
         <div class="webinar-title bold">
           {{webinar.title}}
           {{#if canEdit}}
-            <a href {{action "editPanelists"}} class="edit-panelists" title={{i18n "edit"}}>{{d-icon "pencil-alt"}}</a>
+            <a
+              href
+              {{action "editPanelists"}}
+              class="edit-panelists"
+              title={{i18n "edit"}}
+            >
+              {{d-icon "pencil-alt"}}
+            </a>
           {{/if}}
         </div>
         <div class="occurrance-start-time">{{schedule}}</div>
@@ -16,10 +23,22 @@
           <div class="countdown-wrapper">
             <div class="countdown-label">{{i18n "zoom.countdown_label"}}</div>
             <div class="countdown">
-              <div class="pill">{{cDays}} <div>{{i18n "zoom.days"}}</div></div>
-              <div class="pill">{{cHours}} <div>{{i18n "zoom.hours"}}</div></div>
-              <div class="pill">{{cMins}} <div>{{i18n "zoom.mins"}}</div></div>
-              <div class="pill">{{cSecs}} <div>{{i18n "zoom.secs"}}</div></div>
+              <div class="pill">
+                {{cDays}}
+                <div>{{i18n "zoom.days"}}</div>
+              </div>
+              <div class="pill">
+                {{cHours}}
+                <div>{{i18n "zoom.hours"}}</div>
+              </div>
+              <div class="pill">
+                {{cMins}}
+                <div>{{i18n "zoom.mins"}}</div>
+              </div>
+              <div class="pill">
+                {{cSecs}}
+                <div>{{i18n "zoom.secs"}}</div>
+              </div>
             </div>
           </div>
         {{/if}}
@@ -29,7 +48,10 @@
     {{#if webinar.host}}
       <div class="host">{{i18n "zoom.hosted_by"}}</div>
       <div class="host-container">
-        <a href="/u/{{webinar.host.username}}" data-user-card={{webinar.host.username}}>
+        <a
+          href="/u/{{webinar.host.username}}"
+          data-user-card={{webinar.host.username}}
+        >
           {{avatar webinar.host imageSize="large"}}
         </a>
         <div class="host-description">
@@ -44,7 +66,10 @@
         {{i18n "zoom.panelists"}}
         <div class="panelist-avatars">
           {{#each webinar.panelists as |panelist|}}
-            <a href="/u/{{panelist.username}}" data-user-card={{panelist.username}}>
+            <a
+              href="/u/{{panelist.username}}"
+              data-user-card={{panelist.username}}
+            >
               {{avatar panelist imageSize="small"}}
             </a>
           {{/each}}
@@ -61,10 +86,21 @@
         {{#if webinar.video_url}}
           <div class="video-recording">
             {{#if showingRecording}}
-              <video controlslist="nodownload" width="100%" height="100%" src={{webinar.video_url}} controls></video>
+              <video
+                controlslist="nodownload"
+                width="100%"
+                height="100%"
+                src={{webinar.video_url}}
+                controls
+              ></video>
             {{else}}
               {{#if webinar.video_url}}
-                {{d-button action=(action "showRecording") class="btn-primary" label="zoom.show_recording" icon="play"}}
+                {{d-button
+                  action=(action "showRecording")
+                  class="btn-primary"
+                  label="zoom.show_recording"
+                  icon="play"
+                }}
               {{/if}}
             {{/if}}
           </div>
@@ -77,6 +113,7 @@
         {{#if webinar.attendees}}
           <div class="attendees">
             {{i18n "zoom.attendees"}}
+
             <div class="attendee-avatars">
               {{#each webinar.attendees as |attendee|}}
                 {{avatar attendee imageSize="small"}}
@@ -85,6 +122,7 @@
           </div>
         {{/if}}
       {{/if}}
+
       {{#unless webinarStarted}}
         <div class="webinar-footnote">
           {{#if currentUser}}

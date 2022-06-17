@@ -1,6 +1,16 @@
 {{#if model.zoomId}}
   <div class="composer-webinar">
-    <span class="webinar-label">Webinar - </span><span class="webinar-title">{{model.zoomWebinarTitle}}</span>
-    {{d-button class="cancel no-text" action=(action "removeWebinar") icon="times" title="zoom.remove"}}
+    <span class="webinar-label">Webinar - </span>
+
+    <span class="webinar-title">
+      {{model.zoomWebinarTitle}}
+    </span>
+
+    {{d-button
+      class="cancel no-text"
+      action=(action "removeWebinar")
+      icon="times"
+      title="zoom.remove"
+    }}
   </div>
 {{/if}}
