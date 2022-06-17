@@ -1,4 +1,4 @@
-import Controller from "@ember/controller";
+import Controller, { inject as controller } from "@ember/controller";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
@@ -8,6 +8,7 @@ import I18n from "I18n";
 const NONZOOM = "nonzoom";
 
 export default Controller.extend(ModalFunctionality, {
+  topicController: controller("topic"),
   webinarId: null,
   webinarIdInput: null,
   webinar: null,
@@ -77,10 +78,7 @@ export default Controller.extend(ModalFunctionality, {
       .catch(popupAjaxError)
       .finally(() => {
         this.set("loading", false);
-        const topicController = Discourse.__container__.lookup(
-          "controller:topic"
-        );
-        topicController.set("editingTopic", false);
+        this.topicController.set("editingTopic", false);
         this.model.postStream.posts[0].rebake();
         document.querySelector("body").classList.add("has-webinar");
       });
