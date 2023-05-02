@@ -113,7 +113,6 @@
           <Input
             @type="text"
             @value={{pastWebinarTitle}}
-            @valueAttribute="value"
             class="webinar-past-title"
           />
         </div>
@@ -129,7 +128,6 @@
           <Input
             @type="text"
             @value={{webinarIdInput}}
-            @valueAttribute="value"
             class="webinar-builder-id"
             {{on-key "Enter" (action "selectWebinar")}}
           />
