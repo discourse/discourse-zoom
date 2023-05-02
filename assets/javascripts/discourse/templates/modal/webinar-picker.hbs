@@ -130,8 +130,8 @@
             @type="text"
             @value={{webinarIdInput}}
             @valueAttribute="value"
-            @enter={{action "selectWebinar"}}
             class="webinar-builder-id"
+            {{on-key "Enter" (action "selectWebinar")}}
           />
           <DButton
             @action={{action "selectWebinar" webinarIdInput}}
