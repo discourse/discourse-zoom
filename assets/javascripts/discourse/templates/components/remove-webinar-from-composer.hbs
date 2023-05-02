@@ -6,11 +6,11 @@
       {{model.zoomWebinarTitle}}
     </span>
 
-    {{d-button
+    <DButton
       class="cancel no-text"
-      action=(action "removeWebinar")
-      icon="times"
-      title="zoom.remove"
-    }}
+      @action={{action "removeWebinar"}}
+      @icon="times"
+      @title="zoom.remove"
+    />
   </div>
 {{/if}}
