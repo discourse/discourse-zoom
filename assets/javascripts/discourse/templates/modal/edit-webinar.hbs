@@ -1,32 +1,37 @@
-{{#d-modal-body id="edit-webinar-modal"}}
+<DModalBody @id="edit-webinar-modal">
   {{#if nonZoomWebinar}}
     <div class="webinar-nonzoom-details">
       <h3>{{i18n "zoom.nonzoom_details"}}</h3>
       <h4>{{i18n "zoom.host"}}</h4>
 
       <div class="update-host-input">
-        {{email-group-user-chooser
-          value=hostUsername
-          onChange=(action "onChangeHost")
-          options=(hash
-            filterPlaceholder="zoom.select_host" maximum=1 allowEmails=true
-          )
-        }}
+        <EmailGroupUserChooser
+          @value={{hostUsername}}
+          @onChange={{action "onChangeHost"}}
+          @options={{hash
+            filterPlaceholder="zoom.select_host"
+            maximum=1
+            allowEmails=true
+          }}
+        />
       </div>
 
       <h4>{{i18n "zoom.title_date"}}</h4>
 
       <span class="update-host-details">
-        {{input value=title id="webinar-title"}}
-        {{date-input date=pastStartDate onChange=(action "onChangeDate")}}
+        <Input @value={{title}} @id="webinar-title" />
+        <DateInput
+          @date={{pastStartDate}}
+          @onChange={{action "onChangeDate"}}
+        />
       </span>
 
-      {{d-button
-        action=(action "updateDetails")
+      <DButton
+        @action={{action "updateDetails"}}
         class="update-details-btn btn-primary"
-        icon="check"
-        disabled=updateDetailsDisabled
-      }}
+        @icon="check"
+        @disabled={{updateDetailsDisabled}}
+      />
     </div>
   {{/if}}
 
@@ -37,12 +42,12 @@
       {{#each model.panelists as |panelist|}}
         <div class="webinar-panelist">
           {{panelist.username}}
-          {{d-button
-            action=(action "removePanelist" panelist)
+          <DButton
+            @action={{action "removePanelist" panelist}}
             class="remove-panelist-btn btn-danger"
-            icon="times"
-            disabled=loading
-          }}
+            @icon="times"
+            @disabled={{loading}}
+          />
         </div>
       {{/each}}
     {{else}}
@@ -54,46 +59,46 @@
     <h3>{{i18n "zoom.add_panelist"}}</h3>
 
     <span class="new-panelist-input">
-      {{email-group-user-chooser
-        value=newPanelist
-        onChange=(action "updateNewPanelist")
-        options=(hash
+      <EmailGroupUserChooser
+        @value={{newPanelist}}
+        @onChange={{action "updateNewPanelist"}}
+        @options={{hash
           filterPlaceholder="zoom.select_panelist"
           maximum=1
           excludedUsernames=excludedUsernames
-        )
-      }}
+        }}
+      />
     </span>
 
-    {{d-button
-      action=(action "addPanelist")
+    <DButton
+      @action={{action "addPanelist"}}
       class="new-panelist-btn btn-primary"
-      icon="plus"
-      disabled=addingDisabled
-    }}
+      @icon="plus"
+      @disabled={{addingDisabled}}
+    />
   </div>
 
   <div class="webinar-add-video">
     <h3>{{i18n "zoom.webinar_recording"}}</h3>
     <p>{{i18n "zoom.webinar_recording_description"}}</p>
 
-    {{input
-      value=newVideoUrl
+    <Input
+      @value={{newVideoUrl}}
       id="webinar-video-url"
       name="video url"
       autocomplete="discourse"
-    }}
-    {{d-button
-      action=(action "saveVideoUrl")
+    />
+    <DButton
+      @action={{action "saveVideoUrl"}}
       class="new-panelist-btn btn-primary"
-      icon="check"
-      disabled=canSaveVideoUrl
-    }}
-    {{d-button
-      action=(action "resetVideoUrl")
+      @icon="check"
+      @disabled={{canSaveVideoUrl}}
+    />
+    <DButton
+      @action={{action "resetVideoUrl"}}
       class="new-panelist-btn btn-danger"
-      icon="times"
-      disabled=canSaveVideoUrl
-    }}
+      @icon="times"
+      @disabled={{canSaveVideoUrl}}
+    />
   </div>
-{{/d-modal-body}}
+</DModalBody>

@@ -1,5 +1,5 @@
-{{#d-modal-body}}
-  {{conditional-loading-spinner condition=loading}}
+<DModalBody>
+  <ConditionalLoadingSpinner @condition={{loading}} />
 
   {{#if selected}}
     {{#if webinar}}
@@ -29,7 +29,7 @@
             width="80"
             height="80"
             title={{details.host.name}}
-          >
+          />
 
           <div class="host-description">
             <div class="host-name">
@@ -56,7 +56,7 @@
                   height="25"
                   alt={{panelist.name}}
                   title={{panelist.name}}
-                >
+                />
               {{/each}}
             </div>
           {{else}}
@@ -70,18 +70,21 @@
 
     <div class="modal-footer">
       {{#if webinarError}}
-        {{d-button action=(action "clear") label="zoom.webinar_picker.clear"}}
+        <DButton
+          @action={{action "clear"}}
+          @label="zoom.webinar_picker.clear"
+        />
       {{else}}
-        {{d-button
-          action=(action "insert")
+        <DButton
+          @action={{action "insert"}}
           class="btn-primary"
-          label="zoom.webinar_picker.create"
-        }}
-        {{d-button
-          action=(action "clear")
-          label="zoom.webinar_picker.clear"
+          @label="zoom.webinar_picker.create"
+        />
+        <DButton
+          @action={{action "clear"}}
+          @label="zoom.webinar_picker.clear"
           class="btn-flat"
-        }}
+        />
       {{/if}}
     </div>
   {{else}}
@@ -97,48 +100,51 @@
           <label>
             {{i18n "zoom.past_date"}}
           </label>
-          {{date-input date=pastStartDate onChange=(action "onChangeDate")}}
+          <DateInput
+            @date={{pastStartDate}}
+            @onChange={{action "onChangeDate"}}
+          />
         </div>
 
         <div class="webinar-past-input webinar-past-title">
           <label>
             {{i18n "zoom.past_label"}}
           </label>
-          {{input
-            type="text"
-            value=pastWebinarTitle
-            valueAttribute="value"
+          <Input
+            @type="text"
+            @value={{pastWebinarTitle}}
+            @valueAttribute="value"
             class="webinar-past-title"
-          }}
+          />
         </div>
 
-        {{d-button
-          action=(action "addPastWebinar")
-          icon="plus"
-          label="zoom.webinar_picker.create"
-          disabled=pastWebinarDisabled
-        }}
+        <DButton
+          @action={{action "addPastWebinar"}}
+          @icon="plus"
+          @label="zoom.webinar_picker.create"
+          @disabled={{pastWebinarDisabled}}
+        />
       {{else}}
         <div class="inline-form webinar-picker-input">
-          {{input
-            type="text"
-            value=webinarIdInput
-            valueAttribute="value"
-            enter=(action "selectWebinar")
+          <Input
+            @type="text"
+            @value={{webinarIdInput}}
+            @valueAttribute="value"
+            @enter={{action "selectWebinar"}}
             class="webinar-builder-id"
-          }}
-          {{d-button
-            action=(action "selectWebinar" webinarIdInput)
-            icon="plus"
-          }}
+          />
+          <DButton
+            @action={{action "selectWebinar" webinarIdInput}}
+            @icon="plus"
+          />
         </div>
 
         <div class="webinar-picker-add-past">
-          {{d-button
-            action=(action "showPastWebinarForm")
-            label="zoom.add_past_webinar"
+          <DButton
+            @action={{action "showPastWebinarForm"}}
+            @label="zoom.add_past_webinar"
             class="btn-flat past-webinar"
-          }}
+          />
         </div>
 
         <div class="webinar-picker-webinars">
@@ -152,4 +158,4 @@
       {{/if}}
     {{/unless}}
   {{/if}}
-{{/d-modal-body}}
+</DModalBody>
