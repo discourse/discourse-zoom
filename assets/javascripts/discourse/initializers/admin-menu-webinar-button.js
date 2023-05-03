@@ -4,7 +4,6 @@ import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import { getOwner } from "discourse-common/lib/get-owner";
 import I18n from "I18n";
-import bootbox from "bootbox";
 
 const PLUGIN_ID = "discourse-zoom";
 
@@ -65,8 +64,10 @@ function showWebinarModal(model) {
 }
 
 function removeWebinar(topic) {
-  bootbox.confirm(I18n.t("zoom.confirm_remove"), (result) => {
-    if (result) {
+  const dialog = getOwner(this).lookup("service:dialog");
+  dialog.confirm({
+    message: I18n.t("zoom.confirm_remove"),
+    didConfirm: () => {
       ajax(`/zoom/webinars/${topic.webinar.id}`, { type: "DELETE" })
         .then(() => {
           topic.set("webinar", null);
@@ -76,6 +77,6 @@ function removeWebinar(topic) {
           topic.postStream.posts[0].rebake();
         })
         .catch(popupAjaxError);
-    }
+    },
   });
 }
