@@ -95,12 +95,12 @@
               ></video>
             {{else}}
               {{#if webinar.video_url}}
-                {{d-button
-                  action=(action "showRecording")
+                <DButton
+                  @action={{action "showRecording"}}
                   class="btn-primary"
-                  label="zoom.show_recording"
-                  icon="play"
-                }}
+                  @label="zoom.show_recording"
+                  @icon="play"
+                />
               {{/if}}
             {{/if}}
           </div>
@@ -135,5 +135,5 @@
     {{/if}}
   </div>
 {{else}}
-  {{conditional-loading-spinner condition=loading}}
+  <ConditionalLoadingSpinner @condition={{loading}} />
 {{/if}}
