@@ -147,10 +147,10 @@
 
         <div class="webinar-picker-webinars">
           {{#each allWebinars as |webinar|}}
-            {{webinar-option-row
-              model=webinar
-              onSelect=(action "selectWebinar" webinar.id)
-            }}
+            <WebinarOptionRow
+              @model={{webinar}}
+              @onSelect={{action "selectWebinar" webinar.id}}
+            />
           {{/each}}
         </div>
       {{/if}}
