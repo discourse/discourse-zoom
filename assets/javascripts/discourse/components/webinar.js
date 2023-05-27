@@ -20,7 +20,6 @@ export default Component.extend({
   showingRecording: false,
 
   hostDisplayName: or("webinar.host.name", "webinar.host.username"),
-  hostDisplayName: or("webinar.host.name", "webinar.host.username"),
 
   init() {
     this._super(...arguments);

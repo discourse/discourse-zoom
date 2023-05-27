@@ -78,7 +78,7 @@
     {{/if}}
 
     {{#if currentUser}}
-      {{webinar-register webinar=webinar showCalendarButtons=true}}
+      <WebinarRegister @webinar={{webinar}} @showCalendarButtons={{true}} />
     {{/if}}
 
     {{#if webinarEnded}}
