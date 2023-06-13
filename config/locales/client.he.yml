@@ -1,0 +1,53 @@
+# WARNING: Never edit this file.
+# It will be overwritten when translations are pulled from Crowdin.
+#
+# To work with us on translations, join this project:
+# https://translate.discourse.org/
+
+he:
+  site_settings:
+    zoom_enabled: "תוסף זום מופעל"
+  js:
+    zoom:
+      remove: "הסרה"
+      remove_webinar: "הסרת ובינר"
+      edit_webinar: "עריכת ובינר"
+      add_webinar: "הוספת ובינר"
+      confirm_remove: "להסיר את הוובינר הזה?"
+      toggle_edit_webinar_button: "עריכת ובינר"
+      webinar_picker:
+        webinar_id: "מזהה ובינר"
+        title: "הוספת ובינר"
+        create: "הוספה"
+        button: "ובינר בזום"
+        clear: "בחירת ובינר אחר"
+      register: "הרשמה"
+      registered: "נרשמת"
+      panelists: "חברי פאנל"
+      attendees: "משתתפים"
+      no_user_webinars: "לא נרשמת לאף ובינר."
+      webinars_title: "ובינרים"
+      select_panelist: "שם משתמש או דוא״ל"
+      add_panelist: "הוספת חבר פאנל"
+      nonzoom_details: "נתוני־על של ובינר עבר"
+      host: "מנחה"
+      select_host: "שם משתמש או דוא״ל"
+      title_date: "כותרת ותאריך"
+      hosted_by: "בחסות"
+      countdown_label: "האירוע מתחיל ב־"
+      days: "ימים"
+      hours: "שעות"
+      mins: "דקות"
+      secs: "שניות"
+      error: "אירעה שגיאה, נא לנסות שוב. "
+      cancel_registration: "ביטול הרשמה"
+      webinar_ended: "האירוע הזה כבר הסתיים."
+      webinar_recording: "הוספת הקלטת ובינר"
+      show_recording: "לנגן שוב"
+      add_to_google_calendar: "הוספה ללוח השנה של Google"
+      add_to_outlook: "הוספה ל־Outlook"
+      add_to_calendar: "הוספה ללוח השנה"
+      webinar_logged_in_users_only: "הרשמה לוובינר זמינה רק למשתמשים שנכנסו למערכת."
+      add_past_webinar: "הוספת ובינר עבר"
+      past_label: "כותרת ובינר עבר"
+      past_date: "תאריך ובינר קודם"
