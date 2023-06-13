@@ -1,0 +1,28 @@
+# WARNING: Never edit this file.
+# It will be overwritten when translations are pulled from Crowdin.
+#
+# To work with us on translations, join this project:
+# https://translate.discourse.org/
+
+he:
+  site_settings:
+    zoom_api_key: "מפתח API ליישום ה־JWT שלך בשוק היישומים של זום."
+    zoom_api_secret: "סוד API ליישומון שלך."
+    zoom_display_attendees: "הצגת רשימת המשתתפים באירוע."
+    zoom_enable_sdk_fallback: "הצגת קישור לזום אם ההצטרפות לאירוע נכשלת (למשל, אם שירות ה־SDK המקוון של זום מושבת."
+    errors:
+      models:
+        webinar:
+          attributes:
+            zoom_id:
+              webinar_in_use: "נושא אחר כבר משויך לוובינר הזה."
+  system_messages:
+    webinar_reminder:
+      title: "הוובינר הקרוב"
+      subject_template: "ובינר עומד להתחיל"
+      text_body_template: |
+        שלום,
+
+        זו הודעה אוטומטית מהאתר %{site_name} כדי ליידע אותך שוובינר שנרשמת אליו עומד להתחיל.
+
+        <%{url}>
