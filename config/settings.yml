@@ -2,7 +2,7 @@ plugins:
   zoom_enabled:
     default: false
     client: true
-  zoom_api_key:
+  zoom_sdk_key:
     default: ""
     client: false
     secret: true

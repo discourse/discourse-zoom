@@ -86,7 +86,7 @@ module Zoom
 
     def jwt_token()
       payload = {
-        iss: SiteSetting.zoom_api_key,
+        iss: SiteSetting.zoom_sdk_key,
         exp: 1.hour.from_now.to_i
       }
 

@@ -66,11 +66,26 @@ module Zoom
       webinar = zoom_client.webinar(webinar_id)
       return false unless webinar[:id]
 
+      iat = Time.now.to_i - 30
+      exp = iat + 60 * 60 * 2
+      header = { alg: 'HS256', typ: 'JWT' }
       role = "0" # regular member role
-      ts = (Time.now.to_f * 1000).round(0) - 30000
-      msg = Base64.strict_encode64(SiteSetting.zoom_api_key + webinar_id + ts.to_s + role)
-      hash = Base64.strict_encode64(OpenSSL::HMAC.digest("sha256", SiteSetting.zoom_api_secret, msg))
-      Base64.strict_encode64("#{SiteSetting.zoom_api_key}.#{webinar_id}.#{ts.to_s}.#{role}.#{hash}")
+
+      payload = {
+        sdkKey: SiteSetting.zoom_sdk_key,
+        mn: webinar_id,
+        role: role,
+        iat: iat,
+        exp: exp,
+        tokenExp: exp
+      }
+
+      encoded_header = Base64.strict_encode64(header.to_json)
+      encoded_payload = Base64.strict_encode64(payload.to_json) 
+
+      signing_input = "#{encoded_header}.#{encoded_payload}"
+      signature = OpenSSL::HMAC.hexdigest('SHA256', SiteSetting.zoom_api_secret, signing_input)
+      signature
     end
 
     private

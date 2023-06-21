@@ -158,7 +158,7 @@ module Zoom
       end
 
       render json: {
-        api_key: SiteSetting.zoom_api_key,
+        sdk_key: SiteSetting.zoom_sdk_key,
         email: current_user.email,
         id: webinar.zoom_id,
         signature: sig,
