@@ -24,7 +24,7 @@ module Zoom
         }
         user = @current_user
       else
-        attributes = @zoom_client.webinar(@zoom_id, true)[:body]
+        attributes = @zoom_client.webinar(@zoom_id, true)
         webinar.attributes = webinar.convert_attributes_from_zoom(attributes)
 
         host_data = @zoom_client.host(attributes[:host_id])
@@ -50,7 +50,7 @@ module Zoom
     private
 
     def register_panelists(webinar)
-      @zoom_client.panelists(webinar.zoom_id, true)[:body][:panelists].each do |attrs|
+      @zoom_client.panelists(webinar.zoom_id, true)[:panelists].each do |attrs|
         user = User.with_email(Email.downcase(attrs[:email])).first
         if !user
           user = User.create!(

@@ -62,7 +62,7 @@ module Zoom
         "#{API_URL}#{endpoint}",
         headers: { 'Authorization': "Bearer #{jwt_token}" }
       )
-
+      
       response.body = JSON.parse(response.body, symbolize_names: true) unless response.body.blank?
       response
     end
@@ -84,13 +84,13 @@ module Zoom
       )
     end
 
-    def jwt_token()
+    def jwt_token
       payload = {
         iss: SiteSetting.zoom_sdk_key,
-        exp: 1.hour.from_now.to_i
+        exp: Time.now.to_i + 3600,
       }
 
-      JWT.encode(payload, SiteSetting.zoom_api_secret, "HS256", typ: "JWT")
+      JWT.encode(payload, SiteSetting.zoom_api_secret)
     end
   end
 end
