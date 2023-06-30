@@ -2,7 +2,7 @@
 
 module Zoom
   class Client
-    API_URL = 'https://api.zoom.us/v2/'
+    API_URL = "https://api.zoom.us/v2/"
 
     def webinar(webinar_id, raw = false)
       response = get("webinars/#{webinar_id}")
@@ -23,10 +23,11 @@ module Zoom
         panelists_video: data[:settings][:panelists_video],
         approval_type: data[:settings][:approval_type],
         enforce_login: data[:settings][:enforce_login],
-        registrants_restrict_number: data[:settings][:registrants_restrict_number],
+        registrants_restrict_number:
+          data[:settings][:registrants_restrict_number],
         meeting_authentication: data[:settings][:meeting_authentication],
         on_demand: data[:settings][:on_demand],
-        join_url: data[:settings][:join_url],
+        join_url: data[:settings][:join_url]
       }
     end
 
@@ -46,49 +47,32 @@ module Zoom
 
       data = response.body
       {
-        panelists: data[:panelists].map do |s|
-          {
-            name: s[:name],
-            email: s[:email],
-            avatar_url: User.default_template(s[:name]).gsub('{size}', '25')
-          }
-        end,
+        panelists:
+          data[:panelists].map do |s|
+            {
+              name: s[:name],
+              email: s[:email],
+              avatar_url: User.default_template(s[:name]).gsub("{size}", "25")
+            }
+          end,
         panelists_count: data[:total_records]
       }
     end
 
     def get(endpoint)
-      response = Excon.get(
-        "#{API_URL}#{endpoint}",
-        headers: { 'Authorization': "Bearer #{jwt_token}" }
-      )
-      
-      response.body = JSON.parse(response.body, symbolize_names: true) unless response.body.blank?
-      response
+      Zoom::OAuthClient.new(API_URL, endpoint).get
     end
 
     def post(endpoint, body)
-      Excon.post("#{API_URL}#{endpoint}",
-        headers: {
-          "Authorization": "Bearer #{jwt_token}",
-          "Content-Type": "application/json"
-        },
-        body: body.to_json
-      )
+      Zoom::OAuthClient.new(API_URL, endpoint).post
     end
 
     def delete(endpoint)
-      result = Excon.delete(
-        "#{API_URL}#{endpoint}",
-        headers: { 'Authorization': "Bearer #{jwt_token}" }
-      )
+      Zoom::OAuthClient.new(API_URL, endpoint).delete
     end
 
     def jwt_token
-      payload = {
-        iss: SiteSetting.zoom_sdk_key,
-        exp: Time.now.to_i + 3600,
-      }
+      payload = { iss: SiteSetting.zoom_sdk_key, exp: Time.now.to_i + 3600 }
 
       JWT.encode(payload, SiteSetting.zoom_api_secret)
     end

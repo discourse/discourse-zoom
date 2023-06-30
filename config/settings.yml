@@ -10,6 +10,22 @@ plugins:
     default: ""
     client: false
     secret: true
+  zoom_s2s_account_id:
+    default: ""
+    client: false
+    secret: true
+  zoom_s2s_client_id:
+    default: ""
+    client: false
+    secret: true
+  zoom_s2s_client_secret:
+    default: ""
+    client: false
+    secret: true
+  s2s_oauth_token:
+    default: ""
+    client: false
+    secret: true
   zoom_verification_token:
     default: ""
     client: true

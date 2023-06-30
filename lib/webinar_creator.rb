@@ -2,7 +2,13 @@
 
 module Zoom
   class WebinarCreator
-    def initialize(topic_id:, zoom_id:, zoom_start_date: nil, zoom_title: nil, user: nil)
+    def initialize(
+      topic_id:,
+      zoom_id:,
+      zoom_start_date: nil,
+      zoom_title: nil,
+      user: nil
+    )
       @topic_id = topic_id
       @zoom_id = Webinar.sanitize_zoom_id(zoom_id)
       @zoom_start_date = zoom_start_date
@@ -24,7 +30,7 @@ module Zoom
         }
         user = @current_user
       else
-        attributes = @zoom_client.webinar(@zoom_id, true)
+        attributes = @zoom_client.webinar(@zoom_id, true).body
         webinar.attributes = webinar.convert_attributes_from_zoom(attributes)
 
         host_data = @zoom_client.host(attributes[:host_id])
@@ -35,12 +41,13 @@ module Zoom
       webinar.save!
 
       unless user
-        user = User.create!(
-          email: host_data[:email],
-          username: UserNameSuggester.suggest(host_data[:email]),
-          name: User.suggest_name(host_data[:email]),
-          staged: true
-        )
+        user =
+          User.create!(
+            email: host_data[:email],
+            username: UserNameSuggester.suggest(host_data[:email]),
+            name: User.suggest_name(host_data[:email]),
+            staged: true
+          )
       end
       WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :host)
       register_panelists(webinar) unless nonzoom_webinar
@@ -50,26 +57,25 @@ module Zoom
     private
 
     def register_panelists(webinar)
-      @zoom_client.panelists(webinar.zoom_id, true)[:panelists].each do |attrs|
+      @zoom_client.panelists(webinar.zoom_id, true).body[
+        :panelists
+      ].each do |attrs|
         user = User.with_email(Email.downcase(attrs[:email])).first
         if !user
-          user = User.create!(
-            email: attrs[:email],
-            username: UserNameSuggester.suggest(attrs[:email]),
-            name: User.suggest_name(attrs[:email]),
-            staged: true
-          )
+          user =
+            User.create!(
+              email: attrs[:email],
+              username: UserNameSuggester.suggest(attrs[:email]),
+              name: User.suggest_name(attrs[:email]),
+              staged: true
+            )
         end
 
         existin_records = WebinarUser.where(webinar: webinar, user: user)
         if existin_records.any?
           existin_records.update_all(type: :panelist)
         else
-          WebinarUser.create!(
-            webinar: webinar,
-            user: user,
-            type: :panelist,
-          )
+          WebinarUser.create!(webinar: webinar, user: user, type: :panelist)
         end
       end
     end

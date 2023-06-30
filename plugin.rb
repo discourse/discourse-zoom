@@ -23,6 +23,7 @@ after_initialize do
     "../app/models/zoom_webinar_webhook_event",
     "../lib/webinars",
     "../lib/client",
+    "../lib/oauth",
     "../lib/webinar_creator",
     "../app/controllers/webinars_controller",
     "../app/controllers/webhooks_controller",

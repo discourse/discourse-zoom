@@ -81,7 +81,7 @@ module Zoom
       }
 
       encoded_header = Base64.strict_encode64(header.to_json)
-      encoded_payload = Base64.strict_encode64(payload.to_json) 
+      encoded_payload = Base64.strict_encode64(payload.to_json)
 
       signing_input = "#{encoded_header}.#{encoded_payload}"
       signature = OpenSSL::HMAC.hexdigest('SHA256', SiteSetting.zoom_api_secret, signing_input)
