@@ -26,7 +26,7 @@ plugins:
     default: ""
     client: false
     secret: true
-  zoom_verification_token:
+  zoom_webhooks_secret_token:
     default: ""
     client: true
     secret: true
