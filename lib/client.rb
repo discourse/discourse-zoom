@@ -64,7 +64,7 @@ module Zoom
     end
 
     def post(endpoint, body)
-      Zoom::OAuthClient.new(API_URL, endpoint).post
+      Zoom::OAuthClient.new(API_URL, endpoint).post(body)
     end
 
     def delete(endpoint)

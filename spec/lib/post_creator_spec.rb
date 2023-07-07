@@ -11,6 +11,7 @@ describe PostCreator do
   before do
     SiteSetting.min_first_post_typing_time = 0
     SiteSetting.zoom_enabled = true
+    SiteSetting.s2s_oauth_token = 'Test_Token'
   end
 
   describe "creating a topic with webinar" do

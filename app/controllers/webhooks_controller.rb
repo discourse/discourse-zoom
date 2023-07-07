@@ -80,7 +80,6 @@ module Zoom
     end
 
     def ensure_webhook_authenticity
-      request_params = webinar_params
       message =
         "v0:#{request.headers["x-zm-request-timestamp"]}:#{request.body.read}"
 

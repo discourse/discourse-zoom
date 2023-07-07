@@ -12,6 +12,7 @@ module Zoom
       if authorization
         @authorization = authorization
       else
+        @oauth = true
         @authorization =
           (
             if SiteSetting.s2s_oauth_token.empty?
@@ -37,15 +38,16 @@ module Zoom
           symbolize_names: true
         ) unless response.body.blank?
 
-      if (response.status == 401 || response.status == 400) &&
-           @tries <= @max_tries
+      if ([400, 401].include? response.status) && @tries < @max_tries
         get_oauth
-        self.get
+        response = self.get
+      elsif ([400, 401].include? response.status) && @tries == @max_tries
+        authorization_invalid
       end
       response
     end
 
-    def post
+    def post(body)
       response =
         Excon.post(
           "#{@api_url}#{@end_point}",
@@ -55,11 +57,13 @@ module Zoom
           },
           body: body.to_json
         )
-      if (response.status == 401 || response.status == 400) &&
-           @tries <= @max_tries
+      if ([400, 401].include? response.status) && @tries < @max_tries
         get_oauth
-        self.post
+        response = self.post(body)
+      elsif ([400, 401].include? response.status) && @tries == @max_tries
+        authorization_invalid
       end
+      response
     end
 
     def delete
@@ -70,12 +74,16 @@ module Zoom
             Authorization: "Bearer #{@authorization}"
           }
         )
-      if (response.status == 401 || response.status == 400) &&
-           @tries <= @max_tries
+      if ([400, 401].include? response.status) && @tries < @max_tries
         get_oauth
-        self.delete
+        response = self.delete
+      elsif ([400, 401].include? response.status) && @tries == @max_tries
+        authorization_invalid
       end
+      response
     end
+
+    private
 
     def get_oauth
       @tries += 1
@@ -104,8 +112,27 @@ module Zoom
           symbolize_names: true
         ) unless response.body.blank?
 
-      SiteSetting.s2s_oauth_token = response.body[:access_token]
-      @authorization = response.body[:access_token]
+      if response.status == 200
+        SiteSetting.s2s_oauth_token = response.body[:access_token]
+        @authorization = response.body[:access_token]
+      end
+    end
+
+    def authorization_invalid
+      if @oauth
+        custom_mesasge =
+          "s2s_
+      oauth_authorization"
+      else
+        custom_mesasge = "custom_authorization"
+      end
+
+      raise Discourse::InvalidAccess.new(
+              "zoom_plugin_authorization_invalid",
+              SiteSetting.s2s_oauth_token,
+              custom_message:
+                "zoom_plugin_authorization_invalid.#{custom_mesasge}"
+            )
     end
   end
 end
