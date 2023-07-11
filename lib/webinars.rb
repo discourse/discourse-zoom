@@ -70,7 +70,7 @@ module Zoom
     end
 
     def signature(webinar_id)
-      unless SiteSetting.zoom_sdk_key && SiteSetting.zoom_api_secret
+      if !SiteSetting.zoom_sdk_key && !SiteSetting.zoom_sdk_secret
         return false
       end
       webinar = zoom_client.webinar(webinar_id)
@@ -92,7 +92,7 @@ module Zoom
         tokenExp: exp.to_i
       }
 
-      JWT.encode(payload, SiteSetting.zoom_api_secret, "HS256", header)
+      JWT.encode(payload, SiteSetting.zoom_sdk_secret, "HS256", header)
     end
 
     private

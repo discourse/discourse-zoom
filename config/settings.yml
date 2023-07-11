@@ -6,7 +6,7 @@ plugins:
     default: ""
     client: false
     secret: true
-  zoom_api_secret:
+  zoom_sdk_secret:
     default: ""
     client: false
     secret: true

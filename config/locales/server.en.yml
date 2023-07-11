@@ -1,7 +1,7 @@
 en:
   site_settings:
     zoom_sdk_key: "SDK key or Client ID (under the App Credentials tab)"
-    zoom_api_secret: "SDK secret or Client secret (under the App Credentials tab)"
+    zoom_sdk_secret: "SDK secret or Client secret (under the App Credentials tab)"
     zoom_s2s_account_id: "Account ID for your Zoom Server to Server oAuth app (under the App Credentials tab)."
     zoom_s2s_client_id: "Client ID for your Zoom Server to Server oAuth app (under the Credentials tab)."
     zoom_s2s_client_secret: "Client Secret for your Zoom Server to Server oAuth app (under the Credentials tab)."

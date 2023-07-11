@@ -28,14 +28,10 @@ module Zoom
               :plainToken
             ]
           )
-        response.status = 200
-        response.body = {
+        return render json: {
           plainToken: request_params[:payload][:plain_token],
           encryptedToken: encrypted_token
-        }.to_json
-
-        render json: response.body
-        return
+        }, status: 200
       else
         send(handler_for(request_params[:event]))
       end

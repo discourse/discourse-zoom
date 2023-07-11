@@ -25,61 +25,48 @@ module Zoom
     end
 
     def get
-      response =
-        Excon.get(
-          "#{@api_url}#{@end_point}",
-          headers: {
-            Authorization: "Bearer #{@authorization}"
-          }
-        )
-      response.body =
-        JSON.parse(
-          response.body,
-          symbolize_names: true
-        ) unless response.body.blank?
-
-      if ([400, 401].include? response.status) && @tries < @max_tries
-        get_oauth
-        response = self.get
-      elsif ([400, 401].include? response.status) && @tries == @max_tries
-        authorization_invalid
-      end
-      response
+      response = send_request(:get)
+      self.parse_response_body response
     end
 
     def post(body)
+      send_request(:post, body)
+    end
+
+    def delete
+      send_request(:delete)
+    end
+
+    private
+
+    def send_request(method, body = nil)
       response =
-        Excon.post(
+        Excon.send(
+          method,
           "#{@api_url}#{@end_point}",
           headers: {
             Authorization: "Bearer #{@authorization}",
             "Content-Type": "application/json"
           },
-          body: body.to_json
+          body: body&.to_json
         )
-      if ([400, 401].include? response.status) && @tries < @max_tries
+
+      if [400, 401].include?(response.status) && @tries < @max_tries
         get_oauth
-        response = self.post(body)
-      elsif ([400, 401].include? response.status) && @tries == @max_tries
+        response = send_request(method, body)
+      elsif [400, 401].include?(response.status) && @tries == @max_tries
         authorization_invalid
       end
+
       response
     end
 
-    def delete
-      response =
-        Excon.delete(
-          "#{@api_url}#{@end_point}",
-          headers: {
-            Authorization: "Bearer #{@authorization}"
-          }
-        )
-      if ([400, 401].include? response.status) && @tries < @max_tries
-        get_oauth
-        response = self.delete
-      elsif ([400, 401].include? response.status) && @tries == @max_tries
-        authorization_invalid
-      end
+    def parse_response_body(response)
+      response.body =
+        JSON.parse(
+          response.body,
+          symbolize_names: true
+        ) unless response.body.blank?
       response
     end
 

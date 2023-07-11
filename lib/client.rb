@@ -74,7 +74,7 @@ module Zoom
     def jwt_token
       payload = { iss: SiteSetting.zoom_sdk_key, exp: Time.now.to_i + 3600 }
 
-      JWT.encode(payload, SiteSetting.zoom_api_secret)
+      JWT.encode(payload, SiteSetting.zoom_sdk_secret)
     end
   end
 end
