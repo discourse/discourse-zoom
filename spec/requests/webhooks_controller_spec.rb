@@ -6,7 +6,33 @@ require_relative "../fabricators/webinar_fabricator.rb"
 describe Zoom::WebhooksController do
   let!(:zoom_id) { "1234" }
   let(:verification_payload) do
-    "{\"payload\":{\"account_id\":\"KlLYq9UvR3Cv5pcCVlQuNw\",\"object\":{\"uuid\":\"QOOZqdxqRVuyailQGyJHwA==\",\"participant\":{\"user_id\":\"16778240\",\"user_name\":\"Juan David Martínez Cubillos\",\"registrant_id\":\"E5qMfcA4SSmHgDMVSwYong\",\"participant_user_id\":\"E5qMfcA4SSmHgDMVSwYong\",\"id\":\"E5qMfcA4SSmHgDMVSwYong\",\"join_time\":\"2023-07-07T17:59:30Z\",\"email\":\"juan@discourse.org\",\"participant_uuid\":\"027419D6-2E3C-2861-BCCD-B4F67D41C260\"},\"id\":\"96766811781\",\"type\":5,\"topic\":\"Join test\",\"host_id\":\"E5qMfcA4SSmHgDMVSwYong\",\"duration\":300,\"start_time\":\"2023-07-07T17:59:30Z\",\"timezone\":\"America/Bogota\"}},\"event_ts\":1688752773282,\"event\":\"webinar.participant_joined\"}"
+    {
+      payload: {
+        account_id: "KlLYq9UvR3Cv5pcCVlQuNw",
+        object: {
+          uuid: "QOOZqdxqRVuyailQGyJHwA==",
+          participant: {
+            user_id: "16778240",
+            user_name: "Juan David Martínez Cubillos",
+            registrant_id: "E5qMfcA4SSmHgDMVSwYong",
+            participant_user_id: "E5qMfcA4SSmHgDMVSwYong",
+            id: "E5qMfcA4SSmHgDMVSwYong",
+            join_time: "2023-07-07T17:59:30Z",
+            email: "juan@discourse.org",
+            participant_uuid: "027419D6-2E3C-2861-BCCD-B4F67D41C260"
+          },
+          id: "96766811781",
+          type: 5,
+          topic: "Join test",
+          host_id: "E5qMfcA4SSmHgDMVSwYong",
+          duration: 300,
+          start_time: "2023-07-07T17:59:30Z",
+          timezone: "America/Bogota"
+        }
+      },
+      event_ts: 1_688_752_773_282,
+      event: "webinar.participant_joined"
+    }
   end
 
   describe "mismatched zoom authorization token" do
@@ -18,7 +44,6 @@ describe Zoom::WebhooksController do
            },
            headers: {
              "x-zm-signature": "not-valid"
-
            }
       expect(response.status).to eq(403)
       expect(response.body).to include("invalid_access")
@@ -30,7 +55,7 @@ describe Zoom::WebhooksController do
     it "webinar_registration_created" do
       post "/zoom/webhooks/webinars.json",
            params: {
-             webhook: JSON.parse(verification_payload)
+             webhook: verification_payload
            },
            headers: {
              "x-zm-signature":
