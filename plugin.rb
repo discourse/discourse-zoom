@@ -11,7 +11,6 @@ enabled_site_setting :zoom_enabled
 register_asset "stylesheets/common/zoom.scss"
 register_asset "stylesheets/common/webinar-picker.scss"
 register_asset "stylesheets/common/webinar-details.scss"
-register_asset 'lib/webinar-join.js'
 
 register_svg_icon "far-check-circle"
 register_svg_icon "far-calendar-alt"
