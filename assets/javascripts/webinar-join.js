@@ -1,6 +1,4 @@
-/* global ZoomMtg:true */
-
-window.onload = () => {
+window.onload = (event) => {
   (function () {
     document.querySelector(".d-header").style.display = "none";
 
@@ -28,6 +26,7 @@ window.onload = () => {
     request.onload = function () {
       if (this.status >= 200 && this.status < 400) {
         let res = JSON.parse(this.response);
+        console.log(res);
         ZoomMtg.init({
           leaveUrl: res.topic_url,
           isSupportAV: true,
@@ -42,8 +41,9 @@ window.onload = () => {
               sdkKey: res.sdk_key,
               userEmail: res.email,
               passWord: res.password || "",
-              success: () => {},
-              error: (join_result) => {
+              success: function (res) {},
+              error: function (join_result) {
+                console.log(join_result);
                 if (join_result.errorCode === 1) {
                   const params = getParams(window.location.href);
                   if (params.fallback) {
@@ -58,11 +58,14 @@ window.onload = () => {
               },
             });
           },
-          error: () => {},
+          error: function (res) {
+            console.log("error generating signature");
+          },
         });
       } else {
-        // eslint-disable-next-line no-console
-        console.error();
+        console.error(
+          "error getting webinar signature from discourse-zoom plugin"
+        );
       }
     };
 
