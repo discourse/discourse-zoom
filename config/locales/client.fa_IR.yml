@@ -7,3 +7,25 @@
 fa_IR:
   site_settings:
     zoom_enabled: "افزونه Zoom فعال شد"
+  js:
+    zoom:
+      remove: "حذف"
+      remove_webinar: "حذف وبینار"
+      edit_webinar: "ویرایش وبینار"
+      add_webinar: "افزودن وبینار"
+      toggle_edit_webinar_button: "ویرایش وبینار"
+      webinar_picker:
+        webinar_id: "شناسه وبینار"
+        title: "افزودن وبینار"
+        create: "افزودن"
+      register: "ثبت نام"
+      webinars_title: "وبینارها"
+      select_panelist: "نام‌کاربری یا ایمیل"
+      host: "میزبان"
+      select_host: "نام‌کاربری یا ایمیل"
+      title_date: "عنوان و تاریخ"
+      hosted_by: "میزبانی شده توسط"
+      days: "روز"
+      hours: "ساعت"
+      mins: "دقیقه"
+      secs: "ثانیه"
