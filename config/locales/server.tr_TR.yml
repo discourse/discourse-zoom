@@ -5,3 +5,29 @@
 # https://translate.discourse.org/
 
 tr_TR:
+  site_settings:
+    zoom_api_key: "Zoom'un Pazar Yerindeki JWT uygulamanız için API Anahtarı."
+    zoom_api_secret: "Uygulamanız için API Sırrı."
+    zoom_verification_token: "Zoom JWT uygulamanızın Etkinlik Abonelikleri için doğrulama belirteci (Özellik sekmesi altında). Zoom kullanıcı arabiriminde değişiklik yapıldığında etkinlik meta verilerini güncellemek için kullanılır."
+    zoom_host_title_override: "Toplantı sahibinin kullanıcı adının altında kullanıcı başlığı yerine değerini görüntülemek için özel bir kullanıcı alanı adı girin."
+    zoom_send_user_id: "Bir web seminerine katılırken kullanıcının dahili Discourse Kimliğini Zoom'a gönderin. (isteğe bağlı)"
+    zoom_display_attendees: "Etkinlik katılımcılarının listesini görüntüleyin."
+    zoom_join_x_mins_before_start: "Web seminerinin başlamasından x dakika önce kullanıcı arayüzündeki Katıl düğmesine geçin. (0, başlangıç saatinden bağımsız olarak etkinlik başlar başlamaz düğmenin değiştirileceği anlamına gelir)"
+    zoom_enable_sdk_fallback: "Etkinliğe katılma başarısız olursa (örneğin, Zoom'un Web SDK hizmeti çalışmıyorsa) bir Zoom bağlantısı gösterin."
+    zoom_use_join_url: "Şimdi Katıl düğmesinin, kullanıcıları Zoom tarafından sağlanan katılma url'sine götürmesini sağlayın."
+    errors:
+      models:
+        webinar:
+          attributes:
+            zoom_id:
+              webinar_in_use: "Başka bir konu zaten bu web semineriyle ilişkilendirilmiş."
+  system_messages:
+    webinar_reminder:
+      title: "Yaklaşan Web Semineri"
+      subject_template: "Bir web semineri başlamak üzere"
+      text_body_template: |
+        Merhaba,
+
+        Bu, %{site_name} kayıtlı olduğunuz bir web seminerinin başlamak üzere olduğunu bildirmek için gönderilen otomatik bir mesajdır.
+
+        <%{url}

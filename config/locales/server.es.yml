@@ -5,3 +5,29 @@
 # https://translate.discourse.org/
 
 es:
+  site_settings:
+    zoom_api_key: "Clave API para tu aplicación JWT en el App Marketplace de Zoom."
+    zoom_api_secret: "Secreto de la API para tu aplicación."
+    zoom_verification_token: "Token de verificación para las Suscripciones a Eventos de tu aplicación Zoom JWT (en la pestaña Características). Se utiliza para actualizar los metadatos de eventos cuando se realizan cambios en la interfaz de usuario de Zoom."
+    zoom_host_title_override: "Introduce un nombre de campo de usuario personalizado para mostrar su valor en lugar del título del usuario debajo del nombre de usuario del anfitrión."
+    zoom_send_user_id: "Envía el ID interno de Discourse del usuario a Zoom cuando se una a un seminario web. (opcional)"
+    zoom_display_attendees: "Mostrar lista de asistentes al evento."
+    zoom_join_x_mins_before_start: "Cambiar al botón Unirse en la interfaz de usuario x minutos antes del inicio del seminario web. (0 significa que el botón se activará en cuanto se inicie el evento, independientemente de la hora de inicio)"
+    zoom_enable_sdk_fallback: "Mostrar un enlace a Zoom si no es posible unirse al evento (por ejemplo, si el servicio Web SDK de Zoom no funciona."
+    zoom_use_join_url: "Hacer que el botón Unirse ahora lleve a los usuarios a la URL de unirse proporcionada por Zoom."
+    errors:
+      models:
+        webinar:
+          attributes:
+            zoom_id:
+              webinar_in_use: "Ya hay otro tema asociado a este seminario web."
+  system_messages:
+    webinar_reminder:
+      title: "Próximo seminario web"
+      subject_template: "Un seminario web está a punto de comenzar"
+      text_body_template: |
+        Hola:
+
+        Este es un mensaje automático de %{site_name} para informarte de que está a punto de comenzar un seminario web al que te has inscrito.
+
+        <%{url}>

@@ -5,3 +5,29 @@
 # https://translate.discourse.org/
 
 pt_BR:
+  site_settings:
+    zoom_api_key: "Chave de API para seu aplicativo do JWT no Marketplace de Aplicativos do Zoom."
+    zoom_api_secret: "Código da API para seu aplicativo."
+    zoom_verification_token: "Token de verificação para inscrições em eventos do aplicativo do JWT com Zoom (na aba Recursos). Usado para atualizar metadados de eventos quando forem realizadas alterações na IU do Zoom."
+    zoom_host_title_override: "Insira um nome de campo de usuário(a) personalizado para mostrar seu valor em vez do título do usuário(a) abaixo do nome do(a) usuário(a) do host."
+    zoom_send_user_id: "Enviar a ID interna do(a) usuário(a) do Discourse para o Zoom ao participar de um webinar (opcional)."
+    zoom_display_attendees: "Exiba a lista de participantes do evento."
+    zoom_join_x_mins_before_start: "Alterne para o botão de Participar na IU x minutos antes do início do webinar. (0 indica que o botão será trocado logo no começo do evento, seja qual for o horário de início.)"
+    zoom_enable_sdk_fallback: "Exiba um link para o Zoom se não for possível participar do evento (por exemplo: se o serviço Web SDK do Zoom estiver desativado)."
+    zoom_use_join_url: "Faça com que o botão de Participar leve os(as) usuários(as) para a URL de ingresso fornecida pelo Zoom."
+    errors:
+      models:
+        webinar:
+          attributes:
+            zoom_id:
+              webinar_in_use: "Outro tópico já está associado a este webinar."
+  system_messages:
+    webinar_reminder:
+      title: "Próximo webinar"
+      subject_template: "Um webinar está prestes a começar"
+      text_body_template: |
+        Olá,
+
+        Esta é uma mensagem automática do %{site_name} para avisar que o webinar no qual você se inscreveu está prestes a começar.
+
+        <%{url}>

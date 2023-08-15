@@ -5,3 +5,29 @@
 # https://translate.discourse.org/
 
 fr:
+  site_settings:
+    zoom_api_key: "Clé API pour votre application JWT sur le marché des applications de Zoom."
+    zoom_api_secret: "API secrète pour votre application."
+    zoom_verification_token: "Jeton de vérification pour les inscriptions aux événements de votre application Zoom JWT (sous l'onglet Fonctionnalités). Utilisé pour mettre à jour les métadonnées de l'événement lorsque des modifications sont apportées dans l'interface utilisateur de Zoom."
+    zoom_host_title_override: "Saisir un nom de champ utilisateur personnalisé pour afficher sa valeur au lieu du titre de l'utilisateur sous le nom d'utilisateur de l'hôte."
+    zoom_send_user_id: "Envoyer l'identifiant Discourse interne de l'utilisateur à Zoom lorsque vous participez à un webinaire. (facultatif)"
+    zoom_display_attendees: "Afficher la liste des participants à l'événement."
+    zoom_join_x_mins_before_start: "Passer au bouton Rejoindre dans l'interface utilisateur x minutes avant le début du webinaire. (0 signifie que le bouton sera affiché dès le début de l'événement, quelle que soit l'heure de début)"
+    zoom_enable_sdk_fallback: "Afficher un lien vers Zoom si la participation à l'événement échoue (par exemple, si le service Web SDK de Zoom est hors service)."
+    zoom_use_join_url: "Faire en sorte que le bouton Rejoindre maintenant emmène les utilisateurs à l'adresse URL de connexion fournie par Zoom."
+    errors:
+      models:
+        webinar:
+          attributes:
+            zoom_id:
+              webinar_in_use: "Un autre sujet est déjà associé à ce webinaire."
+  system_messages:
+    webinar_reminder:
+      title: "Webinaire à venir"
+      subject_template: "Un webinaire est sur le point de commencer"
+      text_body_template: |
+        Bonjour,
+
+        Il s'agit d'un message automatique envoyé par %{site_name} pour vous informer qu'un webinaire auquel vous êtes inscrit(e) est sur le point de commencer.
+
+        <%{url}

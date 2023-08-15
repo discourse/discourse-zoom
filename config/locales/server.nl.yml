@@ -5,3 +5,29 @@
 # https://translate.discourse.org/
 
 nl:
+  site_settings:
+    zoom_api_key: "API-sleutel voor je JWT-app in de App Marketplace van Zoom."
+    zoom_api_secret: "API-geheim voor je app."
+    zoom_verification_token: "Verificatietoken voor de gebeurtenisabonnementen van je Zoom JWT-app (op het tabblad Functie). Wordt gebruikt om metagegevens van gebeurtenissen bij te werken wanneer er wijzigingen zijn in de Zoom-UI."
+    zoom_host_title_override: "Voer een aangepaste gebruikersveldnaam in om de waarde ervan weer te geven in plaats van de gebruikerstitel onder de gebruikersnaam van de host."
+    zoom_send_user_id: "Stuur de interne Discourse-ID van de gebruiker naar Zoom wanneer deze deelneemt aan een webinar (optioneel)"
+    zoom_display_attendees: "Geef een lijst van evenementdeelnemers weer."
+    zoom_join_x_mins_before_start: "Schakel x minuten voor aanvang van het webinar over naar de knop Deelnemen in de gebruikersinterface. (0 betekent dat de knop wordt omgeschakeld zodra het evenement begint, ongeacht de begintijd)"
+    zoom_enable_sdk_fallback: "Geef een link naar Zoom weer als deelname aan een evenement mislukt (bijvoorbeeld als de Web SDK-service van Zoom niet beschikbaar is)."
+    zoom_use_join_url: "Laat de knop Nu deelnemen gebruikers naar de deelname-URL van Zoom leiden."
+    errors:
+      models:
+        webinar:
+          attributes:
+            zoom_id:
+              webinar_in_use: "Er is al een ander topic aan dit webinar gekoppeld."
+  system_messages:
+    webinar_reminder:
+      title: "Aankomend webinar"
+      subject_template: "Er staat een webinar op het punt van beginnen"
+      text_body_template: |
+        Hallo,
+
+        Dit is een automatisch bericht van %{site_name} om je te laten weten dat een webinar waarvoor je je hebt geregistreerd op het punt staat te beginnen.
+
+        <%{url}
