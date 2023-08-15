@@ -5,3 +5,29 @@
 # https://translate.discourse.org/
 
 zh_CN:
+  site_settings:
+    zoom_api_key: "Zoom 的 App Marketplace 上 JWT 应用的 API 密钥。"
+    zoom_api_secret: "您的应用的 API 密钥。"
+    zoom_verification_token: "您的 Zoom JWT 应用的活动订阅的验证令牌（在“功能”选项卡下）。用于在 Zoom UI 中进行更改时更新活动元数据。"
+    zoom_host_title_override: "输入自定义的用户字段名称以显示其值，而不是主持人用户名下方的用户标题。"
+    zoom_send_user_id: "加入网络研讨会时，将用户的内部 Discourse ID 发送到 Zoom。（可选）"
+    zoom_display_attendees: "显示活动参与者名单。"
+    zoom_join_x_mins_before_start: "在网络研讨会开始前 x 分钟切换到 UI 中的“加入”按钮。（0 表示活动一开始即切换按钮，而不考虑开始时间）"
+    zoom_enable_sdk_fallback: "如果加入活动失败（例如，如果 Zoom 的 Web SDK 服务关闭），则显示指向 Zoom 的链接。"
+    zoom_use_join_url: "通过“立即加入”按钮让用户打开 Zoom 提供的加入 URL。"
+    errors:
+      models:
+        webinar:
+          attributes:
+            zoom_id:
+              webinar_in_use: "另一个话题已与此网络研讨会相关联。"
+  system_messages:
+    webinar_reminder:
+      title: "即将举行的网络研讨会"
+      subject_template: "网络研讨会即将开始"
+      text_body_template: |
+        您好！
+
+        这是 %{site_name} 自动发送的邮件，旨在通知您，您注册的网络研讨会即将开始。
+
+        <%{url}>

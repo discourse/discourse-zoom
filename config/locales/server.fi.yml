@@ -5,3 +5,29 @@
 # https://translate.discourse.org/
 
 fi:
+  site_settings:
+    zoom_api_key: "API-avain JWT-sovelluksellesi Zoomin App Marketplacessa."
+    zoom_api_secret: "Sovelluksen API-salatunnus."
+    zoom_verification_token: "Zoomin JWT-sovelluksesi tapahtumatilausten (Ominaisuus-välilehdessä) vahvistustunnus. Tätä käytetään tapahtuman metatietojen päivittämiseen, kun Zoomin käyttöliittymässä tehdään muutoksia."
+    zoom_host_title_override: "Anna mukautettu käyttäjäkentän nimi näyttääksesi sen arvon isännän käyttäjänimen alapuolella olevan käyttäjän nimen sijaan."
+    zoom_send_user_id: "Lähetä käyttäjän sisäinen Discourse-tunnus Zoomiin webinaariin liityttäessä (valinnainen)."
+    zoom_display_attendees: "Näytä luettelo tapahtuman osallistujista."
+    zoom_join_x_mins_before_start: "Vaihda käyttöliittymässä Liity-painikkeeseen x minuuttia ennen webinaarin alkua. (0 tarkoittaa, että painike vaihdetaan heti kun tapahtuma alkaa alkamisajasta riippumatta)."
+    zoom_enable_sdk_fallback: "Näytä linkki Zoomiin, jos tapahtumaan liittyminen epäonnistuu (esimerkiksi jos Zoomin Web SDK -palvelu ei toimi)."
+    zoom_use_join_url: "Laita Liity nyt -painike viemään käyttäjät liittymään Zoomin tarjoamaan URL-osoitteeseen."
+    errors:
+      models:
+        webinar:
+          attributes:
+            zoom_id:
+              webinar_in_use: "Toinen ketju on jo liitetty tähän webinaariin."
+  system_messages:
+    webinar_reminder:
+      title: "Tuleva webinaari"
+      subject_template: "Webinaari on alkamassa"
+      text_body_template: |
+        Hei,
+
+        %{site_name} lähetti sinulle tämän automaattisen viestin ilmoittaakseen, että webinaari, johon olet rekisteröitynyt, on alkamassa.
+
+        <%{url}
