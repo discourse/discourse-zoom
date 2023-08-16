@@ -1,8 +1,12 @@
 en:
   site_settings:
-    zoom_api_key: "API Key for your JWT app on Zoom's App Marketplace."
-    zoom_api_secret: "API Secret for your app."
-    zoom_verification_token: "Verification token for your Zoom JWT app's Event Subscriptions (under the Feature tab). Used to update event metadata when changes are made in the Zoom UI."
+    zoom_sdk_key: "SDK key or Client ID (under the App Credentials tab)"
+    zoom_sdk_secret: "SDK secret or Client secret (under the App Credentials tab)"
+    zoom_s2s_account_id: "Account ID for your Zoom Server to Server oAuth app (under the App Credentials tab)."
+    zoom_s2s_client_id: "Client ID for your Zoom Server to Server oAuth app (under the Credentials tab)."
+    zoom_s2s_client_secret: "Client Secret for your Zoom Server to Server oAuth app (under the Credentials tab)."
+    s2s_oauth_token: "Server to Server OAuth token. This will be filled automatically"
+    zoom_webhooks_secret_token: "Secret token for your Zoom Server to Server oAuth app's Event Subscriptions (under the Feature tab). Used to update event metadata when changes are made in the Zoom UI."
     zoom_host_title_override: "Enter a custom user field name to displays its value instead of the user title below the host's username."
     zoom_send_user_id: "Send the user's internal Discourse ID to Zoom when joining a webinar. (optional)"
     zoom_display_attendees: "Display list of event attendees."

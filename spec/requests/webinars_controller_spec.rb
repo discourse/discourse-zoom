@@ -10,6 +10,8 @@ describe Zoom::WebinarsController do
   fab!(:topic) { Fabricate(:topic, user: user) }
   let(:webinar) { Webinar.create(topic: topic, zoom_id: "123") }
 
+  before { SiteSetting.s2s_oauth_token = 'Test_Token' }
+
   describe "#show" do
     it "works for anons" do
       get "/zoom/webinars/#{webinar.id}.json"
@@ -61,6 +63,7 @@ describe Zoom::WebinarsController do
       sign_in(user)
       expect(webinar.panelists.include? user).to eq(false)
       put("/zoom/webinars/#{webinar.id}/panelists/#{user.username}.json")
+
       expect(response.status).to eq(200)
       expect(webinar.panelists.include? user).to eq(true)
     end

@@ -6,7 +6,7 @@ module Jobs
 
     def execute(args)
       reminder_time = SiteSetting.zoom_send_reminder_minutes_before_webinar&.to_i
-      return unless reminder_time > 0
+      return if reminder_time < 0
 
       webinars = Webinar.where('starts_at > ? AND starts_at < ? AND reminders_sent_at IS NULL', DateTime.now, DateTime.now + reminder_time.minutes + 2.5.minutes).each do |webinar|
         webinar.webinar_users.each do |webinar_user|
