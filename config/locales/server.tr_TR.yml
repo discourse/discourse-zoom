@@ -6,9 +6,6 @@
 
 tr_TR:
   site_settings:
-    zoom_api_key: "Zoom'un Pazar Yerindeki JWT uygulamanız için API Anahtarı."
-    zoom_api_secret: "Uygulamanız için API Sırrı."
-    zoom_verification_token: "Zoom JWT uygulamanızın Etkinlik Abonelikleri için doğrulama belirteci (Özellik sekmesi altında). Zoom kullanıcı arabiriminde değişiklik yapıldığında etkinlik meta verilerini güncellemek için kullanılır."
     zoom_host_title_override: "Toplantı sahibinin kullanıcı adının altında kullanıcı başlığı yerine değerini görüntülemek için özel bir kullanıcı alanı adı girin."
     zoom_send_user_id: "Bir web seminerine katılırken kullanıcının dahili Discourse Kimliğini Zoom'a gönderin. (isteğe bağlı)"
     zoom_display_attendees: "Etkinlik katılımcılarının listesini görüntüleyin."

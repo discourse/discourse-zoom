@@ -6,9 +6,6 @@
 
 zh_CN:
   site_settings:
-    zoom_api_key: "Zoom 的 App Marketplace 上 JWT 应用的 API 密钥。"
-    zoom_api_secret: "您的应用的 API 密钥。"
-    zoom_verification_token: "您的 Zoom JWT 应用的活动订阅的验证令牌（在“功能”选项卡下）。用于在 Zoom UI 中进行更改时更新活动元数据。"
     zoom_host_title_override: "输入自定义的用户字段名称以显示其值，而不是主持人用户名下方的用户标题。"
     zoom_send_user_id: "加入网络研讨会时，将用户的内部 Discourse ID 发送到 Zoom。（可选）"
     zoom_display_attendees: "显示活动参与者名单。"

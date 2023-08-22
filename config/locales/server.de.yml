@@ -6,9 +6,6 @@
 
 de:
   site_settings:
-    zoom_api_key: "API-Schlüssel für deine JWT-App auf dem App Marketplace von Zoom."
-    zoom_api_secret: "API-Geheimnis für deine App."
-    zoom_verification_token: "Verifizierungstoken für die Event-Abonnements deiner Zoom-JWT-App (unter der Registerkarte Funktionen). Wird verwendet, um die Event-Metadaten zu aktualisieren, wenn Änderungen über die Zoom-Benutzeroberfläche vorgenommen werden."
     zoom_host_title_override: "Gib einen benutzerdefinierten Benutzerfeldnamen ein, damit sein Wert anstelle des Benutzertitels unter dem Benutzernamen des Gastgebers angezeigt wird."
     zoom_send_user_id: "Interne Discourse-ID des Benutzers bei Webinar-Beitritt an Zoom schicken (optional)."
     zoom_display_attendees: "Liste der Event-Teilnehmer anzeigen."

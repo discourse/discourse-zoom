@@ -6,9 +6,6 @@
 
 fr:
   site_settings:
-    zoom_api_key: "Clé API pour votre application JWT sur le marché des applications de Zoom."
-    zoom_api_secret: "API secrète pour votre application."
-    zoom_verification_token: "Jeton de vérification pour les inscriptions aux événements de votre application Zoom JWT (sous l'onglet Fonctionnalités). Utilisé pour mettre à jour les métadonnées de l'événement lorsque des modifications sont apportées dans l'interface utilisateur de Zoom."
     zoom_host_title_override: "Saisir un nom de champ utilisateur personnalisé pour afficher sa valeur au lieu du titre de l'utilisateur sous le nom d'utilisateur de l'hôte."
     zoom_send_user_id: "Envoyer l'identifiant Discourse interne de l'utilisateur à Zoom lorsque vous participez à un webinaire. (facultatif)"
     zoom_display_attendees: "Afficher la liste des participants à l'événement."
