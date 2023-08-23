@@ -6,8 +6,9 @@
 
 he:
   site_settings:
-    zoom_api_key: "מפתח API ליישום ה־JWT שלך בשוק היישומים של זום."
-    zoom_api_secret: "סוד API ליישומון שלך."
+    zoom_sdk_key: "מפתח SDK או מזהה לקוח (תחת הלשונית פרטי גישה ליישומון)"
+    zoom_sdk_secret: "סוד SDK או סוד לקוח (תחת הלשונית אישורי גישה ליישומון)"
+    s2s_oauth_token: "אסימון OAuth של שרת לשרת. יתמלא אוטומטית"
     zoom_display_attendees: "הצגת רשימת המשתתפים באירוע."
     zoom_enable_sdk_fallback: "הצגת קישור לזום אם ההצטרפות לאירוע נכשלת (למשל, אם שירות ה־SDK המקוון של זום מושבת."
     errors:

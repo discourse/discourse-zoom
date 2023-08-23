@@ -6,9 +6,6 @@
 
 ja:
   site_settings:
-    zoom_api_key: "Zoom の App Marketplace にある JWT アプリの API キー。"
-    zoom_api_secret: "アプリの API シークレット。"
-    zoom_verification_token: "Zoom JWT アプリのイベントサブスクリプションの検証トークン (機能タブ)。Zoom UI で変更が適用されたときにイベントメタデータを更新するのに使用されます。"
     zoom_host_title_override: "ホストのユーザー名の下にユーザーのタイトルの代わりに表示する値のカスタムユーザーフィールド名を入力します。"
     zoom_send_user_id: "ウェビナーに参加する際に、ユーザーの内部 Discourse ID を Zoom に送信します。(オプション)"
     zoom_display_attendees: "イベント出席者のリストを表示します。"

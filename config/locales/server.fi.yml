@@ -6,9 +6,6 @@
 
 fi:
   site_settings:
-    zoom_api_key: "API-avain JWT-sovelluksellesi Zoomin App Marketplacessa."
-    zoom_api_secret: "Sovelluksen API-salatunnus."
-    zoom_verification_token: "Zoomin JWT-sovelluksesi tapahtumatilausten (Ominaisuus-välilehdessä) vahvistustunnus. Tätä käytetään tapahtuman metatietojen päivittämiseen, kun Zoomin käyttöliittymässä tehdään muutoksia."
     zoom_host_title_override: "Anna mukautettu käyttäjäkentän nimi näyttääksesi sen arvon isännän käyttäjänimen alapuolella olevan käyttäjän nimen sijaan."
     zoom_send_user_id: "Lähetä käyttäjän sisäinen Discourse-tunnus Zoomiin webinaariin liityttäessä (valinnainen)."
     zoom_display_attendees: "Näytä luettelo tapahtuman osallistujista."
