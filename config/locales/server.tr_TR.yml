@@ -10,7 +10,7 @@ tr_TR:
     zoom_send_user_id: "Bir web seminerine katılırken kullanıcının dahili Discourse Kimliğini Zoom'a gönderin. (isteğe bağlı)"
     zoom_display_attendees: "Etkinlik katılımcılarının listesini görüntüleyin."
     zoom_join_x_mins_before_start: "Web seminerinin başlamasından x dakika önce kullanıcı arayüzündeki Katıl düğmesine geçin. (0, başlangıç saatinden bağımsız olarak etkinlik başlar başlamaz düğmenin değiştirileceği anlamına gelir)"
-    zoom_enable_sdk_fallback: "Etkinliğe katılma başarısız olursa (örneğin, Zoom'un Web SDK hizmeti çalışmıyorsa) bir Zoom bağlantısı gösterin."
+    zoom_enable_sdk_fallback: "Etkinliğe katılma başarısız olursa (örneğin, Zoom'un Web SDK hizmeti çalışmıyorsa) bir Zoom bağlantısı gösterin)."
     zoom_use_join_url: "Şimdi Katıl düğmesinin, kullanıcıları Zoom tarafından sağlanan katılma url'sine götürmesini sağlayın."
     errors:
       models:

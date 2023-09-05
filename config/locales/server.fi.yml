@@ -10,7 +10,6 @@ fi:
     zoom_send_user_id: "Lähetä käyttäjän sisäinen Discourse-tunnus Zoomiin webinaariin liityttäessä (valinnainen)."
     zoom_display_attendees: "Näytä luettelo tapahtuman osallistujista."
     zoom_join_x_mins_before_start: "Vaihda käyttöliittymässä Liity-painikkeeseen x minuuttia ennen webinaarin alkua. (0 tarkoittaa, että painike vaihdetaan heti kun tapahtuma alkaa alkamisajasta riippumatta)."
-    zoom_enable_sdk_fallback: "Näytä linkki Zoomiin, jos tapahtumaan liittyminen epäonnistuu (esimerkiksi jos Zoomin Web SDK -palvelu ei toimi)."
     zoom_use_join_url: "Laita Liity nyt -painike viemään käyttäjät liittymään Zoomin tarjoamaan URL-osoitteeseen."
     errors:
       models:
