@@ -10,7 +10,7 @@ it:
     zoom_send_user_id: "Invia l'ID Discourse interno dell'utente a Zoom quando partecipi a un webinar. (opzionale)"
     zoom_display_attendees: "Visualizza l'elenco dei partecipanti all'evento."
     zoom_join_x_mins_before_start: "Passa al pulsante Partecipa nell'interfaccia utente x minuti prima dell'inizio del webinar. (0 significa che il pulsante verrà commutato non appena l'evento viene avviato, indipendentemente dall'ora di inizio)"
-    zoom_enable_sdk_fallback: "Visualizza un collegamento a Zoom se l'evento di partecipazione non riesce (ad esempio, se il servizio Web SDK di Zoom non è attivo."
+    zoom_enable_sdk_fallback: "Visualizza un collegamento a Zoom se l'evento di partecipazione non riesce (ad esempio, se il servizio Web SDK di Zoom non è attivo)."
     zoom_use_join_url: "Fai in modo che il pulsante Iscriviti ora porti gli utenti all'URL di accesso fornito da Zoom."
     errors:
       models:

@@ -10,7 +10,6 @@ nl:
     zoom_send_user_id: "Stuur de interne Discourse-ID van de gebruiker naar Zoom wanneer deze deelneemt aan een webinar (optioneel)"
     zoom_display_attendees: "Geef een lijst van evenementdeelnemers weer."
     zoom_join_x_mins_before_start: "Schakel x minuten voor aanvang van het webinar over naar de knop Deelnemen in de gebruikersinterface. (0 betekent dat de knop wordt omgeschakeld zodra het evenement begint, ongeacht de begintijd)"
-    zoom_enable_sdk_fallback: "Geef een link naar Zoom weer als deelname aan een evenement mislukt (bijvoorbeeld als de Web SDK-service van Zoom niet beschikbaar is)."
     zoom_use_join_url: "Laat de knop Nu deelnemen gebruikers naar de deelname-URL van Zoom leiden."
     errors:
       models:

@@ -10,7 +10,6 @@ fr:
     zoom_send_user_id: "Envoyer l'identifiant Discourse interne de l'utilisateur à Zoom lorsque vous participez à un webinaire. (facultatif)"
     zoom_display_attendees: "Afficher la liste des participants à l'événement."
     zoom_join_x_mins_before_start: "Passer au bouton Rejoindre dans l'interface utilisateur x minutes avant le début du webinaire. (0 signifie que le bouton sera affiché dès le début de l'événement, quelle que soit l'heure de début)"
-    zoom_enable_sdk_fallback: "Afficher un lien vers Zoom si la participation à l'événement échoue (par exemple, si le service Web SDK de Zoom est hors service)."
     zoom_use_join_url: "Faire en sorte que le bouton Rejoindre maintenant emmène les utilisateurs à l'adresse URL de connexion fournie par Zoom."
     errors:
       models:

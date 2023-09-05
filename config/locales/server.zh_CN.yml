@@ -10,7 +10,6 @@ zh_CN:
     zoom_send_user_id: "加入网络研讨会时，将用户的内部 Discourse ID 发送到 Zoom。（可选）"
     zoom_display_attendees: "显示活动参与者名单。"
     zoom_join_x_mins_before_start: "在网络研讨会开始前 x 分钟切换到 UI 中的“加入”按钮。（0 表示活动一开始即切换按钮，而不考虑开始时间）"
-    zoom_enable_sdk_fallback: "如果加入活动失败（例如，如果 Zoom 的 Web SDK 服务关闭），则显示指向 Zoom 的链接。"
     zoom_use_join_url: "通过“立即加入”按钮让用户打开 Zoom 提供的加入 URL。"
     errors:
       models:

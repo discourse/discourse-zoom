@@ -10,7 +10,6 @@ pl_PL:
     zoom_send_user_id: "Wyślij wewnętrzny identyfikator Discourse użytkownika do Zoom podczas dołączania do webinaru. (opcjonalnie)"
     zoom_display_attendees: "Wyświetl listę uczestników wydarzenia."
     zoom_join_x_mins_before_start: "Przełącz się na przycisk dołącz w interfejsie na x minut przed rozpoczęciem webinaru. (0 oznacza, że przycisk zostanie przełączony zaraz po rozpoczęciu wydarzenia, niezależnie od czasu rozpoczęcia)"
-    zoom_enable_sdk_fallback: "Wyświetl link do Zoom, jeśli dołączenie do wydarzenia nie powiedzie się (na przykład, jeśli usługa Web SDK Zoom jest wyłączona)."
     zoom_use_join_url: "Niech przycisk dołącz teraz przeniesie użytkowników do adresu URL dołączenia dostarczonego przez Zoom."
     errors:
       models:
