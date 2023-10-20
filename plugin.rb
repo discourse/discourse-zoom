@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # name: discourse-zoom
-# about: Integrate Zoom events in Discourse.
+# about: Integrates Zoom webinars into Discourse. 
+# meta_topic_id: 142711
 # version: 0.0.1
 # authors: Penar Musaraj, Roman Rizzi, Mark VanLandingham
 # url: https://github.com/discourse/discourse-zoom
