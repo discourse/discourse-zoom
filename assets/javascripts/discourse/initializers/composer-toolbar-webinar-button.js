@@ -2,29 +2,20 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import showModal from "discourse/lib/show-modal";
 
 function initializeWebinarButton(api) {
-  api.modifyClass("controller:composer", {
-    pluginId: "discourse-zoom",
+  const composerService = api.container.lookup("service:composer");
 
-    actions: {
-      showWebinarModal() {
-        showModal("webinar-picker", {
-          model: this.model,
-          title: "zoom.webinar_picker.title",
-        });
-      },
+  api.addComposerToolbarPopupMenuOption({
+    condition: (composer) => {
+      return composer.model && composer.model.creatingTopic;
     },
-  });
-
-  api.addToolbarPopupMenuOptionsCallback((controller) => {
-    const composer = controller.model;
-    if (composer && composer.creatingTopic) {
-      return {
-        id: "associate_webinar_button",
-        icon: "video",
-        action: "showWebinarModal",
-        label: "zoom.webinar_picker.button",
-      };
-    }
+    icon: "video",
+    label: "zoom.webinar_picker.button",
+    action: () => {
+      showModal("webinar-picker", {
+        model: composerService.model,
+        title: "zoom.webinar_picker.title",
+      });
+    },
   });
 }
 
@@ -35,7 +26,7 @@ export default {
     const siteSettings = container.lookup("site-settings:main");
     const currentUser = container.lookup("current-user:main");
     if (siteSettings.zoom_enabled && currentUser) {
-      withPluginApi("0.5", initializeWebinarButton);
+      withPluginApi("1.15.0", initializeWebinarButton);
     }
   },
 };
