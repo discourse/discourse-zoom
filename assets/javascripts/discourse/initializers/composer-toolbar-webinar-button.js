@@ -26,7 +26,7 @@ export default {
     const siteSettings = container.lookup("site-settings:main");
     const currentUser = container.lookup("current-user:main");
     if (siteSettings.zoom_enabled && currentUser) {
-      withPluginApi("1.15.0", initializeWebinarButton);
+      withPluginApi("1.13.0", initializeWebinarButton);
     }
   },
 };
