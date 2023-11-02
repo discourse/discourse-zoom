@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # name: discourse-zoom
-# about: Integrates Zoom webinars into Discourse. 
+# about: Integrates Zoom webinars into Discourse.
 # meta_topic_id: 142711
 # version: 0.0.1
 # authors: Penar Musaraj, Roman Rizzi, Mark VanLandingham
