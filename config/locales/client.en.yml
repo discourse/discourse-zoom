@@ -1,4 +1,9 @@
 en:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_zoom: "Discourse Zoom"
   site_settings:
     zoom_enabled: "Zoom plugin enabled"
     zoom_send_reminder_minutes_before_webinar: "How many minutes before a webinar starts, do you want reminder notifications sent to attendees? Set to empty or 0 if you do not want notifications sent."
