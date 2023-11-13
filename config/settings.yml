@@ -1,4 +1,4 @@
-plugins:
+discourse_zoom:
   zoom_enabled:
     default: false
     client: true
