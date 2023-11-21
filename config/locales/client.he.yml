@@ -5,6 +5,11 @@
 # https://translate.discourse.org/
 
 he:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_zoom: "Discourse Zoom"
   site_settings:
     zoom_enabled: "תוסף זום מופעל"
     zoom_send_reminder_minutes_before_webinar: "כמה דקות לפני תחילת ובינר יש לשלוח התראות תזכורת למשתתפים? יש להשאיר ריק או 0 כדי שלא תישלחנה התראות."
