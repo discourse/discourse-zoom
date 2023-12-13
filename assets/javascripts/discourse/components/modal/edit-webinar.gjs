@@ -190,110 +190,112 @@ export default class EditWebinar extends Component {
   }
 
   <template>
-    <DModalBody
+    <DModal
       id="edit-webinar-modal"
       @title={{i18n "zoom.edit_webinar"}}
       @closeModal={{@closeModal}}
     >
-      {{#if (eq @model.webinar.zoom_id "nonzoom")}}
-        <div class="webinar-nonzoom-details">
-          <h3>{{i18n "zoom.nonzoom_details"}}</h3>
-          <h4>{{i18n "zoom.host"}}</h4>
+      <:body>
+        {{#if (eq @model.webinar.zoom_id "nonzoom")}}
+          <div class="webinar-nonzoom-details">
+            <h3>{{i18n "zoom.nonzoom_details"}}</h3>
+            <h4>{{i18n "zoom.host"}}</h4>
 
-          <div class="update-host-input">
-            <EmailGroupUserChooser
-              @value={{this.hostUsername}}
-              @onChange={{this.onChangeHost}}
-              @options={{hash
-                filterPlaceholder="zoom.select_host"
-                maximum=1
-                allowEmails=true
-              }}
-            />
-          </div>
-
-          <h4>{{i18n "zoom.title_date"}}</h4>
-
-          <span class="update-host-details">
-            <Input @value={{this.title}} id="webinar-title" />
-            <DateInput
-              @date={{this.pastStartDate}}
-              @onChange={{this.onChangeDate}}
-            />
-          </span>
-
-          <DButton
-            @action={{this.updateDetails}}
-            class="update-details-btn btn-primary"
-            @icon="check"
-            @disabled={{this.updateDetailsDisabled}}
-          />
-        </div>
-      {{/if}}
-
-      <div class="webinar-panelists">
-        <h3>{{i18n "zoom.panelists"}}</h3>
-        {{#if this.args.model.webinar.panelists}}
-          {{#each this.args.model.webinar.panelists as |panelist|}}
-            <div class="webinar-panelist">
-              {{panelist.username}}
-              <DButton
-                @action={{this.removePanelist panelist}}
-                class="remove-panelist-btn btn-danger"
-                @icon="times"
-                @disabled={{this.loading}}
+            <div class="update-host-input">
+              <EmailGroupUserChooser
+                @value={{this.hostUsername}}
+                @onChange={{this.onChangeHost}}
+                @options={{hash
+                  filterPlaceholder="zoom.select_host"
+                  maximum=1
+                  allowEmails=true
+                }}
               />
             </div>
-          {{/each}}
-        {{else}}
-          {{i18n "zoom.no_panelists"}}
+
+            <h4>{{i18n "zoom.title_date"}}</h4>
+
+            <span class="update-host-details">
+              <Input @value={{this.title}} id="webinar-title" />
+              <DateInput
+                @date={{this.pastStartDate}}
+                @onChange={{this.onChangeDate}}
+              />
+            </span>
+
+            <DButton
+              @action={{this.updateDetails}}
+              class="update-details-btn btn-primary"
+              @icon="check"
+              @disabled={{this.updateDetailsDisabled}}
+            />
+          </div>
         {{/if}}
-      </div>
 
-      <div class="webinar-add-panelist">
-        <h3>{{i18n "zoom.add_panelist"}}</h3>
+        <div class="webinar-panelists">
+          <h3>{{i18n "zoom.panelists"}}</h3>
+          {{#if this.args.model.webinar.panelists}}
+            {{#each this.args.model.webinar.panelists as |panelist|}}
+              <div class="webinar-panelist">
+                {{panelist.username}}
+                <DButton
+                  @action={{this.removePanelist panelist}}
+                  class="remove-panelist-btn btn-danger"
+                  @icon="times"
+                  @disabled={{this.loading}}
+                />
+              </div>
+            {{/each}}
+          {{else}}
+            {{i18n "zoom.no_panelists"}}
+          {{/if}}
+        </div>
 
-        <span class="new-panelist-input">
-          <EmailGroupUserChooser
-            @value={{this.newPanelist}}
-            @onChange={{this.updateNewPanelist}}
-            @options={{hash
-              filterPlaceholder="zoom.select_panelist"
-              maximum=1
-              excludedUsernames=this.excludedUsernames
-            }}
+        <div class="webinar-add-panelist">
+          <h3>{{i18n "zoom.add_panelist"}}</h3>
+
+          <span class="new-panelist-input">
+            <EmailGroupUserChooser
+              @value={{this.newPanelist}}
+              @onChange={{this.updateNewPanelist}}
+              @options={{hash
+                filterPlaceholder="zoom.select_panelist"
+                maximum=1
+                excludedUsernames=this.excludedUsernames
+              }}
+            />
+          </span>
+          <DButton
+            @action={{this.addPanelist}}
+            class="new-panelist-btn btn-primary"
+            @icon="plus"
+            @disabled={{this.addingDisabled}}
           />
-        </span>
-        <DButton
-          @action={{this.addPanelist}}
-          class="new-panelist-btn btn-primary"
-          @icon="plus"
-          @disabled={{this.addingDisabled}}
-        />
-      </div>
+        </div>
 
-      <div class="webinar-add-video">
-        <h3>{{i18n "zoom.webinar_recording"}}</h3>
-        <p>{{i18n "zoom.webinar_recording_description"}}</p>
-        <Input
-          @value={{this.newVideoUrl}}
-          id="webinar-video-url"
-          name="video url"
-          autocomplete="discourse"
-        />
-        <DButton
-          @action={{this.saveVideoUrl}}
-          class="new-panelist-btn btn-primary"
-          @icon="check"
-          @disabled={{this.canSaveVideoUrl}}
-        />
-        <DButton
-          @action={{this.resetVideoUrl}}
-          class="new-panelist-btn btn-danger"
-          @icon="times"
-          @disabled={{this.canSaveVideoUrl}}
-        />
-      </div>
-    </DModalBody>
+        <div class="webinar-add-video">
+          <h3>{{i18n "zoom.webinar_recording"}}</h3>
+          <p>{{i18n "zoom.webinar_recording_description"}}</p>
+          <Input
+            @value={{this.newVideoUrl}}
+            id="webinar-video-url"
+            name="video url"
+            autocomplete="discourse"
+          />
+          <DButton
+            @action={{this.saveVideoUrl}}
+            class="new-panelist-btn btn-primary"
+            @icon="check"
+            @disabled={{this.canSaveVideoUrl}}
+          />
+          <DButton
+            @action={{this.resetVideoUrl}}
+            class="new-panelist-btn btn-danger"
+            @icon="times"
+            @disabled={{this.canSaveVideoUrl}}
+          />
+        </div>
+      </:body>
+    </DModal>
   </template>
 }
