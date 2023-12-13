@@ -6,6 +6,7 @@ import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import { not } from "@ember/object/computed";
 import { makeArray } from "discourse-common/lib/helpers";
+import DModal from "discourse/components/d-modal";
 import DButton from "discourse/components/d-button";
 import DateInput from "discourse/components/date-input";
 import eq from "truth-helpers/helpers/eq";
