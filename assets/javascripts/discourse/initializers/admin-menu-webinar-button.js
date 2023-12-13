@@ -56,12 +56,9 @@ export default {
   },
 };
 
-function showWebinarModal(model) {
-  model.set("addToTopic", true);
-  modal.show(WebinarPicker, {
-    model,
-    title: "zoom.webinar_picker.title",
-  });
+function showWebinarModal(topic) {
+  topic.set("addToTopic", true);
+  modal.show(WebinarPicker, { model: { topic } });
 }
 
 function removeWebinar(topic) {
