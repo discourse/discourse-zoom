@@ -1,13 +1,14 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import showModal from "discourse/lib/show-modal";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import { getOwner } from "discourse-common/lib/get-owner";
 import I18n from "I18n";
+import WebinarPicker from "../components/modal/webinar-picker";
 
 const PLUGIN_ID = "discourse-zoom";
 
 function initialize(api) {
+  const modal = api.container.lookup("service:modal");
   api.decorateWidget("topic-admin-menu:adminMenuButtons", (helper) => {
     const topic = helper.attrs.topic;
     const { canManageTopic } = helper.widget.currentUser || {};
@@ -57,7 +58,7 @@ export default {
 
 function showWebinarModal(model) {
   model.set("addToTopic", true);
-  showModal("webinar-picker", {
+  modal.show(WebinarPicker, {
     model,
     title: "zoom.webinar_picker.title",
   });
