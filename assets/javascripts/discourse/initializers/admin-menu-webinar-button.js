@@ -31,7 +31,7 @@ function initialize(api) {
     },
 
     addWebinar() {
-      showWebinarModal(this.topic, modal);
+      showWebinarModal(this.topic, api, modal);
     },
   });
 
@@ -43,7 +43,7 @@ function initialize(api) {
     },
 
     addWebinar() {
-      showWebinarModal(this.topic, modal);
+      showWebinarModal(this.topic, api, modal);
     },
   });
 }
@@ -56,9 +56,11 @@ export default {
   },
 };
 
-function showWebinarModal(topic, modal) {
+function showWebinarModal(topic, api, modal) {
   topic.set("addToTopic", true);
-  modal.show(WebinarPicker, { model: { topic } });
+  modal.show(WebinarPicker, {
+    model: { topic },
+  });
 }
 
 function removeWebinar(topic) {

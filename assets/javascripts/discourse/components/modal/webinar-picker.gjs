@@ -21,6 +21,8 @@ const NONZOOM = "nonzoom";
 const NO_REGISTRATION_REQUIRED = 2;
 
 export default class WebinarPicker extends Component {
+  @service store;
+
   @tracked webinarId = null;
   @tracked webinarIdInput = null;
   @tracked webinar = null;
