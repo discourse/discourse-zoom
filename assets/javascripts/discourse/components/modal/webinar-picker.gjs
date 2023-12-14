@@ -5,7 +5,6 @@ import { inject as service } from "@ember/service";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import { not } from "@ember/object/computed";
-import { makeArray } from "discourse-common/lib/helpers";
 import DModal from "discourse/components/d-modal";
 import DButton from "discourse/components/d-button";
 import DateInput from "discourse/components/date-input";
@@ -286,26 +285,26 @@ export default class WebinarPicker extends Component {
                 @disabled={{this.pastWebinarDisabled}}
               />
             {{else}}
-              <div class="inline-form webinar-picker-input">
-                <Input
-                  @type="text"
-                  @value={{this.webinarIdInput}}
-                  class="webinar-builder-id"
-                />
-                <DButton
-                  @action={{fn this.selectWebinar this.webinarIdInput}}
-                  @icon="plus"
-                />
+              <div class="webinar-picker-wrapper">
+                <div class="inline-form webinar-picker-input">
+                  <Input
+                    @type="text"
+                    @value={{this.webinarIdInput}}
+                    class="webinar-builder-id"
+                  />
+                  <DButton
+                    @action={{fn this.selectWebinar this.webinarIdInput}}
+                    @icon="plus"
+                  />
+                </div>
+                <div class="webinar-picker-add-past">
+                  <DButton
+                    @action={{this.showPastWebinarForm}}
+                    @label="zoom.add_past_webinar"
+                    class="btn-flat past-webinar"
+                  />
+                </div>
               </div>
-
-              <div class="webinar-picker-add-past">
-                <DButton
-                  @action={{this.showPastWebinarForm}}
-                  @label="zoom.add_past_webinar"
-                  class="btn-flat past-webinar"
-                />
-              </div>
-
               <div class="webinar-picker-webinars">
                 {{#each this.allWebinars as |webinar|}}
                   <WebinarOptionRow
