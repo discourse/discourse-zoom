@@ -1,16 +1,19 @@
 import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
 import { formattedSchedule } from "../lib/webinar-helpers";
-import showModal from "discourse/lib/show-modal";
 import { alias, or } from "@ember/object/computed";
 import { ajax } from "discourse/lib/ajax";
 import { next } from "@ember/runloop";
+import { inject as service } from "@ember/service";
+import EditWebinar from "../components/modal/edit-webinar";
 
 const PENDING = "pending",
   ENDED = "ended",
   STARTED = "started";
 
 export default Component.extend({
+  modal: service(),
+
   loading: false,
   topic: null,
   webinar: null,
@@ -130,9 +133,14 @@ export default Component.extend({
 
   actions: {
     editPanelists() {
-      showModal("edit-webinar", {
-        model: this.webinar,
-        title: "zoom.edit_webinar",
+      this.modal.show(EditWebinar, {
+        model: {
+          webinar: this.webinar,
+          setWebinar: (value) => this.set("webinar", value),
+          setTitle: (value) => this.webinar.set("title", value),
+          setStartsAt: (value) => this.webinar.set("starts_at", value),
+          setVideoUrl: (value) => this.webinar.set("video_url", value),
+        },
       });
     },
 

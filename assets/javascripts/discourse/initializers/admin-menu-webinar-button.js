@@ -1,9 +1,9 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import showModal from "discourse/lib/show-modal";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import { getOwner } from "discourse-common/lib/get-owner";
+import { getOwner } from "@ember/application";
 import I18n from "I18n";
+import WebinarPicker from "../components/modal/webinar-picker";
 
 const PLUGIN_ID = "discourse-zoom";
 
@@ -30,7 +30,8 @@ function initialize(api) {
     },
 
     addWebinar() {
-      showWebinarModal(this.topic);
+      const modal = getOwner(this).lookup("service:modal");
+      showWebinarModal(this.topic, modal);
     },
   });
 
@@ -42,7 +43,8 @@ function initialize(api) {
     },
 
     addWebinar() {
-      showWebinarModal(this.topic);
+      const modal = getOwner(this).lookup("service:modal");
+      showWebinarModal(this.topic, modal);
     },
   });
 }
@@ -55,11 +57,16 @@ export default {
   },
 };
 
-function showWebinarModal(model) {
-  model.set("addToTopic", true);
-  showModal("webinar-picker", {
-    model,
-    title: "zoom.webinar_picker.title",
+function showWebinarModal(topic, modal) {
+  topic.set("addToTopic", true);
+  modal.show(WebinarPicker, {
+    model: {
+      topic,
+      setWebinar: (value) => topic.set("webinar", value),
+      setZoomId: (value) => topic.set("zoomId", value),
+      setWebinarTitle: (value) => topic.set("zoomWebinarTitle", value),
+      setWebinarStartDate: (value) => topic.set("zoomWebinarStartDate", value),
+    },
   });
 }
 
