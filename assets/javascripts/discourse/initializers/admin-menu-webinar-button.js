@@ -1,13 +1,14 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import { getOwnerWithFallback } from "discourse-common/lib/get-owner";
+import { getOwner } from "@ember/application";
 import I18n from "I18n";
 import WebinarPicker from "../components/modal/webinar-picker";
 
 const PLUGIN_ID = "discourse-zoom";
 
 function initialize(api) {
+  const modal = api.container.lookup("service:modal");
   api.decorateWidget("topic-admin-menu:adminMenuButtons", (helper) => {
     const topic = helper.attrs.topic;
     const { canManageTopic } = helper.widget.currentUser || {};
@@ -30,7 +31,8 @@ function initialize(api) {
     },
 
     addWebinar() {
-      showWebinarModal(this.topic);
+      const modal = getOwner(this).lookup("service:modal");
+      showWebinarModal(this.topic, modal);
     },
   });
 
@@ -42,7 +44,8 @@ function initialize(api) {
     },
 
     addWebinar() {
-      showWebinarModal(this.topic);
+      const modal = getOwner(this).lookup("service:modal");
+      showWebinarModal(this.topic, modal);
     },
   });
 }
@@ -55,8 +58,7 @@ export default {
   },
 };
 
-function showWebinarModal(topic) {
-  const modal = getOwnerWithFallback(this).lookup("service:modal");
+function showWebinarModal(topic, modal) {
   topic.set("addToTopic", true);
   modal.show(WebinarPicker, {
     model: {
@@ -70,15 +72,14 @@ function showWebinarModal(topic) {
 }
 
 function removeWebinar(topic) {
-  const dialog = getOwnerWithFallback(this).lookup("service:dialog");
+  const dialog = getOwner(this).lookup("service:dialog");
   dialog.confirm({
     message: I18n.t("zoom.confirm_remove"),
     didConfirm: () => {
       ajax(`/zoom/webinars/${topic.webinar.id}`, { type: "DELETE" })
         .then(() => {
           topic.set("webinar", null);
-          const topicController =
-            getOwnerWithFallback(this).lookup("controller:topic");
+          const topicController = getOwner(this).lookup("controller:topic");
           topicController.set("editingTopic", false);
           document.querySelector("body").classList.remove("has-webinar");
           topic.postStream.posts[0].rebake();
