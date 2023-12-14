@@ -1,7 +1,7 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import { getOwner } from "discourse-common/lib/get-owner";
+import { getOwnerWithFallback } from "discourse-common/lib/get-owner";
 import I18n from "I18n";
 import WebinarPicker from "../components/modal/webinar-picker";
 
@@ -31,7 +31,7 @@ function initialize(api) {
     },
 
     addWebinar() {
-      showWebinarModal(this.topic, api, modal);
+      showWebinarModal(this.topic);
     },
   });
 
@@ -43,7 +43,7 @@ function initialize(api) {
     },
 
     addWebinar() {
-      showWebinarModal(this.topic, api, modal);
+      showWebinarModal(this.topic);
     },
   });
 }
@@ -56,7 +56,8 @@ export default {
   },
 };
 
-function showWebinarModal(topic, api, modal) {
+function showWebinarModal(topic) {
+  const modal = getOwnerWithFallback(this).lookup("service:modal");
   topic.set("addToTopic", true);
   modal.show(WebinarPicker, {
     model: {
@@ -70,14 +71,15 @@ function showWebinarModal(topic, api, modal) {
 }
 
 function removeWebinar(topic) {
-  const dialog = getOwner(this).lookup("service:dialog");
+  const dialog = getOwnerWithFallback(this).lookup("service:dialog");
   dialog.confirm({
     message: I18n.t("zoom.confirm_remove"),
     didConfirm: () => {
       ajax(`/zoom/webinars/${topic.webinar.id}`, { type: "DELETE" })
         .then(() => {
           topic.set("webinar", null);
-          const topicController = getOwner(this).lookup("controller:topic");
+          const topicController =
+            getOwnerWithFallback(this).lookup("controller:topic");
           topicController.set("editingTopic", false);
           document.querySelector("body").classList.remove("has-webinar");
           topic.postStream.posts[0].rebake();
