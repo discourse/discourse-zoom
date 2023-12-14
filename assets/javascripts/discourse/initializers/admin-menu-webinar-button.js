@@ -8,7 +8,6 @@ import WebinarPicker from "../components/modal/webinar-picker";
 const PLUGIN_ID = "discourse-zoom";
 
 function initialize(api) {
-  const modal = api.container.lookup("service:modal");
   api.decorateWidget("topic-admin-menu:adminMenuButtons", (helper) => {
     const topic = helper.attrs.topic;
     const { canManageTopic } = helper.widget.currentUser || {};
