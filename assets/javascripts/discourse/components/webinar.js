@@ -133,7 +133,14 @@ export default Component.extend({
 
   actions: {
     editPanelists() {
-      this.modal.show(EditWebinar, { model: { webinar: this.webinar } });
+      this.modal.show(EditWebinar, {
+        model: {
+          webinar: this.webinar,
+          setTitle: (value) => this.set("title", value),
+          setStartsAt: (value) => this.set("starts_at", value),
+          setWebinar: (value) => this.set("webinar", value),
+        },
+      });
     },
 
     showRecording() {

@@ -152,7 +152,7 @@ export default class EditWebinar extends Component {
         "webinar",
         this.args.model.webinar.id
       );
-      this.args.model.webinar = webinar;
+      this.args.model.setWebinar(webinar);
     } catch (error) {
       popupAjaxError(error);
     } finally {
@@ -176,8 +176,8 @@ export default class EditWebinar extends Component {
         }
       );
 
-      this.args.model.webinar.title = this.title;
-      this.args.model.webinar.starts_at = this.pastStartDate;
+      this.args.model.setTitle(this.title);
+      this.args.model.setStartsAt(this.pastStartDate);
     } catch (error) {
       popupAjaxError(error);
     } finally {

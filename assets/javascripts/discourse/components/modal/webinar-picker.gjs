@@ -100,9 +100,9 @@ export default class WebinarPicker extends Component {
 
   @action
   async addPastWebinar() {
-    this.model.zoomId = NONZOOM;
-    this.model.zoomWebinarTitle = this.pastWebinarTitle;
-    this.model.zoomWebinarStartDate = moment(this.pastStartDate).format();
+    this.args.model.setZoomId(NONZOOM);
+    this.args.model.setWebinarTitle(this.pastWebinarTitle);
+    this.args.model.setWebinarStartDate(moment(this.pastStartDate).format());
     if (this.model.addToTopic) {
       this.addWebinarToTopic();
     }
@@ -161,20 +161,19 @@ export default class WebinarPicker extends Component {
         }
       );
       const webinar = await this.store.find("webinar", results.id);
-      this.model.webinar = webinar;
+      this.args.model.setWebinar(webinar);
     } catch (error) {
       popupAjaxError(error);
     } finally {
       this.loading = false;
-      // this.topicController.editingTopic = false;
       this.model.postStream.posts[0].rebake();
       document.querySelector("body").classList.add("has-webinar");
     }
   }
 
   async addWebinarToComposer() {
-    this.model.zoomId = this.webinar.id;
-    this.model.zoomWebinarTitle = this.webinar.title;
+    this.args.model.setZoomId(this.webinar.id);
+    this.args.model.setWebinarTitle(this.webinar.title);
   }
 
   <template>

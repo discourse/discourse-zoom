@@ -59,7 +59,13 @@ export default {
 function showWebinarModal(topic, api, modal) {
   topic.set("addToTopic", true);
   modal.show(WebinarPicker, {
-    model: { topic },
+    model: {
+      topic,
+      setWebinar: (value) => topic.set("webinar", value),
+      setZoomId: (value) => topic.set("zoomId", value),
+      setWebinarTitle: (value) => topic.set("zoomWebinarTitle", value),
+      setWebinarStartDate: (value) => topic.set("zoomWebinarStartDate", value),
+    },
   });
 }
 
