@@ -26,7 +26,8 @@ function initialize(api) {
     pluginId: PLUGIN_ID,
 
     removeWebinar() {
-      removeWebinar(this.topic);
+      const dialog = getOwner(this).lookup("service:dialog");
+      removeWebinar(this.topic, dialog);
     },
 
     addWebinar() {
@@ -39,7 +40,8 @@ function initialize(api) {
     pluginId: PLUGIN_ID,
 
     removeWebinar() {
-      removeWebinar(this.topic);
+      const dialog = getOwner(this).lookup("service:dialog");
+      removeWebinar(this.topic, dialog);
     },
 
     addWebinar() {
@@ -70,8 +72,7 @@ function showWebinarModal(topic, modal) {
   });
 }
 
-function removeWebinar(topic) {
-  const dialog = getOwner(this).lookup("service:dialog");
+function removeWebinar(topic, dialog) {
   dialog.confirm({
     message: I18n.t("zoom.confirm_remove"),
     didConfirm: () => {
