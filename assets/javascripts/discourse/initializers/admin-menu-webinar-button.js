@@ -26,7 +26,10 @@ function initialize(api) {
     pluginId: PLUGIN_ID,
 
     removeWebinar() {
-      removeWebinar(this.topic);
+      const owner = getOwner(this);
+      const dialog = owner.lookup("service:dialog");
+      const topicController = owner.lookup("controller:topic");
+      removeWebinar(this.topic, dialog, topicController);
     },
 
     addWebinar() {
@@ -39,7 +42,10 @@ function initialize(api) {
     pluginId: PLUGIN_ID,
 
     removeWebinar() {
-      removeWebinar(this.topic);
+      const owner = getOwner(this);
+      const dialog = owner.lookup("service:dialog");
+      const topicController = owner.lookup("controller:topic");
+      removeWebinar(this.topic, dialog, topicController);
     },
 
     addWebinar() {
@@ -70,15 +76,13 @@ function showWebinarModal(topic, modal) {
   });
 }
 
-function removeWebinar(topic) {
-  const dialog = getOwner(this).lookup("service:dialog");
+function removeWebinar(topic, dialog, topicController) {
   dialog.confirm({
     message: I18n.t("zoom.confirm_remove"),
     didConfirm: () => {
       ajax(`/zoom/webinars/${topic.webinar.id}`, { type: "DELETE" })
         .then(() => {
           topic.set("webinar", null);
-          const topicController = getOwner(this).lookup("controller:topic");
           topicController.set("editingTopic", false);
           document.querySelector("body").classList.remove("has-webinar");
           topic.postStream.posts[0].rebake();
