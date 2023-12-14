@@ -136,9 +136,10 @@ export default Component.extend({
       this.modal.show(EditWebinar, {
         model: {
           webinar: this.webinar,
-          setTitle: (value) => this.set("title", value),
-          setStartsAt: (value) => this.set("starts_at", value),
           setWebinar: (value) => this.set("webinar", value),
+          setTitle: (value) => this.webinar.set("title", value),
+          setStartsAt: (value) => this.webinar.set("starts_at", value),
+          setVideoUrl: (value) => this.webinar.set("video_url", value),
         },
       });
     },

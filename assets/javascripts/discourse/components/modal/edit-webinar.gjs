@@ -13,7 +13,7 @@ import eq from "truth-helpers/helpers/eq";
 import { Input } from "@ember/component";
 import i18n from "discourse-common/helpers/i18n";
 import EmailGroupUserChooser from "select-kit/components/email-group-user-chooser";
-import { hash } from "@ember/helper";
+import { fn, hash } from "@ember/helper";
 
 export default class EditWebinar extends Component {
   @service store;
@@ -22,8 +22,8 @@ export default class EditWebinar extends Component {
   @tracked loading = false;
   @tracked newVideoUrl = this.args.model.webinar.video_url;
   @tracked hostUsername = this.args.model.webinar.host?.username;
-  @tracked title = this.args.model.webinar.title;
   @tracked pastStartDate = this.args.model.webinar.starts_at;
+  @tracked title = this.args.model.webinar.title;
 
   get canSaveVideoUrl() {
     const saved = this.args.model.webinar.video_url;
@@ -63,6 +63,7 @@ export default class EditWebinar extends Component {
         }
       );
       this.newVideoUrl = results.video_url;
+      this.args.model.setVideoUrl(results.video_url);
     } finally {
       this.loading = false;
     }
@@ -107,13 +108,12 @@ export default class EditWebinar extends Component {
           type: "PUT",
         }
       );
-
       this.newPanelist = null;
       const webinar = await this.store.find(
         "webinar",
         this.args.model.webinar.id
       );
-      this.args.model.webinar = webinar;
+      this.args.model.setWebinar(webinar);
     } catch (error) {
       popupAjaxError(error);
     } finally {
@@ -125,6 +125,7 @@ export default class EditWebinar extends Component {
   onChangeDate(date) {
     if (date) {
       this.pastStartDate = date;
+      this.args.model.setStartsAt(date);
     }
   }
 
@@ -215,21 +216,20 @@ export default class EditWebinar extends Component {
             </div>
 
             <h4>{{i18n "zoom.title_date"}}</h4>
-
             <span class="update-host-details">
               <Input @value={{this.title}} id="webinar-title" />
               <DateInput
                 @date={{this.pastStartDate}}
                 @onChange={{this.onChangeDate}}
               />
-            </span>
 
-            <DButton
-              @action={{this.updateDetails}}
-              class="update-details-btn btn-primary"
-              @icon="check"
-              @disabled={{this.updateDetailsDisabled}}
-            />
+              <DButton
+                @action={{this.updateDetails}}
+                class="update-details-btn btn-primary"
+                @icon="check"
+                @disabled={{this.updateDetailsDisabled}}
+              />
+            </span>
           </div>
         {{/if}}
 
@@ -240,7 +240,7 @@ export default class EditWebinar extends Component {
               <div class="webinar-panelist">
                 {{panelist.username}}
                 <DButton
-                  @action={{this.removePanelist panelist}}
+                  @action={{fn this.removePanelist panelist}}
                   class="remove-panelist-btn btn-danger"
                   @icon="times"
                   @disabled={{this.loading}}
