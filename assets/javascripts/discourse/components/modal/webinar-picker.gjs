@@ -1,19 +1,17 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
+import { Input } from "@ember/component";
+import { fn } from "@ember/helper";
 import { action } from "@ember/object";
 import { inject as service } from "@ember/service";
+import ConditionalLoadingSection from "discourse/components/conditional-loading-section";
+import DButton from "discourse/components/d-button";
+import DModal from "discourse/components/d-modal";
+import DateInput from "discourse/components/date-input";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import { not } from "@ember/object/computed";
-import DModal from "discourse/components/d-modal";
-import DButton from "discourse/components/d-button";
-import DateInput from "discourse/components/date-input";
-import eq from "truth-helpers/helpers/eq";
-import { Input } from "@ember/component";
 import i18n from "discourse-common/helpers/i18n";
-import EmailGroupUserChooser from "select-kit/components/email-group-user-chooser";
-import { fn } from "@ember/helper";
-import ConditionalLoadingSection from "discourse/components/conditional-loading-section";
+import I18n from "discourse-i18n";
 import WebinarOptionRow from "../webinar-option-row";
 
 const NONZOOM = "nonzoom";
@@ -319,13 +317,13 @@ export default class WebinarPicker extends Component {
       </:body>
       <:footer>
         {{#if this.selected}}
-          {{#if (not this.webinarError)}}
+          {{#unless this.webinarError}}
             <DButton
               @action={{this.insert}}
-              class="btn-primary"
               @label="zoom.webinar_picker.create"
+              class="btn-primary"
             />
-          {{/if}}
+          {{/unless}}
           <DButton
             @action={{this.clear}}
             @label="zoom.webinar_picker.clear"

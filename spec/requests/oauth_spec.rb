@@ -12,10 +12,7 @@ describe Zoom::OAuthClient do
   let!(:invalid_token) { "invalid_token" }
   let!(:end_point) { "webinars/#{webinar.zoom_id}" }
   let!(:body) do
-    body = {
-      grant_type: "account_credentials",
-      account_id: SiteSetting.zoom_s2s_account_id
-    }
+    body = { grant_type: "account_credentials", account_id: SiteSetting.zoom_s2s_account_id }
     body = URI.encode_www_form(body)
     body
   end
@@ -26,20 +23,20 @@ describe Zoom::OAuthClient do
         stub_request(:get, "#{Zoom::Client::API_URL}#{end_point}").with(
           headers: {
             Authorization: "Bearer #{valid_token}",
-            Host: "api.zoom.us"
-          }
+            Host: "api.zoom.us",
+          },
         ).to_return(body: ZoomApiStubs.get_webinar(user.id), status: 200)
         stub_request(:get, "#{Zoom::Client::API_URL}#{end_point}").with(
           headers: {
             Authorization: "Bearer #{invalid_token}",
-            Host: "api.zoom.us"
-          }
+            Host: "api.zoom.us",
+          },
         ).to_return(body: "", status: 400)
         stub_request(:get, "#{Zoom::Client::API_URL}#{end_point}").with(
           headers: {
             Authorization: "Bearer not_a_valid_token",
-            Host: "api.zoom.us"
-          }
+            Host: "api.zoom.us",
+          },
         ).to_return(status: 400)
       end
       describe "valid/present" do
@@ -54,19 +51,19 @@ describe Zoom::OAuthClient do
           before do
             stub_request(
               :post,
-              "https://zoom.us/oauth/token?account_id=123456&grant_type=account_credentials"
+              "https://zoom.us/oauth/token?account_id=123456&grant_type=account_credentials",
             ).with(
               headers: {
                 Authorization: "Basic  Og==",
                 Content_Type: "application/json",
-                Host: "zoom.us"
-              }
+                Host: "zoom.us",
+              },
             ).to_return(
               body: { access_token: valid_token }.to_json,
               headers: {
-                content_type: "application/json"
+                content_type: "application/json",
               },
-              status: 200
+              status: 200,
             )
           end
           it "requests a new oauth_token" do
@@ -80,24 +77,26 @@ describe Zoom::OAuthClient do
           before do
             stub_request(
               :post,
-              "https://zoom.us/oauth/token?account_id=123456&grant_type=account_credentials"
+              "https://zoom.us/oauth/token?account_id=123456&grant_type=account_credentials",
             ).with(
               headers: {
                 Authorization: "Basic  Og==",
                 Content_Type: "application/json",
-                Host: "zoom.us"
-              }
+                Host: "zoom.us",
+              },
             ).to_return(
               body: { access_token: "not_a_valid_token" }.to_json,
               headers: {
-                content_type: "application/json"
+                content_type: "application/json",
               },
-              status: 200
+              status: 200,
             )
           end
           it "can't request a new oauth_token" do
             SiteSetting.s2s_oauth_token = "not_a_valid_token"
-            expect { described_class.new(Zoom::Client::API_URL, end_point).get }.to raise_error(Discourse::InvalidAccess)
+            expect { described_class.new(Zoom::Client::API_URL, end_point).get }.to raise_error(
+              Discourse::InvalidAccess,
+            )
           end
         end
       end

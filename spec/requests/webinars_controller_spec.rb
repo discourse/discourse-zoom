@@ -45,10 +45,9 @@ describe Zoom::WebinarsController do
 
   describe "#add_panelist" do
     before do
-      stub_request(
-        :post,
-        "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists"
-      ).to_return(status: 201)
+      stub_request(:post, "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists").to_return(
+        status: 201,
+      )
     end
 
     it "requires the user to be logged in" do
@@ -95,16 +94,13 @@ describe Zoom::WebinarsController do
 
   describe "#remove_panelist" do
     before do
-      stub_request(
-        :get,
-        "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists"
-      ).to_return(
+      stub_request(:get, "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists").to_return(
         status: 201,
-        body: { panelists: [{ id: "123", email: user.email }] }.to_json
+        body: { panelists: [{ id: "123", email: user.email }] }.to_json,
       )
       stub_request(
         :delete,
-        "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists/123"
+        "https://api.zoom.us/v2/webinars/#{webinar.zoom_id}/panelists/123",
       ).to_return(status: 204)
     end
 
@@ -166,19 +162,14 @@ describe Zoom::WebinarsController do
       put("/zoom/webinars/#{webinar.id}/nonzoom_details.json")
       expect(response.status).to eq(400)
 
-      put(
-        "/zoom/webinars/#{webinar.id}/nonzoom_details.json",
-        params: {
-          title: "Some title"
-        }
-      )
+      put("/zoom/webinars/#{webinar.id}/nonzoom_details.json", params: { title: "Some title" })
       expect(response.status).to eq(400)
 
       put(
         "/zoom/webinars/#{webinar.id}/nonzoom_details.json",
         params: {
-          past_start_date: Time.now
-        }
+          past_start_date: Time.now,
+        },
       )
       expect(response.status).to eq(400)
     end
@@ -193,8 +184,8 @@ describe Zoom::WebinarsController do
         "/zoom/webinars/#{webinar.id}/nonzoom_details.json",
         params: {
           past_start_date: 2.days.ago,
-          title: "New balls, please"
-        }
+          title: "New balls, please",
+        },
       )
 
       expect(response.status).to eq(200)
@@ -209,8 +200,8 @@ describe Zoom::WebinarsController do
         "/zoom/webinars/#{webinar.id}/nonzoom_details.json",
         params: {
           past_start_date: 2.days.ago,
-          title: "Paper planes"
-        }
+          title: "Paper planes",
+        },
       )
       expect(response.status).to eq(403)
     end
@@ -290,20 +281,17 @@ describe Zoom::WebinarsController do
 
     describe "zoom events" do
       before do
-        stub_request(
-          :get,
-          "https://api.zoom.us/v2/webinars/#{zoom_id}"
-        ).to_return(status: 201, body: ZoomApiStubs.get_webinar(zoom_id))
+        stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}").to_return(
+          status: 201,
+          body: ZoomApiStubs.get_webinar(zoom_id),
+        )
         stub_request(:get, "https://api.zoom.us/v2/users/123").to_return(
           status: 201,
-          body: ZoomApiStubs.get_host("123")
+          body: ZoomApiStubs.get_host("123"),
         )
-        stub_request(
-          :get,
-          "https://api.zoom.us/v2/webinars/#{zoom_id}/panelists"
-        ).to_return(
+        stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}/panelists").to_return(
           status: 201,
-          body: { panelists: [{ id: "123", email: user.email }] }.to_json
+          body: { panelists: [{ id: "123", email: user.email }] }.to_json,
         )
       end
       it "requires the user to be logged in" do
@@ -328,8 +316,8 @@ describe Zoom::WebinarsController do
         "/zoom/t/#{yet_another_topic.id}/webinars/nonzoom.json",
         params: {
           zoom_start_date: webinar_date,
-          zoom_title: "Fake webinar"
-        }
+          zoom_title: "Fake webinar",
+        },
       )
 
       expect(response.status).to eq(200)
@@ -343,36 +331,21 @@ describe Zoom::WebinarsController do
   describe "#set_video_url" do
     let(:video_url) { "hello.mp4" }
     it "requires the user to be logged in" do
-      put(
-        "/zoom/webinars/#{webinar.id}/video_url.json",
-        params: {
-          video_url: video_url
-        }
-      )
+      put("/zoom/webinars/#{webinar.id}/video_url.json", params: { video_url: video_url })
       expect(response.status).to eq(403)
     end
 
     it "requires the user to be able to manage the topic" do
       sign_in(other_user)
 
-      put(
-        "/zoom/webinars/#{webinar.id}/video_url.json",
-        params: {
-          video_url: video_url
-        }
-      )
+      put("/zoom/webinars/#{webinar.id}/video_url.json", params: { video_url: video_url })
       expect(response.status).to eq(403)
     end
 
     it "puts the webinar and webinar users" do
       sign_in(user)
 
-      put(
-        "/zoom/webinars/#{webinar.id}/video_url.json",
-        params: {
-          video_url: video_url
-        }
-      )
+      put("/zoom/webinars/#{webinar.id}/video_url.json", params: { video_url: video_url })
       expect(response.status).to eq(200)
       expect(webinar.reload.video_url).to eq(video_url)
     end
@@ -387,9 +360,7 @@ describe Zoom::WebinarsController do
           put "/zoom/webinars/#{webinar.id}/attendees/#{user.username}/watch.json"
         end
 
-      expect(events.map { |event| event[:event_name] }).to include(
-        :webinar_participant_watched
-      )
+      expect(events.map { |event| event[:event_name] }).to include(:webinar_participant_watched)
     end
   end
 end

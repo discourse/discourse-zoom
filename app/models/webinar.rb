@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Webinar < ActiveRecord::Base
-
   enum approval_type: { automatic: 0, manual: 1, no_registration: 2 }
   enum status: { pending: 0, started: 1, ended: 2 }
 
@@ -16,14 +15,10 @@ class Webinar < ActiveRecord::Base
 
   after_commit :notify_status_update, on: :update
 
-  ZOOM_ATTRIBUTE_MAP = {
-    id: :zoom_id,
-    topic: :title,
-    start_time: :starts_at,
-  }.freeze
+  ZOOM_ATTRIBUTE_MAP = { id: :zoom_id, topic: :title, start_time: :starts_at }.freeze
 
   def self.sanitize_zoom_id(dirty_id)
-    dirty_id.to_s.strip.gsub('-', '')
+    dirty_id.to_s.strip.gsub("-", "")
   end
 
   def attendees
@@ -43,13 +38,21 @@ class Webinar < ActiveRecord::Base
   end
 
   def convert_attributes_from_zoom(zoom_attributes)
-    zoom_attributes = (zoom_attributes[:settings] || {}).merge(zoom_attributes.except(:settings)).to_h.deep_symbolize_keys
+    zoom_attributes =
+      (zoom_attributes[:settings] || {})
+        .merge(zoom_attributes.except(:settings))
+        .to_h
+        .deep_symbolize_keys
 
-    zoom_attributes[:approval_type] = zoom_attributes[:approval_type].to_i if zoom_attributes[:approval_type]
+    zoom_attributes[:approval_type] = zoom_attributes[:approval_type].to_i if zoom_attributes[
+      :approval_type
+    ]
     if zoom_attributes[:start_time] || zoom_attributes[:duration]
       zoom_attributes[:start_time] = zoom_attributes[:start_time] || starts_at.to_s
       zoom_attributes[:duration] = zoom_attributes[:duration] || duration
-      zoom_attributes[:ends_at] = (DateTime.parse(zoom_attributes[:start_time]) + zoom_attributes[:duration].to_i.minutes).to_s
+      zoom_attributes[:ends_at] = (
+        DateTime.parse(zoom_attributes[:start_time]) + zoom_attributes[:duration].to_i.minutes
+      ).to_s
     end
 
     converted_attributes = {}

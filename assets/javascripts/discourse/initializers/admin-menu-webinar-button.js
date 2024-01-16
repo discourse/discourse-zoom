@@ -1,7 +1,7 @@
-import { withPluginApi } from "discourse/lib/plugin-api";
+import { getOwner } from "@ember/application";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import { getOwner } from "@ember/application";
+import { withPluginApi } from "discourse/lib/plugin-api";
 import I18n from "I18n";
 import WebinarPicker from "../components/modal/webinar-picker";
 

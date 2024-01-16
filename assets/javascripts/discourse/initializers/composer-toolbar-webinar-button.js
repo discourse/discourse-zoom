@@ -23,8 +23,8 @@ export default {
   name: "composer-toolbar-webinar-button",
 
   initialize(container) {
-    const siteSettings = container.lookup("site-settings:main");
-    const currentUser = container.lookup("current-user:main");
+    const siteSettings = container.lookup("service:site-settings");
+    const currentUser = container.lookup("service:current-user");
     if (siteSettings.zoom_enabled && currentUser) {
       withPluginApi("1.13.0", initializeWebinarButton);
     }

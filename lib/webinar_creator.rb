@@ -2,13 +2,7 @@
 
 module Zoom
   class WebinarCreator
-    def initialize(
-      topic_id:,
-      zoom_id:,
-      zoom_start_date: nil,
-      zoom_title: nil,
-      user: nil
-    )
+    def initialize(topic_id:, zoom_id:, zoom_start_date: nil, zoom_title: nil, user: nil)
       @topic_id = topic_id
       @zoom_id = Webinar.sanitize_zoom_id(zoom_id)
       @zoom_start_date = zoom_start_date
@@ -26,7 +20,7 @@ module Zoom
           starts_at: @zoom_start_date,
           title: @zoom_title,
           zoom_id: @zoom_id,
-          status: 2 # marks past event as ended
+          status: 2, # marks past event as ended
         }
         user = @current_user
       else
@@ -46,7 +40,7 @@ module Zoom
             email: host_data[:email],
             username: UserNameSuggester.suggest(host_data[:email]),
             name: User.suggest_name(host_data[:email]),
-            staged: true
+            staged: true,
           )
       end
       WebinarUser.find_or_create_by(user: user, webinar: webinar, type: :host)
@@ -57,9 +51,7 @@ module Zoom
     private
 
     def register_panelists(webinar)
-      @zoom_client.panelists(webinar.zoom_id, true).body[
-        :panelists
-      ].each do |attrs|
+      @zoom_client.panelists(webinar.zoom_id, true).body[:panelists].each do |attrs|
         user = User.with_email(Email.downcase(attrs[:email])).first
         if !user
           user =
@@ -67,7 +59,7 @@ module Zoom
               email: attrs[:email],
               username: UserNameSuggester.suggest(attrs[:email]),
               name: User.suggest_name(attrs[:email]),
-              staged: true
+              staged: true,
             )
         end
 

@@ -16,20 +16,17 @@ describe PostCreator do
 
   describe "creating a topic with webinar" do
     it "works" do
-      stub_request(
-        :get,
-        "https://api.zoom.us/v2/webinars/#{zoom_id}"
-      ).to_return(status: 201, body: ZoomApiStubs.get_webinar(zoom_id))
+      stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}").to_return(
+        status: 201,
+        body: ZoomApiStubs.get_webinar(zoom_id),
+      )
       stub_request(:get, "https://api.zoom.us/v2/users/#{zoom_id}").to_return(
         status: 201,
-        body: ZoomApiStubs.get_host(zoom_id)
+        body: ZoomApiStubs.get_host(zoom_id),
       )
-      stub_request(
-        :get,
-        "https://api.zoom.us/v2/webinars/#{zoom_id}/panelists"
-      ).to_return(
+      stub_request(:get, "https://api.zoom.us/v2/webinars/#{zoom_id}/panelists").to_return(
         status: 201,
-        body: { panelists: [{ id: "123", email: user.email }] }.to_json
+        body: { panelists: [{ id: "123", email: user.email }] }.to_json,
       )
 
       post =
@@ -37,7 +34,7 @@ describe PostCreator do
           user,
           title: title,
           raw: "Here comes the rain again",
-          zoom_id: zoom_id
+          zoom_id: zoom_id,
         ).create
 
       expect(post.topic.webinar.zoom_id).to eq(zoom_id)
@@ -50,9 +47,8 @@ describe PostCreator do
           title: title,
           raw: "Falling on my head like a new emotion",
           zoom_id: "nonzoom",
-          zoom_webinar_start_date:
-            "Mon Mar 02 2020 00:00:00 GMT-0500 (Eastern Standard Time)",
-          zoom_webinar_title: "This is a non-Zoom webinar"
+          zoom_webinar_start_date: "Mon Mar 02 2020 00:00:00 GMT-0500 (Eastern Standard Time)",
+          zoom_webinar_title: "This is a non-Zoom webinar",
         ).create
 
       expect(post.topic.webinar.zoom_id).to eq("nonzoom")
@@ -70,10 +66,9 @@ describe PostCreator do
           title: title,
           raw: "You know what they say...",
           zoom_id: "nonzoom",
-          zoom_webinar_start_date:
-            "Mon Mar 02 2020 00:00:00 GMT-0500 (Eastern Standard Time)",
+          zoom_webinar_start_date: "Mon Mar 02 2020 00:00:00 GMT-0500 (Eastern Standard Time)",
           zoom_webinar_title: "This is a non-Zoom webinar",
-          topic_id: topic.id
+          topic_id: topic.id,
         ).create
 
       expect(post.topic.webinar).to eq(nil)

@@ -11,13 +11,13 @@ describe Webinar do
   let(:webinar) { Webinar.create(topic: topic, zoom_id: "123") }
 
   describe "unique zoom_id" do
-    it 'does not create a duplicate' do
+    it "does not create a duplicate" do
       webinar.save
       webinar_dupe = Webinar.create(topic: topic, zoom_id: "123")
       expect(webinar_dupe.save).to eq(false)
     end
 
-    it 'does not validate uniqueness on nonzoom events' do
+    it "does not validate uniqueness on nonzoom events" do
       webinarA = Webinar.create(topic: topic, zoom_id: "nonzoom")
       webinarA.save
       webinarB = Webinar.create(topic: topic, zoom_id: "nonzoom")
@@ -26,13 +26,13 @@ describe Webinar do
   end
 
   describe ".sanitize_zoom_id" do
-    it 'removes spaces and dashes' do
-      id = ' 342-265-6531'
-      expect(Webinar.sanitize_zoom_id(id)).to eq('3422656531')
+    it "removes spaces and dashes" do
+      id = " 342-265-6531"
+      expect(Webinar.sanitize_zoom_id(id)).to eq("3422656531")
     end
   end
 
-  describe 'users' do
+  describe "users" do
     before do
       webinar.webinar_users.create(user: first_user, type: :attendee)
       webinar.webinar_users.create(user: second_user, type: :panelist)
@@ -72,5 +72,4 @@ describe Webinar do
       webinar.update(duration: 120)
     end
   end
-
 end

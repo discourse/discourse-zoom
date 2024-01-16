@@ -23,11 +23,10 @@ module Zoom
         panelists_video: data[:settings][:panelists_video],
         approval_type: data[:settings][:approval_type],
         enforce_login: data[:settings][:enforce_login],
-        registrants_restrict_number:
-          data[:settings][:registrants_restrict_number],
+        registrants_restrict_number: data[:settings][:registrants_restrict_number],
         meeting_authentication: data[:settings][:meeting_authentication],
         on_demand: data[:settings][:on_demand],
-        join_url: data[:settings][:join_url]
+        join_url: data[:settings][:join_url],
       }
     end
 
@@ -37,7 +36,7 @@ module Zoom
       {
         name: "#{data[:first_name]} #{data[:last_name]}",
         email: data[:email],
-        avatar_url: data[:pic_url]
+        avatar_url: data[:pic_url],
       }
     end
 
@@ -52,10 +51,10 @@ module Zoom
             {
               name: s[:name],
               email: s[:email],
-              avatar_url: User.default_template(s[:name]).gsub("{size}", "25")
+              avatar_url: User.default_template(s[:name]).gsub("{size}", "25"),
             }
           end,
-        panelists_count: data[:total_records]
+        panelists_count: data[:total_records],
       }
     end
 
