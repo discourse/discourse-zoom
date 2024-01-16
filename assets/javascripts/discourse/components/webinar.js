@@ -1,11 +1,12 @@
 import Component from "@ember/component";
-import discourseComputed from "discourse-common/utils/decorators";
-import { formattedSchedule } from "../lib/webinar-helpers";
 import { alias, or } from "@ember/object/computed";
-import { ajax } from "discourse/lib/ajax";
 import { next } from "@ember/runloop";
 import { inject as service } from "@ember/service";
+import $ from "jquery";
+import { ajax } from "discourse/lib/ajax";
+import discourseComputed from "discourse-common/utils/decorators";
 import EditWebinar from "../components/modal/edit-webinar";
+import { formattedSchedule } from "../lib/webinar-helpers";
 
 const PENDING = "pending",
   ENDED = "ended",

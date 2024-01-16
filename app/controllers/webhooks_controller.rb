@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 module Zoom
   class WebhooksController < ApplicationController
-    skip_before_action :verify_authenticity_token,
-                       :redirect_to_login_if_required
-    before_action :filter_unhandled,
-                  :ensure_webhook_authenticity,
-                  :filter_expired_event
+    skip_before_action :verify_authenticity_token, :redirect_to_login_if_required
+    before_action :filter_unhandled, :ensure_webhook_authenticity, :filter_expired_event
 
     HANDLED_EVENTS = %w[
       webinar.updated
@@ -24,14 +21,15 @@ module Zoom
           OpenSSL::HMAC.hexdigest(
             OpenSSL::Digest.new("sha256"),
             secret,
-            JSON.parse(request.body.read, symbolize_names: true)[:payload][
-              :plainToken
-            ]
+            JSON.parse(request.body.read, symbolize_names: true)[:payload][:plainToken],
           )
-        return render json: {
-          plainToken: request_params[:payload][:plain_token],
-          encryptedToken: encrypted_token
-        }, status: 200
+        return(
+          render json: {
+                   plainToken: request_params[:payload][:plain_token],
+                   encryptedToken: encrypted_token,
+                 },
+                 status: 200
+        )
       else
         send(handler_for(request_params[:event]))
       end
@@ -64,11 +62,7 @@ module Zoom
     end
 
     def webinar_participant_joined
-      DiscourseEvent.trigger(
-        :webinar_participant_joined,
-        webinar,
-        webinar_params
-      )
+      DiscourseEvent.trigger(:webinar_participant_joined, webinar, webinar_params)
     end
 
     def webinar_participant_left
@@ -76,8 +70,7 @@ module Zoom
     end
 
     def ensure_webhook_authenticity
-      message =
-        "v0:#{request.headers["x-zm-request-timestamp"]}:#{request.body.read}"
+      message = "v0:#{request.headers["x-zm-request-timestamp"]}:#{request.body.read}"
 
       secret = SiteSetting.zoom_webhooks_secret_token
 
@@ -85,10 +78,7 @@ module Zoom
       signature = "v0=#{calculated_hash}"
       request_signature = request.headers["x-zm-signature"]
 
-      if !ActiveSupport::SecurityUtils.secure_compare(
-           signature,
-           request_signature
-         )
+      if !ActiveSupport::SecurityUtils.secure_compare(signature, request_signature)
         raise Discourse::InvalidAccess.new
       end
     end
@@ -108,14 +98,12 @@ module Zoom
         email: registrant[:email],
         username: UserNameSuggester.suggest(registrant[:email]),
         name: User.suggest_name(registrant[:email]),
-        staged: true
+        staged: true,
       )
     end
 
     def filter_unhandled
-      unless HANDLED_EVENTS.include?(webinar_params[:event])
-        raise Discourse::NotFound
-      end
+      raise Discourse::NotFound unless HANDLED_EVENTS.include?(webinar_params[:event])
     end
 
     def filter_expired_event
@@ -127,7 +115,7 @@ module Zoom
           event: webinar_params[:event],
           payload: payload,
           webinar_id: payload_data.dig(:object, :id)&.to_i,
-          zoom_timestamp: payload_data[:time_stamp]&.to_i
+          zoom_timestamp: payload_data[:time_stamp]&.to_i,
         )
 
       if new_event.zoom_timestamp
@@ -135,7 +123,7 @@ module Zoom
           ::ZoomWebinarWebhookEvent.where(
             %Q(event = '#{new_event.event}'
                     AND webinar_id = #{new_event.webinar_id}
-                    AND zoom_timestamp >= #{new_event.zoom_timestamp})
+                    AND zoom_timestamp >= #{new_event.zoom_timestamp}),
           )
         raise Discourse::NotFound if later_events.any?
         new_event.save!
@@ -160,11 +148,7 @@ module Zoom
     end
 
     def registrant
-      @registrant ||=
-        webinar_params
-          .fetch(:payload, {})
-          .fetch(:object, {})
-          .fetch(:registrant, {})
+      @registrant ||= webinar_params.fetch(:payload, {}).fetch(:object, {}).fetch(:registrant, {})
     end
 
     def webinar_params

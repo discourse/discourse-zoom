@@ -5,9 +5,19 @@ module Zoom
     skip_before_action :verify_authenticity_token, only: [:register]
     skip_before_action :check_xhr, only: [:sdk]
     before_action :ensure_logged_in, except: [:show]
-    before_action :ensure_webinar_exists, only: [ :show, :destroy, :add_panelist,
-                                                  :remove_panelist, :register, :unregister,
-                                                  :signature, :sdk, :update_nonzoom_host, :update_nonzoom_details ]
+    before_action :ensure_webinar_exists,
+                  only: %i[
+                    show
+                    destroy
+                    add_panelist
+                    remove_panelist
+                    register
+                    unregister
+                    signature
+                    sdk
+                    update_nonzoom_host
+                    update_nonzoom_details
+                  ]
 
     def index
       render json: Zoom::Webinars.new(Zoom::Client.new).unmatched(current_user)
@@ -19,7 +29,11 @@ module Zoom
         WebinarSerializer,
         rest_serializer: true,
         root: :webinar,
-        meta: { attendees: 'user', host: 'user', panelists: 'user' }
+        meta: {
+          attendees: "user",
+          host: "user",
+          panelists: "user",
+        },
       )
     end
 
@@ -71,9 +85,20 @@ module Zoom
       topic = Topic.find(params[:topic_id])
       raise Discourse::NotFound.new unless topic
 
-      new_webinar = params[:zoom_start_date] ?
-                      WebinarCreator.new(topic_id: topic.id, zoom_id: params[:zoom_id], zoom_start_date: params[:zoom_start_date], zoom_title: params[:zoom_title], user: current_user).run :
-                      WebinarCreator.new(topic_id: topic.id, zoom_id: params[:zoom_id]).run
+      new_webinar =
+        (
+          if params[:zoom_start_date]
+            WebinarCreator.new(
+              topic_id: topic.id,
+              zoom_id: params[:zoom_id],
+              zoom_start_date: params[:zoom_start_date],
+              zoom_title: params[:zoom_title],
+              user: current_user,
+            ).run
+          else
+            WebinarCreator.new(topic_id: topic.id, zoom_id: params[:zoom_id]).run
+          end
+        )
 
       render json: { id: new_webinar.id }
     end
@@ -129,10 +154,7 @@ module Zoom
       user = fetch_user_from_params
       guardian.ensure_can_edit!(user)
 
-      webinar.webinar_users.create(
-        user: user,
-        type: :attendee
-      )
+      webinar.webinar_users.create(user: user, type: :attendee)
 
       render json: success_json
     end
@@ -141,13 +163,10 @@ module Zoom
       user = fetch_user_from_params
       guardian.ensure_can_edit!(user)
 
-     webinar.webinar_users.where(
-       user: user,
-       type: :attendee
-     ).destroy_all
+      webinar.webinar_users.where(user: user, type: :attendee).destroy_all
 
-     render json: success_json
-   end
+      render json: success_json
+    end
 
     def signature
       sig = Zoom::Webinars.new(Zoom::Client.new).signature(webinar.zoom_id)
@@ -158,18 +177,18 @@ module Zoom
       end
 
       render json: {
-        sdk_key: SiteSetting.zoom_sdk_key,
-        email: current_user.email,
-        id: webinar.zoom_id,
-        signature: sig,
-        username: username,
-        topic_url: webinar.topic.url,
-        password: webinar.password
-      }
+               sdk_key: SiteSetting.zoom_sdk_key,
+               email: current_user.email,
+               id: webinar.zoom_id,
+               signature: sig,
+               username: username,
+               topic_url: webinar.topic.url,
+               password: webinar.password,
+             }
     end
 
     def sdk
-      render layout: 'no_ember'
+      render layout: "no_ember"
       false
     end
 

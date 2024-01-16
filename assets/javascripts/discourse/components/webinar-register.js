@@ -1,8 +1,8 @@
 import Component from "@ember/component";
-import discourseComputed from "discourse-common/utils/decorators";
-import { ajax } from "discourse/lib/ajax";
 import { or } from "@ember/object/computed";
+import { ajax } from "discourse/lib/ajax";
 import { postRNWebviewMessage } from "discourse/lib/utilities";
+import discourseComputed from "discourse-common/utils/decorators";
 
 const STARTED = "started",
   ENDED = "ended";

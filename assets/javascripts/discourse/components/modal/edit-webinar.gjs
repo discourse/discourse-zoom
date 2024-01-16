@@ -1,19 +1,18 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
+import { Input } from "@ember/component";
+import { fn, hash } from "@ember/helper";
 import { action } from "@ember/object";
 import { inject as service } from "@ember/service";
+import DButton from "discourse/components/d-button";
+import DModal from "discourse/components/d-modal";
+import DateInput from "discourse/components/date-input";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import { not } from "@ember/object/computed";
-import { makeArray } from "discourse-common/lib/helpers";
-import DModal from "discourse/components/d-modal";
-import DButton from "discourse/components/d-button";
-import DateInput from "discourse/components/date-input";
-import eq from "truth-helpers/helpers/eq";
-import { Input } from "@ember/component";
 import i18n from "discourse-common/helpers/i18n";
+import { makeArray } from "discourse-common/lib/helpers";
 import EmailGroupUserChooser from "select-kit/components/email-group-user-chooser";
-import { fn, hash } from "@ember/helper";
+import eq from "truth-helpers/helpers/eq";
 
 export default class EditWebinar extends Component {
   @service store;
@@ -235,8 +234,8 @@ export default class EditWebinar extends Component {
 
         <div class="webinar-panelists">
           <h3>{{i18n "zoom.panelists"}}</h3>
-          {{#if this.args.model.webinar.panelists}}
-            {{#each this.args.model.webinar.panelists as |panelist|}}
+          {{#if @model.webinar.panelists}}
+            {{#each @model.webinar.panelists as |panelist|}}
               <div class="webinar-panelist">
                 {{panelist.username}}
                 <DButton

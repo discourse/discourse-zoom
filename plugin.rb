@@ -6,7 +6,6 @@
 # version: 0.0.1
 # authors: Penar Musaraj, Roman Rizzi, Mark VanLandingham
 # url: https://github.com/discourse/discourse-zoom
-# transpile_js: true
 
 enabled_site_setting :zoom_enabled
 register_asset "stylesheets/common/zoom.scss"
@@ -18,19 +17,19 @@ register_svg_icon "far-calendar-alt"
 register_svg_icon "video"
 
 after_initialize do
-  [
-    "../app/models/webinar",
-    "../app/models/webinar_user",
-    "../app/models/zoom_webinar_webhook_event",
-    "../lib/webinars",
-    "../lib/client",
-    "../lib/oauth_client",
-    "../lib/webinar_creator",
-    "../app/controllers/webinars_controller",
-    "../app/controllers/webhooks_controller",
-    "../app/serializers/host_serializer",
-    "../app/serializers/webinar_serializer",
-    "../app/jobs/scheduled/send_webinar_reminders.rb"
+  %w[
+    ../app/models/webinar
+    ../app/models/webinar_user
+    ../app/models/zoom_webinar_webhook_event
+    ../lib/webinars
+    ../lib/client
+    ../lib/oauth_client
+    ../lib/webinar_creator
+    ../app/controllers/webinars_controller
+    ../app/controllers/webhooks_controller
+    ../app/serializers/host_serializer
+    ../app/serializers/webinar_serializer
+    ../app/jobs/scheduled/send_webinar_reminders.rb
   ].each { |path| require File.expand_path(path, __FILE__) }
 
   module ::Zoom
@@ -43,13 +42,13 @@ after_initialize do
   end
 
   reloadable_patch do |plugin|
-    require_dependency 'user'
+    require_dependency "user"
     class ::User
       has_many :webinar_users
       # has_many :webinars, through: :webinar_users
     end
 
-    require_dependency 'topic'
+    require_dependency "topic"
     class ::Topic
       has_one :webinar
     end
@@ -72,60 +71,87 @@ after_initialize do
         zoom_id: opts[:zoom_id],
         zoom_start_date: zoom_start_date,
         zoom_title: zoom_title,
-        user: user
+        user: user,
       ).run
     end
   end
 
   Zoom::Engine.routes.draw do
-    resources :webinars, only: [:show, :index, :destroy] do
-      put 'attendees/:username' => 'webinars#register', constraints: { username: RouteFormat.username, format: :json }
-      put 'attendees/:username/watch' => 'webinars#watch', constraints: { username: RouteFormat.username, format: :json }
-      delete 'attendees/:username' => 'webinars#unregister', constraints: { username: RouteFormat.username, format: :json }
-      put 'panelists/:username' => 'webinars#add_panelist', constraints: { username: RouteFormat.username, format: :json }
-      delete 'panelists/:username' => 'webinars#remove_panelist', constraints: { username: RouteFormat.username, format: :json }
-      put 'nonzoom_host/:username' => 'webinars#update_nonzoom_host', constraints: { username: RouteFormat.username, format: :json }
-      delete 'nonzoom_host/:username' => 'webinars#delete_nonzoom_host', constraints: { username: RouteFormat.username, format: :json }
-      put 'nonzoom_details' => 'webinars#update_nonzoom_details', constraints: { format: :json }
-      put 'video_url' => 'webinars#set_video_url'
-      get 'preview' => 'webinars#preview'
-      get 'sdk' => 'webinars#sdk'
-      get 'signature' => 'webinars#signature'
+    resources :webinars, only: %i[show index destroy] do
+      put "attendees/:username" => "webinars#register",
+          :constraints => {
+            username: RouteFormat.username,
+            format: :json,
+          }
+      put "attendees/:username/watch" => "webinars#watch",
+          :constraints => {
+            username: RouteFormat.username,
+            format: :json,
+          }
+      delete "attendees/:username" => "webinars#unregister",
+             :constraints => {
+               username: RouteFormat.username,
+               format: :json,
+             }
+      put "panelists/:username" => "webinars#add_panelist",
+          :constraints => {
+            username: RouteFormat.username,
+            format: :json,
+          }
+      delete "panelists/:username" => "webinars#remove_panelist",
+             :constraints => {
+               username: RouteFormat.username,
+               format: :json,
+             }
+      put "nonzoom_host/:username" => "webinars#update_nonzoom_host",
+          :constraints => {
+            username: RouteFormat.username,
+            format: :json,
+          }
+      delete "nonzoom_host/:username" => "webinars#delete_nonzoom_host",
+             :constraints => {
+               username: RouteFormat.username,
+               format: :json,
+             }
+      put "nonzoom_details" => "webinars#update_nonzoom_details", :constraints => { format: :json }
+      put "video_url" => "webinars#set_video_url"
+      get "preview" => "webinars#preview"
+      get "sdk" => "webinars#sdk"
+      get "signature" => "webinars#signature"
     end
-    put 't/:topic_id/webinars/:zoom_id' => 'webinars#add_to_topic'
+    put "t/:topic_id/webinars/:zoom_id" => "webinars#add_to_topic"
 
-    post '/webhooks/webinars' => 'webhooks#webinars'
+    post "/webhooks/webinars" => "webhooks#webinars"
   end
 
   Discourse::Application.routes.append do
     mount ::Zoom::Engine, at: "/zoom"
-    get "topics/webinar-registrations/:username" => "list#zoom_webinars", as: "topics_zoom_webinars", constraints: { username: ::RouteFormat.username }
+    get "topics/webinar-registrations/:username" => "list#zoom_webinars",
+        :as => "topics_zoom_webinars",
+        :constraints => {
+          username: ::RouteFormat.username,
+        }
   end
 
-  require_dependency 'list_controller'
+  require_dependency "list_controller"
   class ::ListController
     generate_message_route(:zoom_webinars)
   end
 
   add_to_class(:topic_query, :list_zoom_webinars) do |user|
-    list = joined_topic_user.joins(webinar: :webinar_users)
-      .where("webinar_users.user_id = ?", user.id.to_s)
-      .order("webinars.starts_at DESC")
+    list =
+      joined_topic_user
+        .joins(webinar: :webinar_users)
+        .where("webinar_users.user_id = ?", user.id.to_s)
+        .order("webinars.starts_at DESC")
 
     create_list(:webinars, {}, list)
   end
 
   # CSP overrides to the SDK endpoint only
-  ZOOM_SDK_REGEX = /webinars\/(.*)\/sdk$/
-  ZOOM_SDK_SCRIPT_SRC = [
-    :unsafe_eval,
-    :unsafe_inline,
-    "https://source.zoom.us",
-    "https://zoom.us"
-  ]
-  ZOOM_SDK_WORKER_SRC = [
-    "blob:"
-  ]
+  ZOOM_SDK_REGEX = %r{webinars/(.*)/sdk$}
+  ZOOM_SDK_SCRIPT_SRC = [:unsafe_eval, :unsafe_inline, "https://source.zoom.us", "https://zoom.us"]
+  ZOOM_SDK_WORKER_SRC = ["blob:"]
 
   module ContentSecurityPolicyExtensionZoomPluginPatch
     def path_specific_extension(path_info)
@@ -138,6 +164,8 @@ after_initialize do
     end
   end
 
-  ContentSecurityPolicy::Extension.singleton_class.prepend(ContentSecurityPolicyExtensionZoomPluginPatch)
+  ContentSecurityPolicy::Extension.singleton_class.prepend(
+    ContentSecurityPolicyExtensionZoomPluginPatch,
+  )
   ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
 end

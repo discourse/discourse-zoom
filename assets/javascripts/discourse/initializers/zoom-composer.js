@@ -1,5 +1,5 @@
-import Composer from "discourse/models/composer";
 import { withPluginApi } from "discourse/lib/plugin-api";
+import Composer from "discourse/models/composer";
 import { observes } from "discourse-common/utils/decorators";
 
 export default {

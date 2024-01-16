@@ -46,9 +46,9 @@ module Zoom
           "#{@api_url}#{@end_point}",
           headers: {
             Authorization: "Bearer #{@authorization}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: body&.to_json
+          body: body&.to_json,
         )
 
       if [400, 401].include?(response.status) && @tries < @max_tries
@@ -62,11 +62,7 @@ module Zoom
     end
 
     def parse_response_body(response)
-      response.body =
-        JSON.parse(
-          response.body,
-          symbolize_names: true
-        ) unless response.body.blank?
+      response.body = JSON.parse(response.body, symbolize_names: true) unless response.body.blank?
       response
     end
 
@@ -74,14 +70,10 @@ module Zoom
 
     def get_oauth
       @tries += 1
-      credentials =
-        "#{SiteSetting.zoom_s2s_client_id}:#{SiteSetting.zoom_s2s_client_secret}"
+      credentials = "#{SiteSetting.zoom_s2s_client_id}:#{SiteSetting.zoom_s2s_client_secret}"
       encoded_credentials = Base64.strict_encode64(credentials)
 
-      body = {
-        grant_type: "account_credentials",
-        account_id: SiteSetting.zoom_s2s_account_id
-      }
+      body = { grant_type: "account_credentials", account_id: SiteSetting.zoom_s2s_account_id }
       body = URI.encode_www_form(body)
 
       response =
@@ -89,15 +81,11 @@ module Zoom
           "#{OAUT_URL}?#{body}",
           headers: {
             Authorization: "Basic  #{encoded_credentials}",
-            "Content-Type": "application/json"
-          }
+            "Content-Type": "application/json",
+          },
         )
 
-      response.body =
-        JSON.parse(
-          response.body,
-          symbolize_names: true
-        ) unless response.body.blank?
+      response.body = JSON.parse(response.body, symbolize_names: true) unless response.body.blank?
 
       if response.status == 200
         SiteSetting.s2s_oauth_token = response.body[:access_token]
@@ -117,8 +105,7 @@ module Zoom
       raise Discourse::InvalidAccess.new(
               "zoom_plugin_authorization_invalid",
               SiteSetting.s2s_oauth_token,
-              custom_message:
-                "zoom_plugin_authorization_invalid.#{custom_mesasge}"
+              custom_message: "zoom_plugin_authorization_invalid.#{custom_mesasge}",
             )
     end
   end

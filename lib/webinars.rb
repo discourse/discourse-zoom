@@ -15,11 +15,13 @@ module Zoom
       return [] unless response
 
       result =
-        response&.body[:webinars]&.select do |hash|
-          hash[:start_time].in_time_zone.utc > Time.now.utc &&
-            hash[:type] != RECURRING_WEBINAR_TYPE &&
-            Webinar.where(zoom_id: hash[:id]).empty?
-        end
+        response
+          &.body
+          &.[](:webinars)
+          &.select do |hash|
+            hash[:start_time].in_time_zone.utc > Time.now.utc &&
+              hash[:type] != RECURRING_WEBINAR_TYPE && Webinar.where(zoom_id: hash[:id]).empty?
+          end
 
       result
     end
@@ -40,12 +42,7 @@ module Zoom
       response =
         zoom_client.post(
           "webinars/#{webinar.zoom_id}/panelists",
-          panelists: [
-            {
-              email: user.email,
-              name: user.name.blank? ? user.username : user.name
-            }
-          ]
+          panelists: [{ email: user.email, name: user.name.blank? ? user.username : user.name }],
         )
       return false if response.status != 201
 
@@ -54,25 +51,19 @@ module Zoom
     end
 
     def remove_panelist(webinar:, user:)
-      panelists =
-        zoom_client.panelists(webinar.zoom_id, true)[:body][:panelists]
-      matching_panelist =
-        panelists.detect { |panelist| panelist[:email] == user.email }
+      panelists = zoom_client.panelists(webinar.zoom_id, true)[:body][:panelists]
+      matching_panelist = panelists.detect { |panelist| panelist[:email] == user.email }
       return false unless matching_panelist
 
       response =
-        zoom_client.delete(
-          "webinars/#{webinar.zoom_id}/panelists/#{matching_panelist[:id]}"
-        )
+        zoom_client.delete("webinars/#{webinar.zoom_id}/panelists/#{matching_panelist[:id]}")
       return false if response.status != 204
 
       WebinarUser.where(user: user, webinar: webinar).destroy_all
     end
 
     def signature(webinar_id)
-      if !SiteSetting.zoom_sdk_key && !SiteSetting.zoom_sdk_secret
-        return false
-      end
+      return false if !SiteSetting.zoom_sdk_key && !SiteSetting.zoom_sdk_secret
       webinar = zoom_client.webinar(webinar_id)
 
       return false unless webinar[:id]
@@ -89,7 +80,7 @@ module Zoom
         role: role,
         iat: iat.to_i,
         exp: exp.to_i,
-        tokenExp: exp.to_i
+        tokenExp: exp.to_i,
       }
 
       JWT.encode(payload, SiteSetting.zoom_sdk_secret, "HS256", header)
@@ -107,15 +98,12 @@ module Zoom
 
     def panelists(webinar_id)
       panelists_data = zoom_client.panelists(webinar_id)
-      panelist_emails =
-        panelists_data[:panelists].map { |s| s[:email] }.join(",")
+      panelist_emails = panelists_data[:panelists].map { |s| s[:email] }.join(",")
       panelists = User.with_email(panelist_emails)
 
       if panelists.empty?
         panelists =
-          panelists_data[:panelists].map do |s|
-            { name: s[:name], avatar_url: s[:avatar_url] }
-          end
+          panelists_data[:panelists].map { |s| { name: s[:name], avatar_url: s[:avatar_url] } }
         return panelists
       end
 
@@ -124,20 +112,13 @@ module Zoom
 
     def panelists_payload(panelists)
       panelists.map do |s|
-        {
-          name: s.name || s.username,
-          avatar_url: s.avatar_template_url.gsub("{size}", "25")
-        }
+        { name: s.name || s.username, avatar_url: s.avatar_template_url.gsub("{size}", "25") }
       end
     end
 
     def host_payload(host)
       if SiteSetting.zoom_host_title_override
-        field_id =
-          UserField
-            .where(name: SiteSetting.zoom_host_title_override)
-            .pluck(:id)
-            .first
+        field_id = UserField.where(name: SiteSetting.zoom_host_title_override).pluck(:id).first
         title = host.user_fields[field_id.to_s] || ""
       else
         title = host.title
@@ -145,7 +126,7 @@ module Zoom
       {
         name: host.name || host.username,
         title: title,
-        avatar_url: host.avatar_template_url.gsub("{size}", "120")
+        avatar_url: host.avatar_template_url.gsub("{size}", "120"),
       }
     end
   end
