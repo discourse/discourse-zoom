@@ -5,6 +5,11 @@
 # https://translate.discourse.org/
 
 ja:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_zoom: "Discourse Zoom"
   site_settings:
     zoom_enabled: "Zoom プラグインが有効です"
     zoom_send_reminder_minutes_before_webinar: "ウェビナーが開始する何分前に、出席者にリマインダー通知を送信しますか？通知を送信しない場合は、空にするか 0 を設定します。"

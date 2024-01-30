@@ -6,10 +6,18 @@
 
 ja:
   site_settings:
+    zoom_sdk_key: "SDK キーまたはクライアント ID (アプリの資格情報タブ)"
+    zoom_sdk_secret: "SDK シークレットまたはクライアントシークレット (アプリの資格情報タブ)"
+    zoom_s2s_account_id: "Zoom Server to Server oAuth アプリのアカウント ID (アプリの資格情報タブ)"
+    zoom_s2s_client_id: "Zoom Server to Server oAuth アプリのクライアント ID (資格情報タブ)"
+    zoom_s2s_client_secret: "Zoom Server to Server oAuth アプリのクライアントシークレット (資格情報タブ)"
+    s2s_oauth_token: "Server to Server OAuth トークン。これは自動的に入力されます。"
+    zoom_webhooks_secret_token: "Zoom Server to Server OAuth アプリのイベントサブスクリプションのシークレットトークン (機能タブ)。Zoom UI で変更が適用されたときにイベントメタデータを更新するのに使用されます。"
     zoom_host_title_override: "ホストのユーザー名の下にユーザーのタイトルの代わりに表示する値のカスタムユーザーフィールド名を入力します。"
     zoom_send_user_id: "ウェビナーに参加する際に、ユーザーの内部 Discourse ID を Zoom に送信します。(オプション)"
     zoom_display_attendees: "イベント出席者のリストを表示します。"
     zoom_join_x_mins_before_start: "ウェビナー開始の x 分前に、UI を参加ボタンに切り替えます。(0 の場合、開始時間に関係なく、イベントが開始するとすぐにボタンが切り替えられます)"
+    zoom_enable_sdk_fallback: "イベントの参加に失敗した場合 (Zoom の Web SDK サービスがダウンしている場合など)、Zoom へのリンクを表示します。"
     zoom_use_join_url: "今すぐ参加ボタンをクリックすると、Zoom が提供する参加 URL に移動します。"
     errors:
       models:

@@ -5,6 +5,11 @@
 # https://translate.discourse.org/
 
 ru:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_zoom: "Плагин Zoom для Discourse"
   site_settings:
     zoom_enabled: "Плагин Zoom включен"
     zoom_send_reminder_minutes_before_webinar: "За сколько минут до начала вебинара отправлять уведомления с напоминанием участникам? Пустое значение или 0 — не отправлять уведомления."

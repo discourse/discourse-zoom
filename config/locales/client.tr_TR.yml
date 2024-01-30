@@ -5,6 +5,11 @@
 # https://translate.discourse.org/
 
 tr_TR:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_zoom: "Discourse Zoom"
   site_settings:
     zoom_enabled: "Zoom eklentisi etkin"
     zoom_send_reminder_minutes_before_webinar: "Bir web semineri başlamadan kaç dakika önce katılımcılara hatırlatma bildirimlerinin gönderilmesini ister misiniz? Bildirimlerin gönderilmesini istemiyorsanız boş veya 0 olarak ayarlayın."

@@ -6,11 +6,18 @@
 
 it:
   site_settings:
+    zoom_sdk_key: "Chiave SDK o ID client (nella scheda Credenziali app)"
+    zoom_sdk_secret: "Chiave SDK o Segreto client (nella scheda Credenziali app)"
+    zoom_s2s_account_id: "ID account per l'app Zoom Server to Server oAuth (nella scheda Credenziali app)."
+    zoom_s2s_client_id: "ID client per l'app Zoom Server to Server oAuth (nella scheda Credenziali)."
+    zoom_s2s_client_secret: "Segreto client per l'app Zoom Server to Server oAuth (nella scheda Credenziali)."
+    s2s_oauth_token: "Token Server to Server OAuth. Questo campo verrà riempito automaticamente"
+    zoom_webhooks_secret_token: "Token segreto per gli abbonamenti agli eventi dell'app Zoom Server to Server oAuth (nella scheda Funzionalità). Utilizzato per aggiornare i metadati dell'evento quando vengono apportate modifiche nell'interfaccia utente di Zoom."
     zoom_host_title_override: "Inserisci un nome campo utente personalizzato per visualizzarne il valore anziché il titolo utente sotto il nome utente dell'ospite."
     zoom_send_user_id: "Invia l'ID Discourse interno dell'utente a Zoom quando partecipi a un webinar. (opzionale)"
     zoom_display_attendees: "Visualizza l'elenco dei partecipanti all'evento."
     zoom_join_x_mins_before_start: "Passa al pulsante Partecipa nell'interfaccia utente x minuti prima dell'inizio del webinar. (0 significa che il pulsante verrà commutato non appena l'evento viene avviato, indipendentemente dall'ora di inizio)"
-    zoom_enable_sdk_fallback: "Visualizza un collegamento a Zoom se l'evento di partecipazione non riesce (ad esempio, se il servizio Web SDK di Zoom non è attivo)."
+    zoom_enable_sdk_fallback: "Visualizza un collegamento a Zoom se l'evento di partecipazione non riesce (ad esempio, se il servizio web SDK di Zoom non è attivo)."
     zoom_use_join_url: "Fai in modo che il pulsante Iscriviti ora porti gli utenti all'URL di accesso fornito da Zoom."
     errors:
       models:

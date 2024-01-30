@@ -5,6 +5,11 @@
 # https://translate.discourse.org/
 
 fi:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_zoom: "Discourse Zoom"
   site_settings:
     zoom_enabled: "Zoom-lisäosa käytössä"
     zoom_send_reminder_minutes_before_webinar: "Kuinka monta minuuttia ennen webinaarin alkua haluat, että osallistujille lähetetään muistutusilmoituksia? Jätä tyhjäksi tai aseta arvoksi 0, jos et halua, että ilmoituksia lähetetään."

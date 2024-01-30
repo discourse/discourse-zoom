@@ -5,6 +5,11 @@
 # https://translate.discourse.org/
 
 ar:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_zoom: "Discourse Zoom"
   site_settings:
     zoom_enabled: "تم تفعيل المكوِّن الإضافي لبرنامج Zoom"
     zoom_send_reminder_minutes_before_webinar: "قبل كم دقيقة من بدء الندوة عبر الإنترنت تريد إرسال إشعارات التذكير إلى الحاضرين؟ اضبط القيمة على \"فارغ\" أو 0 إذا كنت لا تريد إرسال الإشعارات."
