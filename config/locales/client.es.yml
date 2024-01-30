@@ -5,6 +5,11 @@
 # https://translate.discourse.org/
 
 es:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_zoom: "Zoom de Discourse"
   site_settings:
     zoom_enabled: "Plugin de Zoom habilitado"
     zoom_send_reminder_minutes_before_webinar: "¿Cuántos minutos antes de que empiece un seminario web quieres que se envíen notificaciones recordatorias a los asistentes? Establécelo como vacío o 0 si no quieres que se envíen notificaciones."

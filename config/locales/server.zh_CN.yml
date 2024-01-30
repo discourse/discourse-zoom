@@ -6,10 +6,18 @@
 
 zh_CN:
   site_settings:
+    zoom_sdk_key: "SDK 密钥或客户端 ID（在“应用凭据”标签页下）"
+    zoom_sdk_secret: "SDK 密钥或客户端密钥（在“应用凭据”标签页下）"
+    zoom_s2s_account_id: "Zoom 服务器到服务器 oAuth 应用的帐户 ID（在“应用凭据”标签页下）。"
+    zoom_s2s_client_id: "Zoom 服务器到服务器 oAuth 应用的客户端 ID（在“凭据”标签页下）。"
+    zoom_s2s_client_secret: "Zoom 服务器到服务器 oAuth 应用的客户端密钥（在“凭据”标签页下）。"
+    s2s_oauth_token: "服务器到服务器 OAuth 令牌。将自动填写此信息"
+    zoom_webhooks_secret_token: "您的 Zoom 服务器到服务器 oAuth 应用的活动订阅的密钥令牌（在“功能”标签页下）。用于在 Zoom UI 中进行更改时更新活动元数据。"
     zoom_host_title_override: "输入自定义的用户字段名称以显示其值，而不是主持人用户名下方的用户标题。"
     zoom_send_user_id: "加入网络研讨会时，将用户的内部 Discourse ID 发送到 Zoom。（可选）"
     zoom_display_attendees: "显示活动参与者名单。"
     zoom_join_x_mins_before_start: "在网络研讨会开始前 x 分钟切换到 UI 中的“加入”按钮。（0 表示活动一开始即切换按钮，而不考虑开始时间）"
+    zoom_enable_sdk_fallback: "如果加入活动失败（例如，如果 Zoom 的 Web SDK 服务关闭），则显示指向 Zoom 的链接。"
     zoom_use_join_url: "通过“立即加入”按钮让用户打开 Zoom 提供的加入 URL。"
     errors:
       models:

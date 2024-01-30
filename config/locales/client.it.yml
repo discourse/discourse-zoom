@@ -5,6 +5,11 @@
 # https://translate.discourse.org/
 
 it:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_zoom: "Discourse Zoom"
   site_settings:
     zoom_enabled: "Plugin Zoom abilitato"
     zoom_send_reminder_minutes_before_webinar: "Quanti minuti prima dell'inizio di un webinar vuoi che vengano inviate notifiche di promemoria ai partecipanti? Imposta su vuoto o 0 se non si desidera inviare notifiche."

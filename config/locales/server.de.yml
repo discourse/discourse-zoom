@@ -6,10 +6,18 @@
 
 de:
   site_settings:
+    zoom_sdk_key: "SDK-Schlüssel oder Client-ID (in der Registerkarte „App-Anmeldedaten“)"
+    zoom_sdk_secret: "SDK-Geheimnis oder Client-Geheimnis (in der Registerkarte „App-Anmeldedaten“)"
+    zoom_s2s_account_id: "Konto-ID für deine Zoom-Server-zu-Server-oAuth-App (in der Registerkarte „App-Anmeldedaten“)."
+    zoom_s2s_client_id: "Client-ID für deine Zoom-Server-zu-Server-oAuth-App (in der Registerkarte „Anmeldedaten“)."
+    zoom_s2s_client_secret: "Client-Geheimnis für deine Zoom-Server-zu-Server-oAuth-App (in der Registerkarte „Anmeldedaten“)."
+    s2s_oauth_token: "Server-zu-Server-OAuth-Token. Wird automatisch ausgefüllt"
+    zoom_webhooks_secret_token: "Geheimes Token für die Event-Abonnements deiner Zoom-Server-zu-Server-oAuth-App (unter der Registerkarte „Funktionen“). Wird verwendet, um die Event-Metadaten zu aktualisieren, wenn Änderungen über die Zoom-Benutzeroberfläche vorgenommen werden."
     zoom_host_title_override: "Gib einen benutzerdefinierten Benutzerfeldnamen ein, damit sein Wert anstelle des Benutzertitels unter dem Benutzernamen des Gastgebers angezeigt wird."
     zoom_send_user_id: "Interne Discourse-ID des Benutzers bei Webinar-Beitritt an Zoom schicken (optional)."
     zoom_display_attendees: "Liste der Event-Teilnehmer anzeigen."
     zoom_join_x_mins_before_start: "Auf der Benutzeroberfläche x Minuten vor Beginn des Webinars zur Schaltfläche „Teilnehmen“ umschalten (0 bedeutet, dass die Schaltfläche umgeschaltet wird, sobald das Event gestartet wird, unabhängig von der Startzeit)."
+    zoom_enable_sdk_fallback: "Einen Link zu Zoom anzeigen, wenn der Beitritt zu einem Event fehlschlägt (z. B. wenn der Web-SDK-Dienst von Zoom ausgefallen ist)."
     zoom_use_join_url: "Die Schaltfläche „Jetzt beitreten“ führt die Benutzer zu der von Zoom bereitgestellten Beitrittsurl."
     errors:
       models:

@@ -5,6 +5,11 @@
 # https://translate.discourse.org/
 
 nl:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_zoom: "Discourse Zoom"
   site_settings:
     zoom_enabled: "Zoom-plug-in ingeschakeld"
     zoom_send_reminder_minutes_before_webinar: "Hoeveel minuten voordat een webinar begint wil je dat er herinneringsmeldingen naar deelnemers worden gestuurd? Stel dit in op leeg of 0 als je geen meldingen wilt sturen."

@@ -6,10 +6,18 @@
 
 fi:
   site_settings:
+    zoom_sdk_key: "SDK key tai Client ID (App Credentials -välilehdessä)"
+    zoom_sdk_secret: "SDK secret tai Client secret (App Credentials -välilehdessä)"
+    zoom_s2s_account_id: "Zoomin Server to Server oAuth -sovelluksen tilitunnus (Account ID) (App Credentials -välilehdessä)."
+    zoom_s2s_client_id: "Zoomin Server to Server oAuth -sovelluksen asiakastunnus (Client ID) (App Credentials -välilehdessä)."
+    zoom_s2s_client_secret: "Zoomin Server to Server oAuth -sovelluksen Client Secret (App Credentials -välilehdessä)."
+    s2s_oauth_token: "Server to Server oAuth -tunnus. Tämä täytetään automaattisesti."
+    zoom_webhooks_secret_token: "Zoomin Server to Server oAuth -sovelluksen tapahtumatilausten salatunnus (secret token) (Feature-välilehdessä). Tätä käytetään tapahtuman metatietojen päivittämiseen, kun Zoomin käyttöliittymässä tehdään muutoksia."
     zoom_host_title_override: "Anna mukautettu käyttäjäkentän nimi näyttääksesi sen arvon isännän käyttäjänimen alapuolella olevan käyttäjän nimen sijaan."
     zoom_send_user_id: "Lähetä käyttäjän sisäinen Discourse-tunnus Zoomiin webinaariin liityttäessä (valinnainen)."
     zoom_display_attendees: "Näytä luettelo tapahtuman osallistujista."
     zoom_join_x_mins_before_start: "Vaihda käyttöliittymässä Liity-painikkeeseen x minuuttia ennen webinaarin alkua. (0 tarkoittaa, että painike vaihdetaan heti kun tapahtuma alkaa alkamisajasta riippumatta)."
+    zoom_enable_sdk_fallback: "Näytä linkki Zoomiin, jos tapahtumaan liittyminen epäonnistuu (esimerkiksi jos Zoomin Web SDK -palvelu ei toimi)."
     zoom_use_join_url: "Laita Liity nyt -painike viemään käyttäjät liittymään Zoomin tarjoamaan URL-osoitteeseen."
     errors:
       models:

@@ -5,6 +5,11 @@
 # https://translate.discourse.org/
 
 zh_CN:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_zoom: "Discourse Zoom"
   site_settings:
     zoom_enabled: "Zoom 插件已启用"
     zoom_send_reminder_minutes_before_webinar: "您希望在网络研讨会开始前多少分钟向参与者发送提醒通知？如果不想发送通知，则设置为空或 0。"

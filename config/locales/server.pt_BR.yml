@@ -6,10 +6,18 @@
 
 pt_BR:
   site_settings:
+    zoom_sdk_key: "Chave SDK ou ID de cliente (na aba Credenciais do Aplicativo)"
+    zoom_sdk_secret: "Segredo SDK ou ID secreto (na aba Credenciais do aplicativo)"
+    zoom_s2s_account_id: "ID da conta do seu aplicativo Zoom Server to Server oAuth (na aba Credenciais do aplicativo)."
+    zoom_s2s_client_id: "ID do cliente do seu aplicativo Zoom Server to Server oAuth (na aba Credenciais)."
+    zoom_s2s_client_secret: "Cliente secreto do seu aplicativo Zoom Server to Server oAuth (na aba Credenciais)."
+    s2s_oauth_token: "Token Server to Server OAuth. Preenchido automaticamente"
+    zoom_webhooks_secret_token: "Token secreto para inscrições em eventos do aplicativo Zoom Server to Server oAuth (na aba Recursos). Usado para atualizar metadados de eventos quando forem realizadas alterações na IU do Zoom."
     zoom_host_title_override: "Insira um nome de campo de usuário(a) personalizado para mostrar seu valor em vez do título do usuário(a) abaixo do nome do(a) usuário(a) do host."
     zoom_send_user_id: "Enviar a ID interna do(a) usuário(a) do Discourse para o Zoom ao participar de um webinar (opcional)."
     zoom_display_attendees: "Exiba a lista de participantes do evento."
     zoom_join_x_mins_before_start: "Alterne para o botão de Participar na IU x minutos antes do início do webinar. (0 indica que o botão será trocado logo no começo do evento, seja qual for o horário de início.)"
+    zoom_enable_sdk_fallback: "Exiba um link para o Zoom se não for possível participar do evento (por exemplo: se o serviço Web SDK do Zoom estiver desativado)."
     zoom_use_join_url: "Faça com que o botão de Participar leve os(as) usuários(as) para a URL de ingresso fornecida pelo Zoom."
     errors:
       models:

@@ -6,10 +6,18 @@
 
 fr:
   site_settings:
+    zoom_sdk_key: "Clé SDK ou ID client (sous l'onglet Informations d'identification de l'application)"
+    zoom_sdk_secret: "Secret SDK ou secret client (sous l'onglet Informations d'identification de l'application)"
+    zoom_s2s_account_id: "ID de compte pour votre application Zoom Server to Server oAuth (sous l'onglet Identifiants de l'application)."
+    zoom_s2s_client_id: "ID de client pour votre application Zoom Server to Server oAuth (sous l'onglet Informations d'identification)."
+    zoom_s2s_client_secret: "Secret de client pour votre application Zoom Server to Server oAuth (sous l'onglet Informations d'identification)."
+    s2s_oauth_token: "Jeton OAuth de serveur à serveur. Celui-ci sera rempli automatiquement"
+    zoom_webhooks_secret_token: "Jeton secret pour les inscriptions aux événements de votre application Zoom Server to Server oAuth (sous l'onglet Fonctionnalité). Utilisé pour mettre à jour les métadonnées d'événement lorsque des modifications sont apportées dans l'interface utilisateur de Zoom."
     zoom_host_title_override: "Saisir un nom de champ utilisateur personnalisé pour afficher sa valeur au lieu du titre de l'utilisateur sous le nom d'utilisateur de l'hôte."
     zoom_send_user_id: "Envoyer l'identifiant Discourse interne de l'utilisateur à Zoom lorsque vous participez à un webinaire. (facultatif)"
     zoom_display_attendees: "Afficher la liste des participants à l'événement."
     zoom_join_x_mins_before_start: "Passer au bouton Rejoindre dans l'interface utilisateur x minutes avant le début du webinaire. (0 signifie que le bouton sera affiché dès le début de l'événement, quelle que soit l'heure de début)"
+    zoom_enable_sdk_fallback: "Afficher un lien vers Zoom si la participation à l'événement échoue (par exemple, si le service Web SDK de Zoom est hors service)."
     zoom_use_join_url: "Faire en sorte que le bouton Rejoindre maintenant emmène les utilisateurs à l'adresse URL de connexion fournie par Zoom."
     errors:
       models:

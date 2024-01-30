@@ -6,6 +6,13 @@
 
 es:
   site_settings:
+    zoom_sdk_key: "Clave SDK o ID de cliente (en la pestaña Credenciales de la aplicación)"
+    zoom_sdk_secret: "Secreto del SDK o Secreto del cliente (en la pestaña Credenciales de la aplicación)"
+    zoom_s2s_account_id: "ID de cuenta para tu aplicación Zoom Server to Server oAuth (en la pestaña Credenciales de la aplicación)."
+    zoom_s2s_client_id: "ID de cliente para tu aplicación Zoom Server to Server oAuth (en la pestaña Credenciales)."
+    zoom_s2s_client_secret: "Secreto de cliente para tu aplicación Zoom Server to Server oAuth (en la pestaña Credenciales)."
+    s2s_oauth_token: "Token de Server to Server OAuth. Esto se rellenará automáticamente"
+    zoom_webhooks_secret_token: "Token secreto para las Suscripciones a aventos de tu aplicación Zoom Server to Server oAuth (en la pestaña Características). Se utiliza para actualizar los metadatos de los eventos cuando se realizan cambios en la interfaz de usuario de Zoom."
     zoom_host_title_override: "Introduce un nombre de campo de usuario personalizado para mostrar su valor en lugar del título del usuario debajo del nombre de usuario del anfitrión."
     zoom_send_user_id: "Envía el ID interno de Discourse del usuario a Zoom cuando se una a un seminario web. (opcional)"
     zoom_display_attendees: "Mostrar lista de asistentes al evento."
