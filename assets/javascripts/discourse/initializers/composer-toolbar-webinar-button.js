@@ -1,8 +1,9 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import showModal from "discourse/lib/show-modal";
+import WebinarPicker from "../components/modal/webinar-picker";
 
 function initializeWebinarButton(api) {
   const composerService = api.container.lookup("service:composer");
+  const modal = api.container.lookup("service:modal");
 
   api.addComposerToolbarPopupMenuOption({
     condition: (composer) => {
@@ -11,9 +12,16 @@ function initializeWebinarButton(api) {
     icon: "video",
     label: "zoom.webinar_picker.button",
     action: () => {
-      showModal("webinar-picker", {
-        model: composerService.model,
-        title: "zoom.webinar_picker.title",
+      modal.show(WebinarPicker, {
+        model: {
+          topic: composerService.model,
+          setWebinar: (value) => composerService.model.set("webinar", value),
+          setZoomId: (value) => composerService.model.set("zoomId", value),
+          setWebinarTitle: (value) =>
+            composerService.model.set("zoomWebinarTitle", value),
+          setWebinarStartDate: (value) =>
+            composerService.model.set("zoomWebinarStartDate", value),
+        },
       });
     },
   });
