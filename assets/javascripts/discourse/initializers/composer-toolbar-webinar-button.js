@@ -3,17 +3,15 @@ import WebinarPicker from "../components/modal/webinar-picker";
 
 function initializeWebinarButton(api) {
   const composerService = api.container.lookup("service:composer");
-  // const modal = api.container.lookup("service:modal");
+  const modal = api.container.lookup("service:modal");
 
   api.addComposerToolbarPopupMenuOption({
     condition: (composer) => {
-      console.log(composer.model, composer.model.creatingTopic);
       return composer.model && composer.model.creatingTopic;
     },
     icon: "video",
     label: "zoom.webinar_picker.button",
     action: () => {
-      console.log("foo");
       modal.show(WebinarPicker, {
         model: {
           topic: composerService.model,
