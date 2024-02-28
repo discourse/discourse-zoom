@@ -3,7 +3,7 @@ window.onload = (event) => {
     document.querySelector(".d-header").style.display = "none";
 
     ZoomMtg.preLoadWasm();
-    ZoomMtg.prepareJssdk();
+    ZoomMtg.prepareWebSDK();
 
     const path = window.location.pathname;
     const meetingId = path.split("/zoom/webinars/")[1].split("/sdk")[0];
@@ -22,7 +22,7 @@ window.onload = (event) => {
 
     let request = new XMLHttpRequest();
     request.open("GET", `/zoom/webinars/${meetingId}/signature.json`, true);
-
+    
     request.onload = function () {
       if (this.status >= 200 && this.status < 400) {
         let res = JSON.parse(this.response);
@@ -30,17 +30,18 @@ window.onload = (event) => {
         ZoomMtg.init({
           leaveUrl: res.topic_url,
           isSupportAV: true,
+          patchJsMedia: true,
           // audioPanelAlwaysOpen: false,
           // disableJoinAudio: true,
           disableCallOut: true,
           success: function () {
             ZoomMtg.join({
-              meetingNumber: res.id,
-              userName: res.username,
               signature: res.signature,
               sdkKey: res.sdk_key,
-              userEmail: res.email,
+              meetingNumber: res.id,
               passWord: res.password || "",
+              userName: res.username,
+              userEmail: res.email,
               success: function (res) {},
               error: function (join_result) {
                 console.log(join_result);
