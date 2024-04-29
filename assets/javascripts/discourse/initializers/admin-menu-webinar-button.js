@@ -8,34 +8,27 @@ import WebinarPicker from "../components/modal/webinar-picker";
 const PLUGIN_ID = "discourse-zoom";
 
 function initialize(api) {
-  api.decorateWidget("topic-admin-menu:adminMenuButtons", (helper) => {
-    const topic = helper.attrs.topic;
-    const { canManageTopic } = helper.widget.currentUser || {};
+  api.addTopicAdminMenuButton((topic) => {
+    const canManageTopic = api.getCurrentUser()?.canManageTopic;
 
     if (!topic.isPrivateMessage && canManageTopic) {
       return {
-        buttonClass: "btn-default",
-        action: topic.webinar ? "removeWebinar" : "addWebinar",
         icon: "shield-alt",
-        fullLabel: topic.webinar ? "zoom.remove_webinar" : "zoom.add_webinar",
+        label: topic.get("webinar")
+          ? "zoom.remove_webinar"
+          : "zoom.add_webinar",
+        action: () => {
+          if (topic.get("webinar")) {
+            const dialog = api.container.lookup("service:dialog");
+            const topicController = api.container.lookup("controller:topic");
+            removeWebinar(topic, dialog, topicController);
+          } else {
+            const modal = api.container.lookup("service:modal");
+            showWebinarModal(topic, modal);
+          }
+        },
       };
     }
-  });
-
-  api.modifyClass("component:topic-admin-menu-button", {
-    pluginId: PLUGIN_ID,
-
-    removeWebinar() {
-      const owner = getOwner(this);
-      const dialog = owner.lookup("service:dialog");
-      const topicController = owner.lookup("controller:topic");
-      removeWebinar(this.topic, dialog, topicController);
-    },
-
-    addWebinar() {
-      const modal = getOwner(this).lookup("service:modal");
-      showWebinarModal(this.topic, modal);
-    },
   });
 
   api.modifyClass("component:topic-timeline", {
