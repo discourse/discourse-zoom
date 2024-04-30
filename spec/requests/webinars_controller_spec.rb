@@ -369,9 +369,8 @@ describe Zoom::WebinarsController do
       sign_in(user)
 
       get "/zoom/webinars/#{webinar.id}/sdk?fallback=1"
-      expect(response.status).to eq(200)      
+      expect(response.status).to eq(200)
       expect(response.headers["Content-Security-Policy"]).to include("'unsafe-eval'")
-      
     end
   end
 end
