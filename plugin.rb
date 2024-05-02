@@ -17,6 +17,15 @@ register_svg_icon "far-calendar-alt"
 register_svg_icon "video"
 
 after_initialize do
+  module ::Zoom
+    PLUGIN_NAME ||= "discourse-zoom".freeze
+
+    class Engine < ::Rails::Engine
+      engine_name Zoom::PLUGIN_NAME
+      isolate_namespace Zoom
+    end
+  end
+
   %w[
     ../app/models/webinar
     ../app/models/webinar_user
@@ -31,15 +40,6 @@ after_initialize do
     ../app/serializers/webinar_serializer
     ../app/jobs/scheduled/send_webinar_reminders.rb
   ].each { |path| require File.expand_path(path, __FILE__) }
-
-  module ::Zoom
-    PLUGIN_NAME ||= "discourse-zoom".freeze
-
-    class Engine < ::Rails::Engine
-      engine_name Zoom::PLUGIN_NAME
-      isolate_namespace Zoom
-    end
-  end
 
   reloadable_patch do |plugin|
     require_dependency "user"

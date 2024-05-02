@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 module Zoom
   class WebhooksController < ApplicationController
+    requires_plugin ::Zoom::PLUGIN_NAME
+
     skip_before_action :verify_authenticity_token, :redirect_to_login_if_required
     before_action :filter_unhandled, :ensure_webhook_authenticity, :filter_expired_event
 

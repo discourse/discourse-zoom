@@ -10,7 +10,10 @@ describe Zoom::WebinarsController do
   fab!(:topic) { Fabricate(:topic, user: user) }
   let(:webinar) { Webinar.create(topic: topic, zoom_id: "123") }
 
-  before { SiteSetting.s2s_oauth_token = "Test_Token" }
+  before do
+    SiteSetting.zoom_enabled = true
+    SiteSetting.s2s_oauth_token = "Test_Token"
+  end
 
   describe "#show" do
     it "works for anons" do
