@@ -13,6 +13,7 @@ en:
     zoom_join_x_mins_before_start: "Switch to Join button in the UI x minutes before the start of the webinar. (0 means button will be switched as soon as event is started, regardless of start time)"
     zoom_enable_sdk_fallback: "Display a link to Zoom if joining event fails (for example, if Zoom's Web SDK service is down)."
     zoom_use_join_url: "Have the Join Now button take users to the join url provided by Zoom."
+    discourse_zoom_plugin_verbose_logging: "Enable verbose logging for Zoom plugin"
     activerecord:
     errors:
       models:

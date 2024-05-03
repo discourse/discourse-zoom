@@ -58,6 +58,11 @@ module Zoom
         authorization_invalid
       end
 
+      log("Zoom verbose log:\n API error = #{response.inspect}") if response.status != 200
+
+      result = JSON.parse(response.body, symbolize_names: true)
+      log("Zoom verbose log:\n API result = #{result.inspect}")
+
       response
     end
 
@@ -67,6 +72,10 @@ module Zoom
     end
 
     private
+
+    def log(message)
+      Rails.logger.warn(message) if SiteSetting.discourse_zoom_plugin_verbose_logging
+    end
 
     def get_oauth
       @tries += 1
