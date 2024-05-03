@@ -60,9 +60,10 @@ module Zoom
 
       log("Zoom verbose log:\n API error = #{response.inspect}") if response.status != 200
 
-      result = JSON.parse(response.body, symbolize_names: true)
-      log("Zoom verbose log:\n API result = #{result.inspect}")
-
+      if response && !response&.body.empty?
+        result = JSON.parse(response.body, symbolize_names: true)
+        log("Zoom verbose log:\n API result = #{result.inspect}")
+      end
       response
     end
 
