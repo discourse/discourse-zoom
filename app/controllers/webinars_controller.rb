@@ -2,6 +2,8 @@
 
 module Zoom
   class WebinarsController < ApplicationController
+    requires_plugin ::Zoom::PLUGIN_NAME
+
     skip_before_action :verify_authenticity_token, only: [:register]
     skip_before_action :check_xhr, only: [:sdk]
     before_action :ensure_logged_in, except: [:show]

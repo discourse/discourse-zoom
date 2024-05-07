@@ -17,6 +17,15 @@ register_svg_icon "far-calendar-alt"
 register_svg_icon "video"
 
 after_initialize do
+  module ::Zoom
+    PLUGIN_NAME ||= "discourse-zoom".freeze
+
+    class Engine < ::Rails::Engine
+      engine_name Zoom::PLUGIN_NAME
+      isolate_namespace Zoom
+    end
+  end
+
   %w[
     ../app/models/webinar
     ../app/models/webinar_user
@@ -31,15 +40,6 @@ after_initialize do
     ../app/serializers/webinar_serializer
     ../app/jobs/scheduled/send_webinar_reminders.rb
   ].each { |path| require File.expand_path(path, __FILE__) }
-
-  module ::Zoom
-    PLUGIN_NAME ||= "discourse-zoom".freeze
-
-    class Engine < ::Rails::Engine
-      engine_name Zoom::PLUGIN_NAME
-      isolate_namespace Zoom
-    end
-  end
 
   reloadable_patch do |plugin|
     require_dependency "user"
@@ -148,24 +148,7 @@ after_initialize do
     create_list(:webinars, {}, list)
   end
 
-  # CSP overrides to the SDK endpoint only
-  ZOOM_SDK_REGEX = %r{webinars/(.*)/sdk$}
-  ZOOM_SDK_SCRIPT_SRC = [:unsafe_eval, :unsafe_inline, "https://source.zoom.us", "https://zoom.us"]
-  ZOOM_SDK_WORKER_SRC = ["blob:"]
+  extend_content_security_policy(script_src: ["'unsafe-eval'"])
 
-  module ContentSecurityPolicyExtensionZoomPluginPatch
-    def path_specific_extension(path_info)
-      obj = super
-      if ZOOM_SDK_REGEX.match?(path_info)
-        (obj[:script_src] ||= []).concat(ZOOM_SDK_SCRIPT_SRC)
-        (obj[:worker_src] ||= []).concat(ZOOM_SDK_WORKER_SRC)
-      end
-      obj
-    end
-  end
-
-  ContentSecurityPolicy::Extension.singleton_class.prepend(
-    ContentSecurityPolicyExtensionZoomPluginPatch,
-  )
   ::ActionController::Base.prepend_view_path File.expand_path("../app/views", __FILE__)
 end

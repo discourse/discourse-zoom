@@ -34,6 +34,7 @@ describe Zoom::WebhooksController do
       event: "webinar.participant_joined",
     }
   end
+  before { SiteSetting.zoom_enabled = true }
 
   describe "mismatched zoom authorization token" do
     before { SiteSetting.zoom_webhooks_secret_token = "" }

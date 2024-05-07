@@ -16,6 +16,8 @@ describe Zoom::OAuthClient do
     body = URI.encode_www_form(body)
     body
   end
+  before { SiteSetting.zoom_enabled = true }
+
   describe "#get_oauth" do
     describe "oauth_token" do
       before do

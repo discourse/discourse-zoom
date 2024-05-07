@@ -49,3 +49,6 @@ discourse_zoom:
   zoom_use_join_url:
     default: false
     client: true
+  discourse_zoom_plugin_verbose_logging:
+    default: false
+    client: true

@@ -10,7 +10,10 @@ describe Zoom::WebinarsController do
   fab!(:topic) { Fabricate(:topic, user: user) }
   let(:webinar) { Webinar.create(topic: topic, zoom_id: "123") }
 
-  before { SiteSetting.s2s_oauth_token = "Test_Token" }
+  before do
+    SiteSetting.zoom_enabled = true
+    SiteSetting.s2s_oauth_token = "Test_Token"
+  end
 
   describe "#show" do
     it "works for anons" do
@@ -361,6 +364,16 @@ describe Zoom::WebinarsController do
         end
 
       expect(events.map { |event| event[:event_name] }).to include(:webinar_participant_watched)
+    end
+  end
+
+  describe "#sdk" do
+    it "gets the embeded view for a webinar" do
+      sign_in(user)
+
+      get "/zoom/webinars/#{webinar.id}/sdk?fallback=1"
+      expect(response.status).to eq(200)
+      expect(response.headers["Content-Security-Policy"]).to include("'unsafe-eval'")
     end
   end
 end
