@@ -12,6 +12,8 @@ he:
     zoom_send_user_id: "שלח את מזהה המשתמש הפנימי של Discourse לזום בעת הצטרפות לובינר. (אופציונלי)"
     zoom_display_attendees: "הצגת רשימת המשתתפים באירוע."
     zoom_enable_sdk_fallback: "הצגת קישור לזום אם ההצטרפות לאירוע נכשלת (למשל, אם שירות ה־SDK המקוון של זום מושבת)."
+    zoom_use_join_url: "להגדיר את כפתור הצטרפות כעת/Join Now שיעביר את המשתמשים לכתובת ההצטרפות לכתובת שסופקה על ידי Zoom"
+    discourse_zoom_plugin_verbose_logging: "הפעלת תיעוד מפורט לתוסף Zoom"
     errors:
       models:
         webinar:
