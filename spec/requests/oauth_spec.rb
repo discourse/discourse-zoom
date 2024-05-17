@@ -4,7 +4,7 @@ require "rails_helper"
 require_relative "../responses/zoom_api_stubs"
 
 describe Zoom::OAuthClient do
-  fab!(:user) { Fabricate(:user) }
+  fab!(:user)
   fab!(:admin) { Fabricate(:user, username: "admin.user", admin: true) }
   fab!(:topic) { Fabricate(:topic, user: user) }
   let!(:webinar) { Webinar.create(topic: topic, zoom_id: "123") }

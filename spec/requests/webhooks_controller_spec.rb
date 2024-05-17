@@ -68,7 +68,7 @@ describe Zoom::WebhooksController do
   end
 
   describe "authorized webhooks" do
-    fab!(:topic) { Fabricate(:topic) }
+    fab!(:topic)
     fab!(:webinar) { Fabricate(:webinar, topic: topic, zoom_id: 123, duration: 60) }
     let!(:webhooks_secret_token) { "15123" }
 

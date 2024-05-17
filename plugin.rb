@@ -26,32 +26,24 @@ after_initialize do
     end
   end
 
-  %w[
-    ../app/models/webinar
-    ../app/models/webinar_user
-    ../app/models/zoom_webinar_webhook_event
-    ../lib/webinars
-    ../lib/client
-    ../lib/oauth_client
-    ../lib/webinar_creator
-    ../app/controllers/webinars_controller
-    ../app/controllers/webhooks_controller
-    ../app/serializers/host_serializer
-    ../app/serializers/webinar_serializer
-    ../app/jobs/scheduled/send_webinar_reminders.rb
-  ].each { |path| require File.expand_path(path, __FILE__) }
+  require_relative "app/models/webinar"
+  require_relative "app/models/webinar_user"
+  require_relative "app/models/zoom_webinar_webhook_event"
+  require_relative "lib/webinars"
+  require_relative "lib/client"
+  require_relative "lib/oauth_client"
+  require_relative "lib/webinar_creator"
+  require_relative "app/controllers/webinars_controller"
+  require_relative "app/controllers/webhooks_controller"
+  require_relative "app/serializers/host_serializer"
+  require_relative "app/serializers/webinar_serializer"
+  require_relative "app/jobs/scheduled/send_webinar_reminders"
+  require_relative "lib/zoom/user_extension"
+  require_relative "lib/zoom/topic_extension"
 
   reloadable_patch do |plugin|
-    require_dependency "user"
-    class ::User
-      has_many :webinar_users
-      # has_many :webinars, through: :webinar_users
-    end
-
-    require_dependency "topic"
-    class ::Topic
-      has_one :webinar
-    end
+    User.prepend(Zoom::UserExtension)
+    Topic.prepend(Zoom::TopicExtension)
   end
 
   add_to_serializer(:topic_view, :webinar) { object.topic.webinar }
@@ -133,10 +125,7 @@ after_initialize do
         }
   end
 
-  require_dependency "list_controller"
-  class ::ListController
-    generate_message_route(:zoom_webinars)
-  end
+  ListController.generate_message_route(:zoom_webinars)
 
   add_to_class(:topic_query, :list_zoom_webinars) do |user|
     list =
