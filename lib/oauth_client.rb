@@ -60,7 +60,7 @@ module Zoom
 
       log("Zoom verbose log:\n API error = #{response.inspect}") if response.status != 200
 
-      if response&.body&.present?
+      if response&.body.present?
         result = JSON.parse(response.body)
         log("Zoom verbose log:\n API result = #{result.inspect}")
       end
@@ -68,7 +68,7 @@ module Zoom
     end
 
     def parse_response_body(response)
-      response.body = JSON.parse(response.body, symbolize_names: true) unless response.body.blank?
+      response.body = JSON.parse(response.body, symbolize_names: true) if response.body.present?
       response
     end
 
@@ -95,7 +95,7 @@ module Zoom
           },
         )
 
-      response.body = JSON.parse(response.body, symbolize_names: true) unless response.body.blank?
+      response.body = JSON.parse(response.body, symbolize_names: true) if response.body.present?
 
       if response.status == 200
         SiteSetting.s2s_oauth_token = response.body[:access_token]
