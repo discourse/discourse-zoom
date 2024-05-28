@@ -105,7 +105,7 @@ module Zoom
     end
 
     def filter_unhandled
-      raise Discourse::NotFound unless HANDLED_EVENTS.include?(webinar_params[:event])
+      raise Discourse::NotFound if HANDLED_EVENTS.exclude?(webinar_params[:event])
     end
 
     def filter_expired_event
