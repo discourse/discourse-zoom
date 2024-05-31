@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 bg:
+  js:
+    zoom:
+      remove: "Премахване"
+      webinar_picker:
+        create: "Добави "
+      register: "Регистриране"
+      hours: "Часа"

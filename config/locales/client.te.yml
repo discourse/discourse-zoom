@@ -5,3 +5,9 @@
 # https://translate.discourse.org/
 
 te:
+  js:
+    zoom:
+      remove: "తీసివేయండి"
+      webinar_picker:
+        create: "జోడించండి"
+      register: "నమోదు చేసుకోండి"

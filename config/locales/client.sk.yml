@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 sk:
+  js:
+    zoom:
+      remove: "Odstrániť"
+      webinar_picker:
+        create: "Pridať"
+      register: "Registrácia"
+      hours: "Hodiny"

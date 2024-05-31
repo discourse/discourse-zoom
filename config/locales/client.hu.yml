@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 hu:
+  js:
+    zoom:
+      remove: "Eltávolítás"
+      webinar_picker:
+        create: "Hozzáad"
+      register: "Regisztráció"
+      hours: "óráig"

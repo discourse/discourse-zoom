@@ -5,3 +5,9 @@
 # https://translate.discourse.org/
 
 ca:
+  js:
+    zoom:
+      remove: "Elimina"
+      webinar_picker:
+        create: "Afegeix"
+      register: "Registre"

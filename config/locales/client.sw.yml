@@ -5,3 +5,9 @@
 # https://translate.discourse.org/
 
 sw:
+  js:
+    zoom:
+      remove: "Ondoa"
+      webinar_picker:
+        create: "ongeza"
+      register: "Jisajili"

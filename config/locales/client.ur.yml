@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 ur:
+  js:
+    zoom:
+      remove: "خارج کریں"
+      webinar_picker:
+        create: "اضافہ کریں"
+      register: "رجسٹر"
+      hours: "گھنٹے"

@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 uk:
+  js:
+    zoom:
+      remove: "Вилучити"
+      webinar_picker:
+        create: "Додати"
+      register: "Зареєструватися"
+      hours: "годин"

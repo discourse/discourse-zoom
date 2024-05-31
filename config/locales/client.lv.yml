@@ -5,3 +5,9 @@
 # https://translate.discourse.org/
 
 lv:
+  js:
+    zoom:
+      remove: "Atcelt"
+      webinar_picker:
+        create: "Pievienot"
+      register: "Reģistrēties"

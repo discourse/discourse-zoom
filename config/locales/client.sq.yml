@@ -5,3 +5,8 @@
 # https://translate.discourse.org/
 
 sq:
+  js:
+    zoom:
+      remove: "Hiq"
+      webinar_picker:
+        create: "Shto"

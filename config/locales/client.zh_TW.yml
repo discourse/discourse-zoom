@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 zh_TW:
+  js:
+    zoom:
+      remove: "移除"
+      webinar_picker:
+        create: "加入"
+      register: "註冊"
+      hours: "小時"
