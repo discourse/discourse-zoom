@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 lt:
+  js:
+    zoom:
+      remove: "Pašalinti"
+      webinar_picker:
+        create: "Pridėti"
+      register: "Registruokis"
+      hours: "valandos"

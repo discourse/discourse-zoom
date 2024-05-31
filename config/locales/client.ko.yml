@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 ko:
+  js:
+    zoom:
+      remove: "제거"
+      webinar_picker:
+        create: "추가"
+      register: "등록하기"
+      hours: "시간"

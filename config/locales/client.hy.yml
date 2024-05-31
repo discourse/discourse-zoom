@@ -5,3 +5,9 @@
 # https://translate.discourse.org/
 
 hy:
+  js:
+    zoom:
+      remove: "Հեռացնել"
+      webinar_picker:
+        create: "Ավելացնել"
+      register: "Գրանցվել"

@@ -5,3 +5,9 @@
 # https://translate.discourse.org/
 
 th:
+  js:
+    zoom:
+      remove: "ลบ"
+      webinar_picker:
+        create: "เพิ่ม"
+      register: "ลงทะเบียน"

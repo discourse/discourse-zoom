@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 vi:
+  js:
+    zoom:
+      remove: "Xoá"
+      webinar_picker:
+        create: "Thêm"
+      register: "Đăng ký"
+      hours: "Tiếng"

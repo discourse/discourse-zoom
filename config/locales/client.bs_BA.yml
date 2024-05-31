@@ -5,3 +5,9 @@
 # https://translate.discourse.org/
 
 bs_BA:
+  js:
+    zoom:
+      remove: "Ukloni"
+      webinar_picker:
+        create: "Add"
+      register: "Registriraj"

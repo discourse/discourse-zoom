@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 ro:
+  js:
+    zoom:
+      remove: "Elimină"
+      webinar_picker:
+        create: "Adaugă"
+      register: "Înregistrare"
+      hours: "Ore"

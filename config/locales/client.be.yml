@@ -5,3 +5,9 @@
 # https://translate.discourse.org/
 
 be:
+  js:
+    zoom:
+      remove: "выдаліць"
+      webinar_picker:
+        create: "Дадаць"
+      register: "рэгістрацыя"

@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 nb_NO:
+  js:
+    zoom:
+      remove: "Fjern"
+      webinar_picker:
+        create: "Legg til"
+      register: "Registrer"
+      hours: "timer"

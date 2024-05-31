@@ -5,3 +5,8 @@
 # https://translate.discourse.org/
 
 sr:
+  js:
+    zoom:
+      remove: "Ukloni"
+      webinar_picker:
+        create: "Dodaj"

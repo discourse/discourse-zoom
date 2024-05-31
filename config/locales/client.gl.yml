@@ -5,3 +5,10 @@
 # https://translate.discourse.org/
 
 gl:
+  js:
+    zoom:
+      remove: "Retirar"
+      webinar_picker:
+        create: "Engadir"
+      register: "Rexistrarse"
+      hours: "horas"
