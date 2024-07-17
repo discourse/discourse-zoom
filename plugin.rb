@@ -46,8 +46,13 @@ after_initialize do
     Topic.prepend(Zoom::TopicExtension)
   end
 
-  add_to_serializer(:topic_view, :webinar) { object.topic.webinar }
-  add_to_serializer(:current_user, :webinar_registrations) { object.webinar_users }
+  add_to_serializer(:topic_view, :webinar) do
+    WebinarSerializer.new(object.topic.webinar, root: false).as_json
+  end
+
+  add_to_serializer(:current_user, :webinar_registrations) do
+    object.webinar_users.as_json(only: %i[user_id type webinar_id])
+  end
 
   add_permitted_post_create_param(:zoom_id)
   add_permitted_post_create_param(:zoom_webinar_title)
