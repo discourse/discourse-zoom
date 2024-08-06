@@ -19,6 +19,7 @@ fi:
     zoom_join_x_mins_before_start: "Vaihda käyttöliittymässä Liity-painikkeeseen x minuuttia ennen webinaarin alkua. (0 tarkoittaa, että painike vaihdetaan heti kun tapahtuma alkaa alkamisajasta riippumatta)."
     zoom_enable_sdk_fallback: "Näytä linkki Zoomiin, jos tapahtumaan liittyminen epäonnistuu (esimerkiksi jos Zoomin Web SDK -palvelu ei toimi)."
     zoom_use_join_url: "Laita Liity nyt -painike viemään käyttäjät liittymään Zoomin tarjoamaan URL-osoitteeseen."
+    discourse_zoom_plugin_verbose_logging: "Ota Zoom-lisäosan monisanainen lokikirjaus käyttöön"
     errors:
       models:
         webinar:
