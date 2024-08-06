@@ -19,6 +19,7 @@ es:
     zoom_join_x_mins_before_start: "Cambiar al botón Unirse en la interfaz de usuario x minutos antes del inicio del seminario web. (0 significa que el botón se activará en cuanto se inicie el evento, independientemente de la hora de inicio)"
     zoom_enable_sdk_fallback: "Mostrar un enlace a Zoom si no es posible unirse al evento (por ejemplo, si el servicio Web SDK de Zoom no funciona)."
     zoom_use_join_url: "Hacer que el botón Unirse ahora lleve a los usuarios a la URL de unirse proporcionada por Zoom."
+    discourse_zoom_plugin_verbose_logging: "Habilitar el registro detallado para el plugin de Zoom"
     errors:
       models:
         webinar:

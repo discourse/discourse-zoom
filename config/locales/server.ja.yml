@@ -19,6 +19,7 @@ ja:
     zoom_join_x_mins_before_start: "ウェビナー開始の x 分前に、UI を参加ボタンに切り替えます。(0 の場合、開始時間に関係なく、イベントが開始するとすぐにボタンが切り替えられます)"
     zoom_enable_sdk_fallback: "イベントの参加に失敗した場合 (Zoom の Web SDK サービスがダウンしている場合など)、Zoom へのリンクを表示します。"
     zoom_use_join_url: "今すぐ参加ボタンをクリックすると、Zoom が提供する参加 URL に移動します。"
+    discourse_zoom_plugin_verbose_logging: "Zoom プラグインの詳細なログ記録を有効にする"
     errors:
       models:
         webinar:
