@@ -19,7 +19,7 @@ de:
     zoom_join_x_mins_before_start: "Auf der Benutzeroberfläche x Minuten vor Beginn des Webinars zur Schaltfläche „Teilnehmen“ umschalten (0 bedeutet, dass die Schaltfläche umgeschaltet wird, sobald das Event gestartet wird, unabhängig von der Startzeit)."
     zoom_enable_sdk_fallback: "Einen Link zu Zoom anzeigen, wenn der Beitritt zu einem Event fehlschlägt (z. B. wenn der Web-SDK-Dienst von Zoom ausgefallen ist)."
     zoom_use_join_url: "Die Schaltfläche „Jetzt beitreten“ führt die Benutzer zu der von Zoom bereitgestellten Beitrittsurl."
-    discourse_zoom_plugin_verbose_logging: "Ausführliche Protokollierung für das Zoom-Plugin aktivieren"
+    discourse_zoom_plugin_verbose_logging: "Ausführliche Protokollierung für das Zoom-Plug-in aktivieren"
     errors:
       models:
         webinar:

@@ -19,6 +19,7 @@ nl:
     zoom_join_x_mins_before_start: "Schakel x minuten voor aanvang van het webinar over naar de knop Deelnemen in de gebruikersinterface. (0 betekent dat de knop wordt omgeschakeld zodra het evenement begint, ongeacht de begintijd)"
     zoom_enable_sdk_fallback: "Geef een link naar Zoom weer als deelname aan een evenement mislukt (bijvoorbeeld als de Web SDK-service van Zoom niet beschikbaar is)."
     zoom_use_join_url: "Laat de knop Nu deelnemen gebruikers naar de deelname-URL van Zoom leiden."
+    discourse_zoom_plugin_verbose_logging: "Uitgebreide logging inschakelen voor Zoom-plug-in"
     errors:
       models:
         webinar:
