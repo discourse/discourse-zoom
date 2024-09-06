@@ -120,7 +120,11 @@ export default Component.extend({
       webinar.title
     )}&dates=${this.formatDateForGoogleApi(
       webinar.starts_at
-    )}/${this.formatDateForGoogleApi(webinar.ends_at)}`;
+    )}/${this.formatDateForGoogleApi(
+      webinar.ends_at
+    )}&details=${encodeURIComponent(
+      this.formatDescriptionForGoogleApi(webinar.join_url)
+    )}&location=${encodeURIComponent(webinar.join_url)}`;
   },
 
   @discourseComputed("webinar.{starts_at,ends_at}")
@@ -152,6 +156,11 @@ export default Component.extend({
 
   formatDateForGoogleApi(date) {
     return new Date(date).toISOString().replace(/-|:|\.\d\d\d/g, "");
+  },
+
+  formatDescriptionForGoogleApi(joinUrl) {
+    return `Join from a PC, Mac, iPad, iPhone or Android device:
+    Please click this URL to join. <a href="${joinUrl}">${joinUrl}</a>`;
   },
 
   formatDateForIcs(date) {
