@@ -5,8 +5,6 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import I18n from "I18n";
 import WebinarPicker from "../components/modal/webinar-picker";
 
-const PLUGIN_ID = "discourse-zoom";
-
 function initialize(api) {
   api.addTopicAdminMenuButton((topic) => {
     const canManageTopic = api.getCurrentUser()?.canManageTopic;
@@ -29,22 +27,6 @@ function initialize(api) {
         },
       };
     }
-  });
-
-  api.modifyClass("component:topic-timeline", {
-    pluginId: PLUGIN_ID,
-
-    removeWebinar() {
-      const owner = getOwner(this);
-      const dialog = owner.lookup("service:dialog");
-      const topicController = owner.lookup("controller:topic");
-      removeWebinar(this.topic, dialog, topicController);
-    },
-
-    addWebinar() {
-      const modal = getOwner(this).lookup("service:modal");
-      showWebinarModal(this.topic, modal);
-    },
   });
 }
 
