@@ -41,6 +41,16 @@
 
 .webinar-picker-input {
   text-align: center;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--font-0);
+
+    span {
+      margin-bottom: .5rem;
+    }
+  }
 }
 
 .webinar-picker-wrapper {

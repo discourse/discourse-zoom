@@ -44,7 +44,7 @@ window.onload = (event) => {
               userEmail: res.email,
               success: function (res) {},
               error: function (join_result) {
-                console.log(join_result);
+                // console.log(join_result);
                 if (join_result.errorCode === 1) {
                   const params = getParams(window.location.href);
                   if (params.fallback) {

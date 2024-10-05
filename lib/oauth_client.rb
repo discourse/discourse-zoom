@@ -50,18 +50,27 @@ module Zoom
           },
           body: body&.to_json,
         )
-
       if [400, 401].include?(response.status) && @tries < @max_tries
         get_oauth
         response = send_request(method, body)
       elsif [400, 401].include?(response.status) && @tries == @max_tries
+        self.parse_response_body(response)
+        # This code 200 is a code sent by Zoom not the request status
+        if response&.body[:code] == 200
+          ProblemCheckTracker["s2s_webinar_subscription"].problem!(
+            details: {
+              message: response.body[:message],
+            },
+          )
+        end
+
         authorization_invalid
       end
 
       log("Zoom verbose log:\n API error = #{response.inspect}") if response.status != 200
-
       if response&.body.present?
         result = JSON.parse(response.body)
+        meeting_not_found if (response.status) == 404 && result["code"] == 3001
         log("Zoom verbose log:\n API result = #{result.inspect}")
       end
       response
@@ -96,26 +105,26 @@ module Zoom
         )
 
       response.body = JSON.parse(response.body, symbolize_names: true) if response.body.present?
-
       if response.status == 200
         SiteSetting.s2s_oauth_token = response.body[:access_token]
         @authorization = response.body[:access_token]
       end
     end
 
-    def authorization_invalid
-      if @oauth
-        custom_mesasge =
-          "s2s_
-      oauth_authorization"
-      else
-        custom_mesasge = "custom_authorization"
-      end
+    def authorization_invalid(custom_message = nil)
+      custom_message = "s2s_oauth_authorization" if @oauth
 
       raise Discourse::InvalidAccess.new(
-              "zoom_plugin_authorization_invalid",
+              "zoom_plugin_errors",
               SiteSetting.s2s_oauth_token,
-              custom_message: "zoom_plugin_authorization_invalid.#{custom_mesasge}",
+              custom_message: "zoom_plugin_errors.#{custom_message}",
+            )
+    end
+
+    def meeting_not_found
+      raise Discourse::NotFound.new(
+              I18n.t("zoom_plugin_errors.meeting_not_found"),
+              custom_message: "zoom_plugin_errors.meeting_not_found",
             )
     end
   end

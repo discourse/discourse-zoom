@@ -57,7 +57,7 @@ export default class WebinarPicker extends Component {
     id = this.scrubWebinarId(id.toString());
     this.loading = true;
     this.error = false;
-
+    
     try {
       const json = await ajax(`/zoom/webinars/${id}/preview`);
       this.webinar = json;
@@ -65,7 +65,7 @@ export default class WebinarPicker extends Component {
     } catch (error) {
       this.webinar = null;
       this.selected = false;
-      this.error = true;
+      this.error = error.jqXHR.responseJSON.errors[0];
     } finally {
       this.loading = false;
     }
@@ -250,7 +250,7 @@ export default class WebinarPicker extends Component {
           {{else}}
             {{#if this.error}}
               <div class="alert alert-error">
-                {{i18n "zoom.error"}}
+                {{this.error}}
               </div>
             {{/if}}
 
@@ -285,15 +285,22 @@ export default class WebinarPicker extends Component {
             {{else}}
               <div class="webinar-picker-wrapper">
                 <div class="inline-form webinar-picker-input">
-                  <Input
-                    @type="text"
-                    @value={{this.webinarIdInput}}
-                    class="webinar-builder-id"
-                  />
-                  <DButton
-                    @action={{fn this.selectWebinar this.webinarIdInput}}
-                    @icon="plus"
-                  />
+                  <label>
+                    <span>{{i18n "zoom.webinar_picker.webinar_id"}}</span>
+                    <div class="inline-form">
+                      <Input
+                        @type="text"
+                        @value={{this.webinarIdInput}}
+                        class="webinar-builder-id"
+                      />
+
+                      <DButton
+                      @action={{fn this.selectWebinar this.webinarIdInput}}
+                      @icon="plus"
+                      />
+                    </div>
+                  </label>
+                  
                 </div>
                 <div class="webinar-picker-add-past">
                   <DButton
