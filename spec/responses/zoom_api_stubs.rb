@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class ZoomApiStubs
+module ZoomApiStubs
   def self.get_webinar(id, host_id = 123)
     {
       agenda: "",
