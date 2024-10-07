@@ -96,7 +96,7 @@ describe Zoom::WebinarsController do
   end
 
   describe "#preview" do
-    context "Webinar plan missing" do
+    context "when Webinar plan missing" do
       before do
         stub_request(:get, "https://api.zoom.us/v2/webinars/#{webinar.id}").with(
           headers: {
@@ -163,7 +163,7 @@ describe Zoom::WebinarsController do
       end
     end
 
-    context "Webinar missing" do
+    context "when Webinar missing" do
       let(:fake_logger) { FakeLogger.new }
 
       before do
@@ -235,7 +235,7 @@ describe Zoom::WebinarsController do
 
       after { Rails.logger.stop_broadcasting_to(fake_logger) }
 
-      it "creates problem check error" do
+      it "shows the correct error message for code 3001" do
         get "/zoom/webinars/#{webinar.id}/preview.json"
         json = JSON.parse(response.body)
 

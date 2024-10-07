@@ -56,7 +56,8 @@ module Zoom
       elsif [400, 401].include?(response.status) && @tries == @max_tries
         self.parse_response_body(response)
         # This code 200 is a code sent by Zoom not the request status
-        if response&.body[:code] == 200
+
+        if response&.body&.dig(:code) == 200
           ProblemCheckTracker["s2s_webinar_subscription"].problem!(
             details: {
               message: response.body[:message],
