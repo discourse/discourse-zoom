@@ -2,6 +2,4 @@
 
 require_relative "responses/zoom_api_stubs"
 
-RSpec.configure do |config|
-  config.include ZoomApiStubs
-end
+RSpec.configure { |config| config.include ZoomApiStubs }
