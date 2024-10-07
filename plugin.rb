@@ -17,6 +17,8 @@ register_svg_icon "far-calendar-alt"
 register_svg_icon "video"
 
 after_initialize do
+  require_relative "app/services/problem_check/s2s_webinar_subscription.rb"
+  register_problem_check ProblemCheck::S2sWebinarSubscription
   module ::Zoom
     PLUGIN_NAME ||= "discourse-zoom".freeze
 

@@ -91,7 +91,7 @@ describe Zoom::OAuthClient do
               headers: {
                 content_type: "application/json",
               },
-              status: 200,
+              status: 400,
             )
           end
           it "can't request a new oauth_token" do

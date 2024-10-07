@@ -22,7 +22,7 @@ window.onload = (event) => {
 
     let request = new XMLHttpRequest();
     request.open("GET", `/zoom/webinars/${meetingId}/signature.json`, true);
-    
+
     request.onload = function () {
       if (this.status >= 200 && this.status < 400) {
         let res = JSON.parse(this.response);
@@ -44,7 +44,7 @@ window.onload = (event) => {
               userEmail: res.email,
               success: function (res) {},
               error: function (join_result) {
-                console.log(join_result);
+                // console.log(join_result);
                 if (join_result.errorCode === 1) {
                   const params = getParams(window.location.href);
                   if (params.fallback) {
