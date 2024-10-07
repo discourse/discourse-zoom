@@ -57,7 +57,7 @@ export default class WebinarPicker extends Component {
     id = this.scrubWebinarId(id.toString());
     this.loading = true;
     this.error = false;
-    
+
     try {
       const json = await ajax(`/zoom/webinars/${id}/preview`);
       this.webinar = json;
@@ -295,12 +295,12 @@ export default class WebinarPicker extends Component {
                       />
 
                       <DButton
-                      @action={{fn this.selectWebinar this.webinarIdInput}}
-                      @icon="plus"
+                        @action={{fn this.selectWebinar this.webinarIdInput}}
+                        @icon="plus"
                       />
                     </div>
                   </label>
-                  
+
                 </div>
                 <div class="webinar-picker-add-past">
                   <DButton
