@@ -47,6 +47,7 @@ class Webinar < ActiveRecord::Base
     zoom_attributes[:approval_type] = zoom_attributes[:approval_type].to_i if zoom_attributes[
       :approval_type
     ]
+    zoom_attributes[:zoom_host_id] = zoom_attributes[:host_id]
     if zoom_attributes[:start_time] || zoom_attributes[:duration]
       zoom_attributes[:start_time] = zoom_attributes[:start_time] || starts_at.to_s
       zoom_attributes[:duration] = zoom_attributes[:duration] || duration

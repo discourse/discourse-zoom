@@ -17,7 +17,7 @@ module Zoom
         starts_at: start_datetime,
         duration: data[:duration],
         ends_at: start_datetime + data[:duration].minutes,
-        zoom_host_id: data[:host_id],
+        host_id: data[:host_id],
         password: data[:password],
         host_video: data[:settings][:host_video],
         panelists_video: data[:settings][:panelists_video],
