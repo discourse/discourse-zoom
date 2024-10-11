@@ -39,7 +39,7 @@ describe Zoom::OAuthClient do
             Authorization: "Bearer not_a_valid_token",
             Host: "api.zoom.us",
           },
-        ).to_return(status: 400)
+        ).to_return(body: ZoomApiStubs.get_webinar(user.id), status: 400)
       end
       describe "valid/present" do
         before { SiteSetting.s2s_oauth_token = valid_token }

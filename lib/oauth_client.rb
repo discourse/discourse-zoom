@@ -56,7 +56,6 @@ module Zoom
       elsif [400, 401].include?(response.status) && @tries == @max_tries
         self.parse_response_body(response)
         # This code 200 is a code sent by Zoom not the request status
-
         if response&.body&.dig(:code) == 200
           ProblemCheckTracker["s2s_webinar_subscription"].problem!(
             details: {
@@ -69,6 +68,7 @@ module Zoom
       end
 
       log("Zoom verbose log:\n API error = #{response.inspect}") if response.status != 200
+
       if response&.body.present?
         result = JSON.parse(response.body)
         meeting_not_found if (response.status) == 404 && result["code"] == 3001
@@ -106,6 +106,7 @@ module Zoom
         )
 
       response.body = JSON.parse(response.body, symbolize_names: true) if response.body.present?
+
       if response.status == 200
         SiteSetting.s2s_oauth_token = response.body[:access_token]
         @authorization = response.body[:access_token]
