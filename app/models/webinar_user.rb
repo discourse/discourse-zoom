@@ -16,3 +16,13 @@ class WebinarUser < ActiveRecord::Base
   belongs_to :user
   belongs_to :webinar
 end
+
+# == Schema Information
+#
+# Table name: webinar_users
+#
+#  id         :bigint           not null, primary key
+#  user_id    :integer
+#  webinar_id :bigint
+#  type       :integer
+#
