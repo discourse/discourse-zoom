@@ -55,6 +55,16 @@ module Zoom
         get_oauth
         response = send_request(method, body)
       elsif [400, 401].include?(response.status) && @tries == @max_tries
+        self.parse_response_body(response)
+        # This code 200 is a code sent by Zoom not the request status
+        if response&.body&.dig(:code) == 200
+          ProblemCheckTracker["s2s_webinar_subscription"].problem!(
+            details: {
+              message: response.body[:message],
+            },
+          )
+        end
+
         authorization_invalid
       end
 
@@ -103,19 +113,13 @@ module Zoom
       end
     end
 
-    def authorization_invalid
-      if @oauth
-        custom_mesasge =
-          "s2s_
-      oauth_authorization"
-      else
-        custom_mesasge = "custom_authorization"
-      end
+    def authorization_invalid(custom_message = nil)
+      custom_message = "s2s_oauth_authorization" if @oauth
 
       raise Discourse::InvalidAccess.new(
-              "zoom_plugin_authorization_invalid",
+              "zoom_plugin_errors",
               SiteSetting.s2s_oauth_token,
-              custom_message: "zoom_plugin_authorization_invalid.#{custom_mesasge}",
+              custom_message: "zoom_plugin_errors.#{custom_message}",
             )
     end
   end
