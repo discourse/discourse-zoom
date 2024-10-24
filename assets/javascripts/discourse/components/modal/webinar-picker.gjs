@@ -285,15 +285,21 @@ export default class WebinarPicker extends Component {
             {{else}}
               <div class="webinar-picker-wrapper">
                 <div class="inline-form webinar-picker-input">
-                  <Input
-                    @type="text"
-                    @value={{this.webinarIdInput}}
-                    class="webinar-builder-id"
-                  />
-                  <DButton
-                    @action={{fn this.selectWebinar this.webinarIdInput}}
-                    @icon="plus"
-                  />
+                  <label>
+                    <span>{{i18n "zoom.webinar_picker.webinar_id"}}</span>
+                    <div class="inline-form">
+                      <Input
+                        @type="text"
+                        @value={{this.webinarIdInput}}
+                        class="webinar-builder-id"
+                      />
+
+                      <DButton
+                        @action={{fn this.selectWebinar this.webinarIdInput}}
+                        @icon="plus"
+                      />
+                    </div>
+                  </label>
                 </div>
                 <div class="webinar-picker-add-past">
                   <DButton
