@@ -443,5 +443,85 @@ describe Zoom::WebinarsController do
         )
       end
     end
+
+    context "when Webinar missing" do
+      let(:fake_logger) { FakeLogger.new }
+
+      before do
+        stub_request(:get, "https://api.zoom.us/v2/webinars/#{webinar.id}").with(
+          headers: {
+            "Authorization" => "Bearer Test_Token",
+            "Content-Type" => "application/json",
+            "Host" => "api.zoom.us",
+          },
+        ).to_return(
+          {
+            status: 404,
+            body: { code: 3001, message: "Meeting is not found or has expired." }.to_json,
+          },
+          {
+            status: 404,
+            body: { code: 3001, message: "Meeting is not found or has expired." }.to_json,
+          },
+        )
+
+        stub_request(:get, "https://api.zoom.us/v2/webinars/#{webinar.id}/panelists").to_return(
+          status: 201,
+          body: { panelists: [{ id: "123", email: user.email }] }.to_json,
+        )
+
+        stub_request(
+          :post,
+          "https://zoom.us/oauth/token?account_id=&grant_type=account_credentials",
+        ).with(
+          headers: {
+            "Authorization" => "Basic  Og==",
+            "Content-Type" => "application/json",
+            "Host" => "zoom.us",
+          },
+        ).to_return(
+          {
+            body: { access_token: "token" }.to_json,
+            headers: {
+              content_type: "application/json",
+            },
+            status: 200,
+          },
+          {
+            body: { access_token: "token" }.to_json,
+            headers: {
+              content_type: "application/json",
+            },
+            status: 200,
+          },
+        )
+
+        stub_request(:get, "https://api.zoom.us/v2/webinars/#{webinar.id}").with(
+          headers: {
+            "Authorization" => "Bearer token",
+            "Content-Type" => "application/json",
+            "Host" => "api.zoom.us",
+          },
+        ).to_return(
+          {
+            status: 404,
+            body: { code: 3001, message: "Meeting is not found or has expired." }.to_json,
+          },
+        )
+
+        Rails.logger.broadcast_to(fake_logger)
+
+        sign_in(user)
+      end
+
+      after { Rails.logger.stop_broadcasting_to(fake_logger) }
+
+      it "shows the correct error message for code 3001" do
+        get "/zoom/webinars/#{webinar.id}/preview.json"
+        json = JSON.parse(response.body)
+
+        expect(response.status).to eq(404)
+      end
+    end
   end
 end

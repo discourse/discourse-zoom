@@ -72,6 +72,7 @@ module Zoom
 
       if response&.body.present?
         result = JSON.parse(response.body)
+        meeting_not_found if (response.status) == 404 && result["code"] == 3001
         log("Zoom verbose log:\n API result = #{result.inspect}")
       end
       response
@@ -120,6 +121,13 @@ module Zoom
               "zoom_plugin_errors",
               SiteSetting.s2s_oauth_token,
               custom_message: "zoom_plugin_errors.#{custom_message}",
+            )
+    end
+
+    def meeting_not_found
+      raise Discourse::NotFound.new(
+              I18n.t("zoom_plugin_errors.meeting_not_found"),
+              custom_message: "zoom_plugin_errors.meeting_not_found",
             )
     end
   end

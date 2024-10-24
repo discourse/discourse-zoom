@@ -24,6 +24,7 @@ en:
 
   zoom_plugin_errors:
     s2s_oauth_authorization: "OAuth app is not authorized to make this request"
+    meeting_not_found: "Meeting not found or has expired"
 
   dashboard:
     problem:
