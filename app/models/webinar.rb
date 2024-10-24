@@ -77,3 +77,31 @@ class Webinar < ActiveRecord::Base
     MessageBus.publish("/zoom/webinars/#{id}", status: status)
   end
 end
+
+# == Schema Information
+#
+# Table name: webinars
+#
+#  id                          :bigint           not null, primary key
+#  topic_id                    :integer
+#  zoom_id                     :string
+#  title                       :string
+#  starts_at                   :datetime
+#  ends_at                     :datetime
+#  duration                    :integer
+#  zoom_host_id                :string
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  host_video                  :boolean
+#  panelists_video             :boolean
+#  approval_type               :integer          default("no_registration"), not null
+#  enforce_login               :boolean
+#  registrants_restrict_number :integer          default(0), not null
+#  meeting_authentication      :boolean
+#  on_demand                   :boolean
+#  join_url                    :string
+#  password                    :string
+#  status                      :integer          default("pending"), not null
+#  video_url                   :text
+#  reminders_sent_at           :datetime
+#
