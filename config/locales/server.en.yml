@@ -25,10 +25,11 @@ en:
   zoom_plugin_errors:
     s2s_oauth_authorization: "OAuth app is not authorized to make this request"
     meeting_not_found: "Meeting not found or has expired"
+    contact_system_admin: "There has been a problem, please contact an Administrator"
 
   dashboard:
     problem:
-      s2s_webinar_subscription: "Zooom Plugin: Webinar plan is missing. You must suscribe to the webinar plan to have access to this feature"
+      s2s_webinar_subscription: "Zoom Plugin: Webinar plan is missing. You must subscribe to the webinar plan to have access to this feature"
 
   system_messages:
     webinar_reminder:

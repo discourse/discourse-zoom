@@ -63,9 +63,11 @@ module Zoom
               message: response.body[:message],
             },
           )
+
+          authorization_invalid("contact_system_admin")
         end
 
-        authorization_invalid
+        authorization_invalid("contact_system_admin")
       end
 
       log("Zoom verbose log:\n API error = #{response.inspect}") if response.status != 200
@@ -115,7 +117,7 @@ module Zoom
     end
 
     def authorization_invalid(custom_message = nil)
-      custom_message = "s2s_oauth_authorization" if @oauth
+      custom_message = "s2s_oauth_authorization" if @oauth && !custom_message
 
       raise Discourse::InvalidAccess.new(
               "zoom_plugin_errors",
