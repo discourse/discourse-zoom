@@ -67,7 +67,7 @@ module Zoom
           authorization_invalid("contact_system_admin")
         end
 
-        authorization_invalid("contact_system_admin")
+        authorization_invalid
       end
 
       log("Zoom verbose log:\n API error = #{response.inspect}") if response.status != 200
