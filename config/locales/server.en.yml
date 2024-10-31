@@ -22,6 +22,15 @@ en:
             zoom_id:
               webinar_in_use: "Another topic is already associated with this webinar."
 
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "OAuth app is not authorized to make this request"
+    meeting_not_found: "Meeting not found or has expired"
+    contact_system_admin: "The Webinar plan is required for this site's Zoom subscription. Please <a href='%{base_url}/about'>contact your administrators</a>."
+
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "Zoom Plugin: Webinar plan is missing. You must subscribe to the webinar plan to have access to this feature"
+
   system_messages:
     webinar_reminder:
       title: "Upcoming Webinar"

@@ -65,7 +65,7 @@ export default class WebinarPicker extends Component {
     } catch (error) {
       this.webinar = null;
       this.selected = false;
-      this.error = true;
+      this.error = error.jqXHR.responseJSON.errors[0];
     } finally {
       this.loading = false;
     }
@@ -250,7 +250,7 @@ export default class WebinarPicker extends Component {
           {{else}}
             {{#if this.error}}
               <div class="alert alert-error">
-                {{i18n "zoom.error"}}
+                {{this.error}}
               </div>
             {{/if}}
 
