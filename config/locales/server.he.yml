@@ -20,6 +20,13 @@ he:
           attributes:
             zoom_id:
               webinar_in_use: "נושא אחר כבר משויך לוובינר הזה."
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "יישום OAuth לא מורשה לבצע את הבקשה הזאת"
+    meeting_not_found: "הישיבה לא נמצאה או שתוקפה פג"
+    contact_system_admin: "תוכנית הוובינר נחוצה למינוי ה־Zoom של האתר הזה. נא <a href='%{base_url}/about'>ליצור קשר עם הנהלת המערכת שלך</a>."
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "תוסף Zoom: תוכנית ובינר חסרה. חובה להירשם לוובינר כדי לגשת ליכולת הזאת"
   system_messages:
     webinar_reminder:
       title: "הוובינר הקרוב"
