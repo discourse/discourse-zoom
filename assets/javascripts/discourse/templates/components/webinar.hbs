@@ -1,10 +1,10 @@
-{{#if webinar}}
+{{#if this.webinar}}
   <div class="webinar-content">
     <div class="webinar-header">
       <div class="webinar-title-section">
         <div class="webinar-title bold">
-          {{webinar.title}}
-          {{#if canEdit}}
+          {{this.webinar.title}}
+          {{#if this.canEdit}}
             <a
               href
               {{action "editPanelists"}}
@@ -15,28 +15,28 @@
             </a>
           {{/if}}
         </div>
-        <div class="occurrence-start-time">{{schedule}}</div>
+        <div class="occurrence-start-time">{{this.schedule}}</div>
       </div>
 
-      {{#if setupTimer}}
-        {{#if showTimer}}
+      {{#if this.setupTimer}}
+        {{#if this.showTimer}}
           <div class="countdown-wrapper">
             <div class="countdown-label">{{i18n "zoom.countdown_label"}}</div>
             <div class="countdown">
               <div class="pill">
-                {{cDays}}
+                {{this.cDays}}
                 <div>{{i18n "zoom.days"}}</div>
               </div>
               <div class="pill">
-                {{cHours}}
+                {{this.cHours}}
                 <div>{{i18n "zoom.hours"}}</div>
               </div>
               <div class="pill">
-                {{cMins}}
+                {{this.cMins}}
                 <div>{{i18n "zoom.mins"}}</div>
               </div>
               <div class="pill">
-                {{cSecs}}
+                {{this.cSecs}}
                 <div>{{i18n "zoom.secs"}}</div>
               </div>
             </div>
@@ -45,27 +45,27 @@
       {{/if}}
     </div>
 
-    {{#if webinar.host}}
+    {{#if this.webinar.host}}
       <div class="host">{{i18n "zoom.hosted_by"}}</div>
       <div class="host-container">
         <a
-          href="/u/{{webinar.host.username}}"
-          data-user-card={{webinar.host.username}}
+          href="/u/{{this.webinar.host.username}}"
+          data-user-card={{this.webinar.host.username}}
         >
-          {{avatar webinar.host imageSize="large"}}
+          {{avatar this.webinar.host imageSize="large"}}
         </a>
         <div class="host-description">
-          <div class="host-name">{{hostDisplayName}}</div>
-          <div class="group-name">{{webinar.host.title}}</div>
+          <div class="host-name">{{this.hostDisplayName}}</div>
+          <div class="group-name">{{this.webinar.host.title}}</div>
         </div>
       </div>
     {{/if}}
 
-    {{#if webinar.panelists}}
+    {{#if this.webinar.panelists}}
       <div class="panelists">
         {{i18n "zoom.panelists"}}
         <div class="panelist-avatars">
-          {{#each webinar.panelists as |panelist|}}
+          {{#each this.webinar.panelists as |panelist|}}
             <a
               href="/u/{{panelist.username}}"
               data-user-card={{panelist.username}}
@@ -77,24 +77,27 @@
       </div>
     {{/if}}
 
-    {{#if currentUser}}
-      <WebinarRegister @webinar={{webinar}} @showCalendarButtons={{true}} />
+    {{#if this.currentUser}}
+      <WebinarRegister
+        @webinar={{this.webinar}}
+        @showCalendarButtons={{true}}
+      />
     {{/if}}
 
-    {{#if webinarEnded}}
+    {{#if this.webinarEnded}}
       <div class="event-ended">
-        {{#if webinar.video_url}}
+        {{#if this.webinar.video_url}}
           <div class="video-recording">
-            {{#if showingRecording}}
+            {{#if this.showingRecording}}
               <video
                 controlslist="nodownload"
                 width="100%"
                 height="100%"
-                src={{webinar.video_url}}
+                src={{this.webinar.video_url}}
                 controls
               ></video>
             {{else}}
-              {{#if webinar.video_url}}
+              {{#if this.webinar.video_url}}
                 <DButton
                   @action={{action "showRecording"}}
                   class="btn-primary"
@@ -109,13 +112,13 @@
         {{/if}}
       </div>
     {{else}}
-      {{#if displayAttendees}}
-        {{#if webinar.attendees}}
+      {{#if this.displayAttendees}}
+        {{#if this.webinar.attendees}}
           <div class="attendees">
             {{i18n "zoom.attendees"}}
 
             <div class="attendee-avatars">
-              {{#each webinar.attendees as |attendee|}}
+              {{#each this.webinar.attendees as |attendee|}}
                 {{avatar attendee imageSize="small"}}
               {{/each}}
             </div>
@@ -123,9 +126,9 @@
         {{/if}}
       {{/if}}
 
-      {{#unless webinarStarted}}
+      {{#unless this.webinarStarted}}
         <div class="webinar-footnote">
-          {{#if currentUser}}
+          {{#if this.currentUser}}
             {{i18n "zoom.webinar_footnote"}}
           {{else}}
             {{i18n "zoom.webinar_logged_in_users_only"}}
@@ -135,5 +138,5 @@
     {{/if}}
   </div>
 {{else}}
-  <ConditionalLoadingSpinner @condition={{loading}} />
+  <ConditionalLoadingSpinner @condition={{this.loading}} />
 {{/if}}

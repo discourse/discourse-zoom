@@ -58,7 +58,7 @@ function removeWebinar(topic, dialog, topicController) {
         .then(() => {
           topic.set("webinar", null);
           topicController.set("editingTopic", false);
-          document.querySelector("body").classList.remove("has-webinar");
+          document.body.classList.remove("has-webinar");
           topic.postStream.posts[0].rebake();
         })
         .catch(popupAjaxError);
