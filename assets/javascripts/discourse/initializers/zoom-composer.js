@@ -32,9 +32,9 @@ export default {
         _addWebinarClass() {
           const webinar = this.get("model.webinar");
           if (webinar) {
-            document.querySelector("body").classList.add("has-webinar");
+            document.body.classList.add("has-webinar");
           } else {
-            document.querySelector("body").classList.remove("has-webinar");
+            document.body.classList.remove("has-webinar");
           }
         },
       });

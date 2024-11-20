@@ -1,5 +1,8 @@
-{{#if model.topic.webinar}}
+{{#if this.model.topic.webinar}}
   <div class="webinar-banner">
-    <Webinar @topic={{model.topic}} @webinarId={{model.topic.webinar.id}} />
+    <Webinar
+      @topic={{this.model.topic}}
+      @webinarId={{this.model.topic.webinar.id}}
+    />
   </div>
 {{/if}}

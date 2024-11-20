@@ -164,7 +164,7 @@ export default class WebinarPicker extends Component {
     } finally {
       this.loading = false;
       this.model.postStream.posts[0].rebake();
-      document.querySelector("body").classList.add("has-webinar");
+      document.body.classList.add("has-webinar");
     }
   }
 

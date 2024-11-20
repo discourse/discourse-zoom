@@ -1,7 +1,7 @@
-{{#unless webinarEnded}}
-  {{#if webinarStarted}}
-    {{#if joinViaZoom}}
-      <a href={{joinViaZoom}} class="webinar-join-sdk btn btn-primary">
+{{#unless this.webinarEnded}}
+  {{#if this.webinarStarted}}
+    {{#if this.joinViaZoom}}
+      <a href={{this.joinViaZoom}} class="webinar-join-sdk btn btn-primary">
         {{d-icon "video"}}
         {{i18n "zoom.join_sdk"}}
       </a>
@@ -14,15 +14,15 @@
       />
     {{/if}}
   {{else}}
-    {{#if registered}}
+    {{#if this.registered}}
       <div class="webinar-registered">
-        {{#if isAttendee}}
+        {{#if this.isAttendee}}
           <span class="registered">
             {{d-icon "far-check-circle"}}
             {{i18n "zoom.registered"}}
           </span>
 
-          {{#if canUnregister}}
+          {{#if this.canUnregister}}
             <a
               href
               {{action "unregister"}}
@@ -34,18 +34,18 @@
           {{/if}}
         {{/if}}
 
-        {{#if showCalendarButtons}}
+        {{#if this.showCalendarButtons}}
           <div class="zoom-add-to-calendar-container">
             <a
               target="_blank"
               rel="noopener noreferrer"
               class="btn"
-              href={{addToGoogleCalendarUrl}}
+              href={{this.addToGoogleCalendarUrl}}
             >
               {{i18n "zoom.add_to_google_calendar"}}
             </a>
 
-            {{#if isAppWebview}}
+            {{#if this.isAppWebview}}
               <DButton
                 @action={{action "addEventAppWebview"}}
                 @label="zoom.add_to_calendar"
@@ -55,8 +55,8 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="btn"
-                href={{downloadIcsUrl}}
-                download={{downloadName}}
+                href={{this.downloadIcsUrl}}
+                download={{this.downloadName}}
               >
                 {{i18n "zoom.add_to_outlook"}}
               </a>
@@ -65,13 +65,13 @@
         {{/if}}
       </div>
     {{else}}
-      {{#if userCanRegister}}
+      {{#if this.userCanRegister}}
         <DButton
           @action={{action "register"}}
           class="webinar-register-button btn-primary"
           @label="zoom.register"
           @icon="far-calendar-alt"
-          @disabled={{loading}}
+          @disabled={{this.loading}}
         />
       {{/if}}
     {{/if}}
