@@ -1,8 +1,8 @@
 import UserTopicListRoute from "discourse/routes/user-topic-list";
 
-export default UserTopicListRoute.extend({
-  userActionType: null,
-  noContentHelpKey: "zoom.no_user_webinars",
+export default class UserActivityWebinars extends UserTopicListRoute {
+  userActionType = null;
+  noContentHelpKey = "zoom.no_user_webinars";
 
   model() {
     return this.store.findFiltered("topicList", {
@@ -10,5 +10,5 @@ export default UserTopicListRoute.extend({
         "username_lower"
       )}`,
     });
-  },
-});
+  }
+}

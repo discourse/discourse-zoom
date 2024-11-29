@@ -1,4 +1,5 @@
 import Component from "@ember/component";
+import { action } from "@ember/object";
 import { or } from "@ember/object/computed";
 import { ajax } from "discourse/lib/ajax";
 import { postRNWebviewMessage } from "discourse/lib/utilities";
@@ -7,9 +8,10 @@ import discourseComputed from "discourse-common/utils/decorators";
 const STARTED = "started",
   ENDED = "ended";
 
-export default Component.extend({
-  loading: false,
-  registered: or("isHost", "isPanelist", "isAttendee"),
+export default class WebinarRegister extends Component {
+  loading = false;
+
+  @or("isHost", "isPanelist", "isAttendee") registered;
 
   @discourseComputed("webinar.{status,ends_at}")
   webinarStarted(webinar) {
@@ -30,7 +32,7 @@ export default Component.extend({
       }
     }
     return false;
-  },
+  }
 
   @discourseComputed("webinar.{status,ends_at}")
   webinarEnded(webinar) {
@@ -41,12 +43,12 @@ export default Component.extend({
       return true;
     }
     return false;
-  },
+  }
 
   @discourseComputed
   isAppWebview() {
     return this.capabilities.isAppWebview;
-  },
+  }
 
   @discourseComputed("currentUser", "webinar.attendees")
   isAttendee(user, attendees) {
@@ -58,7 +60,7 @@ export default Component.extend({
       }
     }
     return false;
-  },
+  }
 
   @discourseComputed("currentUser", "webinar.host")
   isHost(user, host) {
@@ -66,7 +68,7 @@ export default Component.extend({
       return user.id === host.id;
     }
     return false;
-  },
+  }
 
   @discourseComputed("currentUser", "webinar.panelists")
   isPanelist(user, panelists) {
@@ -77,7 +79,7 @@ export default Component.extend({
     }
 
     return false;
-  },
+  }
 
   @discourseComputed("webinar.starts_at", "isAttendee", "registered")
   canUnregister(starts_at, isAttendee, registered) {
@@ -86,12 +88,12 @@ export default Component.extend({
     }
 
     return isAttendee && registered;
-  },
+  }
 
   @discourseComputed("isAttendee", "registered")
   userCanRegister(isAttendee, registered) {
     return !isAttendee && !registered;
-  },
+  }
 
   toggleRegistration(registering) {
     const method = registering ? "PUT" : "DELETE";
@@ -107,12 +109,12 @@ export default Component.extend({
         this.set("loading", false);
       })
       .finally(() => this.set("loading", false));
-  },
+  }
 
   @discourseComputed("webinar.title")
   downloadName(title) {
     return title + ".ics";
-  },
+  }
 
   @discourseComputed("webinar.{starts_at,ends_at}")
   addToGoogleCalendarUrl(webinar) {
@@ -125,7 +127,7 @@ export default Component.extend({
     )}&details=${encodeURIComponent(
       this.formatDescriptionForGoogleApi(webinar.join_url)
     )}&location=${encodeURIComponent(webinar.join_url)}`;
-  },
+  }
 
   @discourseComputed("webinar.{starts_at,ends_at}")
   downloadIcsUrl(webinar) {
@@ -143,7 +145,7 @@ export default Component.extend({
         }\nEND:VEVENT\nEND:VCALENDAR`
       )
     );
-  },
+  }
 
   @discourseComputed("webinar.join_url")
   joinViaZoom(joinUrl) {
@@ -152,51 +154,53 @@ export default Component.extend({
     } else {
       return false;
     }
-  },
+  }
 
   formatDateForGoogleApi(date) {
     return new Date(date).toISOString().replace(/-|:|\.\d\d\d/g, "");
-  },
+  }
 
   formatDescriptionForGoogleApi(joinUrl) {
     return `Join from a PC, Mac, iPad, iPhone or Android device:
     Please click this URL to join. <a href="${joinUrl}">${joinUrl}</a>`;
-  },
+  }
 
   formatDateForIcs(date) {
     return moment(date).utc().format("YYYYMMDDTHHmmss") + "Z";
-  },
+  }
 
-  actions: {
-    register() {
-      this.toggleRegistration(true);
-    },
+  @action
+  register() {
+    this.toggleRegistration(true);
+  }
 
-    unregister() {
-      this.toggleRegistration(false);
-    },
+  @action
+  unregister() {
+    this.toggleRegistration(false);
+  }
 
-    addEventAppWebview() {
-      const event = {
-        title: this.webinar.title,
-        starts_at: this.webinar.starts_at,
-        ends_at: this.webinar.ends_at,
-      };
-      postRNWebviewMessage("eventRegistration", JSON.stringify(event));
-    },
+  @action
+  addEventAppWebview() {
+    const event = {
+      title: this.webinar.title,
+      starts_at: this.webinar.starts_at,
+      ends_at: this.webinar.ends_at,
+    };
+    postRNWebviewMessage("eventRegistration", JSON.stringify(event));
+  }
 
-    joinSDK() {
-      const url = this.siteSettings.zoom_enable_sdk_fallback
-        ? `/zoom/webinars/${this.webinar.id}/sdk?fallback=1`
-        : `/zoom/webinars/${this.webinar.id}/sdk`;
+  @action
+  joinSDK() {
+    const url = this.siteSettings.zoom_enable_sdk_fallback
+      ? `/zoom/webinars/${this.webinar.id}/sdk?fallback=1`
+      : `/zoom/webinars/${this.webinar.id}/sdk`;
 
-      if (this.registered) {
+    if (this.registered) {
+      window.location.href = url;
+    } else {
+      this.toggleRegistration(true).then(() => {
         window.location.href = url;
-      } else {
-        this.toggleRegistration(true).then(() => {
-          window.location.href = url;
-        });
-      }
-    },
-  },
-});
+      });
+    }
+  }
+}
