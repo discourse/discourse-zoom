@@ -1,15 +1,16 @@
 import Component from "@ember/component";
+import { action } from "@ember/object";
 import discourseComputed from "discourse-common/utils/decorators";
 import { formattedSchedule } from "../lib/webinar-helpers";
 
-export default Component.extend({
-  model: null,
-  onSelect: null,
+export default class WebinarOptionRow extends Component {
+  model = null;
+  onSelect = null;
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this.onSelect = this.onSelect || (() => {});
-  },
+  }
 
   @discourseComputed("model")
   schedule(model) {
@@ -17,11 +18,10 @@ export default Component.extend({
       model.start_time,
       moment(model.start_time).add(model.duration, "m").toDate()
     );
-  },
+  }
 
-  actions: {
-    selectWebinar() {
-      this.onSelect();
-    },
-  },
-});
+  @action
+  selectWebinar() {
+    this.onSelect();
+  }
+}

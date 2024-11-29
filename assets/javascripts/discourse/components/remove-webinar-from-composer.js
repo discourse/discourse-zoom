@@ -1,11 +1,11 @@
 import Component from "@ember/component";
+import { action } from "@ember/object";
 
-export default Component.extend({
-  model: null,
+export default class RemoveWebinarFromComposer extends Component {
+  model = null;
 
-  actions: {
-    removeWebinar() {
-      this.model.set("zoomId", null);
-    },
-  },
-});
+  @action
+  removeWebinar() {
+    this.model.set("zoomId", null);
+  }
+}
