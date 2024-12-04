@@ -12,8 +12,8 @@ register_asset "stylesheets/common/zoom.scss"
 register_asset "stylesheets/common/webinar-picker.scss"
 register_asset "stylesheets/common/webinar-details.scss"
 
-register_svg_icon "far-check-circle"
-register_svg_icon "far-calendar-alt"
+register_svg_icon "far-circle-check"
+register_svg_icon "far-calendar-days"
 register_svg_icon "video"
 
 after_initialize do
