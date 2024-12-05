@@ -241,7 +241,7 @@ export default class EditWebinar extends Component {
                 <DButton
                   @action={{fn this.removePanelist panelist}}
                   class="remove-panelist-btn btn-danger"
-                  @icon="times"
+                  @icon="xmark"
                   @disabled={{this.loading}}
                 />
               </div>
@@ -291,7 +291,7 @@ export default class EditWebinar extends Component {
           <DButton
             @action={{this.resetVideoUrl}}
             class="new-panelist-btn btn-danger"
-            @icon="times"
+            @icon="xmark"
             @disabled={{this.canSaveVideoUrl}}
           />
         </div>
