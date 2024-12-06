@@ -26,6 +26,13 @@ pt_BR:
           attributes:
             zoom_id:
               webinar_in_use: "Outro tópico já está associado a este webinar."
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "O aplicativo OAuth não tem autorização para solicitar isto"
+    meeting_not_found: "Reunião não encontrada ou expirada"
+    contact_system_admin: "A assinatura do Zoom para este site requer o plano de Webinar. <a href='%{base_url}/about'>Entre em contato com \na administração</a>."
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "Plugin Zoom: falta o plano de Webinar. É preciso fazer a assinatura do plano de webinar para acessar esse recurso"
   system_messages:
     webinar_reminder:
       title: "Próximo webinar"

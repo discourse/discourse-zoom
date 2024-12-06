@@ -26,6 +26,13 @@ ja:
           attributes:
             zoom_id:
               webinar_in_use: "このウェビナーには別のトピックがすでに関連付けられています。"
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "OAuth アプリにはこのリクエストを行うための権限がありません"
+    meeting_not_found: "会議は見つからないか期限切れです"
+    contact_system_admin: "このサイトの Zoom サブスクリプションにはウェビナープランが必要です。<a href='%{base_url}/about'>管理者にお問い合わせ</a>ください。"
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "Zoom プラグイン: ウェビナープランがありません。この機能を利用するには、ウェビナープランを購読する必要があります。"
   system_messages:
     webinar_reminder:
       title: "開催予定のウェビナー"

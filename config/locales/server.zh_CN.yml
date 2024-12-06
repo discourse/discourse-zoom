@@ -26,6 +26,13 @@ zh_CN:
           attributes:
             zoom_id:
               webinar_in_use: "另一个话题已与此网络研讨会相关联。"
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "OAuth 应用未获得发出此请求的授权"
+    meeting_not_found: "会议未找到或已过期"
+    contact_system_admin: "此网站的 Zoom 订阅需要在线讲座方案。请<a href='%{base_url}/about'>联系您的管理员</a>。"
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "Zoom 插件：缺少在线讲座方案。您必须订阅在线讲座方案才能使用此功能"
   system_messages:
     webinar_reminder:
       title: "即将举行的网络研讨会"
