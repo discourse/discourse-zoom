@@ -26,6 +26,13 @@ fr:
           attributes:
             zoom_id:
               webinar_in_use: "Un autre sujet est déjà associé à ce webinaire."
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "L'application OAuth n'est pas autorisée à effectuer cette demande"
+    meeting_not_found: "Réunion introuvable ou expirée"
+    contact_system_admin: "Le forfait de webinaire est requis pour l'abonnement Zoom de ce site. Veuillez <a href='%{base_url}/about'>contacter vos administrateurs</a>."
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "Extension Zoom : il manque un forfait de webinaire. Vous devez souscrire à un forfait de webinaire pour avoir accès à cette fonctionnalité"
   system_messages:
     webinar_reminder:
       title: "Webinaire à venir"

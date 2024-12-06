@@ -26,6 +26,13 @@ de:
           attributes:
             zoom_id:
               webinar_in_use: "Mit diesem Webinar ist bereits ein anderes Thema verknüpft."
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "Die OAuth-App ist nicht berechtigt, diese Anfrage zu stellen"
+    meeting_not_found: "Meeting nicht gefunden oder abgelaufen"
+    contact_system_admin: "Der Webinar-Tarif ist für das Zoom-Abonnement dieser Website erforderlich. Bitte <a href='%{base_url}/about'>kontaktiere deine Administratoren</a>."
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "Zoom-Plug-in: Webinar-Tarif fehlt. Du musst den Webinar-Tarif abonnieren, um Zugang zu dieser Funktion zu haben"
   system_messages:
     webinar_reminder:
       title: "Kommendes Webinar"

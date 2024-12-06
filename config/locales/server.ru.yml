@@ -26,6 +26,13 @@ ru:
           attributes:
             zoom_id:
               webinar_in_use: "С этим вебинаром уже связана другая тема."
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "Приложение OAuth не авторизовано для выполнения этого запроса"
+    meeting_not_found: "Встреча не найдена или срок ее действия истек"
+    contact_system_admin: "План Zoom Webinars необходим для подписки на Zoom этого сайта. <a href='%{base_url}/about'>Обратитесь к своим администраторам</a>."
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "Плагин Zoom: отсутствует подписка Zoom Webinars. Вам нужно оформить подписку Zoom Webinars, чтобы получить доступ к этой функции"
   system_messages:
     webinar_reminder:
       title: "Предстоящий вебинар"

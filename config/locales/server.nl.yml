@@ -26,6 +26,13 @@ nl:
           attributes:
             zoom_id:
               webinar_in_use: "Er is al een ander topic aan dit webinar gekoppeld."
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "De OAuth-app is niet geautoriseerd om dit verzoek te doen"
+    meeting_not_found: "Vergadering niet gevonden of verlopen"
+    contact_system_admin: "Het Webinar-abonnement is vereist voor het Zoom-abonnement op deze site. <a href='%{base_url}/about'>Neem contact op met je beheerders</a>."
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "Zoom-plug-in: Webinar-abonnement ontbreekt. Je moet een Webinar-abonnement nemen voor toegang tot deze functie."
   system_messages:
     webinar_reminder:
       title: "Aankomend webinar"

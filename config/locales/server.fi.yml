@@ -26,6 +26,13 @@ fi:
           attributes:
             zoom_id:
               webinar_in_use: "Toinen ketju on jo liitetty tähän webinaariin."
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "OAuth-sovelluksella ei ole valtuuksia tehdä tätä pyyntöä"
+    meeting_not_found: "Kokousta ei löydy tai se on vanhentunut"
+    contact_system_admin: "Webinaarisopimus vaaditaan tämän sivuston Zoom-tilaukseen. Ota <a href='%{base_url}/about'>yhteyttä ylläpitäjiisi</a>."
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "Zoom-lisäosa: webinaarisopimus puuttuu. Sinun täytyy tilata webinaarisopimus, jotta voit käyttää tätä ominaisuutta"
   system_messages:
     webinar_reminder:
       title: "Tuleva webinaari"

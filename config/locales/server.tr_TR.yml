@@ -26,6 +26,13 @@ tr_TR:
           attributes:
             zoom_id:
               webinar_in_use: "Başka bir konu zaten bu web semineriyle ilişkilendirilmiş."
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "OAuth uygulaması bu talebi göndermek için yetkili değil"
+    meeting_not_found: "Toplantı bulunamadı veya süresi doldu"
+    contact_system_admin: "Bu sitenin Zoom aboneliği için Webinar planı gerekli. Lütfen <a href='%{base_url}/about'>yöneticilerinizle iletişime geçin</a>."
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "Zoom Eklentisi: Webinar planı eksik. Bu özelliğe erişmek için webinar planına abone olmalısınız"
   system_messages:
     webinar_reminder:
       title: "Yaklaşan Web Semineri"

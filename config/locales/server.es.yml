@@ -26,6 +26,13 @@ es:
           attributes:
             zoom_id:
               webinar_in_use: "Ya hay otro tema asociado a este seminario web."
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "La aplicación OAuth no está autorizada a realizar esta solicitud"
+    meeting_not_found: "No se encontró la reunión o ha caducado"
+    contact_system_admin: "Se requiere el plan Webinar para la suscripción Zoom de este sitio. <a href='%{base_url}/about'>Contacta con tus administradores</a>."
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "Complemento Zoom: Falta el plan Webinar. Debes suscribirte al plan Webinar para tener acceso a esta característica"
   system_messages:
     webinar_reminder:
       title: "Próximo seminario web"
