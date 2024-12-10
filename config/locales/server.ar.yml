@@ -26,6 +26,13 @@ ar:
           attributes:
             zoom_id:
               webinar_in_use: "هناك موضوع آخر مرتبط بالفعل بهذه الندوة عبر الإنترنت."
+  zoom_plugin_errors:
+    s2s_oauth_authorization: "تطبيق OAuth غير مصرَّح له بإجراء هذا الطلب"
+    meeting_not_found: "لم يتم العثور على الاجتماع أو انتهت صلاحيته"
+    contact_system_admin: "خطة الندوة عبر الإنترنت مطلوبة لاشتراك Zoom الخاص بهذا الموقع. يُرجى <a href='%{base_url}/about'>التواصل مع المسؤولين لديك</a>."
+  dashboard:
+    problem:
+      s2s_webinar_subscription: "المكوِّن الإضافي لبرنامج Zoom: خطة الندوات عبر الإنترنت مفقودة. يجب عليك الاشتراك في خطة الندوات عبر الإنترنت للوصول إلى هذه الميزة"
   system_messages:
     webinar_reminder:
       title: "ندوة عبر الإنترنت قادمة"
