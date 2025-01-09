@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe "Discourse Zoom | Topic Page", type: :system do
   fab!(:topic)
   fab!(:post) { Fabricate(:post, topic: topic) }
