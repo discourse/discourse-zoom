@@ -1,4 +1,4 @@
-import { bodyClass } from "discourse/helpers/body-class";
+import bodyClass from "discourse/helpers/body-class";
 import { apiInitializer } from "discourse/lib/api";
 import Composer from "discourse/models/composer";
 import RenderGlimmer from "discourse/widgets/render-glimmer";

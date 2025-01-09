@@ -8,5 +8,6 @@ describe "Discourse Zoom | Topic Page", type: :system do
   it "renders successfully" do
     visit "/t/#{topic.slug}/#{topic.id}"
     expect(page).to have_css(".webinar-banner")
+    expect(page).to have_css("body.has-webinar")
   end
 end
