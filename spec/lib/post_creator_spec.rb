@@ -9,7 +9,7 @@ describe PostCreator do
   let(:user) { Fabricate(:user, refresh_auto_groups: true) }
 
   before do
-    SiteSetting.min_first_post_typing_time = 0
+    SiteSetting.fast_typing_threshold = "disabled"
     SiteSetting.zoom_enabled = true
     SiteSetting.s2s_oauth_token = "Test_Token"
   end
