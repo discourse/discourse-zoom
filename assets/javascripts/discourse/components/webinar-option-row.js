@@ -1,6 +1,6 @@
 import Component from "@ember/component";
 import { action } from "@ember/object";
-import discourseComputed from "discourse-common/utils/decorators";
+import discourseComputed from "discourse/lib/decorators";
 import { formattedSchedule } from "../lib/webinar-helpers";
 
 export default class WebinarOptionRow extends Component {
