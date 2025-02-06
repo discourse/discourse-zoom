@@ -5,7 +5,7 @@ import { next } from "@ember/runloop";
 import { service } from "@ember/service";
 import $ from "jquery";
 import { ajax } from "discourse/lib/ajax";
-import discourseComputed from "discourse-common/utils/decorators";
+import discourseComputed from "discourse/lib/decorators";
 import EditWebinar from "../components/modal/edit-webinar";
 import { formattedSchedule } from "../lib/webinar-helpers";
 

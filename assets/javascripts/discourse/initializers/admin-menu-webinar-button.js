@@ -1,7 +1,7 @@
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import I18n from "I18n";
+import { i18n } from "discourse-i18n";
 import WebinarPicker from "../components/modal/webinar-picker";
 
 function initialize(api) {
@@ -52,7 +52,7 @@ function showWebinarModal(topic, modal) {
 
 function removeWebinar(topic, dialog, topicController) {
   dialog.confirm({
-    message: I18n.t("zoom.confirm_remove"),
+    message: i18n("zoom.confirm_remove"),
     didConfirm: () => {
       ajax(`/zoom/webinars/${topic.webinar.id}`, { type: "DELETE" })
         .then(() => {

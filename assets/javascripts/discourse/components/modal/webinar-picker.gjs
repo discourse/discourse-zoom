@@ -10,8 +10,7 @@ import DModal from "discourse/components/d-modal";
 import DateInput from "discourse/components/date-input";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import i18n from "discourse-common/helpers/i18n";
-import I18n from "discourse-i18n";
+import { i18n } from "discourse-i18n";
 import WebinarOptionRow from "../webinar-option-row";
 
 const NONZOOM = "nonzoom";
@@ -42,10 +41,10 @@ export default class WebinarPicker extends Component {
 
   get webinarError() {
     if (this.webinar.approval_type !== NO_REGISTRATION_REQUIRED) {
-      return I18n.t("zoom.no_registration_required");
+      return i18n("zoom.no_registration_required");
     }
     if (this.webinar.existing_topic) {
-      return I18n.t("zoom.webinar_existing_topic", {
+      return i18n("zoom.webinar_existing_topic", {
         topic_id: this.webinar.existing_topic.topic_id,
       });
     }
