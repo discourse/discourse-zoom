@@ -13,6 +13,7 @@
     font-weight: normal;
     margin-left: 10px;
   }
+
   .cancel {
     order: 2;
     margin-left: 10px;
@@ -44,10 +45,12 @@
   .webinar-nonzoom-details .update-host-input {
     margin-bottom: 1em;
   }
+
   .update-host-details {
     display: flex;
     gap: 0.4em;
     align-items: center;
+
     input {
       margin-bottom: 0;
     }
