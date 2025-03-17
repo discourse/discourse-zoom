@@ -5,6 +5,7 @@
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
+
   .edit-panelists {
     color: var(--primary);
   }
@@ -12,13 +13,16 @@
 
 .webinar-header {
   margin-bottom: 1em;
+
   @media screen and (min-width: 768px) {
     display: flex;
     justify-content: space-between;
+
     .webinar-title-section {
       align-self: center;
     }
   }
+
   .countdown-label {
     @media screen and (min-width: 768px) {
       text-align: center;
@@ -31,17 +35,20 @@
       margin: 1em 0;
     }
   }
+
   .countdown {
     display: flex;
     max-height: 75px;
+
     .pill {
       background: white;
       border: 1px solid var(--primary-low);
-      margin: 0px 5px;
+      margin: 0 5px;
       padding: 8px;
       border-radius: 5px;
       text-align: center;
       font-size: $font-up-3;
+
       > div {
         font-size: $font-down-4;
       }
@@ -79,7 +86,7 @@
 
   .panelists,
   .attendees {
-    margin: 1em 0em;
+    margin: 1em 0;
     display: flex;
     align-items: center;
   }
@@ -103,6 +110,7 @@
   .event-ended {
     .video-recording {
       padding-top: 2em;
+
       video {
         width: 100%;
       }
@@ -112,6 +120,7 @@
 
 .webinar-registered {
   margin-top: 1em;
+
   span.registered {
     display: inline-block;
     background: var(--secondary);

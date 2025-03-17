@@ -20,7 +20,7 @@ after_initialize do
   require_relative "app/services/problem_check/s2s_webinar_subscription.rb"
   register_problem_check ProblemCheck::S2sWebinarSubscription
   module ::Zoom
-    PLUGIN_NAME ||= "discourse-zoom".freeze
+    PLUGIN_NAME = "discourse-zoom".freeze
 
     class Engine < ::Rails::Engine
       engine_name Zoom::PLUGIN_NAME
