@@ -4,6 +4,7 @@ import { Input } from "@ember/component";
 import { fn, hash } from "@ember/helper";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
+import { eq } from "truth-helpers";
 import DButton from "discourse/components/d-button";
 import DModal from "discourse/components/d-modal";
 import DateInput from "discourse/components/date-input";
@@ -12,7 +13,6 @@ import { popupAjaxError } from "discourse/lib/ajax-error";
 import { makeArray } from "discourse/lib/helpers";
 import { i18n } from "discourse-i18n";
 import EmailGroupUserChooser from "select-kit/components/email-group-user-chooser";
-import eq from "truth-helpers/helpers/eq";
 
 export default class EditWebinar extends Component {
   @service store;
