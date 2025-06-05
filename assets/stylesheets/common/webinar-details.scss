@@ -14,7 +14,7 @@
 .webinar-header {
   margin-bottom: 1em;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (width >= 768px) {
     display: flex;
     justify-content: space-between;
 
@@ -24,13 +24,13 @@
   }
 
   .countdown-label {
-    @media screen and (min-width: 768px) {
+    @media screen and (width >= 768px) {
       text-align: center;
       padding-bottom: 0.5em;
     }
   }
 
-  @media screen and (max-width: 767px) {
+  @media screen and (width <= 767px) {
     .countdown-wrapper {
       margin: 1em 0;
     }

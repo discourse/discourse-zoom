@@ -1,9 +1,13 @@
 import Component from "@ember/component";
+import { on } from "@ember/modifier";
 import { action } from "@ember/object";
 import { or } from "@ember/object/computed";
+import DButton from "discourse/components/d-button";
+import icon from "discourse/helpers/d-icon";
 import { ajax } from "discourse/lib/ajax";
 import discourseComputed from "discourse/lib/decorators";
 import { postRNWebviewMessage } from "discourse/lib/utilities";
+import { i18n } from "discourse-i18n";
 
 const STARTED = "started",
   ENDED = "ended";
@@ -175,7 +179,8 @@ export default class WebinarRegister extends Component {
   }
 
   @action
-  unregister() {
+  unregister(event) {
+    event.preventDefault();
     this.toggleRegistration(false);
   }
 
@@ -203,4 +208,86 @@ export default class WebinarRegister extends Component {
       });
     }
   }
+
+  <template>
+    {{#unless this.webinarEnded}}
+      {{#if this.webinarStarted}}
+        {{#if this.joinViaZoom}}
+          <a href={{this.joinViaZoom}} class="webinar-join-sdk btn btn-primary">
+            {{icon "video"}}
+            {{i18n "zoom.join_sdk"}}
+          </a>
+        {{else}}
+          <DButton
+            @action={{this.joinSDK}}
+            class="webinar-join-sdk btn-primary"
+            @label="zoom.join_sdk"
+            @icon="video"
+          />
+        {{/if}}
+      {{else}}
+        {{#if this.registered}}
+          <div class="webinar-registered">
+            {{#if this.isAttendee}}
+              <span class="registered">
+                {{icon "far-circle-check"}}
+                {{i18n "zoom.registered"}}
+              </span>
+
+              {{#if this.canUnregister}}
+                <a
+                  href
+                  {{on "click" this.unregister}}
+                  class="btn-flat"
+                  title={{i18n "zoom.cancel_registration"}}
+                >
+                  {{icon "xmark"}}
+                </a>
+              {{/if}}
+            {{/if}}
+
+            {{#if this.showCalendarButtons}}
+              <div class="zoom-add-to-calendar-container">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn"
+                  href={{this.addToGoogleCalendarUrl}}
+                >
+                  {{i18n "zoom.add_to_google_calendar"}}
+                </a>
+
+                {{#if this.isAppWebview}}
+                  <DButton
+                    @action={{this.addEventAppWebview}}
+                    @label="zoom.add_to_calendar"
+                  />
+                {{else}}
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn"
+                    href={{this.downloadIcsUrl}}
+                    download={{this.downloadName}}
+                  >
+                    {{i18n "zoom.add_to_outlook"}}
+                  </a>
+                {{/if}}
+              </div>
+            {{/if}}
+          </div>
+        {{else}}
+          {{#if this.userCanRegister}}
+            <DButton
+              @action={{this.register}}
+              class="webinar-register-button btn-primary"
+              @label="zoom.register"
+              @icon="far-calendar-days"
+              @disabled={{this.loading}}
+            />
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    {{/unless}}
+  </template>
 }

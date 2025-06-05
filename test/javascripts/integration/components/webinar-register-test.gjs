@@ -1,12 +1,14 @@
 import { render } from "@ember/test-helpers";
-import { hbs } from "ember-cli-htmlbars";
 import { module, test } from "qunit";
 import { setupRenderingTest } from "discourse/tests/helpers/component-test";
+import WebinarRegister from "discourse/plugins/discourse-zoom/discourse/components/webinar-register";
 
 module("Integration | Component | webinar-register", function (hooks) {
   setupRenderingTest(hooks);
 
   test("Google Calendar link", async function (assert) {
+    const self = this;
+
     const webinar = {
       id: 99,
       title: "Spider Webinar",
@@ -21,9 +23,14 @@ module("Integration | Component | webinar-register", function (hooks) {
     this.set("webinar", webinar);
     this.currentUser.id = 101;
 
-    await render(hbs`
-      <WebinarRegister @webinar={{this.webinar}} @showCalendarButtons={{true}}/>
-    `);
+    await render(
+      <template>
+        <WebinarRegister
+          @webinar={{self.webinar}}
+          @showCalendarButtons={{true}}
+        />
+      </template>
+    );
     assert
       .dom(".zoom-add-to-calendar-container a")
       .hasAttribute(

@@ -22,7 +22,7 @@ window.onload = (event) => {
 
     let request = new XMLHttpRequest();
     request.open("GET", `/zoom/webinars/${meetingId}/signature.json`, true);
-    
+
     request.onload = function () {
       if (this.status >= 200 && this.status < 400) {
         let res = JSON.parse(this.response);
@@ -52,7 +52,8 @@ window.onload = (event) => {
                       let btn = `<a href="https://zoom.us/j/${res.id}" id="zoom-fallback" class="zm-btn zm-btn-legacy zm-btn--primary zm-btn__outline--blue" >Launch in Zoom</a>`;
                       document.querySelector(
                         ".zm-modal-body-content .content"
-                      ).innerHTML = `<p>There was a problem launching the Zoom SDK. Click the button below to try joining the event in Zoom.</p> ${btn}`;
+                      ).innerHTML =
+                        `<p>There was a problem launching the Zoom SDK. Click the button below to try joining the event in Zoom.</p> ${btn}`;
                     }, 200);
                   }
                 }
