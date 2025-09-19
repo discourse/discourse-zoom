@@ -1,7 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
-import { withSilencedDeprecations } from "discourse/lib/deprecated";
 import Composer from "discourse/models/composer";
-import RenderGlimmer from "discourse/widgets/render-glimmer";
 import PostTopWebinar from "../components/post-top-webinar";
 
 export default apiInitializer((api) => {
@@ -17,26 +15,4 @@ function customizePost(api) {
     "post-article",
     <template><PostTopWebinar @model={{@post}} /></template>
   );
-
-  withSilencedDeprecations("discourse.post-stream-widget-overrides", () =>
-    customizeWidgetPost(api)
-  );
-}
-
-function customizeWidgetPost(api) {
-  const PostBeforeComponent = <template>
-    <PostTopWebinar @model={{@data.post}} />
-  </template>;
-
-  api.decorateWidget("post:before", (dec) => {
-    if (dec.attrs.firstPost && !dec.attrs.cloaked) {
-      const post = dec.widget.findAncestorModel();
-      return new RenderGlimmer(
-        dec.widget,
-        "div.widget-connector",
-        PostBeforeComponent,
-        { post }
-      );
-    }
-  });
 }
