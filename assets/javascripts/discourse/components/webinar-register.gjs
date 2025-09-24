@@ -261,12 +261,13 @@ export default class WebinarRegister extends Component {
                   <DButton
                     @action={{this.addEventAppWebview}}
                     @label="zoom.add_to_calendar"
+                    class="btn-default"
                   />
                 {{else}}
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="btn"
+                    class="btn btn-default"
                     href={{this.downloadIcsUrl}}
                     download={{this.downloadName}}
                   >
