@@ -2,10 +2,10 @@
 require_relative "../fabricators/webinar_fabricator.rb"
 
 RSpec.describe Zoom::SendWebinarReminders do
-  fab!(:topic_1) { Fabricate(:topic) }
-  fab!(:topic_2) { Fabricate(:topic) }
-  fab!(:user_1) { Fabricate(:user) }
-  fab!(:user_2) { Fabricate(:user) }
+  fab!(:topic_1, :topic)
+  fab!(:topic_2, :topic)
+  fab!(:user_1, :user)
+  fab!(:user_2, :user)
   let(:needs_reminding) do
     Fabricate(:webinar, topic: topic_1, starts_at: DateTime.now + 20.minutes)
   end

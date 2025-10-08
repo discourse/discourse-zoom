@@ -26,6 +26,6 @@ class WebinarSerializer < ApplicationSerializer
              :video_url
 
   def require_password
-    !object.password.blank?
+    object.password.present?
   end
 end

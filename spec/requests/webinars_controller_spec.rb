@@ -5,7 +5,7 @@ require_relative "../responses/zoom_api_stubs"
 
 describe Zoom::WebinarsController do
   fab!(:user) { Fabricate(:user, refresh_auto_groups: true) }
-  fab!(:other_user) { Fabricate(:user) }
+  fab!(:other_user, :user)
   fab!(:admin) { Fabricate(:user, username: "mark.vanlan", admin: true) }
   fab!(:topic) { Fabricate(:topic, user: user) }
   let(:webinar) { Webinar.create(topic: topic, zoom_id: "123") }

@@ -3,10 +3,10 @@
 require "rails_helper"
 
 describe Webinar do
-  fab!(:first_user) { Fabricate(:user) }
-  fab!(:second_user) { Fabricate(:user) }
-  fab!(:third_user) { Fabricate(:user) }
-  fab!(:fourth_user) { Fabricate(:user) }
+  fab!(:first_user, :user)
+  fab!(:second_user, :user)
+  fab!(:third_user, :user)
+  fab!(:fourth_user, :user)
   fab!(:topic) { Fabricate(:topic, user: first_user) }
   let(:webinar) { Webinar.create(topic: topic, zoom_id: "123") }
 
