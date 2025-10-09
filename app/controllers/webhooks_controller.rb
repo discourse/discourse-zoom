@@ -30,7 +30,7 @@ module Zoom
                    plainToken: request_params[:payload][:plain_token],
                    encryptedToken: encrypted_token,
                  },
-                 status: 200
+                 status: :ok
         )
       else
         send(handler_for(request_params[:event]))

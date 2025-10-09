@@ -42,7 +42,7 @@ module Zoom
       response =
         zoom_client.post(
           "webinars/#{webinar.zoom_id}/panelists",
-          panelists: [{ email: user.email, name: user.name.blank? ? user.username : user.name }],
+          panelists: [{ email: user.email, name: (user.name.presence || user.username) }],
         )
       return false if response.status != 201
 

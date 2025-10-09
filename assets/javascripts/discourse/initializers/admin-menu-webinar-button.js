@@ -33,7 +33,7 @@ export default {
   name: "admin-menu-webinar-button",
 
   initialize() {
-    withPluginApi("0.8.31", initialize);
+    withPluginApi(initialize);
   },
 };
 
