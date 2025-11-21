@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe "Discourse Zoom | Topic Page", type: :system do
-  fab!(:topic) { Fabricate(:topic_with_op) }
+  fab!(:topic, :topic_with_op)
   fab!(:webinar) { Webinar.create(topic:, zoom_id: "123") }
 
   before { SiteSetting.zoom_enabled = true }
