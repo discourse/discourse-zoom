@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "Discourse Zoom | Topic Page", type: :system do
+describe "Discourse Zoom | Topic Page" do
   fab!(:topic, :topic_with_op)
   fab!(:webinar) { Webinar.create(topic:, zoom_id: "123") }
 

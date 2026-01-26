@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 Fabricator(:webinar) do
   title "Test webinar"
   zoom_id { sequence(:zoom_id) }
