@@ -7,8 +7,6 @@ module("Integration | Component | webinar-register", function (hooks) {
   setupRenderingTest(hooks);
 
   test("Google Calendar link", async function (assert) {
-    const self = this;
-
     const webinar = {
       id: 99,
       title: "Spider Webinar",
@@ -26,7 +24,7 @@ module("Integration | Component | webinar-register", function (hooks) {
     await render(
       <template>
         <WebinarRegister
-          @webinar={{self.webinar}}
+          @webinar={{this.webinar}}
           @showCalendarButtons={{true}}
         />
       </template>

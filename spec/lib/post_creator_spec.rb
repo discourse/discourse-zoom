@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
 require_relative "../responses/zoom_api_stubs"
 
 describe PostCreator do

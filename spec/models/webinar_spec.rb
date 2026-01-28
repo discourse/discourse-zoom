@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 describe Webinar do
   fab!(:first_user, :user)
   fab!(:second_user, :user)
