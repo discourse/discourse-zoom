@@ -1,11 +1,11 @@
+/* eslint-disable ember/no-classic-components, ember/require-tagless-components */
 import Component from "@ember/component";
 import { on } from "@ember/modifier";
-import { action } from "@ember/object";
+import { action, computed } from "@ember/object";
 import { or } from "@ember/object/computed";
 import DButton from "discourse/components/d-button";
 import icon from "discourse/helpers/d-icon";
 import { ajax } from "discourse/lib/ajax";
-import discourseComputed from "discourse/lib/decorators";
 import { postRNWebviewMessage } from "discourse/lib/utilities";
 import { i18n } from "discourse-i18n";
 
@@ -17,16 +17,16 @@ export default class WebinarRegister extends Component {
 
   @or("isHost", "isPanelist", "isAttendee") registered;
 
-  @discourseComputed("webinar.{status,ends_at}")
-  webinarStarted(webinar) {
+  @computed("webinar.{status,ends_at}")
+  get webinarStarted() {
     const beforeStart = this.siteSettings.zoom_join_x_mins_before_start;
 
-    if (webinar.status === STARTED) {
+    if (this.webinar?.status === STARTED) {
       if (!beforeStart) {
         return true;
       }
 
-      const newStartTime = moment(webinar.starts_at).subtract(
+      const newStartTime = moment(this.webinar?.starts_at)?.subtract(
         beforeStart,
         "minutes"
       );
@@ -38,27 +38,27 @@ export default class WebinarRegister extends Component {
     return false;
   }
 
-  @discourseComputed("webinar.{status,ends_at}")
-  webinarEnded(webinar) {
+  @computed("webinar.{status,ends_at}")
+  get webinarEnded() {
     if (
-      webinar.status === ENDED ||
-      moment(webinar.ends_at).isBefore(moment())
+      this.webinar?.status === ENDED ||
+      moment(this.webinar?.ends_at)?.isBefore(moment())
     ) {
       return true;
     }
     return false;
   }
 
-  @discourseComputed
-  isAppWebview() {
+  @computed
+  get isAppWebview() {
     return this.capabilities.isAppWebview;
   }
 
-  @discourseComputed("currentUser", "webinar.attendees")
-  isAttendee(user, attendees) {
-    if (attendees) {
-      for (let attendee of attendees) {
-        if (attendee.id === user.id) {
+  @computed("currentUser", "webinar.attendees")
+  get isAttendee() {
+    if (this.webinar?.attendees) {
+      for (let attendee of this.webinar.attendees) {
+        if (attendee.id === this.currentUser.id) {
           return true;
         }
       }
@@ -66,18 +66,18 @@ export default class WebinarRegister extends Component {
     return false;
   }
 
-  @discourseComputed("currentUser", "webinar.host")
-  isHost(user, host) {
-    if (host) {
-      return user.id === host.id;
+  @computed("currentUser", "webinar.host")
+  get isHost() {
+    if (this.webinar?.host) {
+      return this.currentUser.id === this.webinar?.host?.id;
     }
     return false;
   }
 
-  @discourseComputed("currentUser", "webinar.panelists")
-  isPanelist(user, panelists) {
-    for (let panelist of panelists) {
-      if (panelist.id === user.id) {
+  @computed("currentUser", "webinar.panelists")
+  get isPanelist() {
+    for (let panelist of this.webinar.panelists) {
+      if (panelist.id === this.currentUser.id) {
         return true;
       }
     }
@@ -85,18 +85,18 @@ export default class WebinarRegister extends Component {
     return false;
   }
 
-  @discourseComputed("webinar.starts_at", "isAttendee", "registered")
-  canUnregister(starts_at, isAttendee, registered) {
-    if (moment(starts_at).isBefore(moment())) {
+  @computed("webinar.starts_at", "isAttendee", "registered")
+  get canUnregister() {
+    if (moment(this.webinar?.starts_at).isBefore(moment())) {
       return false;
     }
 
-    return isAttendee && registered;
+    return this.isAttendee && this.registered;
   }
 
-  @discourseComputed("isAttendee", "registered")
-  userCanRegister(isAttendee, registered) {
-    return !isAttendee && !registered;
+  @computed("isAttendee", "registered")
+  get userCanRegister() {
+    return !this.isAttendee && !this.registered;
   }
 
   toggleRegistration(registering) {
@@ -115,46 +115,46 @@ export default class WebinarRegister extends Component {
       .finally(() => this.set("loading", false));
   }
 
-  @discourseComputed("webinar.title")
-  downloadName(title) {
-    return title + ".ics";
+  @computed("webinar.title")
+  get downloadName() {
+    return this.webinar?.title + ".ics";
   }
 
-  @discourseComputed("webinar.{starts_at,ends_at}")
-  addToGoogleCalendarUrl(webinar) {
+  @computed("webinar.{starts_at,ends_at}")
+  get addToGoogleCalendarUrl() {
     return `http://www.google.com/calendar/event?action=TEMPLATE&text=${encodeURIComponent(
-      webinar.title
+      this.webinar?.title
     )}&dates=${this.formatDateForGoogleApi(
-      webinar.starts_at
+      this.webinar?.starts_at
     )}/${this.formatDateForGoogleApi(
-      webinar.ends_at
+      this.webinar?.ends_at
     )}&details=${encodeURIComponent(
-      this.formatDescriptionForGoogleApi(webinar.join_url)
-    )}&location=${encodeURIComponent(webinar.join_url)}`;
+      this.formatDescriptionForGoogleApi(this.webinar?.join_url)
+    )}&location=${encodeURIComponent(this.webinar?.join_url)}`;
   }
 
-  @discourseComputed("webinar.{starts_at,ends_at}")
-  downloadIcsUrl(webinar) {
+  @computed("webinar.{starts_at,ends_at}")
+  get downloadIcsUrl() {
     const now = this.formatDateForIcs(new Date());
 
     return (
       `data:text/calendar;charset=utf-8,` +
       encodeURIComponent(
         `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\nBEGIN:VEVENT\nUID:${now}-${
-          webinar.title
+          this.webinar?.title
         }\nDTSTAMP:${now}\nDTSTART:${this.formatDateForIcs(
-          webinar.starts_at
-        )}\nDTEND:${this.formatDateForIcs(webinar.ends_at)}\nSUMMARY:${
-          webinar.title
+          this.webinar?.starts_at
+        )}\nDTEND:${this.formatDateForIcs(this.webinar?.ends_at)}\nSUMMARY:${
+          this.webinar?.title
         }\nEND:VEVENT\nEND:VCALENDAR`
       )
     );
   }
 
-  @discourseComputed("webinar.join_url")
-  joinViaZoom(joinUrl) {
-    if (joinUrl && this.siteSettings.zoom_use_join_url) {
-      return joinUrl;
+  @computed("webinar.join_url")
+  get joinViaZoom() {
+    if (this.webinar?.join_url && this.siteSettings.zoom_use_join_url) {
+      return this.webinar?.join_url;
     } else {
       return false;
     }

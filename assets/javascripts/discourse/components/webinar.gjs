@@ -1,6 +1,7 @@
+/* eslint-disable ember/no-classic-components, ember/no-jquery, ember/no-side-effects, ember/require-tagless-components */
 import Component from "@ember/component";
 import { on } from "@ember/modifier";
-import { action } from "@ember/object";
+import { action, computed } from "@ember/object";
 import { alias, or } from "@ember/object/computed";
 import { next } from "@ember/runloop";
 import { service } from "@ember/service";
@@ -10,7 +11,6 @@ import DButton from "discourse/components/d-button";
 import avatar from "discourse/helpers/avatar";
 import icon from "discourse/helpers/d-icon";
 import { ajax } from "discourse/lib/ajax";
-import discourseComputed from "discourse/lib/decorators";
 import { i18n } from "discourse-i18n";
 import EditWebinar from "../components/modal/edit-webinar";
 import { formattedSchedule } from "../lib/webinar-helpers";
@@ -40,20 +40,20 @@ export default class Webinar extends Component {
     this.fetchDetails();
   }
 
-  @discourseComputed("webinar.{status,ends_at}")
-  webinarEnded(webinar) {
+  @computed("webinar.{status,ends_at}")
+  get webinarEnded() {
     if (
-      webinar.status === ENDED ||
-      moment(webinar.ends_at).isBefore(moment())
+      this.webinar?.status === ENDED ||
+      moment(this.webinar?.ends_at)?.isBefore(moment())
     ) {
       return true;
     }
     return false;
   }
 
-  @discourseComputed("webinar.status")
-  webinarStarted(status) {
-    return status === STARTED;
+  @computed("webinar.status")
+  get webinarStarted() {
+    return this.webinar?.status === STARTED;
   }
 
   fetchDetails() {
@@ -87,18 +87,18 @@ export default class Webinar extends Component {
     clearInterval(this.interval);
   }
 
-  @discourseComputed(
+  @computed(
     "webinar",
     "webinar.starts_at",
     "webinar.duration",
     "webinar.status"
   )
-  setupTimer(webinar, starts_at, duration, status) {
-    if (status !== PENDING) {
+  get setupTimer() {
+    if (this.webinar?.status !== PENDING) {
       return false;
     }
 
-    const startsAtMoment = moment(starts_at);
+    const startsAtMoment = moment(this.webinar?.starts_at);
     this.interval = setInterval(
       (interval) => this.updateTimer(startsAtMoment, interval),
       1000
@@ -124,22 +124,22 @@ export default class Webinar extends Component {
     }
   }
 
-  @discourseComputed("webinar")
-  messageBusEndpoint(webinar) {
-    return `/zoom/webinars/${webinar.id}`;
+  @computed("webinar")
+  get messageBusEndpoint() {
+    return `/zoom/webinars/${this.webinar.id}`;
   }
 
-  @discourseComputed
-  displayAttendees() {
+  @computed
+  get displayAttendees() {
     return this.siteSettings.zoom_display_attendees;
   }
 
-  @discourseComputed("webinar.{starts_at,ends_at}")
-  schedule(webinar) {
-    if (webinar.ends_at === null) {
-      return moment(webinar.starts_at).format("Do MMMM, Y");
+  @computed("webinar.{starts_at,ends_at}")
+  get schedule() {
+    if (this.webinar?.ends_at === null) {
+      return moment(this.webinar?.starts_at)?.format("Do MMMM, Y");
     }
-    return formattedSchedule(webinar.starts_at, webinar.ends_at);
+    return formattedSchedule(this.webinar?.starts_at, this.webinar?.ends_at);
   }
 
   @action

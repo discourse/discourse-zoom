@@ -1,7 +1,7 @@
+/* eslint-disable ember/no-classic-components, ember/require-tagless-components */
 import Component from "@ember/component";
 import { on } from "@ember/modifier";
-import { action } from "@ember/object";
-import discourseComputed from "discourse/lib/decorators";
+import { action, computed } from "@ember/object";
 import { formattedSchedule } from "../lib/webinar-helpers";
 
 export default class WebinarOptionRow extends Component {
@@ -13,11 +13,11 @@ export default class WebinarOptionRow extends Component {
     this.onSelect = this.onSelect || (() => {});
   }
 
-  @discourseComputed("model")
-  schedule(model) {
+  @computed("model")
+  get schedule() {
     return formattedSchedule(
-      model.start_time,
-      moment(model.start_time).add(model.duration, "m").toDate()
+      this.model.start_time,
+      moment(this.model.start_time).add(this.model.duration, "m").toDate()
     );
   }
 
