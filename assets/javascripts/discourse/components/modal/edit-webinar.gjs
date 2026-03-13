@@ -4,24 +4,27 @@ import { Input } from "@ember/component";
 import { fn, hash } from "@ember/helper";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
-import { eq } from "truth-helpers";
 import DButton from "discourse/components/d-button";
 import DModal from "discourse/components/d-modal";
 import DateInput from "discourse/components/date-input";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import { makeArray } from "discourse/lib/helpers";
+import EmailGroupUserChooser from "discourse/select-kit/components/email-group-user-chooser";
+import { eq } from "discourse/truth-helpers";
 import { i18n } from "discourse-i18n";
-import EmailGroupUserChooser from "select-kit/components/email-group-user-chooser";
 
 export default class EditWebinar extends Component {
   @service store;
 
   @tracked newPanelist;
   @tracked loading = false;
+  // eslint-disable-next-line ember/no-tracked-properties-from-args
   @tracked newVideoUrl = this.args.model.webinar.video_url;
   @tracked hostUsername = this.args.model.webinar.host?.username;
+  // eslint-disable-next-line ember/no-tracked-properties-from-args
   @tracked pastStartDate = this.args.model.webinar.starts_at;
+  // eslint-disable-next-line ember/no-tracked-properties-from-args
   @tracked title = this.args.model.webinar.title;
 
   get canSaveVideoUrl() {
@@ -192,9 +195,9 @@ export default class EditWebinar extends Component {
 
   <template>
     <DModal
-      id="edit-webinar-modal"
       @title={{i18n "zoom.edit_webinar"}}
       @closeModal={{@closeModal}}
+      id="edit-webinar-modal"
     >
       <:body>
         {{#if (eq @model.webinar.zoom_id "nonzoom")}}
@@ -224,9 +227,9 @@ export default class EditWebinar extends Component {
 
               <DButton
                 @action={{this.updateDetails}}
-                class="update-details-btn btn-primary"
                 @icon="check"
                 @disabled={{this.updateDetailsDisabled}}
+                class="update-details-btn btn-primary"
               />
             </span>
           </div>
@@ -240,9 +243,9 @@ export default class EditWebinar extends Component {
                 {{panelist.username}}
                 <DButton
                   @action={{fn this.removePanelist panelist}}
-                  class="remove-panelist-btn btn-danger"
                   @icon="xmark"
                   @disabled={{this.loading}}
+                  class="remove-panelist-btn btn-danger"
                 />
               </div>
             {{/each}}
@@ -278,21 +281,21 @@ export default class EditWebinar extends Component {
           <p>{{i18n "zoom.webinar_recording_description"}}</p>
           <Input
             @value={{this.newVideoUrl}}
-            id="webinar-video-url"
             name="video url"
             autocomplete="discourse"
+            id="webinar-video-url"
           />
           <DButton
             @action={{this.saveVideoUrl}}
-            class="new-panelist-btn btn-primary"
             @icon="check"
             @disabled={{this.canSaveVideoUrl}}
+            class="new-panelist-btn btn-primary"
           />
           <DButton
             @action={{this.resetVideoUrl}}
-            class="new-panelist-btn btn-danger"
             @icon="xmark"
             @disabled={{this.canSaveVideoUrl}}
+            class="new-panelist-btn btn-danger"
           />
         </div>
       </:body>
