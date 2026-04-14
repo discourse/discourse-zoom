@@ -110,7 +110,7 @@ module Zoom
 
       response.body = JSON.parse(response.body, symbolize_names: true) if response.body.present?
 
-      if response.status == 200
+      if response.status == 200 && response.body[:access_token].present?
         SiteSetting.s2s_oauth_token = response.body[:access_token]
         @authorization = response.body[:access_token]
       end
