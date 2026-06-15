@@ -84,8 +84,10 @@ module Zoom
     end
 
     def add_to_topic
-      topic = Topic.find(params[:topic_id])
+      topic = Topic.listable_topics.secured(guardian).find_by(id: params[:topic_id])
       raise Discourse::NotFound.new unless topic
+
+      guardian.ensure_can_edit!(topic)
 
       new_webinar =
         (
