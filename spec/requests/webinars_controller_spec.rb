@@ -301,6 +301,22 @@ describe Zoom::WebinarsController do
         expect(response.status).to eq(403)
       end
 
+      it "requires the user to be able to edit the topic" do
+        sign_in(other_user)
+
+        put(
+          "/zoom/t/#{other_topic.id}/webinars/nonzoom.json",
+          params: {
+            zoom_start_date: 3.days.ago,
+            zoom_title: "Fake webinar",
+          },
+        )
+
+        expect(response.status).to eq(403)
+        expect(response.parsed_body["error_type"]).to eq("invalid_access")
+        expect(other_topic.reload.webinar).to be_nil
+      end
+
       it "adds the webinar to the existing topic" do
         sign_in(user)
         expect(other_topic.webinar).to eq(nil)
