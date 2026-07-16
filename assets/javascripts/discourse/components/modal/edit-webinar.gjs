@@ -133,7 +133,7 @@ export default class EditWebinar extends Component {
 
   @action
   async onChangeHost(selected) {
-    this.hostUsername = selected.firstObject;
+    this.hostUsername = selected[0];
     this.loading = true;
     let hostUsername = this.hostUsername;
     let postType = "PUT";
@@ -190,7 +190,7 @@ export default class EditWebinar extends Component {
 
   @action
   updateNewPanelist(selected) {
-    this.newPanelist = selected.firstObject;
+    this.newPanelist = selected[0];
   }
 
   <template>
