@@ -23,7 +23,7 @@ module Zoom
           OpenSSL::HMAC.hexdigest(
             OpenSSL::Digest.new("sha256"),
             secret,
-            JSON.parse(request.body.read, symbolize_names: true)[:payload][:plainToken],
+            JSON.parse(request.raw_post, symbolize_names: true)[:payload][:plainToken],
           )
         return(
           render json: {
@@ -72,7 +72,7 @@ module Zoom
     end
 
     def ensure_webhook_authenticity
-      message = "v0:#{request.headers["x-zm-request-timestamp"]}:#{request.body.read}"
+      message = "v0:#{request.headers["x-zm-request-timestamp"]}:#{request.raw_post}"
 
       secret = SiteSetting.zoom_webhooks_secret_token
 
